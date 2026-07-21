@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-21T22:29:16Z",
-  "bookCount": 8,
+  "generatedAt": "2026-07-21T22:36:59Z",
+  "bookCount": 5,
   "books": [
     {
       "id": "archipel-intermittent",
@@ -58,24 +58,6 @@
       }
     },
     {
-      "id": "la-maison-des-heures",
-      "filename": "la-maison-des-heures.html",
-      "sourcePath": "livres/la-maison-des-heures.html",
-      "href": "livres/la-maison-des-heures.html",
-      "title": "La Maison des heures — démonstration",
-      "author": null,
-      "description": null,
-      "tags": [],
-      "date": null,
-      "datePrecision": null,
-      "cover": {
-        "filename": "la-maison-des-heures.jpg",
-        "sourcePath": "couvertures/la-maison-des-heures.jpg",
-        "href": "couvertures/la-maison-des-heures.jpg",
-        "format": "jpg"
-      }
-    },
-    {
       "id": "le-livre-des-routes",
       "filename": "le-livre-des-routes.html",
       "sourcePath": "livres/le-livre-des-routes.html",
@@ -108,42 +90,6 @@
         "filename": "les-longues-routes.jpg",
         "sourcePath": "couvertures/les-longues-routes.jpg",
         "href": "couvertures/les-longues-routes.jpg",
-        "format": "jpg"
-      }
-    },
-    {
-      "id": "atlas-des-brumes",
-      "filename": "atlas-des-brumes.html",
-      "sourcePath": "livres/atlas-des-brumes.html",
-      "href": "livres/atlas-des-brumes.html",
-      "title": "L’Atlas des brumes — démonstration",
-      "author": null,
-      "description": null,
-      "tags": [],
-      "date": null,
-      "datePrecision": null,
-      "cover": {
-        "filename": "atlas-des-brumes.jpg",
-        "sourcePath": "couvertures/atlas-des-brumes.jpg",
-        "href": "couvertures/atlas-des-brumes.jpg",
-        "format": "jpg"
-      }
-    },
-    {
-      "id": "notes-sur-le-silence",
-      "filename": "notes-sur-le-silence.html",
-      "sourcePath": "livres/notes-sur-le-silence.html",
-      "href": "livres/notes-sur-le-silence.html",
-      "title": "Notes sur le silence — démonstration",
-      "author": null,
-      "description": null,
-      "tags": [],
-      "date": null,
-      "datePrecision": null,
-      "cover": {
-        "filename": "notes-sur-le-silence.jpg",
-        "sourcePath": "couvertures/notes-sur-le-silence.jpg",
-        "href": "couvertures/notes-sur-le-silence.jpg",
         "format": "jpg"
       }
     }
