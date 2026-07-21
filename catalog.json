@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-21T21:37:25Z",
+  "generatedAt": "2026-07-21T21:37:54Z",
   "bookCount": 8,
   "books": [
     {
@@ -30,10 +30,10 @@
       "cover": null
     },
     {
-      "id": "couronne-lente_liseuse-autonome",
-      "filename": "couronne-lente_liseuse-autonome.html",
-      "sourcePath": "livres/couronne-lente_liseuse-autonome.html",
-      "href": "livres/couronne-lente_liseuse-autonome.html",
+      "id": "la-couronne-lente",
+      "filename": "la-couronne-lente.html",
+      "sourcePath": "livres/la-couronne-lente.html",
+      "href": "livres/la-couronne-lente.html",
       "title": "La Couronne lente — liseuse",
       "author": null,
       "description": null,
