@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Une bibliothèque de livres HTML autonomes et interactifs.">
+  <meta name="description" content="Romans &amp; lectures générés et édités par IA pour le plaisir. Format HTML, chaque livre est un mini-site indépendant.">
   <meta name="color-scheme" content="light dark">
-  <title>Ma Bibliothèque HTML</title>
+  <title>Ma bibliothèque</title>
   <style>
     :root {
       color-scheme: light dark;
@@ -614,6 +614,667 @@
         transition-duration: 0.01ms !important;
       }
     }
+
+    /* Direction éditoriale contemporaine */
+    :root {
+      --page: #f5f2eb;
+      --page-soft: #eeeae1;
+      --surface: #fbf9f4;
+      --surface-solid: #fbf9f4;
+      --surface-strong: #ffffff;
+      --text: #191916;
+      --muted: #69675f;
+      --line: rgba(25, 25, 22, 0.16);
+      --line-strong: rgba(25, 25, 22, 0.32);
+      --accent: #922b3b;
+      --accent-strong: #6f1b2b;
+      --accent-soft: #f0dfe2;
+      --shadow: 0 12px 30px rgba(35, 28, 21, 0.07);
+      --shadow-card: 0 14px 34px rgba(35, 28, 21, 0.12);
+      --radius-lg: 0.35rem;
+      --radius-md: 0.3rem;
+      --radius-sm: 0.25rem;
+      --content: 86rem;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --page: #151613;
+        --page-soft: #1b1c18;
+        --surface: #1d1e1a;
+        --surface-solid: #1d1e1a;
+        --surface-strong: #262720;
+        --text: #f2efe7;
+        --muted: #aaa79d;
+        --line: rgba(242, 239, 231, 0.15);
+        --line-strong: rgba(242, 239, 231, 0.3);
+        --accent: #d98b99;
+        --accent-strong: #f0aab5;
+        --accent-soft: #47262d;
+        --shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        --shadow-card: 0 14px 34px rgba(0, 0, 0, 0.28);
+      }
+    }
+
+    body { background: var(--page); }
+    .site-header { overflow: visible; background: var(--page); }
+    .site-header::after { display: none; }
+
+    .header-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.75fr);
+      column-gap: clamp(2rem, 7vw, 8rem);
+      align-items: end;
+      padding: clamp(2.15rem, 3.8vw, 3.5rem) 0 clamp(2rem, 3.2vw, 3rem);
+    }
+
+    .eyebrow {
+      grid-column: 1 / -1;
+      margin-bottom: clamp(1.5rem, 2.6vw, 2.5rem);
+      color: var(--accent);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+    }
+
+    h1 {
+      max-width: 11ch;
+      font-size: clamp(3.25rem, 6.2vw, 5.7rem);
+      font-weight: 500;
+      letter-spacing: -0.055em;
+      line-height: 0.91;
+    }
+
+    .intro {
+      max-width: 31rem;
+      margin: 0 0 0.35rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line-strong);
+      font-size: clamp(0.98rem, 1.4vw, 1.12rem);
+      line-height: 1.62;
+    }
+
+    main { padding: clamp(1.5rem, 3vw, 2.6rem) 0 5.5rem; }
+
+    .controls {
+      grid-template-columns: minmax(0, 1.85fr) minmax(10rem, 0.7fr) minmax(12rem, 0.8fr);
+      gap: 0;
+      padding: 0;
+      border: 1px solid var(--line-strong);
+      background: var(--surface-solid);
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .field { padding: 0.8rem 1rem 0.9rem; }
+    .field + .field { border-left: 1px solid var(--line); }
+    .field label { margin: 0 0 0.3rem; font-size: 0.66rem; letter-spacing: 0.13em; }
+
+    input[type="search"], select {
+      min-height: 2.45rem;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    input[type="search"], select { padding-top: 0.4rem; padding-bottom: 0.4rem; }
+
+    .results-bar {
+      min-height: 4.25rem;
+      margin: 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .reset-link {
+      min-height: 2.35rem;
+      padding: 0.45rem 0;
+      border: 0;
+      border-bottom: 1px solid currentColor;
+      border-radius: 0;
+      font-size: 0.72rem;
+    }
+
+    .library-grid {
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 14.5rem), 1fr));
+      gap: clamp(2rem, 3.2vw, 3.6rem) clamp(1.25rem, 2.5vw, 2.3rem);
+      padding-top: clamp(1.7rem, 3vw, 2.7rem);
+    }
+
+    .book-card { overflow: visible; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+    .book-card:hover, .book-card:focus-within { border-color: transparent; box-shadow: none; transform: none; }
+
+    .cover-link {
+      border: 1px solid var(--line);
+      border-radius: 0.18rem;
+      background: var(--page-soft);
+      box-shadow: 0 3px 12px rgba(35, 28, 21, 0.08);
+      transition: transform 200ms ease, box-shadow 200ms ease;
+    }
+
+    .book-card:hover .cover-link, .book-card:focus-within .cover-link {
+      box-shadow: var(--shadow-card);
+      transform: translateY(-4px);
+    }
+
+    .cover-link::after { border-color: rgba(255, 255, 255, 0.16); }
+    .book-card:hover .cover-image { transform: none; }
+    .book-body { padding: 1.05rem 0 0; }
+    .book-heading { font-size: 1.52rem; font-weight: 500; letter-spacing: -0.035em; line-height: 1.08; }
+    .book-byline { margin-top: 0.48rem; font-size: 0.8rem; }
+    .book-meta { margin-top: 0.5rem; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; }
+    .book-description { margin-top: 0.8rem; font-size: 0.86rem; line-height: 1.55; -webkit-line-clamp: 3; }
+    .tag-list { gap: 0.35rem 0.65rem; margin-top: 0.8rem; }
+
+    .tag {
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: var(--accent);
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .tag::before { content: "#"; }
+    .card-actions { grid-template-columns: auto auto; justify-content: start; gap: 0.45rem; margin-top: 1rem; padding-top: 0; }
+    .read-link, .copy-button, .state-action { min-height: 2.45rem; border-radius: 0.2rem; font-size: 0.78rem; }
+    .read-link { min-width: 6.5rem; padding: 0.55rem 0.85rem; }
+    .copy-button { width: 2.45rem; }
+    .status-panel { border-radius: 0; background: transparent; }
+    .status-mark { border-radius: 0; box-shadow: none; }
+    .site-footer { background: var(--page-soft); }
+
+    @media (max-width: 48rem) {
+      .header-inner { grid-template-columns: 1fr; padding-top: 3rem; }
+      .eyebrow { grid-column: auto; margin-bottom: 1.4rem; }
+      h1 { max-width: 12ch; font-size: clamp(2.85rem, 10vw, 4.8rem); }
+      .intro { margin-top: 1.6rem; }
+      .controls { grid-template-columns: 1fr 1fr; }
+      .field-search { grid-column: 1 / -1; border-bottom: 1px solid var(--line); }
+      .field + .field { border-left: 0; }
+      .field:last-child { border-left: 1px solid var(--line); }
+    }
+
+    @media (max-width: 34rem) {
+      .header-inner { padding: 2.8rem 0 2.5rem; }
+      h1 { font-size: clamp(2.65rem, 13vw, 3.8rem); }
+      .controls { grid-template-columns: 1fr; padding: 0; }
+      .field, .field-search { grid-column: auto; padding: 0.75rem 0.85rem 0.85rem; }
+      .field + .field, .field:last-child { border-top: 1px solid var(--line); border-left: 0; }
+      .library-grid { gap: 2.2rem; }
+    }
+
+    /* Refonte galerie : la couverture devient l'interface */
+    :root {
+      --page: #f4f5f6;
+      --page-soft: #e7e9ec;
+      --surface: #ffffff;
+      --surface-solid: #ffffff;
+      --surface-strong: #ffffff;
+      --text: #20242a;
+      --muted: #68717c;
+      --line: rgba(32, 36, 42, 0.16);
+      --line-strong: rgba(32, 36, 42, 0.34);
+      --accent: #1f5fbf;
+      --accent-strong: #174a94;
+      --accent-soft: #dbe9fb;
+      --content: 92rem;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --page: #161b22;
+        --page-soft: #0d1117;
+        --surface: #21262d;
+        --surface-solid: #21262d;
+        --surface-strong: #2d333b;
+        --text: #f0f3f6;
+        --muted: #9da7b3;
+        --line: rgba(240, 243, 246, 0.16);
+        --line-strong: rgba(240, 243, 246, 0.34);
+        --accent: #1f6feb;
+        --accent-strong: #58a6ff;
+        --accent-soft: #1f3855;
+      }
+    }
+
+    body { background: var(--page); }
+
+    .site-header {
+      border-bottom: 0;
+      background: #11110f;
+      color: #f8f3e9;
+    }
+
+    .header-inner {
+      display: grid;
+      grid-template-columns: minmax(8rem, 0.55fr) auto minmax(20rem, 1fr);
+      gap: clamp(1.5rem, 4vw, 5rem);
+      align-items: center;
+      width: min(calc(100% - 3rem), var(--content));
+      padding: 1.55rem 0 1.7rem;
+    }
+
+    .eyebrow {
+      grid-column: auto;
+      margin: 0;
+      color: var(--accent);
+      font-size: 0.66rem;
+      letter-spacing: 0.18em;
+      line-height: 1.4;
+    }
+
+    h1 {
+      max-width: none;
+      color: #f8f3e9;
+      font-size: clamp(2.1rem, 3.7vw, 3.75rem);
+      font-weight: 500;
+      letter-spacing: -0.055em;
+      line-height: 0.92;
+      white-space: nowrap;
+    }
+
+    h1 em {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .intro {
+      justify-self: end;
+      max-width: 31rem;
+      margin: 0;
+      padding: 0 0 0 1.5rem;
+      border-top: 0;
+      border-left: 1px solid rgba(248, 243, 233, 0.28);
+      color: rgba(248, 243, 233, 0.68);
+      font-size: 0.86rem;
+      line-height: 1.55;
+    }
+
+    main { padding: 0 0 clamp(6rem, 10vw, 10rem); }
+
+    .main-inner {
+      width: min(calc(100% - 3rem), 78rem);
+    }
+
+    .controls {
+      position: relative;
+      z-index: 5;
+      grid-template-columns: minmax(0, 1.8fr) minmax(10rem, 0.7fr) minmax(12rem, 0.8fr);
+      gap: 0;
+      margin-top: 0;
+      padding: 0;
+      border: 0;
+      border-bottom: 2px solid var(--text);
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .field {
+      padding: 1.25rem 1.15rem 1.05rem;
+    }
+
+    .field:first-child { padding-left: 0; }
+    .field + .field { border-left: 1px solid var(--line); }
+    .field label { margin: 0 0 0.2rem; color: var(--muted); font-size: 0.61rem; letter-spacing: 0.17em; }
+
+    input[type="search"], select {
+      min-height: 2.7rem;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    input[type="search"] { padding: 0.45rem 2.8rem 0.45rem 2.45rem; }
+    select { padding: 0.45rem 2.2rem 0.45rem 0; }
+
+    .search-wrap svg { left: 0; color: var(--text); }
+    .clear-search { right: 0; }
+
+    .results-bar {
+      min-height: 5.25rem;
+      margin: 0;
+      border-bottom: 0;
+      color: var(--text);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+    }
+
+    .reset-link {
+      min-height: 2.3rem;
+      padding: 0.4rem 0;
+      border: 0;
+      border-bottom: 1px solid currentColor;
+      border-radius: 0;
+      background: transparent;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .library-grid {
+      counter-reset: book-index;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(5rem, 8vw, 9rem) clamp(1.5rem, 4vw, 4rem);
+      padding: 0 0 clamp(4rem, 7vw, 7rem);
+    }
+
+    .library-grid > li {
+      counter-increment: book-index;
+      min-width: 0;
+    }
+
+    .library-grid > li:nth-child(even) {
+      transform: translateY(clamp(3rem, 7vw, 6rem));
+    }
+
+    .book-card {
+      position: relative;
+      display: block;
+      min-height: 0;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      border: 0;
+      border-radius: 0;
+      background: #171713;
+      box-shadow: 0 1.3rem 3rem rgba(32, 25, 19, 0.18);
+      isolation: isolate;
+      transition: box-shadow 240ms ease, transform 240ms ease;
+    }
+
+    .book-card::before {
+      content: counter(book-index, decimal-leading-zero);
+      position: absolute;
+      z-index: 4;
+      top: 1.15rem;
+      left: 1.25rem;
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-shadow: 0 1px 12px rgba(0, 0, 0, 0.8);
+    }
+
+    .book-card:hover,
+    .book-card:focus-within {
+      border-color: transparent;
+      box-shadow: 0 2rem 4.5rem rgba(32, 25, 19, 0.28);
+      transform: translateY(-0.5rem);
+    }
+
+    .cover-link {
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+      overflow: hidden;
+      border: 0;
+      border-radius: 0;
+      background: #262621;
+      box-shadow: none;
+      transition: none;
+    }
+
+    .cover-link::after {
+      z-index: 2;
+      border: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, transparent 32%, rgba(0, 0, 0, 0.08) 48%, rgba(8, 8, 7, 0.94) 100%);
+    }
+
+    .cover-image,
+    .cover-placeholder {
+      width: 100%;
+      height: 100%;
+    }
+
+    .cover-image {
+      object-fit: cover;
+      transition: transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1), filter 300ms ease;
+    }
+
+    .book-card:hover .cover-link,
+    .book-card:focus-within .cover-link {
+      box-shadow: none;
+      transform: none;
+    }
+
+    .book-card:hover .cover-image,
+    .book-card:focus-within .cover-image {
+      filter: saturate(0.82) contrast(1.05);
+      transform: scale(1.035);
+    }
+
+    .book-body {
+      position: absolute;
+      z-index: 3;
+      inset: 0;
+      display: flex;
+      min-width: 0;
+      justify-content: flex-end;
+      padding: clamp(1.3rem, 3vw, 2.4rem);
+      background: linear-gradient(180deg, transparent 38%, rgba(8, 8, 7, 0.15) 53%, rgba(8, 8, 7, 0.92) 100%);
+      color: #fff;
+      pointer-events: none;
+    }
+
+    .book-heading {
+      max-width: 12ch;
+      margin: 0;
+      font-size: clamp(2.1rem, 4.1vw, 4rem);
+      font-weight: 500;
+      letter-spacing: -0.055em;
+      line-height: 0.94;
+      text-wrap: balance;
+    }
+
+    .book-title-link {
+      color: #fff;
+      text-decoration: none;
+      text-shadow: 0 2px 24px rgba(0, 0, 0, 0.38);
+      pointer-events: auto;
+      -webkit-line-clamp: 3;
+    }
+
+    .book-title-link:hover { color: var(--accent-soft); }
+
+    .book-byline,
+    .book-meta {
+      min-height: 0;
+      margin: 0.7rem 0 0;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.7rem;
+      font-weight: 750;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .book-meta { margin-top: 0.35rem; }
+
+    .book-description {
+      max-width: 31rem;
+      margin: 0.8rem 0 0;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.84rem;
+      line-height: 1.5;
+      -webkit-line-clamp: 2;
+    }
+
+    .tag-list { gap: 0.35rem 0.7rem; margin: 0.8rem 0 0; }
+
+    .tag {
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: var(--accent-soft);
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .tag::before { content: "#"; }
+
+    .card-actions {
+      display: flex;
+      justify-content: flex-start;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      padding-top: 0;
+      pointer-events: auto;
+    }
+
+    .read-link,
+    .copy-button {
+      min-height: 2.65rem;
+      border-radius: 0;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .read-link {
+      min-width: 7.5rem;
+      padding: 0.65rem 1rem;
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .read-link:hover { background: #fff; color: #11110f; }
+
+    .copy-button {
+      width: 2.65rem;
+      border-color: rgba(255, 255, 255, 0.48);
+      background: rgba(0, 0, 0, 0.24);
+      color: #fff;
+      backdrop-filter: blur(8px);
+    }
+
+    .copy-button:hover { border-color: #fff; background: #fff; color: #11110f; }
+
+    .status-panel {
+      border: 1px solid var(--line-strong);
+      border-radius: 0;
+      background: transparent;
+    }
+
+    .status-mark { border-radius: 0; box-shadow: none; }
+
+    .site-footer {
+      border-color: rgba(255, 255, 255, 0.15);
+      background: #11110f;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    @media (max-width: 64rem) {
+      .header-inner {
+        grid-template-columns: auto 1fr;
+        gap: 0.75rem 2rem;
+      }
+
+      .eyebrow { grid-column: 1; grid-row: 1; }
+      h1 { grid-column: 1; grid-row: 2; }
+      .intro { grid-column: 2; grid-row: 1 / 3; }
+      .book-heading { font-size: clamp(1.8rem, 4.5vw, 3.1rem); }
+    }
+
+    @media (max-width: 48rem) {
+      .header-inner {
+        grid-template-columns: 1fr;
+        width: min(calc(100% - 2.5rem), var(--content));
+        padding: 1.5rem 0 1.7rem;
+      }
+
+      .eyebrow, h1, .intro { grid-column: 1; grid-row: auto; }
+      h1 { white-space: normal; }
+      .intro { justify-self: start; margin-top: 0.45rem; padding: 0.9rem 0 0; border-top: 1px solid rgba(255,255,255,0.25); border-left: 0; }
+      .main-inner { width: min(calc(100% - 2rem), 78rem); }
+      .controls { grid-template-columns: 1fr 1fr; }
+      .field-search { grid-column: 1 / -1; border-bottom: 1px solid var(--line); }
+      .field:first-child { padding-left: 0; }
+      .field + .field { border-left: 0; }
+      .field:last-child { border-left: 1px solid var(--line); }
+      .library-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .library-grid > li:nth-child(even) { transform: none; }
+      .book-card { aspect-ratio: 4 / 5; }
+      .book-heading { font-size: clamp(2.3rem, 9vw, 4rem); }
+    }
+
+    @media (max-width: 34rem) {
+      .controls { grid-template-columns: 1fr; }
+      .field, .field:first-child { grid-column: auto; padding: 0.85rem 0 0.75rem; }
+      .field + .field, .field:last-child { border-top: 1px solid var(--line); border-left: 0; }
+      .results-bar { min-height: 4.3rem; }
+      .book-body { padding: 1.2rem; }
+      .book-heading { font-size: clamp(2rem, 10.5vw, 3rem); }
+      .book-description { display: none; }
+    }
+
+    /* Header intégré à la galerie */
+    .site-header {
+      border-bottom: 1px solid var(--line-strong);
+      background: var(--page);
+      color: var(--text);
+    }
+
+    .header-inner {
+      grid-template-columns: minmax(18rem, 0.9fr) minmax(22rem, 1fr);
+      gap: clamp(2rem, 7vw, 8rem);
+      width: min(calc(100% - 3rem), 78rem);
+      padding: clamp(2rem, 4vw, 3.4rem) 0 clamp(1.8rem, 3.5vw, 3rem);
+    }
+
+    h1 {
+      grid-column: auto;
+      grid-row: auto;
+      color: var(--text);
+      font-size: clamp(3rem, 5.7vw, 5.4rem);
+      line-height: 0.9;
+      white-space: normal;
+    }
+
+    .intro {
+      grid-column: auto;
+      grid-row: auto;
+      justify-self: stretch;
+      max-width: 38rem;
+      margin: 0;
+      padding: 1rem 0 0;
+      border-top: 1px solid var(--line-strong);
+      border-left: 0;
+      color: var(--muted);
+      font-size: clamp(0.92rem, 1.3vw, 1.08rem);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 48rem) {
+      .header-inner {
+        grid-template-columns: 1fr;
+        width: min(calc(100% - 2rem), 78rem);
+        gap: 1.5rem;
+        padding: 2.2rem 0 2rem;
+      }
+
+      h1, .intro { grid-column: 1; grid-row: auto; }
+      h1 { font-size: clamp(3rem, 13vw, 4.8rem); }
+      .intro { margin: 0; padding-top: 0.9rem; }
+    }
   </style>
 </head>
 <body>
@@ -621,9 +1282,8 @@
 
   <header class="site-header">
     <div class="header-inner">
-      <p class="eyebrow">Collection personnelle</p>
-      <h1>Ma Bibliothèque HTML</h1>
-      <p class="intro">Des récits, essais et expériences interactives à ouvrir directement dans votre navigateur.</p>
+      <h1>Ma bibliothèque</h1>
+      <p class="intro">Romans &amp; lectures générés et édités par IA pour le plaisir. Format HTML, chaque livre est un mini-site indépendant.</p>
     </div>
   </header>
 
@@ -706,13 +1366,6 @@
       </noscript>
     </div>
   </main>
-
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <p>Livres HTML autonomes, servis sans intermédiaire.</p>
-      <p id="catalog-meta"></p>
-    </div>
-  </footer>
 
   <template id="book-card-template">
     <li>
@@ -862,8 +1515,7 @@
         noResults: document.querySelector("#no-results-state"),
         error: document.querySelector("#error-state"),
         errorMessage: document.querySelector("#error-message"),
-        template: document.querySelector("#book-card-template"),
-        meta: document.querySelector("#catalog-meta")
+        template: document.querySelector("#book-card-template")
       };
 
       const state = {
@@ -1312,16 +1964,6 @@
           const catalog = await loadCatalog();
           state.books = catalog.books;
           buildTagOptions();
-          if (catalog.localDemo) {
-            elements.meta.textContent = "Aperçu local — catalogue de démonstration intégré";
-          } else if (catalog.generatedAt) {
-            const generated = new Date(catalog.generatedAt);
-            elements.meta.textContent = Number.isNaN(generated.getTime())
-              ? "Catalogue chargé"
-              : `Catalogue généré le ${dateFormatter.format(generated)}`;
-          } else if (catalog.missing) {
-            elements.meta.textContent = "catalog.json absent";
-          }
           render();
         } catch (error) {
           console.error(error);
