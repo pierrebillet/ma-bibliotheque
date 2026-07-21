@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-21T21:36:44Z",
+  "generatedAt": "2026-07-21T21:37:25Z",
   "bookCount": 8,
   "books": [
     {
-      "id": "Archipel",
-      "filename": "Archipel.html",
-      "sourcePath": "livres/Archipel.html",
-      "href": "livres/Archipel.html",
+      "id": "archipel-intermittent",
+      "filename": "archipel-intermittent.html",
+      "sourcePath": "livres/archipel-intermittent.html",
+      "href": "livres/archipel-intermittent.html",
       "title": "L'Archipel Intermittent",
       "author": null,
       "description": null,
