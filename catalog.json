@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-12T09:30:00Z",
+  "bookCount": 3,
+  "books": [
+    {
+      "id": "atlas-des-brumes",
+      "filename": "atlas-des-brumes.html",
+      "sourcePath": "livres/atlas-des-brumes.html",
+      "href": "livres/atlas-des-brumes.html",
+      "title": "L’Atlas des brumes",
+      "author": "Éléonore Varenne",
+      "description": "Une cartographe suit les frontières mouvantes d’un archipel dont les îles changent de place chaque nuit.",
+      "tags": [
+        "fantasy",
+        "exploration",
+        "interactif"
+      ],
+      "date": "2026-07-12",
+      "datePrecision": "day",
+      "cover": {
+        "filename": "atlas-des-brumes.png",
+        "sourcePath": "couvertures/atlas-des-brumes.png",
+        "href": "couvertures/atlas-des-brumes.png",
+        "format": "png"
+      }
+    },
+    {
+      "id": "la-maison-des-heures",
+      "filename": "la-maison-des-heures.html",
+      "sourcePath": "livres/la-maison-des-heures.html",
+      "href": "livres/la-maison-des-heures.html",
+      "title": "La Maison des heures",
+      "author": "Malo Kerjean",
+      "description": "Dans une demeure où chaque pièce conserve une heure différente, le lecteur recompose une mémoire familiale fragmentée.",
+      "tags": [
+        "mystère",
+        "fiction",
+        "choix"
+      ],
+      "date": "2025-11",
+      "datePrecision": "month",
+      "cover": null
+    },
+    {
+      "id": "notes-sur-le-silence",
+      "filename": "notes-sur-le-silence.html",
+      "sourcePath": "livres/notes-sur-le-silence.html",
+      "href": "livres/notes-sur-le-silence.html",
+      "title": "Notes sur le silence",
+      "author": "Samira Delcourt",
+      "description": null,
+      "tags": [
+        "essai",
+        "court",
+        "contemplatif"
+      ],
+      "date": "2024",
+      "datePrecision": "year",
+      "cover": {
+        "filename": "notes-sur-le-silence.png",
+        "sourcePath": "couvertures/notes-sur-le-silence.png",
+        "href": "couvertures/notes-sur-le-silence.png",
+        "format": "png"
+      }
+    }
+  ]
+}
