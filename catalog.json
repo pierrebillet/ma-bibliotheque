@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-21T21:37:54Z",
+  "generatedAt": "2026-07-21T21:43:15Z",
   "bookCount": 8,
   "books": [
     {
@@ -56,10 +56,10 @@
       "cover": null
     },
     {
-      "id": "le-livre-des-routes-par-GPT",
-      "filename": "le-livre-des-routes-par-GPT.html",
-      "sourcePath": "livres/le-livre-des-routes-par-GPT.html",
-      "href": "livres/le-livre-des-routes-par-GPT.html",
+      "id": "le-livre-des-routes",
+      "filename": "le-livre-des-routes.html",
+      "sourcePath": "livres/le-livre-des-routes.html",
+      "href": "livres/le-livre-des-routes.html",
       "title": "Le Livre des routes",
       "author": null,
       "description": null,
