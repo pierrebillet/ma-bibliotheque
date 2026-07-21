@@ -1,0 +1,1311 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Une bibliothèque de livres HTML autonomes et interactifs.">
+  <meta name="color-scheme" content="light dark">
+  <title>Ma Bibliothèque HTML</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --page: #f2efe8;
+      --page-soft: #e8e3d8;
+      --surface: rgba(255, 253, 248, 0.82);
+      --surface-solid: #fffdf8;
+      --surface-strong: #ffffff;
+      --text: #201f1b;
+      --muted: #68655d;
+      --line: rgba(53, 49, 40, 0.17);
+      --line-strong: rgba(53, 49, 40, 0.3);
+      --accent: #6f4d2d;
+      --accent-strong: #4e331d;
+      --accent-soft: #e8d8c4;
+      --success: #2f6a53;
+      --danger: #9b3c35;
+      --shadow: 0 18px 45px rgba(48, 40, 29, 0.09);
+      --shadow-card: 0 14px 30px rgba(48, 40, 29, 0.11);
+      --radius-lg: 1.25rem;
+      --radius-md: 0.85rem;
+      --radius-sm: 0.6rem;
+      --content: 82rem;
+      --serif: Georgia, "Times New Roman", Times, serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --page: #171814;
+        --page-soft: #1e201b;
+        --surface: rgba(35, 36, 31, 0.88);
+        --surface-solid: #23241f;
+        --surface-strong: #2a2b25;
+        --text: #f2ede3;
+        --muted: #b8b1a5;
+        --line: rgba(239, 229, 212, 0.15);
+        --line-strong: rgba(239, 229, 212, 0.27);
+        --accent: #d0a66f;
+        --accent-strong: #efd2aa;
+        --accent-soft: #493927;
+        --success: #80bea1;
+        --danger: #ed9188;
+        --shadow: 0 18px 45px rgba(0, 0, 0, 0.24);
+        --shadow-card: 0 14px 30px rgba(0, 0, 0, 0.27);
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      min-width: 20rem;
+      background: var(--page);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% -5%, color-mix(in srgb, var(--accent-soft) 46%, transparent), transparent 30rem),
+        linear-gradient(180deg, var(--page), var(--page-soft));
+      font-family: var(--sans);
+      line-height: 1.5;
+      text-rendering: optimizeLegibility;
+    }
+
+    button, input, select { font: inherit; }
+    button, select { cursor: pointer; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+
+    :focus-visible {
+      outline: 3px solid color-mix(in srgb, var(--accent) 82%, white);
+      outline-offset: 3px;
+    }
+
+    .skip-link {
+      position: fixed;
+      z-index: 100;
+      top: 0.75rem;
+      left: 0.75rem;
+      padding: 0.7rem 0.9rem;
+      border-radius: var(--radius-sm);
+      background: var(--surface-strong);
+      color: var(--text);
+      box-shadow: var(--shadow);
+      transform: translateY(-160%);
+    }
+
+    .skip-link:focus { transform: translateY(0); }
+
+    .site-header {
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .site-header::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.45;
+    }
+
+    .header-inner,
+    .main-inner,
+    .footer-inner {
+      width: min(calc(100% - 2rem), var(--content));
+      margin-inline: auto;
+    }
+
+    .header-inner {
+      padding: clamp(3.5rem, 9vw, 7.5rem) 0 clamp(2.75rem, 6vw, 5rem);
+    }
+
+    .eyebrow {
+      margin: 0 0 0.9rem;
+      color: var(--accent);
+      font-size: 0.77rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 13ch;
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(2.7rem, 8vw, 6.6rem);
+      font-weight: 500;
+      letter-spacing: -0.05em;
+      line-height: 0.93;
+    }
+
+    .intro {
+      max-width: 42rem;
+      margin: 1.4rem 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.22rem);
+    }
+
+    main { padding: clamp(1.4rem, 4vw, 3rem) 0 5rem; }
+
+    .controls {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: minmax(0, 1.8fr) minmax(10rem, 0.8fr) minmax(12rem, 0.9fr);
+      gap: 0.85rem;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .field { min-width: 0; }
+    .field label {
+      display: block;
+      margin: 0 0 0.38rem 0.15rem;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 760;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .search-wrap { position: relative; }
+    .search-wrap svg {
+      position: absolute;
+      top: 50%;
+      left: 0.9rem;
+      width: 1.1rem;
+      height: 1.1rem;
+      color: var(--muted);
+      pointer-events: none;
+      transform: translateY(-50%);
+    }
+
+    input[type="search"], select {
+      width: 100%;
+      min-height: 3rem;
+      border: 1px solid var(--line-strong);
+      border-radius: 0.75rem;
+      background: var(--surface-solid);
+      color: var(--text);
+    }
+
+    input[type="search"] {
+      padding: 0.72rem 2.9rem 0.72rem 2.75rem;
+      appearance: none;
+    }
+
+    input[type="search"]::-webkit-search-cancel-button { display: none; }
+    input::placeholder { color: color-mix(in srgb, var(--muted) 82%, transparent); }
+    select { padding: 0.72rem 2.3rem 0.72rem 0.85rem; }
+
+    .clear-search {
+      position: absolute;
+      top: 50%;
+      right: 0.35rem;
+      display: grid;
+      width: 2.3rem;
+      height: 2.3rem;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--muted);
+      transform: translateY(-50%);
+    }
+
+    .clear-search[hidden] { display: none; }
+    .clear-search:hover { background: var(--accent-soft); color: var(--text); }
+
+    .results-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 3.5rem;
+      margin: 1rem 0 1.25rem;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .result-count { margin: 0; }
+
+    .reset-link {
+      min-height: 2.75rem;
+      padding: 0.6rem 0.85rem;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .reset-link[hidden] { display: none; }
+    .reset-link:hover { border-color: var(--accent); background: var(--accent-soft); }
+
+    .library-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+      gap: clamp(1rem, 2.4vw, 1.65rem);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .book-card {
+      display: flex;
+      min-width: 0;
+      height: 100%;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface-solid);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.05);
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    }
+
+    .book-card:hover,
+    .book-card:focus-within {
+      border-color: color-mix(in srgb, var(--accent) 48%, var(--line));
+      box-shadow: var(--shadow-card);
+      transform: translateY(-3px);
+    }
+
+    .cover-link {
+      position: relative;
+      display: block;
+      aspect-ratio: 2 / 3;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+      background: var(--page-soft);
+      text-decoration: none;
+    }
+
+    .cover-link::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(255,255,255,0.12);
+      pointer-events: none;
+    }
+
+    .cover-image,
+    .cover-placeholder {
+      width: 100%;
+      height: 100%;
+    }
+
+    .cover-image {
+      object-fit: cover;
+      transition: transform 320ms ease;
+    }
+
+    .book-card:hover .cover-image { transform: scale(1.018); }
+
+    .cover-placeholder {
+      position: relative;
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+      overflow: hidden;
+      padding: clamp(1.15rem, 5vw, 2rem);
+      color: #fffaf1;
+      text-align: center;
+    }
+
+    .cover-placeholder::before,
+    .cover-placeholder::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 8%;
+      border: 1px solid rgba(255,255,255,0.23);
+      border-radius: 48% 52% 42% 58% / 56% 38% 62% 44%;
+      transform: rotate(18deg);
+    }
+
+    .cover-placeholder::after {
+      inset: 17%;
+      border-radius: 50%;
+      opacity: 0.68;
+      transform: rotate(-26deg);
+    }
+
+    .placeholder-copy {
+      display: grid;
+      max-width: 13rem;
+      gap: 0.75rem;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+    }
+
+    .placeholder-title {
+      display: -webkit-box;
+      overflow: hidden;
+      font-family: var(--serif);
+      font-size: clamp(1.55rem, 8vw, 2.35rem);
+      font-weight: 600;
+      letter-spacing: -0.035em;
+      line-height: 1.03;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+    }
+
+    .placeholder-author {
+      display: -webkit-box;
+      overflow: hidden;
+      font-size: 0.77rem;
+      font-weight: 760;
+      letter-spacing: 0.1em;
+      line-height: 1.35;
+      text-transform: uppercase;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    .book-body {
+      display: flex;
+      min-width: 0;
+      flex: 1;
+      flex-direction: column;
+      padding: 1rem;
+    }
+
+    .book-heading {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 1.42rem;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+    }
+
+    .book-title-link {
+      display: -webkit-box;
+      overflow: hidden;
+      text-decoration-thickness: 0.08em;
+      text-underline-offset: 0.14em;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+    }
+
+    .book-title-link:hover { color: var(--accent-strong); }
+
+    .book-byline {
+      min-height: 1.3rem;
+      margin: 0.52rem 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .book-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem 0.8rem;
+      margin: 0.62rem 0 0;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .book-description {
+      display: -webkit-box;
+      overflow: hidden;
+      margin: 0.9rem 0 0;
+      color: var(--muted);
+      font-size: 0.91rem;
+      line-height: 1.58;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin: 0.9rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .tag {
+      max-width: 100%;
+      overflow: hidden;
+      padding: 0.25rem 0.48rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--accent-soft) 48%, transparent);
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.2;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 0.55rem;
+      margin-top: auto;
+      padding-top: 1rem;
+    }
+
+    .read-link,
+    .copy-button,
+    .state-action {
+      display: inline-flex;
+      min-height: 2.8rem;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      border-radius: 0.72rem;
+      font-weight: 760;
+      text-decoration: none;
+    }
+
+    .read-link {
+      padding: 0.65rem 0.85rem;
+      background: var(--accent);
+      color: #fffaf3;
+    }
+
+    .read-link:hover { background: var(--accent-strong); }
+
+    .copy-button {
+      width: 2.8rem;
+      padding: 0;
+      border: 1px solid var(--line-strong);
+      background: transparent;
+      color: var(--text);
+    }
+
+    .copy-button:hover { border-color: var(--accent); background: var(--accent-soft); }
+    .copy-button svg, .read-link svg { width: 1rem; height: 1rem; }
+    .copy-button[data-copied="true"] { border-color: var(--success); color: var(--success); }
+
+    .status-panel {
+      display: grid;
+      min-height: 22rem;
+      place-items: center;
+      padding: 2rem;
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius-lg);
+      background: color-mix(in srgb, var(--surface) 78%, transparent);
+      text-align: center;
+    }
+
+    .status-panel[hidden] { display: none; }
+    .status-content { max-width: 32rem; }
+    .status-mark {
+      display: grid;
+      width: 4rem;
+      height: 4rem;
+      margin: 0 auto 1rem;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--surface-solid);
+      color: var(--accent);
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      box-shadow: var(--shadow);
+    }
+
+    .status-title {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(1.55rem, 4vw, 2.2rem);
+      font-weight: 600;
+    }
+
+    .status-text { margin: 0.65rem 0 0; color: var(--muted); }
+    .state-action {
+      margin-top: 1rem;
+      padding: 0.65rem 1rem;
+      border: 1px solid var(--line-strong);
+      background: var(--surface-solid);
+      color: var(--text);
+    }
+
+    .state-action:hover { border-color: var(--accent); background: var(--accent-soft); }
+
+    .loading-dots { display: inline-flex; gap: 0.28rem; }
+    .loading-dots span {
+      width: 0.36rem;
+      height: 0.36rem;
+      border-radius: 50%;
+      background: currentColor;
+      animation: pulse 1.2s infinite ease-in-out;
+    }
+    .loading-dots span:nth-child(2) { animation-delay: 140ms; }
+    .loading-dots span:nth-child(3) { animation-delay: 280ms; }
+
+    .site-footer {
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem 1.5rem;
+      padding: 1.5rem 0 2.3rem;
+      font-size: 0.84rem;
+    }
+
+    .footer-inner p { margin: 0; }
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    noscript {
+      display: block;
+      margin: 1rem auto;
+      padding: 1rem;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-md);
+      background: var(--surface-solid);
+      color: var(--text);
+    }
+
+    @keyframes pulse {
+      0%, 80%, 100% { opacity: 0.3; transform: translateY(0); }
+      40% { opacity: 1; transform: translateY(-0.2rem); }
+    }
+
+    @media (max-width: 48rem) {
+      .controls { grid-template-columns: 1fr 1fr; }
+      .field-search { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 34rem) {
+      .header-inner, .main-inner, .footer-inner { width: min(calc(100% - 1.25rem), var(--content)); }
+      .header-inner { padding-top: 3rem; }
+      .controls { grid-template-columns: 1fr; padding: 0.75rem; }
+      .field-search { grid-column: auto; }
+      .results-bar { align-items: flex-start; flex-direction: column; }
+      .library-grid { gap: 0.9rem; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#catalogue">Aller au catalogue</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="eyebrow">Collection personnelle</p>
+      <h1>Ma Bibliothèque HTML</h1>
+      <p class="intro">Des récits, essais et expériences interactives à ouvrir directement dans votre navigateur.</p>
+    </div>
+  </header>
+
+  <main id="catalogue">
+    <div class="main-inner">
+      <form class="controls" id="filters" role="search" aria-label="Rechercher et trier les livres">
+        <div class="field field-search">
+          <label for="search">Rechercher</label>
+          <div class="search-wrap">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+            <input id="search" name="q" type="search" autocomplete="off" placeholder="Titre, auteur, description, tag…">
+            <button class="clear-search" id="clear-search" type="button" aria-label="Effacer la recherche" hidden>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="tag-filter">Tag</label>
+          <select id="tag-filter" name="tag">
+            <option value="">Tous les tags</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="sort">Trier par</label>
+          <select id="sort" name="sort">
+            <option value="date-desc">Plus récents d’abord</option>
+            <option value="title-asc">Titre, A à Z</option>
+            <option value="author-asc">Auteur, A à Z</option>
+          </select>
+        </div>
+      </form>
+
+      <div class="results-bar" aria-live="polite" aria-atomic="true">
+        <p class="result-count" id="result-count">Chargement de la bibliothèque…</p>
+        <button class="reset-link" id="reset-filters" type="button" hidden>Réinitialiser les filtres</button>
+      </div>
+
+      <section class="status-panel" id="loading-state" aria-live="polite">
+        <div class="status-content">
+          <div class="status-mark" aria-hidden="true">
+            <span class="loading-dots"><span></span><span></span><span></span></span>
+          </div>
+          <h2 class="status-title">Ouverture des rayonnages</h2>
+          <p class="status-text">Chargement de la bibliothèque…</p>
+        </div>
+      </section>
+
+      <section class="status-panel" id="empty-state" hidden>
+        <div class="status-content">
+          <div class="status-mark" aria-hidden="true">∅</div>
+          <h2 class="status-title">La bibliothèque est encore vide</h2>
+          <p class="status-text">Aucun livre n’est encore publié. Les prochaines entrées apparaîtront ici automatiquement.</p>
+        </div>
+      </section>
+
+      <section class="status-panel" id="no-results-state" hidden>
+        <div class="status-content">
+          <div class="status-mark" aria-hidden="true">?</div>
+          <h2 class="status-title">Aucun livre trouvé</h2>
+          <p class="status-text">Aucun livre ne correspond à ces critères.</p>
+          <button class="state-action" id="reset-from-empty" type="button">Réinitialiser la recherche</button>
+        </div>
+      </section>
+
+      <section class="status-panel" id="error-state" hidden role="alert">
+        <div class="status-content">
+          <div class="status-mark" aria-hidden="true">!</div>
+          <h2 class="status-title">Catalogue indisponible</h2>
+          <p class="status-text" id="error-message">Le catalogue ne peut pas être chargé pour le moment.</p>
+          <button class="state-action" id="reload-page" type="button">Recharger la page</button>
+        </div>
+      </section>
+
+      <ul class="library-grid" id="book-grid" aria-label="Livres" hidden></ul>
+
+      <noscript>
+        L’index dynamique nécessite JavaScript. Les livres restent accessibles directement par leur URL publique.
+      </noscript>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>Livres HTML autonomes, servis sans intermédiaire.</p>
+      <p id="catalog-meta"></p>
+    </div>
+  </footer>
+
+  <template id="book-card-template">
+    <li>
+      <article class="book-card">
+        <a class="cover-link" target="_blank" rel="noopener noreferrer"></a>
+        <div class="book-body">
+          <h2 class="book-heading"><a class="book-title-link" target="_blank" rel="noopener noreferrer"></a></h2>
+          <p class="book-byline"></p>
+          <p class="book-meta"></p>
+          <p class="book-description"></p>
+          <ul class="tag-list" aria-label="Tags"></ul>
+          <div class="card-actions">
+            <a class="read-link" target="_blank" rel="noopener noreferrer">
+              <span>Lire</span>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+            </a>
+            <button class="copy-button" type="button" aria-label="Copier le lien">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M15 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3"></path></svg>
+              <span class="visually-hidden">Copier le lien</span>
+            </button>
+          </div>
+        </div>
+      </article>
+    </li>
+  </template>
+
+  <script id="demo-catalog" type="application/json">{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-12T09:30:00Z",
+  "bookCount": 3,
+  "books": [
+    {
+      "id": "atlas-des-brumes",
+      "filename": "atlas-des-brumes.html",
+      "sourcePath": "livres/atlas-des-brumes.html",
+      "href": "livres/atlas-des-brumes.html",
+      "title": "L’Atlas des brumes",
+      "author": "Éléonore Varenne",
+      "description": "Une cartographe suit les frontières mouvantes d’un archipel dont les îles changent de place chaque nuit.",
+      "tags": [
+        "fantasy",
+        "exploration",
+        "interactif"
+      ],
+      "date": "2026-07-12",
+      "datePrecision": "day",
+      "cover": {
+        "filename": "atlas-des-brumes.png",
+        "sourcePath": "couvertures/atlas-des-brumes.png",
+        "href": "couvertures/atlas-des-brumes.png",
+        "format": "png"
+      }
+    },
+    {
+      "id": "la-maison-des-heures",
+      "filename": "la-maison-des-heures.html",
+      "sourcePath": "livres/la-maison-des-heures.html",
+      "href": "livres/la-maison-des-heures.html",
+      "title": "La Maison des heures",
+      "author": "Malo Kerjean",
+      "description": "Dans une demeure où chaque pièce conserve une heure différente, le lecteur recompose une mémoire familiale fragmentée.",
+      "tags": [
+        "mystère",
+        "fiction",
+        "choix"
+      ],
+      "date": "2025-11",
+      "datePrecision": "month",
+      "cover": null
+    },
+    {
+      "id": "notes-sur-le-silence",
+      "filename": "notes-sur-le-silence.html",
+      "sourcePath": "livres/notes-sur-le-silence.html",
+      "href": "livres/notes-sur-le-silence.html",
+      "title": "Notes sur le silence",
+      "author": "Samira Delcourt",
+      "description": null,
+      "tags": [
+        "essai",
+        "court",
+        "contemplatif"
+      ],
+      "date": "2024",
+      "datePrecision": "year",
+      "cover": {
+        "filename": "notes-sur-le-silence.png",
+        "sourcePath": "couvertures/notes-sur-le-silence.png",
+        "href": "couvertures/notes-sur-le-silence.png",
+        "format": "png"
+      }
+    }
+  ]
+}</script>
+  <script>
+    (() => {
+      "use strict";
+
+      const SORTS = new Set(["date-desc", "title-asc", "author-asc"]);
+      const DEFAULT_SORT = "date-desc";
+      const collator = new Intl.Collator("fr", { sensitivity: "base", numeric: true });
+      const dateFormatter = new Intl.DateTimeFormat("fr-FR", { dateStyle: "long", timeZone: "UTC" });
+      const monthFormatter = new Intl.DateTimeFormat("fr-FR", { month: "long", year: "numeric", timeZone: "UTC" });
+
+      const elements = {
+        form: document.querySelector("#filters"),
+        search: document.querySelector("#search"),
+        clearSearch: document.querySelector("#clear-search"),
+        tag: document.querySelector("#tag-filter"),
+        sort: document.querySelector("#sort"),
+        count: document.querySelector("#result-count"),
+        reset: document.querySelector("#reset-filters"),
+        resetFromEmpty: document.querySelector("#reset-from-empty"),
+        reload: document.querySelector("#reload-page"),
+        grid: document.querySelector("#book-grid"),
+        loading: document.querySelector("#loading-state"),
+        empty: document.querySelector("#empty-state"),
+        noResults: document.querySelector("#no-results-state"),
+        error: document.querySelector("#error-state"),
+        errorMessage: document.querySelector("#error-message"),
+        template: document.querySelector("#book-card-template"),
+        meta: document.querySelector("#catalog-meta")
+      };
+
+      const state = {
+        books: [],
+        query: "",
+        tag: "",
+        sort: DEFAULT_SORT,
+        searchTimer: 0
+      };
+
+      function normalizeSearch(value) {
+        return String(value ?? "")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLocaleLowerCase("fr")
+          .replace(/\s+/g, " ")
+          .trim();
+      }
+
+      function isPlainObject(value) {
+        return value !== null && typeof value === "object" && !Array.isArray(value);
+      }
+
+      function isSafeRelativePath(value, prefix) {
+        if (typeof value !== "string" || !value || value.includes("\\")) return false;
+        if (value.startsWith("/") || value.startsWith("//") || /^[a-z][a-z0-9+.-]*:/i.test(value)) return false;
+        const parts = value.split("/");
+        if (parts.some((part) => part === "" || part === "." || part === "..")) return false;
+        return value.startsWith(prefix);
+      }
+
+      function validateBook(raw) {
+        if (!isPlainObject(raw)) return null;
+        if (typeof raw.id !== "string" || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(raw.id)) return null;
+        if (typeof raw.title !== "string" || !raw.title.trim()) return null;
+        if (!isSafeRelativePath(raw.href, "livres/")) return null;
+
+        const author = typeof raw.author === "string" && raw.author.trim() ? raw.author.trim() : null;
+        const description = typeof raw.description === "string" && raw.description.trim() ? raw.description.trim() : null;
+        const tags = Array.isArray(raw.tags)
+          ? raw.tags.filter((tag) => typeof tag === "string" && tag.trim()).map((tag) => tag.trim())
+          : [];
+        const date = typeof raw.date === "string" && /^\d{4}(?:-\d{2}(?:-\d{2})?)?$/.test(raw.date) ? raw.date : null;
+        const datePrecision = ["year", "month", "day"].includes(raw.datePrecision) ? raw.datePrecision : null;
+
+        let cover = null;
+        if (isPlainObject(raw.cover) && isSafeRelativePath(raw.cover.href, "couvertures/")) {
+          cover = { href: raw.cover.href };
+        }
+
+        const searchText = normalizeSearch([
+          raw.id,
+          raw.title,
+          author,
+          description,
+          ...tags
+        ].filter(Boolean).join(" "));
+
+        return {
+          id: raw.id,
+          href: raw.href,
+          title: raw.title.trim(),
+          author,
+          description,
+          tags,
+          date,
+          datePrecision,
+          cover,
+          searchText
+        };
+      }
+
+      function validateCatalog(payload) {
+        if (!isPlainObject(payload)) throw new Error("Le fichier catalog.json ne contient pas un objet JSON valide.");
+        if (payload.schemaVersion !== 1) throw new Error("La version du catalogue n’est pas prise en charge.");
+        if (!Array.isArray(payload.books)) throw new Error("La liste des livres est absente du catalogue.");
+        if (!Number.isInteger(payload.bookCount) || payload.bookCount !== payload.books.length) {
+          throw new Error("Le nombre de livres déclaré ne correspond pas au catalogue.");
+        }
+
+        const books = payload.books.map(validateBook).filter(Boolean);
+        if (books.length !== payload.books.length) {
+          throw new Error("Une ou plusieurs entrées du catalogue sont invalides.");
+        }
+
+        return {
+          books,
+          generatedAt: typeof payload.generatedAt === "string" ? payload.generatedAt : null
+        };
+      }
+
+      async function loadCatalog() {
+        try {
+          const response = await fetch("catalog.json", { cache: "no-store" });
+          if (!response.ok) {
+            if (response.status === 404) return { books: [], generatedAt: null, missing: true };
+            throw new Error(`Le serveur a répondu avec le code ${response.status}.`);
+          }
+          return validateCatalog(await response.json());
+        } catch (error) {
+          if (location.protocol === "file:") {
+            const embedded = document.querySelector("#demo-catalog")?.textContent;
+            if (embedded) {
+              try {
+                return { ...validateCatalog(JSON.parse(embedded)), localDemo: true };
+              } catch (demoError) {
+                throw new Error(`Le catalogue de démonstration est invalide : ${demoError.message}`);
+              }
+            }
+          }
+          throw error;
+        }
+      }
+
+      function parseUrlState() {
+        const params = new URLSearchParams(location.search);
+        const query = params.get("q")?.trim() ?? "";
+        const requestedSort = params.get("sort") ?? DEFAULT_SORT;
+        state.query = query;
+        state.tag = params.get("tag")?.trim() ?? "";
+        state.sort = SORTS.has(requestedSort) ? requestedSort : DEFAULT_SORT;
+        elements.search.value = state.query;
+        elements.sort.value = state.sort;
+        elements.clearSearch.hidden = !state.query;
+      }
+
+      function updateUrl() {
+        if (location.protocol === "file:") return;
+        const url = new URL(location.href);
+        const params = url.searchParams;
+        state.query ? params.set("q", state.query) : params.delete("q");
+        state.tag ? params.set("tag", state.tag) : params.delete("tag");
+        state.sort !== DEFAULT_SORT ? params.set("sort", state.sort) : params.delete("sort");
+        history.replaceState(null, "", `${url.pathname}${params.toString() ? `?${params}` : ""}${url.hash}`);
+      }
+
+      function buildTagOptions() {
+        const byNormalized = new Map();
+        for (const book of state.books) {
+          for (const tag of book.tags) {
+            const key = normalizeSearch(tag);
+            if (!byNormalized.has(key)) byNormalized.set(key, tag);
+          }
+        }
+
+        const tags = [...byNormalized.values()].sort(collator.compare);
+        const fragment = document.createDocumentFragment();
+        for (const tag of tags) {
+          const option = document.createElement("option");
+          option.value = tag;
+          option.textContent = tag;
+          fragment.append(option);
+        }
+        elements.tag.append(fragment);
+
+        const matchedTag = tags.find((tag) => normalizeSearch(tag) === normalizeSearch(state.tag));
+        state.tag = matchedTag ?? "";
+        elements.tag.value = state.tag;
+      }
+
+      function formatDate(date, precision) {
+        if (!date) return "";
+        if (precision === "year") return date;
+        if (precision === "month") {
+          const [year, month] = date.split("-").map(Number);
+          return monthFormatter.format(new Date(Date.UTC(year, month - 1, 1)));
+        }
+        const [year, month, day] = date.split("-").map(Number);
+        return dateFormatter.format(new Date(Date.UTC(year, month - 1, day)));
+      }
+
+      function dateSortKey(book) {
+        if (!book.date) return "";
+        if (book.datePrecision === "year") return `${book.date}-00-00`;
+        if (book.datePrecision === "month") return `${book.date}-00`;
+        return book.date;
+      }
+
+      function sortBooks(books) {
+        return [...books].sort((a, b) => {
+          if (state.sort === "date-desc") {
+            if (a.date && !b.date) return -1;
+            if (!a.date && b.date) return 1;
+            const byDate = dateSortKey(b).localeCompare(dateSortKey(a));
+            return byDate || collator.compare(a.title, b.title) || collator.compare(a.id, b.id);
+          }
+
+          if (state.sort === "author-asc") {
+            if (a.author && !b.author) return -1;
+            if (!a.author && b.author) return 1;
+            const byAuthor = collator.compare(a.author ?? "", b.author ?? "");
+            return byAuthor || collator.compare(a.title, b.title) || collator.compare(a.id, b.id);
+          }
+
+          return collator.compare(a.title, b.title) || collator.compare(a.id, b.id);
+        });
+      }
+
+      function filteredBooks() {
+        const terms = normalizeSearch(state.query).split(" ").filter(Boolean);
+        const selectedTag = normalizeSearch(state.tag);
+
+        return sortBooks(state.books.filter((book) => {
+          const queryMatches = terms.every((term) => book.searchText.includes(term));
+          const tagMatches = !selectedTag || book.tags.some((tag) => normalizeSearch(tag) === selectedTag);
+          return queryMatches && tagMatches;
+        }));
+      }
+
+      function fnv1a(value) {
+        const bytes = new TextEncoder().encode(value);
+        let hash = 0x811c9dc5;
+        for (const byte of bytes) {
+          hash ^= byte;
+          hash = Math.imul(hash, 0x01000193);
+        }
+        return hash >>> 0;
+      }
+
+      function createPlaceholder(book) {
+        const hash = fnv1a(`${book.id}\n${book.title}`);
+        const h1 = hash % 360;
+        const h2 = (h1 + 40 + ((hash >>> 8) % 41)) % 360;
+        const placeholder = document.createElement("div");
+        placeholder.className = "cover-placeholder";
+        placeholder.setAttribute("aria-hidden", "true");
+        placeholder.style.backgroundImage = [
+          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23fff' stroke-opacity='.10'%3E%3Cpath d='M-10 30L30-10M10 70L70 10M50 110L110 50M90 130L130 90'/%3E%3Ccircle cx='60' cy='60' r='27'/%3E%3C/g%3E%3C/svg%3E\")",
+          `linear-gradient(145deg, hsl(${h1} 62% 42%), hsl(${h2} 58% 24%))`
+        ].join(", ");
+
+        const copy = document.createElement("span");
+        copy.className = "placeholder-copy";
+        const title = document.createElement("span");
+        title.className = "placeholder-title";
+        title.textContent = book.title;
+        copy.append(title);
+        if (book.author) {
+          const author = document.createElement("span");
+          author.className = "placeholder-author";
+          author.textContent = book.author;
+          copy.append(author);
+        }
+        placeholder.append(copy);
+        return placeholder;
+      }
+
+      function attachCover(container, book) {
+        const renderFallback = () => {
+          container.replaceChildren(createPlaceholder(book));
+        };
+
+        if (!book.cover) {
+          renderFallback();
+          return;
+        }
+
+        const image = document.createElement("img");
+        image.className = "cover-image";
+        image.src = book.cover.href;
+        image.alt = `Couverture de « ${book.title} »`;
+        image.loading = "lazy";
+        image.decoding = "async";
+        image.addEventListener("error", renderFallback, { once: true });
+        container.append(image);
+      }
+
+      async function copyText(value) {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(value);
+          return;
+        }
+        const textarea = document.createElement("textarea");
+        textarea.value = value;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.append(textarea);
+        textarea.select();
+        const copied = document.execCommand("copy");
+        textarea.remove();
+        if (!copied) throw new Error("Copie indisponible");
+      }
+
+      function createCard(book) {
+        const fragment = elements.template.content.cloneNode(true);
+        const item = fragment.querySelector("li");
+        const coverLink = fragment.querySelector(".cover-link");
+        const titleLink = fragment.querySelector(".book-title-link");
+        const byline = fragment.querySelector(".book-byline");
+        const meta = fragment.querySelector(".book-meta");
+        const description = fragment.querySelector(".book-description");
+        const tags = fragment.querySelector(".tag-list");
+        const readLink = fragment.querySelector(".read-link");
+        const copyButton = fragment.querySelector(".copy-button");
+
+        for (const link of [coverLink, titleLink, readLink]) link.href = book.href;
+        coverLink.setAttribute("aria-label", `Lire « ${book.title} » dans un nouvel onglet`);
+        titleLink.textContent = book.title;
+        titleLink.title = book.title;
+        readLink.setAttribute("aria-label", `Lire « ${book.title} » dans un nouvel onglet`);
+        attachCover(coverLink, book);
+
+        if (book.author) {
+          byline.textContent = book.author;
+          byline.title = book.author;
+        } else {
+          byline.remove();
+        }
+
+        if (book.date) {
+          meta.textContent = formatDate(book.date, book.datePrecision);
+        } else {
+          meta.remove();
+        }
+
+        if (book.description) {
+          description.textContent = book.description;
+          description.title = book.description;
+        } else {
+          description.remove();
+        }
+
+        if (book.tags.length) {
+          const visibleTags = book.tags.slice(0, 6);
+          for (const tag of visibleTags) {
+            const tagItem = document.createElement("li");
+            tagItem.className = "tag";
+            tagItem.textContent = tag;
+            tagItem.title = tag;
+            tags.append(tagItem);
+          }
+          if (book.tags.length > 6) {
+            const rest = document.createElement("li");
+            rest.className = "tag";
+            rest.textContent = `+${book.tags.length - 6}`;
+            rest.setAttribute("aria-label", `${book.tags.length - 6} tags supplémentaires`);
+            tags.append(rest);
+          }
+        } else {
+          tags.remove();
+        }
+
+        copyButton.setAttribute("aria-label", `Copier le lien de « ${book.title} »`);
+        copyButton.addEventListener("click", async () => {
+          const absoluteUrl = new URL(book.href, document.baseURI).href;
+          try {
+            await copyText(absoluteUrl);
+            copyButton.dataset.copied = "true";
+            copyButton.setAttribute("aria-label", `Lien de « ${book.title} » copié`);
+            window.setTimeout(() => {
+              copyButton.dataset.copied = "false";
+              copyButton.setAttribute("aria-label", `Copier le lien de « ${book.title} »`);
+            }, 1800);
+          } catch {
+            copyButton.setAttribute("aria-label", "La copie du lien a échoué");
+          }
+        });
+
+        return item;
+      }
+
+      function setOnlyVisible(target) {
+        for (const element of [elements.loading, elements.empty, elements.noResults, elements.error, elements.grid]) {
+          element.hidden = element !== target;
+        }
+      }
+
+      function render() {
+        const books = filteredBooks();
+        elements.grid.replaceChildren();
+        const hasFilters = Boolean(state.query || state.tag || state.sort !== DEFAULT_SORT);
+        elements.reset.hidden = !hasFilters;
+        elements.clearSearch.hidden = !state.query;
+
+        if (state.books.length === 0) {
+          elements.count.textContent = "0 livre";
+          setOnlyVisible(elements.empty);
+          updateUrl();
+          return;
+        }
+
+        if (books.length === 0) {
+          elements.count.textContent = "Aucun résultat";
+          setOnlyVisible(elements.noResults);
+          updateUrl();
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        books.forEach((book) => fragment.append(createCard(book)));
+        elements.grid.append(fragment);
+        const total = state.books.length;
+        elements.count.textContent = books.length === total
+          ? `${total} ${total > 1 ? "livres" : "livre"}`
+          : `${books.length} sur ${total} ${total > 1 ? "livres" : "livre"}`;
+        setOnlyVisible(elements.grid);
+        updateUrl();
+      }
+
+      function resetFilters() {
+        window.clearTimeout(state.searchTimer);
+        state.query = "";
+        state.tag = "";
+        state.sort = DEFAULT_SORT;
+        elements.search.value = "";
+        elements.tag.value = "";
+        elements.sort.value = DEFAULT_SORT;
+        render();
+        elements.search.focus();
+      }
+
+      function bindEvents() {
+        elements.form.addEventListener("submit", (event) => event.preventDefault());
+        elements.search.addEventListener("input", () => {
+          elements.clearSearch.hidden = !elements.search.value;
+          window.clearTimeout(state.searchTimer);
+          state.searchTimer = window.setTimeout(() => {
+            state.query = elements.search.value.trim();
+            render();
+          }, 150);
+        });
+        elements.clearSearch.addEventListener("click", () => {
+          elements.search.value = "";
+          state.query = "";
+          render();
+          elements.search.focus();
+        });
+        elements.tag.addEventListener("change", () => {
+          state.tag = elements.tag.value;
+          render();
+        });
+        elements.sort.addEventListener("change", () => {
+          state.sort = SORTS.has(elements.sort.value) ? elements.sort.value : DEFAULT_SORT;
+          render();
+        });
+        elements.reset.addEventListener("click", resetFilters);
+        elements.resetFromEmpty.addEventListener("click", resetFilters);
+        elements.reload.addEventListener("click", () => location.reload());
+      }
+
+      async function initialize() {
+        parseUrlState();
+        bindEvents();
+        try {
+          const catalog = await loadCatalog();
+          state.books = catalog.books;
+          buildTagOptions();
+          if (catalog.localDemo) {
+            elements.meta.textContent = "Aperçu local — catalogue de démonstration intégré";
+          } else if (catalog.generatedAt) {
+            const generated = new Date(catalog.generatedAt);
+            elements.meta.textContent = Number.isNaN(generated.getTime())
+              ? "Catalogue chargé"
+              : `Catalogue généré le ${dateFormatter.format(generated)}`;
+          } else if (catalog.missing) {
+            elements.meta.textContent = "catalog.json absent";
+          }
+          render();
+        } catch (error) {
+          console.error(error);
+          elements.count.textContent = "Catalogue indisponible";
+          elements.errorMessage.textContent = error instanceof Error
+            ? error.message
+            : "Le catalogue ne peut pas être chargé pour le moment.";
+          setOnlyVisible(elements.error);
+        }
+      }
+
+      initialize();
+    })();
+  </script>
+</body>
+</html>

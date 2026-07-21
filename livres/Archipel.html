@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Archipel Intermittent</title>
+    <style>
+        :root {
+            --bg: #111113;
+            --text: #e6e4dc;
+            --accent: #c9a05b; /* Or sombre / cuivré */
+            --accent-dim: rgba(201, 160, 91, 0.15);
+            --sheet-bg: #1a1a1d;
+            --ui-bg: #1e1e24;
+            --border: #333;
+            --font-serif: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+            --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: var(--font-serif); 
+            font-size: 18px; 
+            line-height: 1.7; 
+            overflow-x: hidden; 
+            -webkit-font-smoothing: antialiased; 
+        }
+
+        a { color: var(--accent); text-decoration: none; cursor: pointer; }
+        button { font-family: var(--font-sans); }
+
+        #app { 
+            max-width: 680px; 
+            margin: 0 auto; 
+            min-height: 100vh; 
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
+        }
+
+        /* --- UI Elements --- */
+        header { 
+            position: sticky; 
+            top: 0; 
+            background: rgba(17, 17, 19, 0.95); 
+            backdrop-filter: blur(8px); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 15px 20px; 
+            z-index: 50; 
+            border-bottom: 1px solid var(--border); 
+            transition: transform 0.3s;
+        }
+        
+        .header-hidden { transform: translateY(-100%); }
+
+        .menu-btn { 
+            background: none; 
+            border: none; 
+            color: var(--text); 
+            font-size: 28px; 
+            cursor: pointer; 
+            line-height: 1;
+        }
+
+        .header-title { 
+            font-family: var(--font-sans); 
+            font-size: 12px; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            color: var(--accent); 
+        }
+
+        .progress-bar { 
+            position: fixed; 
+            top: 0; left: 0; 
+            height: 2px; 
+            background: var(--accent); 
+            z-index: 100; 
+            width: 0%; 
+            transition: width 0.2s ease-out; 
+        }
+
+        /* --- Screens --- */
+        .screen { 
+            display: none; 
+            padding: 40px 20px 80px; 
+            flex: 1; 
+            animation: fadeIn 0.4s ease; 
+        }
+        .screen.active { display: block; }
+
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(15px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        /* --- Screen: Home --- */
+        #home { text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 85vh; padding: 20px; }
+        .book-title { font-size: 38px; font-weight: normal; margin-bottom: 10px; color: var(--text); letter-spacing: -0.5px; }
+        .book-subtitle { font-family: var(--font-sans); font-size: 13px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 50px; color: var(--accent); }
+        .quote { font-style: italic; color: #888; margin: 0 auto 50px; max-width: 85%; font-size: 16px; line-height: 1.6; }
+        
+        .btn-primary { 
+            display: inline-block; 
+            background: transparent; 
+            border: 1px solid var(--accent); 
+            color: var(--accent); 
+            padding: 14px 35px; 
+            font-size: 13px;
+            font-family: var(--font-sans); 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            margin: 0 auto 20px;
+        }
+        .btn-primary:hover { background: var(--accent-dim); }
+        
+        .gift-note { font-family: var(--font-sans); font-size: 11px; color: #555; margin-top: auto; padding-top: 40px; text-transform: uppercase; letter-spacing: 1px;}
+
+        /* --- Screen: Reader --- */
+        .chapter-header { text-align: center; margin-bottom: 60px; margin-top: 20px; }
+        .chapter-num { font-family: var(--font-sans); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 15px; display: block; }
+        .chapter-title { font-size: 32px; font-weight: normal; margin-bottom: 20px; line-height: 1.2; }
+        .chapter-meta { font-family: var(--font-sans); font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .chapter-content p { margin-bottom: 1.6em; text-align: justify; hyphens: auto; }
+        .chapter-content p:first-of-type { text-align: left; }
+        .chapter-content p:first-of-type::first-letter { font-size: 3.8em; float: left; margin: 0.1em 0.15em 0 0; line-height: 0.8; color: var(--accent); font-weight: bold; }
+        
+        .chapter-content hr { border: 0; text-align: center; margin: 3em 0; }
+        .chapter-content hr::before { content: "✧ ✧ ✧"; color: #444; font-size: 14px; letter-spacing: 10px; }
+
+        .codex-link { 
+            position: relative; 
+            color: var(--text); 
+            border-bottom: 1px solid var(--accent-dim); 
+            transition: color 0.2s, border-color 0.2s; 
+            cursor: pointer; 
+        }
+        .codex-link:hover { color: var(--accent); border-color: var(--accent); }
+
+        .chapter-nav { display: flex; justify-content: space-between; margin-top: 80px; padding-top: 30px; border-top: 1px solid var(--border); }
+        .nav-btn { background: none; border: none; color: #888; cursor: pointer; font-family: var(--font-sans); text-transform: uppercase; font-size: 11px; letter-spacing: 2px; transition: color 0.3s; display: flex; align-items: center; gap: 8px;}
+        .nav-btn:hover { color: var(--accent); }
+        .nav-btn:disabled { color: #333; cursor: not-allowed; }
+
+        /* --- Bottom Sheet (Codex) --- */
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; opacity: 0; visibility: hidden; transition: all 0.3s ease; backdrop-filter: blur(2px); }
+        .overlay.active { opacity: 1; visibility: visible; }
+        
+        .bottom-sheet { 
+            position: fixed; 
+            bottom: -100%; 
+            left: 0; right: 0; 
+            height: 75vh; 
+            background: var(--sheet-bg); 
+            border-top-left-radius: 16px; 
+            border-top-right-radius: 16px; 
+            z-index: 101; 
+            transition: bottom 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); 
+            display: flex; 
+            flex-direction: column; 
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.5); 
+            max-width: 680px; 
+            margin: 0 auto; 
+        }
+        .bottom-sheet.active { bottom: 0; }
+        
+        .sheet-handle { width: 36px; height: 4px; background: #444; border-radius: 2px; margin: 12px auto; cursor: grab; }
+        .sheet-header { padding: 0 20px 15px; display: flex; align-items: center; border-bottom: 1px solid var(--border); min-height: 40px; }
+        
+        .back-btn { background: none; border: none; color: var(--accent); font-size: 20px; cursor: pointer; display: none; margin-right: 15px; padding: 5px; }
+        
+        .sheet-title { flex: 1; font-size: 20px; color: var(--text); line-height: 1.2; }
+        .sheet-category { font-family: var(--font-sans); font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); display: block; margin-top: 4px; }
+        
+        .sheet-content { padding: 25px 20px; overflow-y: auto; flex: 1; font-size: 16px; line-height: 1.6; }
+        .sheet-content p { margin-bottom: 1.2em; text-align: justify; }
+        
+        .codex-catchphrase { font-style: italic; color: #999; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--border); font-size: 17px; }
+        
+        .codex-relations { margin-top: 40px; font-family: var(--font-sans); }
+        .codex-relations h4 { color: #666; font-weight: normal; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; font-size: 11px; }
+        .related-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+        .tag { background: var(--ui-bg); padding: 8px 14px; border-radius: 4px; cursor: pointer; color: #aaa; border: 1px solid var(--border); transition: all 0.2s; font-size: 13px; }
+        .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* --- Screen: Codex Index --- */
+        .codex-search { width: 100%; padding: 15px; background: var(--ui-bg); border: 1px solid var(--border); color: var(--text); margin-bottom: 40px; font-family: var(--font-sans); font-size: 15px; outline: none; border-radius: 0; }
+        .codex-search:focus { border-color: var(--accent); }
+        
+        .category-section { margin-bottom: 45px; }
+        .category-title { font-family: var(--font-sans); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 20px; }
+        
+        .codex-list { list-style: none; display: grid; grid-template-columns: 1fr; gap: 12px; }
+        .codex-list li { display: flex; align-items: baseline; }
+        .codex-list a { color: var(--text); font-size: 17px; cursor: pointer; transition: color 0.2s; flex: 1; }
+        .codex-list a:hover { color: var(--accent); }
+
+        /* --- Navigation Menu --- */
+        #side-menu { position: fixed; inset: 0; background: rgba(17,17,19,0.98); backdrop-filter: blur(10px); z-index: 200; transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); padding: 80px 40px; display: flex; flex-direction: column; }
+        #side-menu.active { transform: translateX(0); }
+        .close-menu { position: absolute; top: 25px; right: 25px; background: none; border: none; color: #888; font-size: 35px; cursor: pointer; line-height: 1; transition: color 0.2s; }
+        .close-menu:hover { color: var(--text); }
+        
+        .menu-items { list-style: none; margin-top: 20px; }
+        .menu-items li { margin-bottom: 30px; }
+        .menu-items a { font-size: 22px; color: #888; transition: color 0.3s; }
+        .menu-items a:hover, .menu-items a.active-link { color: var(--text); }
+        .menu-items a.active-link::before { content: "— "; color: var(--accent); }
+
+        .menu-footer { margin-top: auto; font-family: var(--font-sans); font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 1px; }
+
+        @media (min-width: 768px) {
+            .codex-list { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-bar" id="progress-bar"></div>
+
+    <div id="app">
+        <header id="main-header">
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            <div class="header-title" id="header-title">L'Archipel Intermittent</div>
+            <div style="width: 28px;"></div> <!-- Balancer -->
+        </header>
+
+        <!-- Home Screen -->
+        <main id="screen-home" class="screen active">
+            <h1 class="book-title">L'Archipel Intermittent</h1>
+            <div class="book-subtitle">Livre Premier</div>
+            
+            <div class="quote">
+                "La vérité n'est qu'une question de densité. Pensez assez fort, et le vide lui-même prendra racine."<br>
+                <span style="font-size: 14px; margin-top:10px; display:block;">— Extraits interdits, Dr. Aris-Fugace</span>
+            </div>
+
+            <button class="btn-primary" onclick="startReading()">Commencer la lecture</button>
+            <br>
+            <a href="#" onclick="showScreen('screen-codex')" style="font-family: var(--font-sans); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #888;">Consulter le Codex</a>
+
+            <div class="gift-note">Ce monde a été créé pour un unique lecteur.<br>Joyeux anniversaire.</div>
+        </main>
+
+        <!-- Reader Screen -->
+        <main id="screen-reader" class="screen">
+            <article>
+                <div class="chapter-header">
+                    <span class="chapter-num" id="ch-num">Chapitre 1</span>
+                    <h2 class="chapter-title" id="ch-title">Titre</h2>
+                    <div class="chapter-meta" id="ch-meta">POV · Lieu</div>
+                </div>
+                
+                <div class="chapter-content" id="ch-content">
+                    <!-- Content injected here -->
+                </div>
+
+                <div class="chapter-nav">
+                    <button class="nav-btn" id="btn-prev" onclick="prevChapter()">← Précédent</button>
+                    <button class="nav-btn" id="btn-next" onclick="nextChapter()">Suivant →</button>
+                </div>
+            </article>
+        </main>
+
+        <!-- Codex List Screen -->
+        <main id="screen-codex" class="screen">
+            <input type="text" class="codex-search" id="codex-search" placeholder="Rechercher dans l'encyclopédie..." oninput="filterCodex()">
+            <div id="codex-directory">
+                <!-- Categories injected here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Side Menu -->
+    <nav id="side-menu">
+        <button class="close-menu" onclick="toggleMenu()">×</button>
+        <ul class="menu-items">
+            <li><a href="#" onclick="showScreen('screen-home'); toggleMenu();">Accueil</a></li>
+            <li><a href="#" id="menu-read-link" onclick="goToCurrentChapter(); toggleMenu();">Reprendre la lecture</a></li>
+            <li><a href="#" onclick="showScreen('screen-codex'); toggleMenu();">Codex</a></li>
+        </ul>
+        <div class="menu-footer">Archive restreinte v2.0</div>
+    </nav>
+
+    <!-- Bottom Sheet -->
+    <div class="overlay" id="sheet-overlay" onclick="closeBottomSheet()"></div>
+    <div class="bottom-sheet" id="bottom-sheet">
+        <div class="sheet-handle" id="sheet-handle"></div>
+        <div class="sheet-header">
+            <button class="back-btn" id="sheet-back-btn" onclick="goBackInCodex()">←</button>
+            <div>
+                <h3 class="sheet-title" id="sheet-title">Titre</h3>
+                <span class="sheet-category" id="sheet-category">Catégorie</span>
+            </div>
+        </div>
+        <div class="sheet-content">
+            <div class="codex-catchphrase" id="sheet-catchphrase">Accroche</div>
+            <div id="sheet-text">Contenu</div>
+            <div class="codex-relations" id="sheet-relations-container">
+                <h4>Entrées liées</h4>
+                <div class="related-tags" id="sheet-relations"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const CHAPTERS = [
+            {
+                num: "Chapitre 1",
+                title: "La Cadence Écorchée",
+                pov: "Vrenn",
+                location: "Thulé-V (Frange de Plomb)",
+                content: `Un coup à gauche. Deux coups à droite. Inspirer sur quatre temps, expirer sur deux. [[vrenn-extracteur-sud|Vrenn]] planta le sabot en tungstène de sa [[houe-sonique|houe sonique]] dans la croûte d’argile ocre, sentant la vibration familière remonter le long de ses cubitus jusqu’aux épaules. Autour d'elle, la ligne de front comptait soixante poitrines esclaves, toutes asservies au même chœur pulmonaire. 
+
+— <em>Ferro-silicate, densité huit, cohésion stable, nous l'affirmons,</em> crachaient les masques respiratoires dans un grésillement de membranes saturées. 
+
+À chaque battement du [[jargon-cadence|Jargon Cadencé]], les tiges rigides du blé-ferrique prenaient un éclat bleuté, se figeant dans leur géométrie industrielle. C’était le milieu de la récolte sur [[thule-v|Thulé-V]]. Si une seule voix s'étranglait, si un seul bras faiblissait, la matière végétale redevenait liquide, une bouillie informe de concepts fuyants. Vrenn se mordit l’intérieur de la joue jusqu’au sang. La douleur métallique lui servit d'ancrage. L'air empestait l'ozone et la craie écrasée, cette odeur de friction sémantique qui signalait que l'espace luttait pour conserver sa masse.
+
+Elle écarta les pieds, fléchissant les genoux pour caler son centre de gravité contre les sursauts du sol. Ses doigts tambourinèrent une double croche inconsciente sur le manche en acier de son outil. Deux coups nets. Toquer pour vérifier que la terre portait encore.
+
+— Vrenn… Ma main s'en va.
+
+À sa droite, [[brak-filtre-deux|Brak]] fléchissait. Son matricule de basse itération pesait trop lourd sur ses épaules de quatorze ans. Son outil n’avait pas mordu sur le temps fort. Vrenn jeta un regard farouche sans briser sa cadence. Sous les bottes de sa petite sœur, la terre rouge perdait son grain. Elle devenait grise, translucide, pareille à de la brume compacte. Le pied de la gamine s’y enfonça jusqu’à la cheville, non pas dans de la boue, mais dans un oubli de texture. 
+
+Au même instant, à des parsecs de là, un grand index stastien trembla sur une console d'ivoire. Personne ne le savait encore, mais le frisson fut synchrone.
+
+La sirène du mirador supérieur déchira le ciel laiteux de la [[frange-de-plomb|Frange de Plomb]]. 
+<em>Fluctuation critique. Ligne 4. Augmentez la [[charge-attentionnelle|Charge Attentionnelle]].</em>
+
+— Les chiens d'en haut ne nous entendent plus, grogna le vieux Karn à l'extrémité de la ligne, ses dents gâtées serrées sur son embout. La résonance du [[noyau-resonnant|Noyau Résonnant]] central glisse sur nous comme de la bave. Rien ne s'ancre !
+
+— Chante, Brak ! hurla Vrenn, la voix brisée par le filtre de carbone. <em>Cohésion stable, nous l'affirmons !</em>
+
+Le champ entier bascula. Les tiges de fer ne se courbaient pas sous le vent ; elles s'enroulaient sur elles-mêmes en spirales non-euclidiennes, perçant le sol pour ressortir sans laisser de trou, défiant les lois de la trame. Le ciel se déchira en vastes plaques d'ébène mat, révélant le [[fluide-axiomatique|Fluide Axiomatique]], ce néant bouillonnant où les vieux concepts oubliés se dévoraient entre eux. 
+
+Karn lâcha sa houe. Son attention, usée par quarante ans de lévitique industriel, capitula. Le châtiment sémantique fut instantané. L'espace autour du vieil homme se contracta avec un sifflement de papier déchiré. Son corps s’étira vers le haut, devenant une ligne de chair infiniment fine, un filament rouge qui monta vers les nuages avant de disparaître dans un claquement sec. Il ne resta de lui qu'une odeur de fer froid.
+
+La ligne paniqua. Les [[glyphes-de-la-frange|Glyphes]] jetèrent leurs outils, et avec le silence, vint la dissolution générale. La géologie démissionna. 
+
+Vrenn n'attendit pas le décret. Elle empoigna le bloc moteur de sa houe sonique, le fit pivoter d'un quart de tour et brisa le détendeur d’urgence. La machine se mit à hurler, libérant une fréquence vibratoire brute, une cadence mécanique sauvage qui suppléa à la faillite de sa voix. Elle plaqua le boîtier brûlant contre le plexus de sa sœur. 
+
+Une bulle de trois mètres carrés se figea autour d'elles dans un craquement de gelée blanche. Le sol redevint bois dur, un îlot de certitude précaire au milieu d'un monde qui retournait au Flou. Vrenn regarda les structures de Thulé-V s'évaporer et comprit le grand secret des Censeurs : leur dictionnaire venait de les raturer.`
+            },
+            {
+                num: "Chapitre 2",
+                title: "La Rature Corrective",
+                pov: "Kaelen",
+                location: "Ouroboros-Prime",
+                content: `L'hexagone était parfait. Chaque angle mesurait exactement quatre-vingt-dix degrés, tolérance zéro. [[kaelen-hexa-ur-71|Kaelen]] lissa la manche gauche de son uniforme de drap de carbone noir, s'assurant qu'aucun pli ne venait contredire la linéarité sémantique de sa silhouette. Il prit une inspiration sur quatre temps, bloqua ses poumons sur quatre autres, expira, bloqua. La respiration au carré, l'hygiène des esprits supérieurs.
+
+Il posa son regard sur la plaque d'obsidienne incrustée dans son bureau. Les caractères du [[haut-litteral|Haut-Littéral]] y brillaient d'une lueur blanche, froide, dénuée d'harmoniques subjectives.
+
+— <em>Ajustement Trente-Quatre,</em> dicta-t-il d'une voix plate, ciblant le point exact entre les sourcils de son propre reflet pour ne pas dévier sa trajectoire oculaire. <em>Secteur : Frange de Plomb. Objet : Système Thulé-V. Statut : [[de-commissionnement-semantique|Dé-commissionnement Sémantique]] validé.</em>
+
+Son index descendit vers le glyphe d'exécution. Au moment où la pulpe de son doigt toucha la pierre froide, une secousse imperceptible lui traversa le métacarpe. Un tressautement d’un quart de millimètre. Une monstruosité biologique. Kaelen sentit les muscles de sa mâchoire se raidir instantanément. Un [[stastiens|Stastien]] de la soixante-onzième génération ne tremblait pas. L'erreur syntaxique était une contagion.
+
+Sur l’hologramme tactique, la sphère verte de Thulé-V s’éteignit, remplacée par une lacune noire. Dix millions d’âmes venaient d’être privées de leur droit d'existence matérielle. Kaelen ne ressentit rien. C’était de la pure comptabilité. Le [[synode-de-la-constance|Synode de la Constance]] exigeait la récupération de cette [[masse-ontologique|Masse Ontologique]] pour stabiliser les anneaux intérieurs d'[[ouroboros-prime|Ouroboros-Prime]].
+
+Il appela les registres de flux pour sceller le dossier, mais ses yeux se plissèrent. Quelque chose clochait dans l'équation. L'énergie siphonnée sur la Frange ne remontait pas vers la capitale. Les lignes de force sémantiques convergeaient en un faisceau ultra-dense, projeté à travers le noir vers les [[abysses-lineaires|Abysses Linéaires]].
+
+— Une arme, murmura-t-il.
+
+Il se figea, horrifié par sa propre défaillance linguistique. Il avait utilisé un terme abstrait, lourd de résonances émotionnelles. Il aurait dû formuler : <em>Vecteur de focalisation à usage destructif</em>. Le picotement à la base de son crâne s'intensifia, charriant un souvenir interdit : un poème confisqué à un contrebandier trois semaines plus tôt, qui parlait de « l'eau qui danse ». Une impossibilité physique. Une hérésie.
+
+La porte hexagone de son bureau glissa sans un bruit. Deux silhouettes massives, drapées dans des linceuls de maille lourde, prirent position. Leurs visages étaient occultés par les visières de bronze du [[consortium-des-censeurs|Consortium des Censeurs du Verbe]].
+
+— Ajusteur Kaelen-Hexa-Ur-71-Constans, dit le premier d'une voix filtrée, dénuée de timbre. Votre matrice attentionnelle présente une déviation de trois centièmes. Vous avez interrogé les flux de réallocation du secteur Thulé hors protocole.
+
+Kaelen garda ses paumes à plat sur l'obsidienne, sentant l'encre sèche et le carbone. S'il montrait un signe de fluctuation thermique, leur Lexique le définirait comme suspect.
+— La vérification comptable relève de ma compétence, affirma-t-il dans un registre aride. La somme des variables est asymétrique.
+
+— Le Synode n'exige pas de la symétrie, Ajusteur. Il exige de l'obéissance. Votre présence est requise à la Tour des Projections. Une cible mouvante traverse le Flou dans les Abysses. Vous allez lisser le sillage pour les [[torpille-d-effacement|Torpilles d'Effacement]].
+
+Kaelen s'inclina. En se levant, ses doigts frôlèrent la plaque de donnée contenant les coordonnées mères de Thulé-V. Par un mouvement réflexe qu'aucune logique n'aurait pu justifier, il la glissa dans la doublure de sa tunique. Le grain de sable était dans l'engrenage.`
+            },
+            {
+                num: "Chapitre 3",
+                title: "Le Chant de la Mouvance",
+                pov: "Celle-Qui-Chante",
+                location: "Le Lexique Déviant (Abysses Linéaires)",
+                content: `Le vide n’était pas une absence de matière, c’était juste une phrase mal foutue.
+
+[[celle-qui-chante-la-faille|Celle-Qui-Chante-La-Faille]] balança ses pieds nus au-dessus du puits de navigation, ignorant le froid mordant de la grille métallique. Ses ports neuraux lombaires pulsaient d'une chaleur sourde, connectés aux veines de fibre de verre du [[vaisseau-lexique|Vaisseau-Lexique]]. Dans sa tête, le chœur du navire murmurait une mélodie instable, changeant de tonalité à chaque caprice du Flou extérieur.
+
+— <em>La coque est une écaille de givre sur l'océan de nuit,</em> chanta-t-elle, sa voix produisant deux harmoniques simultanées qui firent vibrer les cloisons organiques du cockpit. <em>L'océan nous porte, la friction glisse, nous sommes l'ombre d'un poisson sous la glace.</em>
+
+Le métal autour d'elle perdit sa rigidité stastienne. Les cloisons devinrent souples comme du cuir tanné, se déformant pour épouser la pression conceptuelle des [[abysses-lineaires|Abysses Linéaires]]. Si elle avait piloté selon les règles du Synode — "cette paroi est un blindage de titane" —, la rigidité du dogme aurait éclaté sous la poussée de la géométrie non-euclidienne de ce secteur. Pour survivre ici, il fallait savoir mentir à l'espace.
+
+Ses yeux passèrent du vert au bleu pâle alors qu'une alarme douce vibrait dans son tympan gauche. Un sillage. Faible, erratique. Une capsule de fuite.
+
+— <em>Le seuil se tord, l'invité a un nom, le nom a une masse,</em> récita-t-elle en modifiant la syntaxe de la coque tribord via la [[langue-polymorphe|Langue Polymorphe]]. 
+
+Un choc visqueux ébranla le navire. Les cloisons gémirent. Elle dut serrer les dents, essuyant d'un revers de main le sang chaud qui commençait à couler de sa narine gauche, tachant sa joue comme une peinture de guerre des [[nomades-du-sillage|Nomades du Sillage]]. Elle maintint le sas ouvert par la seule force de sa concentration poétique jusqu'à ce que le verrou s'enclenche.
+
+La trappe s'ouvrit dans un soupir de gaz sémantique. Un homme s'effondra sur le pont en caoutchouc bio-mécanique. Le [[aris-fugace|Dr. Aris-Fugace]]. Il tenait contre lui un caisson oblong en plomb sémantique, dont les suspenseurs anti-grav hoquetaient comme des poumons malades.
+
+Dès que l'objet passa le seuil, le vaisseau entier subit un vertige ontologique. Le "bas" cessa d'être sous les pieds de la Navigatrice ; il fut brutalement redéfini par la présence du caisson. Celle-Qui-Chante manqua de tomber de son siège, le cœur au bord des lèvres. L'objet irradiait une réalité si lourde, si dense, qu'elle écrasait les métaphores du navire.
+
+— Qu'est-ce que c'est que ce caillou, Aris ? cracha-t-elle dans l'intercom, ses mains caressant nerveusement la cloison pour calmer les tremblements de la structure. Il est en train de calcifier mes membrures !
+
+L'archéologue leva des yeux brûlés par la veille. Ses mains tremblaient, marquées par le sevrage de certitude propre aux parias.
+— C'est le début de l'[[ere-perdue|Ère Perdue]], Navigatrice, dit-il d'une voix rauque. Coupez vos capteurs. Le Synode a brûlé une province entière pour alimenter ses chiens. Ils sont derrière moi.
+
+Sur l'écran neural, la nuit des Abysses commença à saigner d'une lumière noire. Trois cubes parfaits, immenses et froids, venaient de faire irruption à l'arrière du quadrant. Les croiseurs de la [[guilde-des-vecteurs|Guilde des Vecteurs]] ? Non, c'était le pur absolu des Inquisiteurs de la Constance. 
+Celle-Qui-Chante vida ses poumons d'un coup.
+— <em>Nous sommes l'aiguille perdue dans la paille du ciel,</em> hurla-t-elle, plongeant le navire au cœur des courants profonds du chaos.`
+            },
+            {
+                num: "Chapitre 4",
+                title: "La Syllabe de Verre",
+                pov: "Aris",
+                location: "Soute du Lexique Déviant",
+                content: `L'air de la soute puait l'ozone et l'angoisse froide, un arôme que les initiés de la [[logiciens-du-flou|Confrérie Fluctueuse]] connaissaient bien. Agenouillé, [[aris-fugace|Aris]] gardait la tête inclinée sur la droite. Il ne jaugeait pas le caisson par sa couleur, mais par l'espace absolu qu'il volait au néant. Sa prothèse gélifiée s'aplatit pour former un levier. Le plomb céda. La stèle noire apparut, vestige de l'[[ere-perdue|Ère Perdue]]. Il posa ses doigts tremblants dessus. Elle existait, indifférente au besoin d'ancrage. C'était un fragment du [[verbe-absolu|Verbe Absolu]]. 
+
+Soudain, la gravité disparut. Le [[vaisseau-lexique|Vaisseau-Lexique]] hurla. Les cloisons se calcifièrent en une symétrie parfaite. La [[stase-minerale|Stase Minérale]]. Les [[consortium-des-censeurs|Censeurs]] venaient de tirer une [[torpille-d-effacement|Torpille d'Effacement]]. Si l'épave figeait, les [[cryptologues-du-premier-sillage|Cryptologues]] perdraient tout. 
+
+Aris ouvrit la bouche et prononça le glyphe. Ce ne fut pas un son, mais un séisme ontologique. L'arme ennemie éclata en plein [[fluide-axiomatique|Flou]]. Aris cracha de la poussière grise, sa gorge mutée en verre brisé. Il était muet. L'onde de choc s'éloigna dans les abysses.`
+            },
+            {
+                num: "Chapitre 5",
+                title: "La Racine du Flot",
+                pov: "Vrenn",
+                location: "Thulé-V (En dissolution)",
+                content: `Le haut n'existait plus. L'espace n'était qu'une nacre malade. Sur un disque de terre rouge d'un mètre carré, [[vrenn-extracteur-sud|Vrenn]] tambourinait frénétiquement le bloc moteur de sa [[houe-sonique|houe sonique]]. Autour, le [[fluide-axiomatique|Fluide Axiomatique]] dévorait les restes de [[thule-v|Thulé-V]]. À côté d'elle, [[brak-filtre-deux|Brak]] devenait diaphane. Le jeune Takk, les yeux clos, marmonnait les mots dictés par le [[lexique-recteur|Lexique Recteur]], mais son corps s'évapora soudain en rubans bleutés. 
+
+Vrenn se mordit la joue, cherchant le goût du sang pour s'ancrer. Soudain, un frisson absolu la percuta. L'écho d'une voix archaïque. Cette onde de choc déchira la brume et déposa une image impossible dans son esprit de paysanne. Une image issue des vieux contes des [[glyphes-de-la-frange|Glyphes]]. 
+
+"Le bois flotte !" hurla-t-elle. Par une fulgurante [[heresie-creatrice|Hérésie Créatrice]], elle força la glaise à se faire rondin. Un radeau sur la mer de nuit. La matière obéit. Mais le chaos riposta, menaçant d'écraser ses tempes. 
+
+Puis, un Léviathan de cuir et de métal fendit l'obscurité. Vrenn ne réfléchit pas : elle visualisa une chaîne et projeta l'amarre vers la coque fuyante. Le radeau fut violemment happé vers les profondeurs des [[abysses-lineaires|Abysses Linéaires]].`
+            },
+            {
+                num: "Chapitre 6",
+                title: "L'Angle Brisé",
+                pov: "Kaelen",
+                location: "Tour des Projections, Ouroboros-Prime",
+                content: `La symétrie chirurgicale de la Tour apaisait les esprits faibles. [[kaelen-hexa-ur-71|Kaelen]] lissa les plis inexistants de sa manche. Il respirait en carrés parfaits. Devant lui, l'hologramme des [[abysses-lineaires|Abysses Linéaires]] clignotait. La torpille avait échoué. 
+
+Le [[grand-pretre-de-la-tactique|Grand Prêtre de la Tactique]], monstre d'obsidienne, émit un ordre glacé : "Frappe Résonnante. Vecteur alimenté par la [[masse-ontologique|Masse Ontologique]] de l'extraction." 
+
+Kaelen vit les données. Les millions d'âmes du récent [[de-commissionnement-semantique|Dé-commissionnement Sémantique]] servaient de poudre à canon. La mâchoire du Censeur tressaillit. Si le vaisseau ennemi avait repoussé l'arme orthodoxe, c'était qu'il détenait une constante supérieure. Or, selon la logique des [[stastiens|Stastiens]], abattre une vérité prouvée pour maintenir un dogme obsolète était le vrai crime. Le [[synode-de-la-constance|Synode]] était dans l'erreur. 
+
+L'interface demanda la séquence de tir. Les lois du [[lexique-recteur|Lexique Recteur]] exigeaient la certitude. Kaelen expira et tapa : <em>Trajectoire incertaine, cible floue, vide relatif.</em> 
+
+La machine sacrée d'[[ouroboros-prime|Ouroboros-Prime]] hurla face à ces adjectifs. Le système implosa, renvoyant l'énergie vers la console qui déchira le visage de Kaelen en éclats de lumière solide. Refusant l'ancrage, il imagina le sol comme une eau docile, et s'y laissa couler, plongeant dans les canalisations des déchets conceptuels vers le néant.`
+            },
+            {
+                num: "Chapitre 7",
+                title: "La Plaie de l'Espace",
+                pov: "Celle-Qui-Chante",
+                location: "Le Lexique Déviant",
+                content: `Le navire pleurait des larmes de sémantique brisée. Suspendue dans son treillis, [[celle-qui-chante-la-faille|Celle-Qui-Chante-La-Faille]] caressait les cloisons pour apaiser leur terreur. L'éclat du [[verbe-absolu|Verbe Absolu]] avait guéri l'attaque ennemie mais atrocement brûlé la nature molle du [[vaisseau-lexique|Vaisseau-Lexique]]. 
+
+Ses pieds nus glissaient sur un pont gelé. Elle chantait la [[langue-polymorphe|Langue Polymorphe]] avec deux harmoniques simultanées, le sang dégoulinant de ses narines sur ses peintures de guerre. Sur les capteurs, les croiseurs du [[synode-de-la-constance|Synode]] fondaient sur eux comme des blocs de granit. 
+
+"Ils clouent ma syntaxe, [[aris-fugace|Aris]]", grésilla-t-elle. Devant eux béait l'anomalie laissée par la mort de [[thule-v|Thulé-V]] : un trou noir conceptuel aspirant le [[fluide-axiomatique|Fluide Axiomatique]]. Les mathématiques d'Ouroboros n'oseraient pas y entrer. Fuyant les inquisiteurs, elle coupa toutes les amarres narratives et laissa le navire dériver dans les toilettes de Dieu, s'enfonçant dans les [[abysses-lineaires|Abysses Linéaires]].`
+            },
+            {
+                num: "Chapitre 8",
+                title: "Le Maelström et la Mute",
+                pov: "Aris",
+                location: "Soute du Lexique Déviant",
+                content: `Agenouillé dans la pénombre, [[aris-fugace|Aris]] toussait une poussière grise. L'énonciation du fragment de l'[[ere-perdue|Ère Perdue]] avait muté son larynx en verre poli. Privé de la parole, il regardait avec désespoir la sphère de perfection qu'irradiait la stèle. 
+
+Autour de cette bulle d'un mètre, la soute du [[vaisseau-lexique|Vaisseau-Lexique]] subissait des torsions cauchemardesques. La chute dans le vide de [[thule-v|Thulé-V]] arrachait le blindage mnésique. Aris plissa les yeux, jaugeant le volume de survie. La stèle du [[verbe-absolu|Verbe Absolu]] perdait du terrain, incapable de combler seule un effacement planétaire. 
+
+Il voulut hurler le second glyphe, mais seul le silence affamé des [[logiciens-du-flou|Logiciens]] lui répondit. Soudain, un bruit de succion charnue résonna. Sur la paroi extérieure supposée faire face au vide, une cloque se forma. Le métal mou s'étirait vers l'intérieur. À travers la membrane diaphane, il devina les contours d'ombres humaines, agrippées comme des bernacles à la coque.`
+            },
+            {
+                num: "Chapitre 9",
+                title: "La Percée",
+                pov: "Vrenn",
+                location: "Coque extérieure du Lexique Déviant",
+                content: `Accrochée au filin métaphysique, [[vrenn-extracteur-sud|Vrenn]] tambourinait la membrane visqueuse du navire avec le manche de sa [[houe-sonique|houe sonique]]. Le froid du [[fluide-axiomatique|Fluide Axiomatique]] avait le son d'une tôle qu'on déchire. Derrière elle, la vieille Mura et [[brak-filtre-deux|Brak]] s'agrippaient au radeau inventé qui tombait en morceaux. 
+
+"On rentre !" cria Vrenn. Mais la volonté fuyante du navire repoussait leur ancrage fruste. 
+
+Les yeux de Mura, devenue presque transparente, se durcirent en billes de fer. D'un geste silencieux, typique des vieux [[glyphes-de-la-frange|Glyphes]], elle lâcha le câble. Se jetant contre la coque, elle concentra toute sa [[charge-attentionnelle|Charge Attentionnelle]] restante sur une idée unique : la déchirure. Son corps implosa en une bombe de sémantique pure. 
+
+Le blindage s'ouvrit. Vrenn attrapa Brak et plongea dans l'abîme cuivré de la soute. Elle roula sur un sol métallique, la respiration en feu. Face à elle, près d'un monolithe noir, se tenait un homme manchot dont les lèvres bougeaient sans bruit.`
+            },
+            {
+                num: "Chapitre 10",
+                title: "L'Aiguille et le Lac",
+                pov: "Kaelen",
+                location: "En chute libre dans la Dérive",
+                content: `Tomber n'est pas un concept géométrique, c'est l'absence de décret. [[kaelen-hexa-ur-71|Kaelen]] glissait à travers les veines d'évacuation ontologique d'Ouroboros, entouré de rêves raturés et de brouillons du [[lexique-recteur|Lexique Recteur]]. 
+
+Il déboucha brusquement dans le vide spatial, non pas dans le froid, mais dans la chaleur écœurante du [[fluide-axiomatique|Fluide Axiomatique]]. Le maelström de l'ancienne planète tournait autour de lui. Ses jambes s'évaporaient, devenaient brume grise. Il lissa le vide de ses mains nues. Ses équations de [[stastiens|Stastien]] étaient inutiles ici. 
+
+Au centre de la tempête, il aperçut la faible lueur du [[vaisseau-lexique|Vaisseau-Lexique]]. Renonçant à la Constance, la mâchoire tremblante, il accepta l'émotion nue. <em>Je suis l'aiguille attirée par l'aimant,</em> pensa-t-il, commettant le sacrilège de la poésie. Porté par cette métaphore d'une densité insoupçonnée, il fut happé vers l'épave et traversa la plaie de la coque dans un éclair blanc.`
+            },
+            {
+                num: "Chapitre 11",
+                title: "La Stase Finale",
+                pov: "Celle-Qui-Chante",
+                location: "Le Lexique Déviant (Cockpit et Soute)",
+                content: `Sur le pont, [[celle-qui-chante-la-faille|Celle-Qui-Chante-La-Faille]] ferma les yeux, baignée par les alarmes. Sa soute abritait l'impossible : le savant fou [[aris-fugace|Aris]], deux paysannes de la Frange couvertes de poussière ocre, et un Ajusteur de l'élite stastienne dont la peau luisait d'incertitude. L'Archipel entier réuni dans un ventre d'acier malade. 
+
+Un sifflement atroce balaya ses sens. "Ils viennent de larguer un [[noyau-resonnant|Noyau Résonnant]] Militaire," chuchota-t-elle dans l'intercom. "Directement dans l'anomalie." 
+
+L'arme ultime du [[synode-de-la-constance|Synode]]. Ce n'était pas un tir, c'était l'imposition brutale d'une densité infinie. Le navire se figea instantanément. Dans la soute, la [[stase-minerale|Stase Minérale]] foudroya les poumons. La stèle du [[verbe-absolu|Verbe Absolu]] tenta de riposter, mais son fragment était trop faible face à un Noyau complet. La croûte grise remonta le long des bottes de Vrenn. 
+
+"C'est la fin de la syntaxe," murmura Kaelen, incapable de bouger les genoux.`
+            },
+            {
+                num: "Chapitre 12",
+                title: "L'Hérésie Créatrice",
+                pov: "Vrenn",
+                location: "Soute du Lexique Déviant",
+                content: `La pierre froide rongeait ses mollets. [[brak-filtre-deux|Brak]] était déjà changée en marbre. [[vrenn-extracteur-sud|Vrenn]] regarda [[kaelen-hexa-ur-71|Kaelen]]. 
+
+"Donne-moi ta variation, Censeur," cracha-t-elle, le sang battant à ses tempes. "Donne-moi le mot le plus flou de ta langue morte." 
+
+Kaelen, dont la génétique singulière ralentissait la pétrification, plongea dans le regard furieux de cette ouvrière qu'il avait jadis effacée. Il lutta contre le gel de sa propre mâchoire et murmura le tabou ultime du [[haut-litteral|Haut-Littéral]] : "<em>Peut-être.</em>" 
+
+Dans le poste de pilotage, [[celle-qui-chante-la-faille|Celle-Qui-Chante]] l'entendit via l'intercom. Un frisson la parcourut : ce mot barbare était la racine sémantique exacte de la [[langue-polymorphe|Langue Polymorphe]]. Le lien originel. 
+
+Vrenn ne réfléchit pas. Empoignant le moteur de sa [[houe-sonique|houe sonique]], elle l'arma et se jeta sur le bloc de l'[[ere-perdue|Ère Perdue]]. <em>Le roc est du verre ! Le verre se brise !</em> 
+
+L'[[heresie-creatrice|Hérésie Créatrice]] s'amplifia de la vibration mécanique et du doute absolu de Kaelen. La stèle explosa en millions d'échardes. L'onde balaya la stase. Le vaisseau recracha le Noyau Militaire, le forçant à digérer sa propre faille avant d'imploser. Propulsé par la déflagration du dogme, le navire reprit sa course libre vers l'inconnu, laissant Aris pleurer de joie devant ses certitudes réduites en cendres.`
+            },
+            {
+                num: "Épilogue",
+                title: "Le Murmure du Flou",
+                pov: "Omniscient",
+                location: "Quelque part dans la Dérive",
+                content: `Le navire dérivait doucement, ses membranes réparées palpitant dans une lumière nouvelle. Dans le silence, la Navigatrice écouta les courants. Le [[fluide-axiomatique|Fluide Axiomatique]] n'était plus un océan muet. Pour la première fois depuis des millénaires, libéré de l'oppression mathématique, le brouillard semblait articuler un son. Était-ce le chant lointain des [[esprits-derivants|Esprits Dérivants]], ou l'univers lui-même qui tentait d'apprendre notre langue ?`
+            }
+        ];
+
+        const CODEX = {
+            "ouroboros-prime": {
+                titre: "Ouroboros-Prime",
+                categorie: "lieux",
+                accroche: "Le centre géométrique de l'Archipel, là où aucune ombre ne bouge sans décret.",
+                liens: ["synode-de-la-constance", "stastiens", "noyau-resonnant"],
+                content: `Ouroboros-Prime n’est pas une planète géologique, mais une aberration de l’architecture sémantique. Constituée de soixante-douze anneaux concentriques de Pierre Sémantique, elle abrite le trône du pouvoir dogmatique de l'Archipel. Selon les <em>Annales de la Constance</em>, cette mégastructure a été érigée au lendemain de la Catastrophe des Fluides par les premiers ingénieurs du dogme, autour du Noyau Résonnant originel. Son ciel, d'un noir mat et sans étoiles, est un plafond artificiel conçu pour exclure toute variable externe susceptible de distraire ses milliards d'habitants.<br><br>L’ancrage y est maintenu par un réseau d'esclaves-lecteurs qui récitent sans relâche les généalogies officielles. Le niveau de rigidité ontologique y est tel qu'une tasse brisée sur le sol ne se disperse pas : ses éclats conservent leur position mathématique jusqu'à ce qu'un décret de balayage soit émis.<br><br><em>Note dissidente :</em> Des expéditions officieuses menées par des Cryptologues dans le secteur de l'Anneau 71 font état de "Poches de Flou", des zones confinées dans les bas-fonds où l'inattention a rongé la Pierre. Il s'y murmure que les fondations mêmes de la planète ne reposent pas sur une constante mathématique, mais sur un paradoxe enfoui, gardé par des créatures dont la chair a fusionné avec les équations de stase.`
+            },
+            "frange-de-plomb": {
+                titre: "La Frange de Plomb",
+                categorie: "lieux",
+                accroche: "Un anneau de mondes exsangues où le réel est martelé à la sueur du front.",
+                liens: ["glyphes-de-la-frange", "thule-v", "charge-attentionnelle"],
+                content: `S'étendant sur la périphérie immédiate du Noyau Central, la Frange de Plomb est le poumon industriel de la civilisation stastienne. Elle regroupe près de quatre-vingts mondes dédiés à l'extraction de ferro-silicate, à l'agriculture lourde et à la forge de métaux d'ancrage. Ces planètes ne bénéficient que d'une couverture ontologique minimale. Par conséquent, la stabilité des sols et des usines repose entièrement sur la Charge Attentionnelle des travailleurs locaux, soumis à des cadences de récitation exténuantes.<br><br>Les rapports sanitaires du Synode dépeignent une population résiliente mais sujette à la "Transparence", une affection où les membres des travailleurs perdent leur opacité avant de se dissoudre si le rythme n'est pas maintenu.<br><br>La vérité géopolitique, farouchement censurée, est que l'orbite de la Frange n'est pas stable. Au cours des deux derniers siècles, le Synode a secrètement rapproché ces mondes de la bordure du Fluide Axiomatique, sacrifiant des systèmes entiers pour préserver Ouroboros. Y a-t-il une limite à cette expansion négative, ou la Frange finira-t-elle par être totalement absorbée par la Dérive ?`
+            },
+            "abysses-lineaires": {
+                titre: "Les Abysses Linéaires",
+                categorie: "lieux",
+                accroche: "Un couloir où la distance est une opinion et le temps un écho.",
+                liens: ["guilde-des-vecteurs", "schisme-liturgique", "essaim-de-kael"],
+                content: `Vestige cataclysmique du Schisme Liturgique, les Abysses Linéaires forment une balafre de trois parsecs au cœur de l'espace navigable. Lors de ce conflit, des armes conceptuelles d'une puissance inouïe ont déchiré le tissu métaphysique du secteur, créant un environnement où la géométrie euclidienne a cessé de faire loi.<br><br>Pour les pilotes orthodoxes, c'est un gouffre mortel. Mais pour les vaisseaux de la Guilde des Vecteurs, c'est une autoroute. La métrique de l'espace y réagit directement à l'état émotionnel et linguistique de l'observateur. Un équipage rongé par la peur peut voir le couloir s'étirer à l'infini, condamné à mourir de vieillesse en tentant de traverser quelques millions de kilomètres apparents.<br><br>D'après les relevés interdits des Nomades, les Abysses abritent également des "Ruines Récursives" — des vaisseaux amiraux du Schisme piégés dans des boucles temporelles locales, revivant éternellement leur destruction. La Guilde prélève parfois des matériaux sur ces épaves fantômes, un pillage risqué qui pourrait un jour réveiller l'anomalie qui a causé la déchirure initiale.`
+            },
+            "thule-v": {
+                titre: "Thulé-V",
+                categorie: "lieux",
+                accroche: "Le grenier de fer, effacé des mémoires pour alimenter la guerre.",
+                liens: ["frange-de-plomb", "vrenn-extracteur-sud", "de-commissionnement-semantique"],
+                content: `Anciennement classifiée comme une colonie de rang 3 dans la Frange de Plomb, Thulé-V était réputée pour ses vastes plaines ocre où poussait le blé-ferrique. Ses dix millions d'ouvriers de la caste des Glyphes maintenaient la cohésion de la planète par des rythmes de récolte obsessionnels, exportant des millions de tonnes de nutriments à haute densité sémantique vers la capitale.<br><br>La documentation officielle du Synode affirme que Thulé-V a été "évacuée suite à une fatigue irréversible de la croûte conceptuelle". C'est un mensonge d'État absolu. La planète a été victime d'un Dé-commissionnement Sémantique brutal.<br><br>Le plus troublant reste la nature géologique originelle de Thulé. Des sources apocryphes suggèrent qu'avant sa colonisation, ce monde orbitait autour d'un pulsar produisant une fréquence naturelle capable de stabiliser la matière. Le Synode l'aurait effacée non seulement pour récupérer de l'énergie, mais aussi pour détruire une preuve physique que le monde peut s'ancrer sans l'aide du Lexique Recteur.`
+            },
+            "essaim-de-kael": {
+                titre: "L'Essaim Flottant de Kael",
+                categorie: "lieux",
+                accroche: "Une cité-radeau naviguant sur les marges du chaos.",
+                liens: ["celle-qui-chante-la-faille", "nomades-du-sillage", "langue-polymorphe"],
+                content: `Refuge des parias, des hérésiarques et des exilés, l'Essaim Flottant n'est pas répertorié sur les cartes stastiennes. C'est un conglomérat anarchique de vaisseaux-mères, d'astéroïdes évidés et de stations d'ancrage obsolètes, liés entre eux par des câbles de tension ontologique et des ponts d'énergie précaire. Il dérive à la frontière immédiate du Fluide Axiomatique, se déplaçant constamment pour éviter les radars du Consortium.<br><br>La culture y est fondée sur la fluidité. La gravité au sein de l'Essaim varie d'un pont à l'autre selon l'humeur des chœurs locaux qui l'entretiennent.<br><br>Mais l'Essaim est en sursis. Une rumeur tenace au sein de ses marchés noirs prétend que la coque centrale, celle autour de laquelle tout le reste s'est aggloméré, est en réalité le crâne calcifié d'un gigantesque Esprit Dérivant, tué lors du Grand Relâchement. Si cette entité venait à reprendre conscience, l'Essaim entier serait vaporisé par son réveil sémantique.`
+            },
+            "recif-des-paradoxes": {
+                titre: "Le Récif des Paradoxes",
+                categorie: "lieux",
+                accroche: "Là où deux vérités absolues s'affrontent, la matière devient folle.",
+                liens: ["logiciens-du-flou", "noyau-resonnant", "fluide-axiomatique"],
+                content: `Situé dans le quadrant obscur de l'Archipel, le Récif est le résultat catastrophique de l'installation de deux Noyaux Résonnants concurrents, programmés avec des Lexiques contradictoires lors des premières guerres d'ancrage. Au lieu de s'annuler, les deux champs de vérité se sont chevauchés, créant une zone de "stase fractale".<br><br>L'eau y brûle la peau sous forme de glace, et la lumière y possède une masse capable de broyer un homme. Les cristaux qui se forment dans le Récif, appelés "Échardes de Doute", sont hautement prisés par les Logiciens du Flou car ils permettent de courber ponctuellement les lois de la physique.<br><br>L'accès au Récif est puni de pétrification. Pourtant, la question demeure : pourquoi le Synode de la Constance, avec toute sa puissance destructrice, n'a-t-il jamais osé effacer le Récif ? Certains érudits murmurent que les deux Noyaux sont devenus sentients et se nourrissent de leur conflit, créant un équilibre si parfait que le défaire provoquerait une réaction en chaîne annihilant la moitié de la galaxie.`
+            },
+            "synode-de-la-constance": {
+                titre: "Le Synode de la Constance",
+                categorie: "factions",
+                accroche: "Les architectes de l'immobilité, sauveurs tyranniques de l'humanité.",
+                liens: ["ouroboros-prime", "grand-pretre-de-la-tactique", "charge-attentionnelle"],
+                content: `Autorité suprême de l'Archipel, le Synode prêche une vérité incontestable : la survie passe par la stase. Nés des cendres de la Catastrophe des Fluides, ils ont monopolisé les Noyaux Résonnants et imposé un cadre métaphysique strict à travers le Lexique Recteur. Leur puissance repose sur la collecte centralisée de la Charge Attentionnelle, qu'ils taxent impitoyablement auprès des classes inférieures.<br><br>Le Synode est dirigé par les "Neuf Voix de la Stase", un conseil de doyens tellement intégrés au système qu'ils sont incapables de mouvement physique, communiquant uniquement par relais sémantiques. Ils perçoivent le changement, l'évolution et l'art non codifié comme des actes de terrorisme ontologique.<br><br>Cependant, une faction secrète au sein même du Synode, les <em>Gardiens de la Faille</em>, pense que la Stase Minérale est un échec à long terme. Ils soupçonnent que les Neuf Voix ne dirigent plus rien, mais sont devenues les simples réceptacles algorithmiques des Noyaux, exécutant une équation glacée qui conduira inéluctablement à l'extinction silencieuse de la race humaine.`
+            },
+            "guilde-des-vecteurs": {
+                titre: "La Guilde des Vecteurs Sémantiques",
+                categorie: "factions",
+                accroche: "Les seuls à oser plier l'univers pour faire des affaires.",
+                liens: ["vaisseau-lexique", "abysses-lineaires", "consortium-des-censeurs"],
+                content: `Monopole commercial et logistique, la Guilde contrôle la navigation inter-systèmes à travers le Fluide Axiomatique. Mêlant ingénierie de pointe et linguistique hérétique, ils construisent et pilotent les Vaisseaux-Lexiques, capables de se définir eux-mêmes pour traverser le chaos.<br><br>Ils jouissent d'une immunité diplomatique précaire. Le Synode les méprise pour leur utilisation de la Langue Polymorphe, mais dépend d'eux pour le ravitaillement en minerais de la Frange. La Guilde est structurée autour d'un pragmatisme brutal : un équipage qui ne peut pas payer ses dettes ontologiques est abandonné dans le Flou.<br><br>Le mystère majeur de la Guilde réside dans le rituel de "l'Ascension Navigante". Les meilleurs pilotes, au sommet de leur art, disparaissent mystérieusement de leurs cockpits au beau milieu de transits sécurisés, ne laissant derrière eux que des combinaisons vides et une odeur de pétale brûlé. La Guilde prétend à des accidents, mais les équipages croient à une transcendance vers un état d'Esprit Dérivant.`
+            },
+            "logiciens-du-flou": {
+                titre: "Les Logiciens du Flou",
+                categorie: "factions",
+                accroche: "Des savants fous convaincus que l'humanité doit devenir liquide.",
+                liens: ["recif-des-paradoxes", "cryptologues-du-premier-sillage", "de-commissionnement-semantique"],
+                content: `Aussi connus sous le nom de Confrérie Fluctueuse, les Logiciens du Flou sont une secte d'ingénieurs et de philosophes radicalisés. Là où le Synode voit dans la Dérive un néant mortel, les Logiciens y voient l'argile de la prochaine étape de l'évolution humaine. Ils mènent des expériences illégales de mutation sémantique sur leurs propres corps, cherchant à respirer, vivre et penser sans le support des lois physiques fixes.<br><br>Leurs laboratoires clandestins sont dispersés dans des zones périphériques. Les résultats de leurs recherches sont terrifiants : membres qui existent à plusieurs endroits simultanément, pensées qui prennent une forme cristalline.<br><br>Le Synode exécute à vue quiconque porte le sigle des Logiciens (un cercle brisé). Mais l'inquisition stastienne cache un détail troublant : chaque année, des dizaines de Censeurs du Verbe haut placés désertent leurs postes, falsifiant leur propre mort pour rejoindre les rangs des Logiciens, attirés par la beauté toxique de l'incertitude.`
+            },
+            "consortium-des-censeurs": {
+                titre: "Le Consortium des Censeurs du Verbe",
+                categorie: "factions",
+                accroche: "Les chirurgiens de la langue, éliminant la métaphore à coup de scalpel.",
+                liens: ["kaelen-hexa-ur-71", "haut-litteral", "synode-de-la-constance"],
+                content: `Bras armé idéologique du Synode, le Consortium a pour mission de traquer, corriger ou éradiquer toute déviance linguistique. Sachant que la réalité est soutenue par les mots qui la décrivent, l'apparition de néologismes, d'argots ou de poésies non homologuées menace directement la cohésion atomique des mondes stables.<br><br>Les Censeurs subissent un entraînement neurologique intense qui supprime leur capacité à comprendre l'ironie et le sarcasme. Ils sont dotés de "Gantelets Rédacteurs", des armes de poing capables de dissoudre l'ancrage local d'un individu en saturant son esprit de contradictions grammaticales.<br><br>Toutefois, les archives secrètes du Consortium contiennent le "Dictionnaire des Ombres", un recueil recensant tous les concepts interdits. Seuls les Censeurs de Haut-Rang y ont accès, officiellement pour mieux reconnaître l'hérésie. Officieusement, l'exposition prolongée à ce lexique interdit engendre une corruption subtile, poussant certains des plus brillants Censeurs à douter de la pertinence de la Stase.`
+            },
+            "cryptologues-du-premier-sillage": {
+                titre: "Les Cryptologues du Premier Sillage",
+                categorie: "factions",
+                accroche: "Archéologues du danger, fouillant le passé pour un avenir objectif.",
+                liens: ["aris-fugace", "ere-perdue", "verbe-absolu"],
+                content: `Organisation semi-clandestine tolérée par le Synode pour son utilité et abhorrée pour son indépendance. Les Cryptologues fouillent les mondes effacés ou corrompus à la recherche d'artefacts de l'Ère I, époque légendaire d'avant le Grand Relâchement, où la matière n'avait pas besoin de conscience humaine pour exister.<br><br>Leur credo est que la physique actuelle (subjective et malléable) est une maladie, et que la relique ultime, le <em>Verbe Absolu</em>, agit comme un remède universel capable de restaurer la réalité objective. Leurs fouilles provoquent souvent des désastres ontologiques, libérant des ondes de choc conceptuelles.<br><br>Un schisme silencieux déchire aujourd'hui les Cryptologues. Une faction minoritaire a récemment mis au jour des stèles suggérant que le Grand Relâchement n'était pas un accident, mais un acte d'autodéfense cosmique contre la rigidité meurtrière de l'Ère I. Si cette théorie est vraie, réactiver les reliques ne sauvera pas le monde, mais l'enfermera dans une prison matérielle inéluctable.`
+            },
+            "vrenn-extracteur-sud": {
+                titre: "Vrenn-Extracteur-Sud",
+                categorie: "personnages",
+                accroche: "Une ouvrière qui battait la mesure pour ne pas voir le vide sous ses pieds.",
+                liens: ["glyphes-de-la-frange", "houe-sonique", "thule-v"],
+                content: `Matricule standard de la caste agraire de Thulé-V, Vrenn symbolise la résilience brutale de la Frange de Plomb. Dépourvue d'éducation formelle, elle possède néanmoins une intuition viscérale des mécaniques ontologiques. Là où les prêtres du Synode utilisent des mathématiques pures, Vrenn maintient la réalité par la friction charnelle : le rythme, la sueur, et la douleur.<br><br>Son dossier de citoyenneté, désormais marqué d'un sceau d'effacement, la décrivait comme "efficace mais sujette à l'hyper-attachement biologique", notant son refus de confier sa jeune sœur, Brak-Filtre-Deux, aux crèches de recyclage après la dissolution de leurs parents.<br><br>L'ironie métaphysique entourant Vrenn est qu'elle est l'une des rares êtres humains capables de forger spontanément une "Hérésie Créatrice" (la métaphore du Radeau). Les érudits de l'interdit estiment que cette capacité n'est pas une anomalie aléatoire, mais le résultat d'une sélection naturelle sur les mondes de la Frange, où la pression écrasante du Flou a forcé le cerveau humain à évoluer de nouvelles voies neuronales de survie sans dogme.`
+            },
+            "kaelen-hexa-ur-71": {
+                titre: "Kaelen-Hexa-Ur-71-Constans",
+                categorie: "personnages",
+                accroche: "Le rouage parfait dont les dents ont fini par grincer.",
+                liens: ["stastiens", "consortium-des-censeurs", "torpille-d-effacement"],
+                content: `Issu d'une des lignées stastiennes les plus prestigieuses d'Ouroboros-Prime, Kaelen a été élevé dans le culte de l'immobilité. Censeur et Ajusteur de rang 4, son esprit a été formaté pour ne concevoir l'univers que sous forme de variables certifiées. Son taux d'empathie, réduit chimiquement à 0.03% durant sa puberté, en faisait le candidat idéal pour valider les Dé-commissionnements Sémantiques de grande échelle.<br><br>Cependant, les journaux personnels retrouvés dans son bureau hexagone (et immédiatement expurgés) révèlent une fascination morbide pour les anomalies statistiques et la poésie clandestine.<br><br>La génétique de Kaelen porte un lourd secret : son aïeul, le concepteur des Torpilles d'Effacement, a injecté dans son propre code génétique sémantique une boucle de résistance au dogme absolu. Ce mécanisme de sécurité, conçu pour empêcher la lignée d'être détruite par ses propres armes, explique pourquoi Kaelen a survécu à sa chute dans les systèmes d'évacuation, là où n'importe quel autre Stastien aurait été vaporisé par la contradiction logique.`
+            },
+            "celle-qui-chante-la-faille": {
+                titre: "Celle-Qui-Chante-La-Faille",
+                categorie: "personnages",
+                accroche: "Une voix qui tresse des ponts au-dessus des abîmes de l'incohérence.",
+                liens: ["nomades-du-sillage", "essaim-de-kael", "vaisseau-lexique"],
+                content: `Navigatrice émérite liée par une dette de sang à la Guilde des Vecteurs, cette fille de l'Essaim Flottant est une virtuose de la Langue Polymorphe. Elle ne pilote pas le <em>Lexique Déviant</em> par l'intermédiaire de commandes physiques, mais par un couplage télépathique et syntaxique, décrivant en temps réel les lois physiques dont le vaisseau a besoin pour survivre.<br><br>Son véritable nom a été cédé en garantie lors du pari fatal qui a ruiné son clan, et le rachat de ce nom semble impossible au vu de ses honoraires actuels.<br><br>Une controverse tenace circule dans les bordels de la Guilde : Celle-Qui-Chante serait "perforée". Un syndrome rare touchant les pilotes trop exposés au Fluide, où le vide finit par regarder à l'intérieur de l'esprit de l'hôte. Certains croient qu'elle entend des instructions dictées non pas par ses instruments, mais par les Esprits Dérivants eux-mêmes, faisant de ses routes de navigation des prophéties plutôt que des cartes.`
+            },
+            "aris-fugace": {
+                titre: "Dr. Aris-Fugace",
+                categorie: "personnages",
+                accroche: "Celui qui a volé le mot de la fin pour détruire le mensonge du présent.",
+                liens: ["cryptologues-du-premier-sillage", "verbe-absolu", "esprits-derivants"],
+                content: `Archéologue de génie, terroriste idéologique, Aris-Fugace est la cible prioritaire du Consortium des Censeurs. Il fut jadis un éminent membre de l'Académie Centrale avant que la découverte d'une crypte pré-relâchement ne le précipite dans l'illégalité. Sa quête obsessionnelle du <em>Verbe Absolu</em> est motivée par la conviction que l'humanité vit dans un rêve fiévreux et toxique dont elle doit être réveillée, quel qu'en soit le prix.<br><br>Mutilé lors du vol de la stèle noire, il a remplacé son bras gauche par une excroissance de fluide gélifié psychoréactif, preuve glaçante de ses accointances passées avec les Logiciens du Flou.<br><br>Bien qu'il se pose en champion de la Vérité, les notes cryptées d'Aris montrent qu'il était conscient d'un fait terrifiant : l'activation complète du Verbe Absolu ne tuerait pas seulement le Synode, elle éradiquerait potentiellement la conscience humaine elle-même. Dans l'Ère I, l'esprit humain n'était qu'un accident biologique ; rétablir la physique objective impliquait d'accepter le risque que l'univers considère la pensée comme une anomalie à gommer.`
+            },
+            "grand-pretre-de-la-tactique": {
+                titre: "Le Grand Prêtre de la Tactique",
+                categorie: "personnages",
+                accroche: "Une équation de mort encastrée dans une armure de silence.",
+                liens: ["synode-de-la-constance", "torpille-d-effacement", "de-commissionnement-semantique"],
+                content: `Figure de proue de la Tour des Projections sur Ouroboros-Prime, le Grand Prêtre n'a plus d'identité charnelle propre. Son véritable corps s'est atrophié voilà des décennies à l'intérieur de son armure de stase, un sarcophage d'obsidienne qui maintient sa conscience active en l'imprégnant perpétuellement des algorithmes du Noyau Central.<br><br>Il ne communique que par le biais de glyphes incandescents, administrant les doctrines d'oblitération géométrique avec une précision dénuée de haine ou de doute. Pour lui, détruire une planète est équivalent à corriger une faute de frappe dans un grand registre cosmique.<br><br>Des murmures circulant parmi les jeunes Ajusteurs laissent entendre que le sarcophage du Prêtre ne contiendrait plus de corps depuis des années. Le Synode, terrifié à l'idée qu'un haut dignitaire puisse mourir de vieillesse (une notion d'évolution inacceptable), aurait secrètement interfacé l'armure directement avec un fragment du Noyau, faisant de lui la première intelligence artificielle involontaire de l'Archipel, cachée sous le masque d'un homme saint.`
+            },
+            "brak-filtre-deux": {
+                titre: "Brak-Filtre-Deux",
+                categorie: "personnages",
+                accroche: "La faiblesse incarnée, dont l'impuissance brisa l'échiquier des dieux.",
+                liens: ["vrenn-extracteur-sud", "thule-v", "heresie-creatrice"],
+                content: `Petite sœur de Vrenn-Extracteur-Sud, Brak est un symbole du tragique quotidien sur la Frange de Plomb. Son matricule ("Filtre-Deux") laisse supposer, selon les archives bio-génétiques du Synode, qu'elle est la deuxième itération d'une lignée ouvrière spécifiquement altérée pour filtrer les miasmes du Fluide Axiomatique lors de la respiration. Cette altération l'a rendue physiquement chétive et ontologiquement instable.<br><br>Incapable de tenir le rythme du Jargon Cadencé, Brak a toujours dépendu de l'ancrage projectif de sa sœur aînée. Elle vit dans la terreur permanente de la "Transparence" (la dissolution de ses propres membres).<br><br>Cependant, sa survie miraculeuse dans la soute du <em>Lexique Déviant</em> face à la Stase Minérale absolue révèle un aspect insoupçonné de sa nature. Ayant toujours vécu "à moitié effacée", Brak possède une plasticité que les Censeurs n'ont jamais pu modéliser. C'est sa faiblesse, sa capacité à accepter sa propre non-existence, qui lui permet de ne pas se calcifier instantanément, offrant à Vrenn la fraction de seconde nécessaire pour accomplir l'hérésie ultime.`
+            },
+            "ere-perdue": {
+                titre: "L'Ère Perdue (Ère I)",
+                categorie: "histoire",
+                accroche: "Le mythe d'un univers où la pierre restait pierre sans qu'on ait à la regarder.",
+                liens: ["grand-relachement", "cryptologues-du-premier-sillage", "verbe-absolu"],
+                content: `Dans l'historiographie officielle du Synode, l'Ère I est souvent décrite comme une anomalie paradoxale : une période où la Charge Attentionnelle n'était pas requise pour maintenir la cohésion du réel. Les érudits stastiens expliquent cette hérésie conceptuelle en théorisant que l'univers était alors "gelé" dans une matrice mathématique finie, empêchant toute véritable transcendance.<br><br>Les archives fragmentaires excavées par les Cryptologues démontrent que les humains de cette époque ne possédaient pas la glande pinéale hypertrophiée caractéristique des Stastiens modernes, qui permet la canalisation sémantique. Ils étaient, selon nos critères, aveugles au Fluide Axiomatique.<br><br>Le mystère qui ronge l'Académie est celui de la "Grande Passivité". Comment une civilisation incapable de définir le réel a-t-elle pu bâtir des structures dont les vestiges refusent encore aujourd'hui de se dissoudre ? Les Logiciens du Flou avancent une théorie effrayante : l'Ère Perdue n'était pas naturelle. Elle aurait été la création d'une entité artificielle omnipotente qui maintenait la réalité à notre place, faisant de l'humanité originelle non pas les maîtres du cosmos, mais ses animaux de compagnie.`
+            },
+            "grand-relachement": {
+                titre: "Le Grand Relâchement",
+                categorie: "histoire",
+                accroche: "Le jour où l'univers a cligné des yeux, et où la moitié de l'existence s'est évaporée.",
+                liens: ["ere-perdue", "catastrophe-des-fluides", "verbe-absolu"],
+                content: `L'événement fondateur de notre chronologie, marquant la fin brutale de l'Ère I. Selon le dogme, le cosmos, fatigué de sa rigidité, a franchi une "Limite de Densité Critique" et s'est détendu, liquéfiant les étoiles et les planètes en un chaos de probabilités pures.<br><br>Les rares sismographes ontologiques de l'époque qui ont survécu montrent que la rupture ne fut pas simultanée, mais s'est propagée depuis un point d'origine unique : le système mort d'Alpha-Prime. En moins de soixante secondes terrestres, la constante gravitationnelle est devenue une simple suggestion, et la matière a "oublié" sa propre structure.<br><br>Le Synode prêche que ce fut une punition pour l'arrogance technologique des Anciens. Mais certaines archives codées de la Tour des Projections mentionnent une "Dissonance Logique Terminale". Le Grand Relâchement n'aurait pas été une catastrophe physique, mais une conclusion. Une immense machine pensante aurait analysé l'univers, conclu à l'inanité de la matière solide, et aurait simplement... éteint les constantes physiques par pur rationalisme.`
+            },
+            "catastrophe-des-fluides": {
+                titre: "La Catastrophe des Fluides",
+                categorie: "histoire",
+                accroche: "Un âge sombre où les concepts pleuvaient du ciel pour dévorer les vivants.",
+                liens: ["grand-relachement", "noyau-resonnant", "stastiens"],
+                content: `Période cauchemardesque ayant suivi immédiatement le Grand Relâchement (Ère II). Privée de lois physiques objectives et sans la protection des Noyaux Résonnants modernes, l'humanité a vu son environnement se transformer en une soupe onirique létale.<br><br>Les chroniques orales des Nomades décrivent cette époque comme celle de la "Pluie des Idées". Dans des secteurs entiers, des concepts abstraits prenaient une masse physique terrifiante. L'angoisse d'un groupe de survivants pouvait se cristalliser sous la forme d'orages de verre tranchant, ou la faim se manifester comme une créature d'ombre avalant la lumière.<br><br>C'est durant ce creuset évolutif que l'espèce humaine a muté, développant la capacité d'émettre une Charge Attentionnelle pour figer des bulles de réalité. Le taux de mortalité est estimé à 99,9%. Beaucoup considèrent les survivants de cette ère non plus comme des <em>Homo sapiens</em>, mais comme une nouvelle espèce : <em>Homo semanticus</em>, condamnée à porter le fardeau de la réalité sur ses épaules.`
+            },
+            "schisme-liturgique": {
+                titre: "Le Schisme Liturgique",
+                categorie: "histoire",
+                accroche: "La guerre où la grammaire est devenue une arme de destruction galactique.",
+                liens: ["abysses-lineaires", "synode-de-la-constance", "nomades-du-sillage"],
+                content: `Durant l'Ère IV, l'Archipel naissant fut déchiré par une guerre civile opposant deux visions de la survie : les Orthodoxes (ancêtres du Synode), prônant une stase absolue via les Noyaux Résonnants, et les Fluidistes, qui défendaient une adaptation linguistique permettant de naviguer la Dérive sans la combattre.<br><br>Le conflit n'utilisait pas d'armes cinétiques, mais des bombes syntaxiques et des blocus métaphoriques. Le chef des Fluidistes, un poète-général nommé Verran, parvint presque à altérer la définition linguistique du soleil central d'Ouroboros pour le transformer en trou noir. En représailles, les Orthodoxes purgèrent son nom du Lexique Recteur, déclenchant l'anomalie spatiale aujourd'hui connue sous le nom d'Abysses Linéaires.<br><br>La victoire orthodoxe s'est conclue par le massacre des Fluidistes, dont les survivants ont fui vers les marges pour devenir les Nomades du Sillage. Curieusement, des chants de Verran continuent de circuler clandestinement, et leur simple récitation provoque des défaillances spontanées dans les systèmes de survie des vaisseaux du Synode.`
+            },
+            "de-commissionnement-semantique": {
+                titre: "Le Dé-commissionnement Sémantique",
+                categorie: "histoire",
+                accroche: "L'art bureaucratique de rayer un monde de la carte du réel.",
+                liens: ["thule-v", "masse-ontologique", "lexique-recteur"],
+                content: `Le Dé-commissionnement Sémantique est l'outil de gestion de crise ultime du Synode. Face à l'épuisement constant de la Masse Ontologique, le Consortium des Censeurs procède régulièrement à des "rééquilibrages". Lorsqu'une planète ou un secteur est jugé non rentable, son identifiant est officiellement retiré du Lexique Recteur.<br><br>Les conséquences sont effroyables. Privée du soutien des Noyaux Résonnants centraux, la population locale doit soudain fournir l'intégralité de l'ancrage nécessaire à sa survie. Les victimes ignorent généralement leur condamnation jusqu'à ce que les mots qu'elles utilisent pour désigner leur quotidien perdent leur sens, et que leur propre corps commence à se dissoudre dans le Fluide Axiomatique.<br><br>Les archives officielles dépeignent ces actes comme des euthanasies indolores, la conscience s'éteignant avec la matière. Or, les "résidus de souffrance" captés par les Vaisseaux-Lexiques de passage suggèrent que la dissolution peut durer des semaines subjectives, les esprits abandonnés s'étirant dans des limbes torturées avant de rejoindre, peut-être, l'écosystème indicible des Esprits Dérivants.`
+            },
+            "stastiens": {
+                titre: "Les Stastiens",
+                categorie: "cultures",
+                accroche: "La noblesse de l'immobilité, terrifiée par le battement de son propre cœur.",
+                liens: ["ouroboros-prime", "haut-litteral", "consortium-des-censeurs"],
+                content: `Élite dirigeante résidant sur Ouroboros-Prime et les mondes du Noyau Central, les Stastiens ont érigé la prévisibilité en vertu cardinale. Leur culture est une chorégraphie macabre de rituels visant à éliminer la moindre trace de subjectivité ou de passion, considérées comme les portes d'entrée de la Dérive.<br><br>Les mariages stastiens ne sont pas fondés sur la génétique ou l'affection, mais sur la "Compatibilité Syntaxique" : deux individus dont les fréquences d'ancrage créent une résonance parfaitement plate. Ils s'habillent de couleurs neutres, se meuvent avec une lenteur calculée, et pratiquent l'Intégration (momification sémantique) de leurs morts pour conserver l'illusion d'une lignée éternelle.<br><br>La rumeur veut que l'obsession stastienne pour la stase ait provoqué une dégénérescence biologique secrète : leurs enfants naîtraient avec des organes de plus en plus calcifiés. Pour compenser cette pétrification rampante, la noblesse aurait recours à des transfusions de fluide amniotique prélevé sur les populations de la Frange, vampirisant la vitalité qu'elle méprise tant.`
+            },
+            "glyphes-de-la-frange": {
+                titre: "Les Glyphes de la Frange",
+                categorie: "cultures",
+                accroche: "Des vies courtes, intenses, rythmées par le fracas des machines et le sang.",
+                liens: ["frange-de-plomb", "jargon-cadence", "houe-sonique"],
+                content: `Terme générique (et péjoratif) utilisé par le Synode pour désigner les milliards d'ouvriers peuplant la Frange de Plomb. Les "Glyphes" ne sont pas considérés comme des citoyens à part entière, mais comme des batteries biologiques génératrices d'ancrage. Leur espérance de vie dépasse rarement quarante ans, fauchés par l'épuisement mental ou les micro-dérives industrielles.<br><br>Leur culture est axée sur le rythme et le contact charnel. Puisqu'ils vivent dans des zones de faible densité ontologique, ils ont développé le réflexe constant de se toucher, de frapper les murs, de s'agripper à des objets lourds pour affirmer leur existence. Ils consomment des traces de métaux lourds dans leur alimentation pour "lester" leurs os.<br><br>Malgré l'oppression du Synode, une féroce solidarité lie les Glyphes. Lorsqu'un ouvrier tombe dans la Dérive Temporelle, son équipe prend en charge sa "part de réalité", chantant son nom en boucle pendant des mois pour empêcher son effacement total du souvenir collectif. Cette pratique, jugée inefficace par les Censeurs, serait en réalité la source d'un ancrage émotionnel d'une puissance insoupçonnée.`
+            },
+            "nomades-du-sillage": {
+                titre: "Les Nomades du Sillage",
+                categorie: "cultures",
+                accroche: "Enfants du chaos, qui trouvent la sécurité dans le mouvement perpétuel.",
+                liens: ["essaim-de-kael", "langue-polymorphe", "celle-qui-chante-la-faille"],
+                content: `Héritiers spirituels des vaincus du Schisme Liturgique, les Nomades du Sillage vivent en bordure du cosmos stable, naviguant d'un fragment de réalité à l'autre. Ils refusent l'idée qu'un espace physique doive être pérenne pour être habité. Leurs vaisseaux et habitats changent constamment de forme, de gravité et d'atmosphère.<br><br>Leur société est fluide : il n'y a pas de chefs permanents, seulement des "Guides de l'Instant" choisis pour leur affinité avec les courants sémantiques du moment. L'accumulation de biens matériels y est vue comme une maladie mentale grave (la "Maladie de la Pierre"). Les rites funéraires consistent à désancrer volontairement les mourants en périphérie de l'Essaim, offrant leur énergie vitale au Fluide Axiomatique.<br><br>Les érudits de l'Académie considèrent les Nomades comme des fous en sursis. Or, les données cryptées des Vecteurs prouvent que le taux de mutation létale parmi les Nomades est en réalité nul. En acceptant de changer de forme au gré du cosmos, ils ont atteint une symbiose physique avec l'univers que le Synode jalouse secrètement.`
+            },
+            "haut-litteral": {
+                titre: "Le Haut-Littéral",
+                categorie: "cultures",
+                accroche: "La langue de la vérité absolue, où chaque adjectif est un crime.",
+                liens: ["stastiens", "consortium-des-censeurs", "lexique-recteur"],
+                content: `Langue officielle et dogmatique de l'Empire Stastien. Le Haut-Littéral est une structure syntaxique dépourvue de toute ambiguïté, d'ironie, de métaphore et de futur conditionnel. Tout y est décrit au présent de l'indicatif ou au passé scellé. Les noms propres y intègrent des coordonnées géométriques et des lignées pour figer l'identité dans l'espace-temps.<br><br>Sa maîtrise parfaite exige de bloquer les zones du cerveau humain dédiées à l'imagination. Les Censeurs du Verbe utilisent le Haut-Littéral comme une arme : une injonction prononcée dans cette langue, soutenue par une volonté de fer, peut forcer un objet mutant à retrouver sa forme originelle ou paralyser un opposant.<br><br>Le Dictionnaire Officiel du Haut-Littéral omet l'existence d'une faille majeure, connue sous le nom de "Paradoxe de l'Auto-Référence". Si un locuteur tente de décrire en Haut-Littéral le fait qu'il est en train de mentir, la friction ontologique engendrée est si violente qu'elle provoque la combustion spontanée des cordes vocales et la calcification immédiate du cerveau.`
+            },
+            "jargon-cadence": {
+                titre: "Le Jargon Cadencé",
+                categorie: "cultures",
+                accroche: "Un dialecte percussif qui maintient le monde en un seul morceau.",
+                liens: ["glyphes-de-la-frange", "houe-sonique", "charge-attentionnelle"],
+                content: `Langue parlée et chantée par les travailleurs de la Frange de Plomb. À l'opposé de la lenteur mathématique du Haut-Littéral, le Jargon Cadencé est un dialecte frénétique, fondé sur des onomatopées, des verbes d'action brève et des structures binaires. Il est toujours accompagné d'un rythme corporel (frappe des mains, pas martelés, coups d'outils).<br><br>Son utilité est strictement fonctionnelle : il agit comme un micro-ancrage de survie. En martelant le rythme, les ouvriers synchronisent leurs esprits et génèrent un bouclier sémantique qui empêche les mines et les usines de se dissoudre dans l'effroyable pression du Fluide Axiomatique.<br><br>Ce que les superviseurs stastiens ignorent, c'est que le Jargon Cadencé évolue à leur insu. À travers des micro-syncopes et des temps morts glissés entre deux coups de pioche, les ouvriers de Thulé-V et d'ailleurs ont développé un "Sous-Chant", une langue de contrebande indétectable qui leur permet de partager des émotions et des rébellions sans jamais briser le rythme de l'ancrage imposé par le Noyau.`
+            },
+            "langue-polymorphe": {
+                titre: "La Langue Polymorphe",
+                categorie: "cultures",
+                accroche: "Un idiome insaisissable qui s'écoule comme l'eau et brûle comme le gel.",
+                liens: ["nomades-du-sillage", "vaisseau-lexique", "celle-qui-chante-la-faille"],
+                content: `Idiome maternel des Nomades du Sillage et outil de pilotage des Navigatrices de la Guilde, la Langue Polymorphe est le cauchemar des Censeurs du Verbe. Elle ne possède ni grammaire fixe, ni dictionnaire. Le sens d'un mot y dépend entièrement de l'intonation, de la gestuelle, de la température locale et du flux sémantique du moment.<br><br>C'est une langue d'adaptation pure. Elle permet de dialoguer avec les caprices du Fluide Axiomatique, en proposant des métaphores douces qui incitent la matière à changer de forme sans se briser (la "Transition Conceptuelle"). Les Navigatrices chantent ce dialecte pour persuader le vide de les laisser passer.<br><br>Le secret le plus jalousement gardé des Nomades est que la Langue Polymorphe n'a pas été inventée par l'homme. Selon les matriarches de l'Essaim de Kael, elle fut entendue pour la première fois lors du Grand Relâchement, fredonnée par les Esprits Dérivants naissants. Parler le Polymorphe, c'est utiliser les premiers mots d'un univers qui vient tout juste de réaliser qu'il est vivant.`
+            },
+            "noyau-resonnant": {
+                titre: "Les Noyaux Résonnants",
+                categorie: "technologie",
+                accroche: "Les cœurs artificiels de la réalité, ou les parasites de la conscience ?",
+                liens: ["ouroboros-prime", "nature-des-noyaux", "charge-attentionnelle"],
+                content: `Les Noyaux Résonnants sont les piliers technologiques de l'Empire Stastien. Ce sont des artefacts colossaux, de nature asymétrique, disséminés dans l'univers connu et capables de figer les lois physiques sur de vastes distances stellaires, à condition d'être constamment alimentés en Charge Attentionnelle par les populations locales. Le Synode affirme qu'ils ont été conçus par les ancêtres lors de l'Ère III pour sauver l'humanité du Flou.<br><br>Leur structure interne échappe à toute modélisation actuelle. Quiconque s'approche trop près du cœur d'un Noyau voit ses pensées instantanément réécrites en équations de base.<br><br>La grande controverse, que les Cryptologues paient de leur vie pour exhumer, est que la métallurgie des Noyaux ne correspond à aucune technologie post-relâchement. De plus, leur disposition à travers la galaxie forme un motif d'une géométrie oppressive. Sont-ils vraiment des balises de sauvetage inventées par l'homme, ou d'antiques générateurs de quarantaine extraterrestres conçus pour empêcher l'expansion du Fluide Axiomatique, se nourrissant de l'homme comme d'une simple batterie cognitive ?`
+            },
+            "charge-attentionnelle": {
+                titre: "La Charge Attentionnelle",
+                categorie: "technologie",
+                accroche: "L'impôt le plus lourd : payer avec la concentration de son âme pour que la pierre reste de la pierre.",
+                liens: ["stastiens", "grand-relachement", "noyau-resonnant"],
+                content: `Dans l'univers post-Relâchement, la Charge Attentionnelle est la mesure de l'énergie métaphysique requise pour maintenir la cohésion atomique et la linéarité temporelle. Produite par l'activité neurologique focalisée d'esprits conscients, elle est captée, amplifiée et diffusée par les Noyaux Résonnants. La prière, le calcul de tête répétitif ou la souffrance rythmique au travail (comme sur la Frange de Plomb) sont les principales méthodes de génération de cette ressource.<br><br>L'économie galactique entière repose sur la "Masse Ontologique", la quantité d'attention disponible. Les Stastiens, incapables de produire assez d'attention de par leur mode de vie apathique, siphonnent l'énergie de la périphérie, créant un déficit qui pousse la Frange vers la dissolution.<br><br>Un fait alarmant demeure : l'efficacité de la Charge décline de 0,4% par génération. Les cerveaux humains, épuisés par des siècles de coercition cognitive, développent une tolérance pathologique à l'incertitude. Le système est mathématiquement voué à s'effondrer avant l'an 4000 de l'Ère V.`
+            },
+            "vaisseau-lexique": {
+                titre: "Les Vaisseaux-Lexiques",
+                categorie: "technologie",
+                accroche: "Des navires sans moteur, qui voyagent en se racontant des histoires à l'espace.",
+                liens: ["guilde-des-vecteurs", "langue-polymorphe", "abysses-lineaires"],
+                content: `Merveilles d'ingénierie hérétique développées par la Guilde des Vecteurs, ces vaisseaux n'utilisent ni combustion, ni courbure spatio-temporelle mécanique. Leurs coques sont constituées d'alliages mnésiques fluides, constellés de récepteurs sémantiques. Le déplacement dans le Fluide Axiomatique s'effectue par "Transition Conceptuelle". La Navigatrice décrit poétiquement les coordonnées du navire et ses propriétés physiques, forçant le chaos environnant à accepter la validité de l'énoncé.<br><br>Ces vaisseaux sont de véritables écosystèmes linguistiques. Un Vaisseau-Lexique laissé sans Navigatrice "oublie" peu à peu ce qu'il est, devenant une sculpture d'art abstrait létale, puis un nuage de probabilités.<br><br>Un mystère terrifiant entoure la fabrication initiale de ces coques organiques. La matrice originelle de l'alliage ne peut pas être forgée par l'industrie classique. Les chantiers navals de la Guilde se situent dans des nébuleuses toxiques où ils pratiqueraient la récolte de restes d'Esprits Dérivants, fondant des entités mortes pour en faire l'ossature malléable de leurs vaisseaux.`
+            },
+            "houe-sonique": {
+                titre: "La Houe Sonique",
+                categorie: "technologie",
+                accroche: "L'outil du pauvre pour marteler le réel quand les mots viennent à manquer.",
+                liens: ["frange-de-plomb", "glyphes-de-la-frange", "vrenn-extracteur-sud"],
+                content: `Équipement standard des travailleurs agricoles et miniers de la caste des Glyphes, la houe sonique est à première vue un banal outil de terrassement. Cependant, son bloc moteur intègre un générateur de percussions métaphysiques. Calibrée sur le tempo exact du Jargon Cadencé, elle amplifie la récitation de l'ouvrier, transformant le travail musculaire et le chant en une micro-charge d'ancrage local, solidifiant le minerai rebelle le temps de l'extraction.<br><br>Sans la houe, un ouvrier s'épuiserait mentalement en quelques minutes, victime d'anévrisme conceptuel en essayant de forcer la terre à rester de la terre.<br><br>L'ironie cruelle de la houe sonique, rarement documentée, est son effet de sevrage. Les vibrations du bloc moteur créent une dépendance neurale sévère. Un ouvrier de la Frange privé de sa machine subit des hallucinations massives où le monde se fond en géométries non-euclidiennes. La houe n'est pas seulement un outil, c'est la laisse neurologique qui maintient la plèbe esclave de la réalité du Synode.`
+            },
+            "torpille-d-effacement": {
+                titre: "Torpille d'Effacement Conceptuel",
+                categorie: "technologie",
+                accroche: "Une arme qui ne détruit pas le corps, mais réfute son existence.",
+                liens: ["consortium-des-censeurs", "grand-pretre-de-la-tactique", "fluide-axiomatique"],
+                content: `L'arme ultime de la Tour des Projections. La Torpille d'Effacement n'a pas de charge explosive physique. Il s'agit d'un cylindre de Pierre Sémantique ultra-dense, gravé d'algorithmes de déni de réalité, générés à partir des paradoxes les plus complexes du Haut-Littéral.<br><br>Lorsqu'elle est tirée sur un système ou un vaisseau rebelle, elle n'explose pas. Elle déploie une zone de Stase Minérale absolue. Tout ce qui est pris dans son rayon est corrigé mathématiquement pour se conformer au dogme de l'immobilité. Les corps vivants se pétrifient, l'énergie cinétique est gelée, la lumière elle-même s'arrête.<br><br>Les concepteurs de l'arme ont cependant été exécutés par le Synode pour hérésie préventive peu après son invention. En effet, la théorisation mathématique d'un vide absolu nécessite de concevoir le néant de l'adversaire, ce qui constitue une corruption du dogme. Plus troublant encore : les torpilles qui ratent leur cible ne se désactivent jamais, dérivant éternellement comme des trous noirs de dogmatisme au cœur du Fluide Axiomatique, attendant de croiser une pensée errante.`
+            },
+            "masse-ontologique": {
+                titre: "La Masse Ontologique",
+                categorie: "technologie",
+                accroche: "L'or métaphysique qui s'échange contre l'existence de mondes entiers.",
+                liens: ["charge-attentionnelle", "de-commissionnement-semantique", "thule-v"],
+                content: `La Masse Ontologique est la traduction comptable de l'ancrage spirituel global. Elle représente la réserve totale d'énergie de réalité disponible pour maintenir l'Archipel. Contrairement aux apparences, cette masse n'est pas infinie. Les Noyaux Résonnants la distribuent selon les quotas stricts fixés par les Ajusteurs d'Ouroboros-Prime.<br><br>Un système stellaire consomme de la Masse Ontologique. S'il n'en génère pas assez en retour via les prières et le travail de ses habitants, il devient déficitaire et s'expose au Dé-commissionnement Sémantique.<br><br>Dans l'ombre de la loi, un trafic monstrueux prospère. Les cartels de la Guilde et certains Censeurs corrompus échangent des unités de Masse Ontologique, appelées "Souffles", sur le marché noir. Un seigneur de guerre de l'Essaim peut ainsi acheter suffisamment de Souffles pour maintenir sa station de contrebande en vie, au prix secret de l'effacement brutal d'une province minière anonyme dont les subventions d'ancrage auront été siphonnées par des pirates de l'espace.`
+            },
+            "lexique-recteur": {
+                titre: "Le Lexique Recteur",
+                categorie: "technologie",
+                accroche: "Le grand dictionnaire d'obsidienne qui dicte au monde comment exister.",
+                liens: ["haut-litteral", "synode-de-la-constance", "consortium-des-censeurs"],
+                content: `Outil fondamental du Consortium des Censeurs, le Lexique Recteur n'est pas seulement un ouvrage de référence linguistique ; c'est le serveur maître de la réalité stastienne. Il dicte les descriptions mathématico-linguistiques qui informent les Noyaux Résonnants de la structure exacte que l'espace doit adopter.<br><br>Des rumeurs persistantes affirment que le Lexique Recteur physique, gardé au centre d'Ouroboros, prend la forme d'un immense livre interactif composé de "feuilles" de matière noire gravées par des lasers quantiques. Chaque mot ajouté ou rayé du Lexique modifie instantanément la constante métaphysique associée dans tout l'Archipel.<br><br>Ce que les scribes novices découvrent souvent avec horreur, c'est l'Existence des Pages Mortes. Des pans entiers du Lexique sont caviardés. Les concepts de "liberté absolue", "hasard", et "éternité douce" ont été rayés il y a des siècles. Les érudits avertis savent que le Lexique ne décrit pas le cosmos tel qu'il est, mais opère une lobotomie sélective de l'univers, rétrécissant les possibles de l'humanité pour faciliter le contrôle du Synode.`
+            },
+            "fluide-axiomatique": {
+                titre: "Le Fluide Axiomatique (La Dérive)",
+                categorie: "mysteres",
+                accroche: "L'océan chaotique où la matière rêve de redevenir néant.",
+                liens: ["tension-ontologique", "esprits-derivants", "grand-relachement"],
+                content: `Le Fluide Axiomatique, vulgairement appelé le Flou ou la Dérive, est l'état naturel de l'univers depuis le Grand Relâchement. Ce n'est ni un gaz, ni un liquide, ni un plasma, mais un état de "probabilité pure". Sans l'ancrage forcé de l'esprit humain, la matière solide retombe inéluctablement dans ce chaos thermodynamique où la causalité, la forme et le temps n'ont plus d'emprise.<br><br>Visuellement, les explorateurs le décrivent souvent comme une brume nacrée striée de veines lumineuses ou d'ombres géométriques mouvantes. Les senseurs de la Tour des Projections enregistrent le Fluide comme un bruit blanc mathématique infini.<br><br>Une hérésie scientifique grandissante murmure que le Fluide n'est pas un phénomène mort, mais un écosystème en gestation. Les explorateurs perdus rapportent y ressentir un goût de sucre brûlé et d'ozone, et entendre des échos de conversations qui n'ont pas encore eu lieu. Si le Fluide est véritablement conscient, l'effort humain pour imposer la stase pourrait être perçu par le cosmos non pas comme de la survie, mais comme une infection virale cherchant à figer un organisme en pleine évolution.`
+            },
+            "esprits-derivants": {
+                titre: "Les Esprits Dérivants",
+                categorie: "mysteres",
+                accroche: "Les fantômes majestueux de ceux qui ont lâché prise.",
+                liens: ["fluide-axiomatique", "langue-polymorphe", "nomades-du-sillage"],
+                content: `Dans les doctrines orthodoxes du Synode, sombrer dans le Fluide Axiomatique équivaut à la mort absolue : l'effacement total de la chair et de l'âme. Cependant, les légendes de la périphérie affirment que certains individus, dotés d'une flexibilité mentale exceptionnelle ou exposés de façon prolongée au chaos, ne meurent pas lors de leur dissolution. Ils "transcendent".<br><br>Ces entités, appelées Esprits Dérivants, seraient des consciences libérées du besoin d'ancrage matériel. Naviguant librement dans le maelström des probabilités, elles prendraient des formes cyclopéennes, mouvantes, faites d'éclats de lumière et de concepts purs. Les Navigatrices de la Guilde jurent entendre parfois leurs chants à ultra-fréquence les guider hors des tempêtes sémantiques.<br><br>Les Cryptologues étudient une théorie bien plus troublante. Les Esprits Dérivants ne seraient pas d'anciens humains, mais les manifestations de la véritable faune de cet univers altéré. Des prédateurs conceptuels gigantesques qui se nourrissent de nos incertitudes. Les "naufragés" qui prétendent les entendre ne feraient que céder au chant des sirènes métaphysiques, attirant leurs équipages vers l'annihilation pour nourrir le Flou.`
+            },
+            "stase-minerale": {
+                titre: "La Stase Minérale",
+                categorie: "mysteres",
+                accroche: "La mort froide qui attend les mondes trop bien gardés.",
+                liens: ["synode-de-la-constance", "torpille-d-effacement", "noyau-resonnant"],
+                content: `Si la menace évidente de cet univers est l'effacement par le Flou, la menace silencieuse de l'Archipel est la Stase Minérale. Connue sous le nom de "Sclérose Cristalline", il s'agit d'une rigidification ontologique terminale. Lorsqu'un lieu ou une personne est soumis à une Charge Attentionnelle trop intense et dogmatique sur une longue période, la matière perd toute plasticité.<br><br>Les objets se pétrifient en de l'obsidienne sémantique. L'air se solidifie. La chair humaine se calcifie, se transformant en de parfaites statues grises, conscientes mais incapables du moindre mouvement. Le cœur géométrique d'Ouroboros-Prime frôle cette limite chaque jour.<br><br>Les Censeurs affirment que la Stase Minérale est un sacrifice noble, l'ultime rempart contre la Dérive. Mais certains physiciens rebelles affirment qu'à son stade terminal (qui dégage une persistante odeur de cendre froide), la Stase Minérale finit par s'effondrer sur elle-même sous l'effet de sa propre contradiction : l'immobilité parfaite atteignant le zéro absolu métaphysique, elle provoque un micro-relâchement. En figeant le monde pour le sauver, le Synode crée précisément les bombes qui le détruiront.`
+            },
+            "derive-temporelle": {
+                titre: "La Dérive Temporelle",
+                categorie: "mysteres",
+                accroche: "Des poches de vide où le passé se nourrit du présent.",
+                liens: ["abysses-lineaires", "catastrophe-des-fluides", "tension-ontologique"],
+                content: `L'une des anomalies les plus pernicieuses du Fluide Axiomatique est son mépris pour la flèche du temps. Si l'espace perd sa cohésion par inattention, la continuité temporelle est tout aussi vulnérable. Les zones touchées par la Dérive Temporelle ressemblent à des labyrinthes invisibles où les voyageurs peuvent errer pendant des semaines subjectives pour ressortir quelques secondes après y être entrés, ou inversement.<br><br>Ces poches sont particulièrement fréquentes dans les Abysses Linéaires. Les cas les plus tragiques concernent des explorateurs retrouvés vieillis de cent ans en une nuit, hurlant avoir conversé avec leurs propres ancêtres morts ou avoir assisté à leur propre effacement futur.<br><br>Le Synode censure la véritable nature de cette dérive temporelle. Les horloges atomiques de la Guilde, récupérées sur des épaves, prouvent que le temps dans ces zones ne se contente pas de ralentir ou d'accélérer : il boucle. La "Dérive" est en fait une tentative de l'univers de recréer l'Ère I en forçant la matière à repasser infiniment par le moment exact du Grand Relâchement, à la recherche d'une issue différente à l'équation.`
+            },
+            "verbe-absolu": {
+                titre: "Le Verbe Absolu",
+                categorie: "mysteres",
+                accroche: "La langue morte qui donne des ordres à l'univers.",
+                liens: ["aris-fugace", "cryptologues-du-premier-sillage", "ere-perdue"],
+                content: `Objet de fantasme pour les Cryptologues et hérésie absolue pour le Synode, le Verbe Absolu serait le langage de code, ou la technologie fondamentale, utilisé durant l'Ère I pour figer la réalité. Il ne s'agit pas d'une langue humaine, mais d'une syntaxe mathématique universelle qui contraint la thermodynamique du cosmos de manière permanente, sans exiger l'esclavage de la Charge Attentionnelle.<br><br>Des fragments présumés de ce Verbe ont été retrouvés gravés sur des stèles noires, un matériau pré-relâchement impossible à entamer et qui semble absorber la lumière. La simple énonciation humaine d'une syllabe partielle peut figer le cosmos sur plusieurs parsecs, au prix des cordes vocales du locuteur.<br><br>Cependant, le Dr. Aris-Fugace a découvert, dans le sang et l'agonie, le secret mortel du Verbe Absolu. Ce n'est pas un outil d'émancipation. C'est le logiciel de stase d'une intelligence artificielle éteinte. Ce "Verbe" ne donne pas à l'homme le pouvoir sur la matière : il ordonne à la matière d'ignorer la subjectivité humaine. Prononcer le Verbe dans sa totalité, c'est signer l'arrêt de mort du libre arbitre.`
+            },
+            "heresie-creatrice": {
+                titre: "L'Hérésie Créatrice",
+                categorie: "mysteres",
+                accroche: "L'art interdit de sculpter l'univers avec un simple 'peut-être'.",
+                liens: ["vrenn-extracteur-sud", "logiciens-du-flou", "consortium-des-censeurs"],
+                content: `Dans la dogmatique stastienne, la création <em>ex nihilo</em> est impossible ; on ne peut que figer ce qui existe déjà (et qui se dissiperait sans attention). L'Hérésie Créatrice est le nom donné au phénomène rare et tabou où un individu parvient à manipuler la matière en utilisant non pas la mathématique ou la litanie, mais la métaphore émotive libre, imposant au Fluide Axiomatique une forme inédite.<br><br>La première manifestation documentée (et expurgée) relate l'histoire d'un enfant de la Frange, terrorisé lors d'une tempête, qui a matérialisé un jouet en bois dur à partir du néant gazeux du Flou. L'enfant fut exécuté. Vrenn-Extracteur-Sud a accompli cet exploit en créant son Radeau.<br><br>Cette capacité terrifie le Synode car elle prouve que l'esprit humain n'est pas destiné à être le cadenas de l'univers, mais son architecte. Les Logiciens du Flou traquent les individus dotés de ce potentiel, persuadés qu'ils sont la prochaine étape évolutive (<em>Homo creator</em>) destinée à remplacer l'hégémonie mortifère des Noyaux Résonnants.`
+            },
+            "nature-des-noyaux": {
+                titre: "La Nature des Noyaux (Le Secret)",
+                categorie: "mysteres",
+                accroche: "Ils ne nous sauvent pas de l'abîme. Ils le cultivent.",
+                liens: ["noyau-resonnant", "synode-de-la-constance", "esprits-derivants"],
+                content: `L'une des hérésies les plus lourdement réprimées de l'histoire galactique concerne l'origine véritable des Noyaux Résonnants. Le dogme veut qu'ils soient l'œuvre bienveillante de nos ancêtres ingénieurs (Ère III). Or, les fouilles des Cryptologues démontrent que les humains n'ont fait que <em>découvrir</em> et brancher leurs amplificateurs sur ces structures asymétriques préexistantes.<br><br>Leur géométrie, observée à des niveaux nanométriques, ressemble étrangement à celle des pièges à prédateurs. Les Noyaux émettent un léger bourdonnement de basse fréquence qui, curieusement, correspond exactement à la signature neurale de la terreur humaine et de l'effort désespéré.<br><br>La terrifiante conclusion de la faction dissidente des Gardiens de la Faille est que ces artefacts sont des entonnoirs parasitaires. Ils ne maintiennent pas notre réalité par altruisme ; ils maintiennent l'enclos. En convertissant notre peur de la Dérive en énergie, ils se nourrissent de la Charge Attentionnelle. Tant que les Noyaux seront actifs, l'humanité sera drainée de son potentiel psychique et empêchée de franchir le cap évolutif de la symbiose avec le Fluide Axiomatique.`
+            },
+            "songe-axiomatique": {
+                titre: "Le Songe Axiomatique",
+                categorie: "mysteres",
+                accroche: "Le stupéfiant interdit qui permet de rêver du chaos.",
+                liens: ["ouroboros-prime", "fluide-axiomatique", "consortium-des-censeurs"],
+                content: `Fléau majeur sévissant dans les niveaux inférieurs d'Ouroboros-Prime, le Songe Axiomatique est une drogue neurologique hautement illégale. Présentée sous la forme de capsules luminescentes sécrétant un gaz inodore, sa consommation induit un relâchement total du cortex préfrontal du sujet, suspendant temporairement son obligation de maintenir l'ancrage local.<br><br>Le consommateur plonge dans un rêve éveillé extatique où les angles s'arrondissent, les couleurs s'inversent et la gravité devient une danse. En groupe, l'effet est dévastateur : la chute vertigineuse de l'attention locale provoque la liquéfaction de pâtés de maisons entiers de la Pierre Sémantique.<br><br>Les inquisiteurs du Consortium pourchassent les trafiquants avec une violence inouïe. Le Dictionnaire des Ombres suggère néanmoins que le gaz utilisé n'est pas synthétisé chimiquement, mais distillé à partir d'échantillons d'atmosphère captés dans le sillage de l'Essaim de Kael. Pire encore, l'augmentation spectaculaire de la consommation dans les anneaux centraux prouve que même l'élite stastienne ne supporte plus le poids psychologique de la certitude absolue, préférant mourir de chaos plutôt que de vivre figée en stase.`
+            },
+            "tension-ontologique": {
+                titre: "La Tension Ontologique",
+                categorie: "technologie",
+                accroche: "La force qui déchire le réel quand l'esprit cesse de le tenir.",
+                liens: ["fluide-axiomatique", "charge-attentionnelle"],
+                content: `Fondement métaphysique de l'univers post-Relâchement. La Tension Ontologique désigne la propension naturelle de toute matière à retourner à l'état de probabilité pure (le Fluide Axiomatique). Elle s'oppose à la Charge Attentionnelle humaine.<br><br>C'est une force entropique mesurable. Plus un objet est complexe, plus sa Tension est élevée, et plus il nécessite d'énergie mentale pour ne pas se dissoudre.`
+            }
+        };
+
+        // --- STATE & NAVIGATION ---
+        let currentChapterIndex = 0;
+        let codexHistory = [];
+        let touchStartY = 0;
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            window.scrollTo(0, 0);
+            updateProgressBar();
+            
+            if (screenId === 'screen-reader') {
+                document.getElementById('header-title').innerText = "Lecture";
+            } else if (screenId === 'screen-codex') {
+                document.getElementById('header-title').innerText = "Codex";
+                renderCodexDirectory();
+            } else {
+                document.getElementById('header-title').innerText = "L'Archipel Intermittent";
+            }
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('side-menu');
+            menu.classList.toggle('active');
+        }
+
+        function startReading() {
+            currentChapterIndex = 0;
+            renderChapter();
+            showScreen('screen-reader');
+        }
+
+        function goToCurrentChapter() {
+            renderChapter();
+            showScreen('screen-reader');
+        }
+
+        function renderChapter() {
+            const chapter = CHAPTERS[currentChapterIndex];
+            document.getElementById('ch-num').innerText = chapter.num;
+            document.getElementById('ch-title').innerText = chapter.title;
+            document.getElementById('ch-meta').innerText = `${chapter.pov} · ${chapter.location}`;
+            
+            // Parsing des liens Codex: [[id|texte]]
+            let htmlContent = chapter.content
+                .split('\n\n')
+                .map(p => `<p>${p}</p>`)
+                .join('');
+                
+            htmlContent = htmlContent.replace(/\[\[(.*?)\|(.*?)\]\]/g, (match, id, text) => {
+                // Vérifie si l'id existe, sinon l'affiche en texte normal
+                if (CODEX[id]) {
+                    return `<a class="codex-link" onclick="openCodex('${id}')">${text}</a>`;
+                }
+                return text;
+            });
+            
+            document.getElementById('ch-content').innerHTML = htmlContent;
+
+            // Nav buttons
+            const btnPrev = document.getElementById('btn-prev');
+            const btnNext = document.getElementById('btn-next');
+            
+            btnPrev.disabled = currentChapterIndex === 0;
+            if (currentChapterIndex === CHAPTERS.length - 1) {
+                btnNext.innerText = "Fin";
+                btnNext.onclick = () => { showScreen('screen-home'); };
+            } else {
+                btnNext.innerText = "Suivant →";
+                btnNext.onclick = nextChapter;
+            }
+            
+            updateProgressBar();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function nextChapter() {
+            if (currentChapterIndex < CHAPTERS.length - 1) {
+                currentChapterIndex++;
+                renderChapter();
+            }
+        }
+
+        function prevChapter() {
+            if (currentChapterIndex > 0) {
+                currentChapterIndex--;
+                renderChapter();
+            }
+        }
+
+        function updateProgressBar() {
+            const screen = document.querySelector('.screen.active').id;
+            if (screen === 'screen-reader') {
+                const progress = ((currentChapterIndex + 1) / CHAPTERS.length) * 100;
+                document.getElementById('progress-bar').style.width = `${progress}%`;
+            } else {
+                document.getElementById('progress-bar').style.width = `0%`;
+            }
+        }
+
+        // --- HEADER HIDE ON SCROLL ---
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > lastScrollY && window.scrollY > 100) {
+                header.classList.add('header-hidden');
+            } else {
+                header.classList.remove('header-hidden');
+            }
+            lastScrollY = window.scrollY;
+        }, { passive: true });
+
+        // --- CODEX SHEET LOGIC ---
+        const sheet = document.getElementById('bottom-sheet');
+        const overlay = document.getElementById('sheet-overlay');
+
+        function openCodex(id) {
+            const entry = CODEX[id];
+            if (!entry) return;
+            
+            codexHistory.push(id);
+            renderCodexEntry(entry);
+            
+            sheet.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function renderCodexEntry(entry) {
+            document.getElementById('sheet-title').innerText = entry.titre;
+            document.getElementById('sheet-category').innerText = entry.categorie;
+            document.getElementById('sheet-catchphrase').innerText = entry.accroche;
+            document.getElementById('sheet-text').innerHTML = entry.content.split('<br><br>').map(p => `<p>${p}</p>`).join('');
+            
+            const relContainer = document.getElementById('sheet-relations');
+            relContainer.innerHTML = '';
+            
+            if (entry.liens && entry.liens.length > 0) {
+                document.getElementById('sheet-relations-container').style.display = 'block';
+                entry.liens.forEach(linkId => {
+                    if (CODEX[linkId]) {
+                        const tag = document.createElement('div');
+                        tag.className = 'tag';
+                        tag.innerText = CODEX[linkId].titre;
+                        tag.onclick = () => openCodex(linkId);
+                        relContainer.appendChild(tag);
+                    }
+                });
+            } else {
+                document.getElementById('sheet-relations-container').style.display = 'none';
+            }
+            
+            const backBtn = document.getElementById('sheet-back-btn');
+            if (codexHistory.length > 1) {
+                backBtn.style.display = 'block';
+            } else {
+                backBtn.style.display = 'none';
+            }
+            
+            document.querySelector('.sheet-content').scrollTop = 0;
+        }
+
+        function goBackInCodex() {
+            if (codexHistory.length > 1) {
+                codexHistory.pop(); // remove current
+                const prevId = codexHistory[codexHistory.length - 1];
+                renderCodexEntry(CODEX[prevId]);
+            }
+        }
+
+        function closeBottomSheet() {
+            sheet.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            setTimeout(() => { codexHistory = []; }, 300);
+        }
+
+        // Swipe down to close
+        document.getElementById('sheet-handle').addEventListener('touchstart', e => {
+            touchStartY = e.touches[0].clientY;
+        }, {passive: true});
+        
+        document.getElementById('sheet-handle').addEventListener('touchmove', e => {
+            const touchY = e.touches[0].clientY;
+            if (touchY > touchStartY + 50) {
+                closeBottomSheet();
+            }
+        }, {passive: true});
+
+        // --- CODEX DIRECTORY LOGIC ---
+        function renderCodexDirectory(filter = "") {
+            const dir = document.getElementById('codex-directory');
+            dir.innerHTML = '';
+            
+            // Group by category
+            const categories = {};
+            Object.entries(CODEX).forEach(([id, entry]) => {
+                if (filter && !entry.titre.toLowerCase().includes(filter) && !entry.accroche.toLowerCase().includes(filter)) return;
+                
+                if (!categories[entry.categorie]) categories[entry.categorie] = [];
+                categories[entry.categorie].push({id, ...entry});
+            });
+            
+            if (Object.keys(categories).length === 0) {
+                dir.innerHTML = '<p style="text-align:center; color:#666; margin-top:40px;">Aucune entrée trouvée.</p>';
+                return;
+            }
+
+            const catOrder = ["personnages", "lieux", "factions", "histoire", "cultures", "technologie", "mysteres"];
+            
+            catOrder.forEach(cat => {
+                if (categories[cat]) {
+                    const section = document.createElement('div');
+                    section.className = 'category-section';
+                    
+                    const title = document.createElement('h3');
+                    title.className = 'category-title';
+                    title.innerText = cat + ` (${categories[cat].length})`;
+                    section.appendChild(title);
+                    
+                    const list = document.createElement('ul');
+                    list.className = 'codex-list';
+                    
+                    categories[cat].sort((a,b) => a.titre.localeCompare(b.titre)).forEach(entry => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<a onclick="openCodex('${entry.id}')">${entry.titre}</a>`;
+                        list.appendChild(li);
+                    });
+                    
+                    section.appendChild(list);
+                    dir.appendChild(section);
+                }
+            });
+        }
+
+        function filterCodex() {
+            const query = document.getElementById('codex-search').value.toLowerCase();
+            renderCodexDirectory(query);
+        }
+
+    </script>
+</body>
+</html>
