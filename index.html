@@ -1143,27 +1143,28 @@
     .read-link,
     .copy-button {
       min-height: 2.65rem;
+      border: 1px solid rgba(255, 255, 255, 0.82);
       border-radius: 0;
       font-size: 0.72rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
+      transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
     }
 
     .read-link {
       min-width: 7.5rem;
       padding: 0.65rem 1rem;
-      background: var(--accent);
+      background: transparent;
       color: #fff;
+      font-weight: 850;
     }
 
-    .read-link:hover { background: #fff; color: #11110f; }
+    .read-link:hover { border-color: #fff; background: #fff; color: #11110f; }
 
     .copy-button {
       width: 2.65rem;
-      border-color: rgba(255, 255, 255, 0.48);
-      background: rgba(0, 0, 0, 0.24);
+      background: transparent;
       color: #fff;
-      backdrop-filter: blur(8px);
     }
 
     .copy-button:hover { border-color: #fff; background: #fff; color: #11110f; }
@@ -1379,7 +1380,7 @@
           <ul class="tag-list" aria-label="Tags"></ul>
           <div class="card-actions">
             <a class="read-link" target="_blank" rel="noopener noreferrer">
-              <span>Lire</span>
+              <span>LIRE</span>
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
             </a>
             <button class="copy-button" type="button" aria-label="Copier le lien">
