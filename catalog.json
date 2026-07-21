@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-21T21:43:15Z",
+  "generatedAt": "2026-07-21T22:29:16Z",
   "bookCount": 8,
   "books": [
     {
@@ -14,7 +14,12 @@
       "tags": [],
       "date": null,
       "datePrecision": null,
-      "cover": null
+      "cover": {
+        "filename": "archipel-intermittent.jpg",
+        "sourcePath": "couvertures/archipel-intermittent.jpg",
+        "href": "couvertures/archipel-intermittent.jpg",
+        "format": "jpg"
+      }
     },
     {
       "id": "letiage",
@@ -27,7 +32,12 @@
       "tags": [],
       "date": null,
       "datePrecision": null,
-      "cover": null
+      "cover": {
+        "filename": "letiage.jpg",
+        "sourcePath": "couvertures/letiage.jpg",
+        "href": "couvertures/letiage.jpg",
+        "format": "jpg"
+      }
     },
     {
       "id": "la-couronne-lente",
@@ -40,7 +50,12 @@
       "tags": [],
       "date": null,
       "datePrecision": null,
-      "cover": null
+      "cover": {
+        "filename": "la-couronne-lente.jpg",
+        "sourcePath": "couvertures/la-couronne-lente.jpg",
+        "href": "couvertures/la-couronne-lente.jpg",
+        "format": "jpg"
+      }
     },
     {
       "id": "la-maison-des-heures",
@@ -53,7 +68,12 @@
       "tags": [],
       "date": null,
       "datePrecision": null,
-      "cover": null
+      "cover": {
+        "filename": "la-maison-des-heures.jpg",
+        "sourcePath": "couvertures/la-maison-des-heures.jpg",
+        "href": "couvertures/la-maison-des-heures.jpg",
+        "format": "jpg"
+      }
     },
     {
       "id": "le-livre-des-routes",
@@ -66,7 +86,12 @@
       "tags": [],
       "date": null,
       "datePrecision": null,
-      "cover": null
+      "cover": {
+        "filename": "le-livre-des-routes.jpg",
+        "sourcePath": "couvertures/le-livre-des-routes.jpg",
+        "href": "couvertures/le-livre-des-routes.jpg",
+        "format": "jpg"
+      }
     },
     {
       "id": "les-longues-routes",
@@ -79,7 +104,12 @@
       "tags": [],
       "date": null,
       "datePrecision": null,
-      "cover": null
+      "cover": {
+        "filename": "les-longues-routes.jpg",
+        "sourcePath": "couvertures/les-longues-routes.jpg",
+        "href": "couvertures/les-longues-routes.jpg",
+        "format": "jpg"
+      }
     },
     {
       "id": "atlas-des-brumes",
@@ -93,10 +123,10 @@
       "date": null,
       "datePrecision": null,
       "cover": {
-        "filename": "atlas-des-brumes.png",
-        "sourcePath": "couvertures/atlas-des-brumes.png",
-        "href": "couvertures/atlas-des-brumes.png",
-        "format": "png"
+        "filename": "atlas-des-brumes.jpg",
+        "sourcePath": "couvertures/atlas-des-brumes.jpg",
+        "href": "couvertures/atlas-des-brumes.jpg",
+        "format": "jpg"
       }
     },
     {
@@ -111,10 +141,10 @@
       "date": null,
       "datePrecision": null,
       "cover": {
-        "filename": "notes-sur-le-silence.png",
-        "sourcePath": "couvertures/notes-sur-le-silence.png",
-        "href": "couvertures/notes-sur-le-silence.png",
-        "format": "png"
+        "filename": "notes-sur-le-silence.jpg",
+        "sourcePath": "couvertures/notes-sur-le-silence.jpg",
+        "href": "couvertures/notes-sur-le-silence.jpg",
+        "format": "jpg"
       }
     }
   ]
