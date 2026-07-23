@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 """Génère catalog.json à partir des livres HTML du dépôt.
 
+Deux formats sont acceptés :
+- livres/nom-du-livre.html ;
+- livres/nom-du-livre/index.html (ou, par compatibilité, un unique fichier HTML
+  dans ce sous-dossier).
+
 Bibliothèque standard uniquement. Le script est volontairement tolérant : une erreur
-sur un livre ne bloque pas les autres et le titre dérivé du nom de fichier reste le
+sur un livre ne bloque pas les autres et le titre dérivé de son identifiant reste le
 fallback ultime.
 """
 
@@ -144,10 +149,10 @@ def comparison_key(value: str) -> str:
     return without_marks.casefold()
 
 
-def humanize_filename(path: Path) -> str:
-    value = WHITESPACE_RE.sub(" ", path.stem.replace("-", " ")).strip()
+def humanize_slug(slug: str) -> str:
+    value = WHITESPACE_RE.sub(" ", slug.replace("-", " ")).strip()
     if not value:
-        return path.name
+        return slug
     return value[0].upper() + value[1:]
 
 
@@ -431,44 +436,44 @@ def addition_date(root: Path, path: Path, git_available: bool) -> AdditionDate:
     return AdditionDate(modified, "mtime")
 
 
-def fallback_entry(root: Path, path: Path) -> dict[str, object]:
+def fallback_entry(root: Path, path: Path, slug: str) -> dict[str, object]:
     relative = path.relative_to(root).as_posix()
     return {
-        "id": path.stem,
+        "id": slug,
         "filename": path.name,
         "sourcePath": relative,
         "href": relative,
-        "title": humanize_filename(path),
+        "title": humanize_slug(slug),
         "author": None,
         "description": None,
         "tags": [],
         "date": None,
         "datePrecision": None,
-        "cover": resolve_cover(root, path.stem),
+        "cover": resolve_cover(root, slug),
     }
 
 
-def build_book(root: Path, path: Path) -> dict[str, object]:
+def build_book(root: Path, path: Path, slug: str) -> dict[str, object]:
     relative = path.relative_to(root).as_posix()
     parser = scan_metadata(path, relative)
 
     meta_title = first_scalar(parser.values["book:title"], "book:title", relative)
     author = first_scalar(parser.values["book:author"], "book:author", relative)
     description = first_scalar(parser.values["book:description"], "book:description", relative)
-    title = meta_title or (parser.titles[0] if parser.titles else None) or humanize_filename(path)
+    title = meta_title or (parser.titles[0] if parser.titles else None) or humanize_slug(slug)
     tags = deduplicate_tags(parser.values["book:tags"])
     book_date, date_precision = parse_book_date(parser.values["book:date"], relative)
 
     warn_long_values(title, author, description, tags, relative)
 
-    if not SLUG_RE.fullmatch(path.stem):
+    if not SLUG_RE.fullmatch(slug):
         warn(
-            "Nom de fichier hors convention ; le catalogue est produit, mais le fichier devrait être renommé en kebab-case ASCII.",
+            "Identifiant hors convention ; le catalogue est produit, mais le fichier ou dossier devrait être renommé en kebab-case ASCII.",
             relative,
         )
 
     return {
-        "id": path.stem,
+        "id": slug,
         "filename": path.name,
         "sourcePath": relative,
         "href": relative,
@@ -478,8 +483,63 @@ def build_book(root: Path, path: Path) -> dict[str, object]:
         "tags": tags,
         "date": book_date,
         "datePrecision": date_precision,
-        "cover": resolve_cover(root, path.stem),
+        "cover": resolve_cover(root, slug),
     }
+
+
+def discover_books(books_dir: Path) -> list[tuple[Path, str]]:
+    """Retourne les points d'entrée des livres et leur identifiant stable."""
+    if not books_dir.is_dir():
+        return []
+
+    discovered: list[tuple[Path, str]] = [
+        (path, path.stem)
+        for path in sorted(books_dir.glob("*.html"), key=lambda item: item.name)
+        if path.is_file()
+    ]
+    used_slugs = {slug for _, slug in discovered}
+
+    for directory in sorted(
+        (path for path in books_dir.iterdir() if path.is_dir()),
+        key=lambda item: item.name,
+    ):
+        slug = directory.name
+        candidates = sorted(
+            (path for path in directory.glob("*.html") if path.is_file()),
+            key=lambda item: item.name,
+        )
+        preferred = directory / "index.html"
+
+        if preferred.is_file():
+            entrypoint = preferred
+        elif (directory / f"{slug}.html").is_file():
+            entrypoint = directory / f"{slug}.html"
+        elif len(candidates) == 1:
+            entrypoint = candidates[0]
+        elif not candidates:
+            warn(
+                "Sous-dossier ignoré : aucun point d’entrée HTML trouvé (index.html attendu).",
+                directory.relative_to(books_dir.parent).as_posix(),
+            )
+            continue
+        else:
+            warn(
+                "Sous-dossier ignoré : plusieurs fichiers HTML et aucun index.html ne permettent d’identifier le point d’entrée.",
+                directory.relative_to(books_dir.parent).as_posix(),
+            )
+            continue
+
+        if slug in used_slugs:
+            warn(
+                f"Sous-dossier ignoré : l’identifiant « {slug} » est déjà utilisé par un livre HTML simple.",
+                entrypoint.relative_to(books_dir.parent).as_posix(),
+            )
+            continue
+
+        used_slugs.add(slug)
+        discovered.append((entrypoint, slug))
+
+    return discovered
 
 
 def load_existing_catalog(output_path: Path) -> dict[str, object] | None:
@@ -504,7 +564,7 @@ def write_catalog(output_path: Path, payload: dict[str, object]) -> None:
     temporary = output_path.with_name(f".{output_path.name}.{os.getpid()}.tmp")
     serialized = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
     try:
-        temporary.write_text(serialized, encoding="utf-8", newline="\n")
+        temporary.write_text(serialized, encoding="utf-8")
         os.replace(temporary, output_path)
     finally:
         try:
@@ -515,25 +575,22 @@ def write_catalog(output_path: Path, payload: dict[str, object]) -> None:
 
 def generate(root: Path, output_path: Path) -> dict[str, object]:
     books_dir = root / "livres"
-    paths = sorted(
-        (path for path in books_dir.glob("*.html") if path.is_file()),
-        key=lambda path: path.name,
-    ) if books_dir.is_dir() else []
+    sources = discover_books(books_dir)
 
     git_available = repository_has_git_history(root)
     sortable: list[tuple[AdditionDate, dict[str, object]]] = []
 
-    for path in paths:
+    for path, slug in sources:
         relative = path.relative_to(root).as_posix()
         added = addition_date(root, path, git_available)
         try:
-            entry = build_book(root, path)
+            entry = build_book(root, path, slug)
         except Exception as error:  # Tolérance volontaire au niveau de chaque livre.
             warn(
                 f"Extraction impossible ({type(error).__name__}: {error}) ; utilisation du nom de fichier.",
                 relative,
             )
-            entry = fallback_entry(root, path)
+            entry = fallback_entry(root, path, slug)
         sortable.append((added, entry))
 
     sortable.sort(
@@ -557,7 +614,9 @@ def generate(root: Path, output_path: Path) -> dict[str, object]:
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     default_root = Path(__file__).resolve().parents[1]
-    parser = argparse.ArgumentParser(description="Génère catalog.json depuis livres/*.html.")
+    parser = argparse.ArgumentParser(
+        description="Génère catalog.json depuis les fichiers et sous-dossiers de livres/."
+    )
     parser.add_argument(
         "--root",
         type=Path,
