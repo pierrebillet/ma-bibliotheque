@@ -1,8 +1,31 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-23T16:10:18Z",
-  "bookCount": 6,
+  "generatedAt": "2026-07-24T17:02:33Z",
+  "bookCount": 7,
   "books": [
+    {
+      "id": "les-ombres-de-midi",
+      "filename": "les-ombres-de-midi.html",
+      "sourcePath": "livres/les-ombres-de-midi/les-ombres-de-midi.html",
+      "href": "livres/les-ombres-de-midi/les-ombres-de-midi.html",
+      "title": "Les Ombres de midi",
+      "author": "Atelier des récits explorables",
+      "description": "Dans une cité où l’on recoud les ombres aux corps chaque matin, une tailleuse découvre que les formes noires tentaient peut-être de sauver leurs porteurs.",
+      "tags": [
+        "récit spéculatif",
+        "ombres",
+        "canyon",
+        "autonomie"
+      ],
+      "date": "2026-07-24",
+      "datePrecision": "day",
+      "cover": {
+        "filename": "les-ombres-de-midi.jpg",
+        "sourcePath": "couvertures/les-ombres-de-midi.jpg",
+        "href": "couvertures/les-ombres-de-midi.jpg",
+        "format": "jpg"
+      }
+    },
     {
       "id": "la-part-des-pluies",
       "filename": "la-part-des-pluies.html",
