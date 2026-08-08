@@ -1,8 +1,32 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-24T17:02:33Z",
-  "bookCount": 7,
+  "generatedAt": "2026-08-08T05:57:34Z",
+  "bookCount": 8,
   "books": [
+    {
+      "id": "lequation-du-calme",
+      "filename": "lequation-du-calme.html",
+      "sourcePath": "livres/lequation-du-calme/lequation-du-calme.html",
+      "href": "livres/lequation-du-calme/lequation-du-calme.html",
+      "title": "L’Équation du calme",
+      "author": "Atelier des récits explorables",
+      "description": "Sur Alcyone, la cité d’Hélicé vit dans un calme statistiquement parfait. Elvire Maes, espionne de la Ligue des Ports Francs, découvre ce que la perfection soustrait : des vies entières retirées du compte.",
+      "tags": [
+        "espionnage",
+        "science-fiction",
+        "utopie",
+        "contre-surveillance",
+        "loyauté"
+      ],
+      "date": "2026-08-07",
+      "datePrecision": "day",
+      "cover": {
+        "filename": "lequation-du-calme.jpg",
+        "sourcePath": "couvertures/lequation-du-calme.jpg",
+        "href": "couvertures/lequation-du-calme.jpg",
+        "format": "jpg"
+      }
+    },
     {
       "id": "les-ombres-de-midi",
       "filename": "les-ombres-de-midi.html",
