@@ -1,8 +1,32 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-11T13:15:46Z",
-  "bookCount": 9,
+  "generatedAt": "2026-08-11T14:10:34Z",
+  "bookCount": 10,
   "books": [
+    {
+      "id": "la-doublure",
+      "filename": "la-doublure.html",
+      "sourcePath": "livres/la-doublure.html",
+      "href": "livres/la-doublure.html",
+      "title": "La Doublure",
+      "author": "Atelier des récits explorables",
+      "description": "Chez Louvel, dernière grande maison indépendante de l’avenue Montaigne, les collections fuient avant les défilés. Anouk Berthier, agente infiltrée comme seconde assistante, apprend que la couture est un sport de combat.",
+      "tags": [
+        "espionnage",
+        "mode",
+        "haute couture",
+        "Paris",
+        "intrigue familiale"
+      ],
+      "date": "2026-08-11",
+      "datePrecision": "day",
+      "cover": {
+        "filename": "la-doublure.jpg",
+        "sourcePath": "couvertures/la-doublure.jpg",
+        "href": "couvertures/la-doublure.jpg",
+        "format": "jpg"
+      }
+    },
     {
       "id": "lequation-du-calme-illustree",
       "filename": "lequation-du-calme-illustree.html",
