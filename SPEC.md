@@ -1,7 +1,17 @@
 # Spécification — Ma Bibliothèque HTML
 
+> ⚠️ **Document historique — ne plus s'y fier tel quel** (août 2026).
+> Cette spécification décrit l'intention initiale (v1) du projet. Plusieurs points
+> majeurs ne correspondent plus à l'implémentation réelle : `catalog.json` est
+> versionné et committé par le bot (pas d'artefact `_site/`), les sous-dossiers de
+> `livres/` sont pris en charge, le tri par défaut est par date d'ajout, les liens
+> s'ouvrent dans un nouvel onglet, et l'arborescence (`assets/`, `guides/`, `tests/`…)
+> n'a jamais été créée. L'écart complet est documenté dans
+> `audits/2026-08-rapport-etonnement.md`. **Source de vérité actuelle : `README.md`
+> et `AGENTS.md`**, puis `AUTOMATISATION.md` et `FRONTEND.md` pour le détail technique.
+
 Version de la spécification : 1.0  
-Statut : source normative du projet  
+Statut : ~~source normative du projet~~ **intention historique, partiellement obsolète**  
 Langue de l’interface : français  
 Cible d’hébergement : GitHub Pages
 

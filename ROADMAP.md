@@ -1,5 +1,14 @@
 # Roadmap — Ma Bibliothèque HTML
 
+> ⚠️ **Document historique, jamais réactualisé** (août 2026).
+> État réel : étapes 2 et 3 réalisées **autrement** que décrit (un `index.html`
+> monolithique au lieu d'`assets/`, un workflow `catalog.yml` avec `catalog.json`
+> versionné au lieu de `deploy-pages.yml`, aucun test écrit) ; étapes 4 (guides) et
+> 5 (livre d'exemple + recette) **jamais commencées**, et les livres de démonstration
+> ont été supprimés. Le travail réellement effectué (refonte de l'index, livres
+> illustrés en dossier, briefs `dev-mvp/`) n'y figure pas. Une nouvelle roadmap sera
+> reconstruite brique par brique — voir `audits/2026-08-rapport-etonnement.md` §D.
+
 Version : 1.0  
 Point de départ : étape 1 terminée par la production de `SPEC.md`, `CONVENTIONS.md` et `ROADMAP.md`.
 
