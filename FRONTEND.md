@@ -3,7 +3,7 @@
 ## Fichiers
 
 - `index.html` : page complète, autonome, sans framework ni dépendance externe. Le HTML, le CSS et le JavaScript sont réunis dans ce fichier.
-- `catalog.json` : le catalogue réel du site, conforme au schéma version 1, régénéré automatiquement par le workflow (ne pas l’éditer à la main). Une copie de secours est inlinée dans `index.html` (bloc `#demo-catalog`, utilisé uniquement en `file://`) ; cette copie est aujourd’hui maintenue à la main et peut dériver.
+- `catalog.json` : le catalogue réel du site, conforme au schéma version 1, régénéré automatiquement par le workflow (ne pas l’éditer à la main). Une copie de secours est inlinée dans `index.html` (bloc `#demo-catalog`, utilisé uniquement en `file://`) ; cette copie est régénérée automatiquement par le workflow en même temps que `catalog.json` — ne jamais l’éditer à la main, la CI rejette les pull requests qui la modifient.
 - `couvertures/` et `livres/` : ressources facultatives incluses dans le paquet de prévisualisation pour que les images et les liens de démonstration fonctionnent localement.
 
 ## Fonctionnement de `index.html`
@@ -37,6 +37,8 @@ La page fournit :
 Les navigateurs bloquent généralement `fetch()` entre fichiers ouverts avec le protocole `file://`. Pour permettre l’ouverture directe de `index.html`, le fichier contient une copie intégrée du catalogue de démonstration, utilisée uniquement lorsque le chargement échoue sous `file://`.
 
 Sur GitHub Pages ou tout serveur HTTP, `catalog.json` reste la source effective. La copie intégrée est ignorée dès que le `fetch()` réussit.
+
+Cette copie est synchronisée automatiquement après chaque merge sur `main` (`scripts/build_catalog.py --sync-demo-catalog`). Son JSON peut différer de `catalog.json` par un seul détail : les séquences `</` y sont échappées en `<\/` pour rester valides dans une balise `<script>` (équivalent strict après `JSON.parse`).
 
 ## Format attendu de `catalog.json`
 

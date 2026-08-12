@@ -4,7 +4,8 @@ Le contrat de contribution complet est dans [`AGENTS.md`](AGENTS.md) — le lire
 toute modification. Rappels critiques :
 
 - **Ne jamais éditer `catalog.json`** ni le bloc `#demo-catalog` de `index.html` :
-  le catalogue est régénéré par CI après merge sur `main`.
+  les deux sont régénérés par la CI après chaque merge sur `main`, et la CI rejette
+  toute pull request qui les modifie.
 - **Tout passe par branche + pull request**, y compris les éditions illustrées.
 - Slug de livre en kebab-case ASCII ; vérification locale :
   `python scripts/build_catalog.py --output /tmp/catalog-verification.json`.
