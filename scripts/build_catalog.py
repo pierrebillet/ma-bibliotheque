@@ -42,6 +42,12 @@ BOOK_META_NAMES = {
     "book:date",
 }
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+# Bloc JSON inliné dans index.html, utilisé comme repli en ouverture file://.
+# Non-greedy jusqu'au premier </script>, comme le parseur HTML des navigateurs.
+DEMO_BLOCK_RE = re.compile(
+    r'(?P<open><script\b[^>]*\bid="demo-catalog"[^>]*>)(?P<body>.*?)(?P<close></script>)',
+    re.DOTALL,
+)
 DATE_PATTERNS = (
     (re.compile(r"^\d{4}$"), "year"),
     (re.compile(r"^\d{4}-\d{2}$"), "month"),
@@ -183,6 +189,10 @@ def error(message: str, relative_path: str | None = None) -> None:
 
 class InvalidSlugError(Exception):
     """Levée quand un identifiant de livre serait rejeté par le validateur de l'index."""
+
+
+class DemoBlockError(Exception):
+    """Levée quand le bloc #demo-catalog de index.html est introuvable ou ambigu."""
 
 
 def detect_declared_encoding(prefix: bytes) -> str | None:
@@ -573,18 +583,51 @@ def generated_at(existing: dict[str, object] | None, books: list[dict[str, objec
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
-def write_catalog(output_path: Path, payload: dict[str, object]) -> None:
+def write_text_atomic(output_path: Path, text: str) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     temporary = output_path.with_name(f".{output_path.name}.{os.getpid()}.tmp")
-    serialized = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
     try:
-        temporary.write_text(serialized, encoding="utf-8")
+        temporary.write_text(text, encoding="utf-8")
         os.replace(temporary, output_path)
     finally:
         try:
             temporary.unlink()
         except FileNotFoundError:
             pass
+
+
+def write_catalog(output_path: Path, payload: dict[str, object]) -> None:
+    write_text_atomic(output_path, json.dumps(payload, ensure_ascii=False, indent=2) + "\n")
+
+
+def render_demo_json(payload: dict[str, object]) -> str:
+    serialized = json.dumps(payload, ensure_ascii=False, indent=2)
+    # Un « </ » littéral (notamment « </script> ») dans une chaîne JSON fermerait
+    # prématurément la balise côté HTML. « <\/ » est un échappement JSON valide,
+    # strictement équivalent après JSON.parse.
+    return serialized.replace("</", "<\\/")
+
+
+def sync_demo_catalog(index_path: Path, payload: dict[str, object]) -> bool:
+    """Réécrit le corps du bloc #demo-catalog ; retourne True si le fichier a changé."""
+    try:
+        original = index_path.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as exc:
+        raise DemoBlockError(f"Lecture impossible de {index_path} : {exc}") from exc
+
+    matches = list(DEMO_BLOCK_RE.finditer(original))
+    if len(matches) != 1:
+        raise DemoBlockError(
+            f"Bloc #demo-catalog attendu exactement une fois dans {index_path.name}, "
+            f"{len(matches)} occurrence(s) trouvée(s) ; synchronisation refusée."
+        )
+
+    match = matches[0]
+    updated = original[: match.start("body")] + render_demo_json(payload) + original[match.end("body") :]
+    if updated == original:
+        return False
+    write_text_atomic(index_path, updated)
+    return True
 
 
 def generate(root: Path, output_path: Path) -> dict[str, object]:
@@ -658,6 +701,17 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         default=Path("catalog.json"),
         help="Chemin de sortie, absolu ou relatif à --root (défaut : catalog.json).",
     )
+    parser.add_argument(
+        "--sync-demo-catalog",
+        action="store_true",
+        help='Réécrit aussi le bloc <script id="demo-catalog"> de index.html avec le catalogue généré.',
+    )
+    parser.add_argument(
+        "--index",
+        type=Path,
+        default=Path("index.html"),
+        help="Chemin de la page d'accueil, absolu ou relatif à --root (défaut : index.html).",
+    )
     return parser.parse_args(argv)
 
 
@@ -667,12 +721,18 @@ def main(argv: Sequence[str] | None = None) -> int:
     output_path = args.output if args.output.is_absolute() else root / args.output
     try:
         payload = generate(root, output_path)
+        demo_changed = False
+        if args.sync_demo_catalog:
+            index_path = args.index if args.index.is_absolute() else root / args.index
+            demo_changed = sync_demo_catalog(index_path, payload)
     except Exception as error:
         print(f"::error::{annotation_escape(type(error).__name__ + ': ' + str(error))}", file=sys.stderr)
         return 1
 
     count = int(payload["bookCount"])
     print(f"Catalogue généré : {count} livre{'s' if count != 1 else ''} -> {output_path}")
+    if args.sync_demo_catalog:
+        print("Bloc #demo-catalog synchronisé." if demo_changed else "Bloc #demo-catalog déjà à jour.")
     return 0
 
 

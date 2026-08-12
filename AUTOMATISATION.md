@@ -6,6 +6,7 @@
 scripts/build_catalog.py
 .github/workflows/catalog.yml
 catalog.json
+index.html          (bloc #demo-catalog uniquement)
 ```
 
 Le site GitHub Pages doit être configuré dans **Settings > Pages > Build and deployment** avec :
@@ -29,9 +30,10 @@ Le workflow **Mettre à jour le catalogue** démarre :
 1. à chaque push sur `main` modifiant `livres/**` ;
 2. à chaque push sur `main` modifiant `couvertures/**` ;
 3. à chaque push sur `main` modifiant `scripts/**` ;
-4. manuellement depuis **Actions > Mettre à jour le catalogue > Run workflow**.
+4. à chaque push sur `main` modifiant `index.html` (resynchronisation du bloc `#demo-catalog`, sans effet si le bloc est déjà à jour) ;
+5. manuellement depuis **Actions > Mettre à jour le catalogue > Run workflow**.
 
-Un commit qui ne touche que `catalog.json` ne relance pas ce workflow. Le commit automatique contient également `[skip ci]`.
+Un commit qui ne touche que `catalog.json` ne relance pas ce workflow, et le commit automatique du bot (qui peut contenir `catalog.json` et `index.html`) porte `[skip ci]` : aucune boucle possible.
 
 ## Déroulé d’un run
 
@@ -43,9 +45,10 @@ Un commit qui ne touche que `catalog.json` ne relance pas ce workflow. Le commit
 6. Les couvertures sont recherchées dans l’ordre `.webp`, `.png`, `.jpg` et leur signature binaire minimale est contrôlée.
 7. La date d’ajout Git du fichier (`git log --diff-filter=A`, sans `--follow` pour qu’une édition dérivée n’hérite pas de la date de son livre source) est récupérée. Si l’historique est indisponible, la date de modification du fichier est utilisée. Cette date sert uniquement à classer les entrées du catalogue du plus récent au plus ancien ; le champ JSON `date` reste réservé à `book:date`.
 8. `catalog.json` est écrit en UTF-8, JSON indenté, avec un saut de ligne final.
-9. Si le fichier n’a pas changé, le workflow s’arrête sans commit.
-10. S’il a changé, le bot GitHub committe et pousse `catalog.json` sur `main`.
-11. Le workflow demande explicitement un nouveau build GitHub Pages. Cette étape est nécessaire parce qu’un commit poussé avec `GITHUB_TOKEN` ne déclenche pas seul un build Pages en mode branche.
+9. Le bloc `#demo-catalog` de `index.html` est réécrit avec le même JSON (option `--sync-demo-catalog` du script ; les `</` y sont échappés en `<\/` pour rester valides en HTML). Si le bloc est introuvable ou présent plusieurs fois, le script sort en erreur.
+10. Si ni `catalog.json` ni `index.html` n’ont changé, le workflow s’arrête sans commit.
+11. Sinon, le bot GitHub committe les deux fichiers (`chore: met à jour le catalogue (catalog.json + bloc demo) [skip ci]`) et pousse sur `main`, avec rebase et jusqu’à trois tentatives en cas de push concurrent.
+12. Le workflow demande explicitement un nouveau build GitHub Pages. Cette étape est nécessaire parce qu’un commit poussé avec `GITHUB_TOKEN` ne déclenche pas seul un build Pages en mode branche.
 
 ## Vérifier qu’un run a réussi
 
@@ -55,26 +58,27 @@ Un commit qui ne touche que `catalog.json` ne relance pas ce workflow. Le commit
 4. Si le catalogue a changé, vérifier la présence d’un commit nommé :
 
    ```text
-   chore: met à jour catalog.json [skip ci]
+   chore: met à jour le catalogue (catalog.json + bloc demo) [skip ci]
    ```
 
 5. Dans **Actions**, vérifier ensuite que le workflow système GitHub Pages (`pages-build-deployment`) est vert.
 6. Ouvrir `catalog.json` sur la branche `main` et contrôler `bookCount`, l’entrée du nouveau livre et son éventuelle couverture.
-7. Ouvrir le site public et effectuer un rechargement forcé si le navigateur conserve une ancienne réponse.
+7. Au besoin, vérifier que le bloc `#demo-catalog` de `index.html` sur `main` contient le même catalogue que `catalog.json` (à l’échappement `<\/` et au saut de ligne final près : comparer les JSON parsés, pas les octets).
+8. Ouvrir le site public et effectuer un rechargement forcé si le navigateur conserve une ancienne réponse.
 
-## Trois pannes probables
+## Quatre pannes probables
 
-### 1. Le workflow ne peut pas pousser `catalog.json`
+### 1. Le workflow ne peut pas pousser le commit du catalogue
 
 **Symptômes**
 
-- étape `Committer catalog.json` rouge ;
+- étape `Committer le catalogue` rouge ;
 - message `Permission denied`, `403` ou `refusing to allow a GitHub App to create or update workflow` ;
 - aucun commit du bot.
 
 **Cause probable**
 
-Les Actions du dépôt sont limitées en lecture, ou une règle de protection de `main` interdit les commits du bot.
+Les Actions du dépôt sont limitées en lecture, ou une règle de protection de `main` interdit les commits du bot. Les simples courses de push (un humain pousse au même moment) sont absorbées par le rebase et les trois tentatives : un échec persistant signale un vrai problème de droits.
 
 **Résolution**
 
@@ -124,3 +128,19 @@ GitHub Pages n’est pas encore activé en mode branche, la source n’est pas `
 - enregistrer les nouveaux livres en UTF-8 avec `<meta charset="utf-8">` ;
 - nommer la couverture avec le même nom de base et une extension `.webp`, `.png` ou `.jpg` en minuscules ;
 - consulter les annotations jaunes du run, corriger le fichier, puis committer à nouveau.
+
+### 4. Le bloc `#demo-catalog` est introuvable
+
+**Symptômes**
+
+- run rouge avec `DemoBlockError` (« Bloc #demo-catalog attendu exactement une fois… ») ;
+- le job `verification` échoue sur une pull request qui remanie `index.html`.
+
+**Cause probable**
+
+La balise `<script id="demo-catalog" type="application/json">` a été renommée, supprimée ou dupliquée dans `index.html`.
+
+**Résolution**
+
+- restaurer une unique balise `<script id="demo-catalog" type="application/json">…</script>` dans `index.html` (son contenu importe peu, le bot le réécrit) ;
+- le job `verification` détecte ce cas dès la pull request, avant tout merge.
