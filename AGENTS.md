@@ -15,8 +15,11 @@ automatiquement par CI à partir des métadonnées des livres.
 1. **Ne jamais éditer `catalog.json`.** Il est régénéré par le workflow après chaque
    merge sur `main`. La CI rejette toute pull request qui le modifie.
 2. **Ne jamais éditer le bloc `#demo-catalog` de `index.html`.** C'est une copie de
-   secours du catalogue pour l'ouverture en `file://` ; sa synchronisation est un
-   chantier connu, ne pas l'entretenir à la main.
+   secours du catalogue pour l'ouverture en `file://`, régénérée automatiquement par
+   la CI après chaque merge sur `main`, au même titre que `catalog.json`. La CI
+   rejette toute pull request qui modifie ce bloc (le reste d'`index.html` reste
+   modifiable normalement). Ajouter un livre ne demande **aucune** mise à jour du
+   catalogue : elle est entièrement automatique après le merge.
 3. **Tout passe par une branche + pull request.** Jamais de push direct sur `main`,
    y compris pour les éditions illustrées.
 4. **Un livre = un commit clair** (ou plusieurs commits d'étapes : plan, chapitres,
@@ -104,8 +107,8 @@ d'affichage) ou attendre le schéma de catalogue v2 (`variantOf`) — voir
 
 | Élément | Rôle |
 |---|---|
-| `scripts/build_catalog.py` | Découvre les livres, extrait les 5 meta `book:*` du `<head>`, résout la couverture, trie par date d'ajout Git. Strict sur les slugs (exit 1). |
-| `.github/workflows/catalog.yml` | Job `verification` sur PR (génération à blanc + refus des éditions de `catalog.json`) ; job `catalogue` sur `main` (régénère, commite `[skip ci]`, relance le build Pages). |
+| `scripts/build_catalog.py` | Découvre les livres, extrait les 5 meta `book:*` du `<head>`, résout la couverture, trie par date d'ajout Git. Strict sur les slugs (exit 1). Avec `--sync-demo-catalog`, réécrit aussi le bloc `#demo-catalog` de `index.html` (cible modifiable via `--index`). |
+| `.github/workflows/catalog.yml` | Job `verification` sur PR (génération à blanc, bloc demo inclus + refus des éditions de `catalog.json` et du bloc `#demo-catalog`) ; job `catalogue` sur `main` (régénère `catalog.json` + bloc demo, commite `[skip ci]` avec rebase/retry, relance le build Pages). |
 | `index.html` | Page d'accueil autonome. Valide chaque entrée du catalogue ; ignore les entrées invalides. |
 
 ## Ce qu'il ne faut PAS faire

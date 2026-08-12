@@ -30,6 +30,7 @@ La documentation historique a dérivé de l'implémentation. Hiérarchie de conf
 
 ```text
 index.html            Page d'accueil (recherche, filtres, tri) — autonome, sans framework
+                      (son bloc #demo-catalog est généré — NE PAS l'éditer à la main)
 catalog.json          Catalogue généré — NE PAS éditer à la main (le bot le régénère)
 livres/               Les livres
   mon-livre.html        forme simple : un fichier autonome
@@ -53,9 +54,10 @@ Le contrat détaillé pour les agents est dans [`AGENTS.md`](AGENTS.md). En bref
 3. Vérifier localement : `python scripts/build_catalog.py --output /tmp/catalog.json`
    (le script échoue si le slug est invalide).
 4. Ouvrir une pull request. La CI vérifie la génération du catalogue et refuse toute
-   modification manuelle de `catalog.json`.
-5. Après le merge, le bot régénère `catalog.json` et relance le build GitHub Pages.
-   Le livre apparaît sur la page d'accueil sans autre intervention.
+   modification manuelle de `catalog.json` ou du bloc `#demo-catalog` de `index.html`.
+5. Après le merge, le bot régénère `catalog.json` **et** le bloc `#demo-catalog`
+   d'`index.html`, puis relance le build GitHub Pages. Le livre apparaît sur la page
+   d'accueil sans autre intervention : ne jamais mettre à jour le catalogue soi-même.
 
 ## Ce qu'un livre doit respecter
 
