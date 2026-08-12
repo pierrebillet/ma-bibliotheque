@@ -14,7 +14,13 @@ Le site GitHub Pages doit être configuré dans **Settings > Pages > Build and d
 - **Branch** : `main` ;
 - **Folder** : `/(root)`.
 
-Aucun lancement local n’est nécessaire pour l’ajout courant d’un livre.
+Aucun lancement local n’est nécessaire pour l’ajout courant d’un livre. Un contributeur (humain ou agent) peut toutefois vérifier son travail avant d’ouvrir une pull request avec :
+
+```bash
+python scripts/build_catalog.py --output /tmp/catalog-verification.json
+```
+
+Le script sort en erreur (code 1) si un identifiant de livre est hors convention kebab-case ASCII. Les pull requests exécutent automatiquement cette même vérification (job `verification` du workflow).
 
 ## Déclencheurs
 
@@ -31,11 +37,11 @@ Un commit qui ne touche que `catalog.json` ne relance pas ce workflow. Le commit
 
 1. `actions/checkout` récupère `main` avec tout l’historique Git (`fetch-depth: 0`).
 2. Python 3.12 exécute `scripts/build_catalog.py`, sans installation de paquet.
-3. Le script parcourt uniquement les fichiers `livres/*.html` du premier niveau.
+3. Le script parcourt les fichiers `livres/*.html` du premier niveau **et** les sous-dossiers `livres/<slug>/` (point d’entrée : `index.html`, sinon `<slug>.html`, sinon l’unique fichier HTML du dossier). Les fichiers et dossiers cachés (préfixe `.`) et le dossier `_template` sont ignorés. La profondeur est limitée à un niveau : `livres/serie/tome-1/` n’est pas découvert.
 4. Pour chaque livre, il extrait les métadonnées `book:*`, puis applique les fallbacks prévus pour le titre.
 5. La lecture s’arrête à la fermeture de `<head>` lorsqu’elle existe ; sans `<head>` exploitable, elle est plafonnée à 4 Mio pour rester sûre avec les fichiers très volumineux.
 6. Les couvertures sont recherchées dans l’ordre `.webp`, `.png`, `.jpg` et leur signature binaire minimale est contrôlée.
-7. La date du premier commit Git du livre est récupérée. Si l’historique est indisponible, la date de modification du fichier est utilisée. Cette date sert uniquement à classer les entrées du catalogue du plus récent au plus ancien ; le champ JSON `date` reste réservé à `book:date`.
+7. La date d’ajout Git du fichier (`git log --diff-filter=A`, sans `--follow` pour qu’une édition dérivée n’hérite pas de la date de son livre source) est récupérée. Si l’historique est indisponible, la date de modification du fichier est utilisée. Cette date sert uniquement à classer les entrées du catalogue du plus récent au plus ancien ; le champ JSON `date` reste réservé à `book:date`.
 8. `catalog.json` est écrit en UTF-8, JSON indenté, avec un saut de ligne final.
 9. Si le fichier n’a pas changé, le workflow s’arrête sans commit.
 10. S’il a changé, le bot GitHub committe et pousse `catalog.json` sur `main`.
@@ -109,7 +115,7 @@ GitHub Pages n’est pas encore activé en mode branche, la source n’est pas `
 - métadonnée vide ou mal nommée ;
 - HTML ou encodage atypique au-delà de la zone lue ;
 - couverture avec un nom, une extension ou une signature incorrecte ;
-- fichier placé dans un sous-dossier au lieu de `livres/`.
+- sous-dossier sans point d’entrée identifiable (plusieurs fichiers HTML et aucun `index.html`), ou imbriqué à plus d’un niveau sous `livres/`.
 
 **Résolution**
 

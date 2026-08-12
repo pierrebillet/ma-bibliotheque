@@ -1414,6 +1414,12 @@
       h1 { font-size: clamp(3rem, 13vw, 4.8rem); }
       .intro { margin: 0; padding-top: 0.9rem; }
     }
+
+    /* La grille déclare display:grid en dur, ce qui neutralise la règle
+       navigateur [hidden]{display:none} ; on la rétablit explicitement. */
+    .library-grid[hidden] {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -2043,13 +2049,20 @@
         if (!isPlainObject(payload)) throw new Error("Le fichier catalog.json ne contient pas un objet JSON valide.");
         if (payload.schemaVersion !== 1) throw new Error("La version du catalogue n’est pas prise en charge.");
         if (!Array.isArray(payload.books)) throw new Error("La liste des livres est absente du catalogue.");
-        if (!Number.isInteger(payload.bookCount) || payload.bookCount !== payload.books.length) {
-          throw new Error("Le nombre de livres déclaré ne correspond pas au catalogue.");
-        }
 
+        // Validation tolérante : une entrée invalide est ignorée et signalée en
+        // console, les autres livres restent affichés. Seul un catalogue dont
+        // aucune entrée n'est exploitable est rejeté.
         const books = payload.books.map(validateBook).filter(Boolean);
-        if (books.length !== payload.books.length) {
-          throw new Error("Une ou plusieurs entrées du catalogue sont invalides.");
+        const rejectedCount = payload.books.length - books.length;
+        if (rejectedCount > 0) {
+          console.warn(`Catalogue : ${rejectedCount} entrée(s) invalide(s) ignorée(s) sur ${payload.books.length}.`);
+        }
+        if (!Number.isInteger(payload.bookCount) || payload.bookCount !== payload.books.length) {
+          console.warn("Catalogue : le nombre de livres déclaré (bookCount) ne correspond pas à la liste reçue.");
+        }
+        if (payload.books.length > 0 && books.length === 0) {
+          throw new Error("Toutes les entrées du catalogue sont invalides.");
         }
 
         return {
