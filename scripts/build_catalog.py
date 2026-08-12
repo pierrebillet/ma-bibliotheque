@@ -173,6 +173,18 @@ def warn(message: str, relative_path: str | None = None) -> None:
         print(f"::warning::{escaped}", file=sys.stderr)
 
 
+def error(message: str, relative_path: str | None = None) -> None:
+    escaped = annotation_escape(message)
+    if relative_path:
+        print(f"::error file={annotation_escape(relative_path)}::{escaped}", file=sys.stderr)
+    else:
+        print(f"::error::{escaped}", file=sys.stderr)
+
+
+class InvalidSlugError(Exception):
+    """Levée quand un identifiant de livre serait rejeté par le validateur de l'index."""
+
+
 def detect_declared_encoding(prefix: bytes) -> str | None:
     for tag in META_TAG_RE.findall(prefix):
         direct = CHARSET_ATTR_RE.search(tag)
@@ -410,7 +422,11 @@ def addition_date(root: Path, path: Path, git_available: bool) -> AdditionDate:
         relative = path.relative_to(root).as_posix()
         try:
             result = subprocess.run(
-                ["git", "-C", str(root), "log", "--follow", "--format=%aI", "--", relative],
+                # --diff-filter=A (sans --follow) : seule la date d'ajout du fichier
+                # lui-même compte. --follow reliait les éditions dérivées à leur
+                # livre source par similarité de contenu et leur faisait hériter
+                # d'une date d'ajout étrangère.
+                ["git", "-C", str(root), "log", "--diff-filter=A", "--format=%aI", "--", relative],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL,
                 text=True,
@@ -466,12 +482,6 @@ def build_book(root: Path, path: Path, slug: str) -> dict[str, object]:
 
     warn_long_values(title, author, description, tags, relative)
 
-    if not SLUG_RE.fullmatch(slug):
-        warn(
-            "Identifiant hors convention ; le catalogue est produit, mais le fichier ou dossier devrait être renommé en kebab-case ASCII.",
-            relative,
-        )
-
     return {
         "id": slug,
         "filename": path.name,
@@ -495,12 +505,16 @@ def discover_books(books_dir: Path) -> list[tuple[Path, str]]:
     discovered: list[tuple[Path, str]] = [
         (path, path.stem)
         for path in sorted(books_dir.glob("*.html"), key=lambda item: item.name)
-        if path.is_file()
+        if path.is_file() and not path.name.startswith(".")
     ]
     used_slugs = {slug for _, slug in discovered}
 
     for directory in sorted(
-        (path for path in books_dir.iterdir() if path.is_dir()),
+        (
+            path
+            for path in books_dir.iterdir()
+            if path.is_dir() and not path.name.startswith(".") and path.name != "_template"
+        ),
         key=lambda item: item.name,
     ):
         slug = directory.name
@@ -577,6 +591,21 @@ def generate(root: Path, output_path: Path) -> dict[str, object]:
     books_dir = root / "livres"
     sources = discover_books(books_dir)
 
+    # Vérification bloquante : le validateur de index.html rejette tout identifiant
+    # hors kebab-case ASCII. Publier un tel identifiant rendrait la page inutilisable,
+    # donc la génération échoue ici plutôt qu'en production.
+    invalid_slugs = [(path, slug) for path, slug in sources if not SLUG_RE.fullmatch(slug)]
+    if invalid_slugs:
+        for path, slug in invalid_slugs:
+            error(
+                f"Identifiant « {slug} » hors convention (kebab-case ASCII attendu, ex. mon-livre) : "
+                "renommer le fichier ou le dossier avant publication.",
+                path.relative_to(root).as_posix(),
+            )
+        raise InvalidSlugError(
+            f"{len(invalid_slugs)} identifiant(s) de livre hors convention ; catalogue non généré."
+        )
+
     git_available = repository_has_git_history(root)
     sortable: list[tuple[AdditionDate, dict[str, object]]] = []
 
@@ -585,9 +614,9 @@ def generate(root: Path, output_path: Path) -> dict[str, object]:
         added = addition_date(root, path, git_available)
         try:
             entry = build_book(root, path, slug)
-        except Exception as error:  # Tolérance volontaire au niveau de chaque livre.
+        except Exception as extraction_error:  # Tolérance volontaire au niveau de chaque livre.
             warn(
-                f"Extraction impossible ({type(error).__name__}: {error}) ; utilisation du nom de fichier.",
+                f"Extraction impossible ({type(extraction_error).__name__}: {extraction_error}) ; utilisation du nom de fichier.",
                 relative,
             )
             entry = fallback_entry(root, path, slug)

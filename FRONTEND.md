@@ -3,7 +3,7 @@
 ## Fichiers
 
 - `index.html` : page complète, autonome, sans framework ni dépendance externe. Le HTML, le CSS et le JavaScript sont réunis dans ce fichier.
-- `catalog.json` : catalogue de démonstration conforme au schéma version 1, avec trois livres fictifs.
+- `catalog.json` : le catalogue réel du site, conforme au schéma version 1, régénéré automatiquement par le workflow (ne pas l’éditer à la main). Une copie de secours est inlinée dans `index.html` (bloc `#demo-catalog`, utilisé uniquement en `file://`) ; cette copie est aujourd’hui maintenue à la main et peut dériver.
 - `couvertures/` et `livres/` : ressources facultatives incluses dans le paquet de prévisualisation pour que les images et les liens de démonstration fonctionnent localement.
 
 ## Fonctionnement de `index.html`

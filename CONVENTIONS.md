@@ -1,7 +1,15 @@
 # Conventions — Ma Bibliothèque HTML
 
+> ⚠️ **Document partiellement obsolète** (août 2026).
+> Points périmés connus : les sous-dossiers `livres/<slug>/` sont **pris en charge et
+> devenus la forme recommandée pour les livres illustrés** (contrairement aux §2.1 et
+> §2.3) ; toutes les couvertures du dépôt sont en `.jpg` (le §8 privilégie `.webp`) ;
+> les §11-12 décrivent un contrat « aucune intervention technique » qui ne correspond
+> plus au workflow réel par branches et pull requests. Le bloc `<head>` du §9 reste
+> valide et utile. **Source de vérité actuelle : `README.md` et `AGENTS.md`.**
+
 Version : 1.0  
-Statut : source normative complémentaire à `SPEC.md`
+Statut : ~~source normative complémentaire à `SPEC.md`~~ **partiellement obsolète, voir encart**
 
 ## 1. Principe général
 
