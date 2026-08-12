@@ -8,6 +8,13 @@ on:
       - "livres/**"
       - "couvertures/**"
       - "scripts/**"
+  pull_request:
+    paths:
+      - "livres/**"
+      - "couvertures/**"
+      - "scripts/**"
+      - "catalog.json"
+      - "index.html"
   workflow_dispatch:
 
 permissions:
@@ -19,8 +26,45 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Vérification sans commit pour les pull requests : donne un retour CI aux
+  # contributions (agents inclus) avant merge. Échoue notamment si un
+  # identifiant de livre est hors convention (le script sort en erreur).
+  verification:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Récupérer la branche de la pull request
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Installer Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Vérifier la génération du catalogue
+        run: python scripts/build_catalog.py --output /tmp/catalog-verification.json
+
+      - name: Vérifier que catalog.json n'a pas été édité à la main
+        shell: bash
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          # catalog.json appartient au bot : il est régénéré automatiquement
+          # après le merge sur main. Une pull request ne doit pas le modifier.
+          git fetch origin "$BASE_REF"
+          if ! git diff --quiet "origin/$BASE_REF"...HEAD -- catalog.json; then
+            echo "::error file=catalog.json::Cette pull request modifie catalog.json. Ne pas l'éditer à la main : il est régénéré automatiquement après le merge sur main."
+            exit 1
+          fi
+          echo "catalog.json n'est pas modifié par cette pull request."
+
   catalogue:
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:
