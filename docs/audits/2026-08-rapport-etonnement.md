@@ -1,5 +1,9 @@
 # Rapport d'étonnement — Ma Bibliothèque (août 2026)
 
+> Note (13 août 2026) : document daté, conservé tel quel. Les chemins cités sont ceux
+> d'août 2026, avant la restructuration par rôles (`SPEC.md` et consorts sont depuis
+> dans `docs/archives/`, l'écriture d'un livre dans `ateliers/roman-atelier/`).
+
 Audit réalisé le 12 août 2026, à la demande de Pierre, pour reprendre les fondamentaux
 du projet avant son ouverture à des agents de code arbitraires. Trois volets :
 
