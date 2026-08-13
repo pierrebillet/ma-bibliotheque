@@ -1,12 +1,16 @@
 # Atelier roman-atelier — écrire un roman-web illustré avec la liseuse « Atelier »
 
-- **Version** : 3
+- **Version** : 4
 - **Statut** : stable (l'étape illustrations et le relai illustrateur, nouveaux
-  en v3, attendent leur exécution pilote à froid — roadmap Conception, session S2)
+  en v3, et l'étape de recherche documentaire, nouvelle en v4, attendent leur
+  exécution pilote à froid — roadmap Conception, session S2)
 - **Livrable** : un roman-web HTML autonome **illustré nativement** (récit +
   liseuse intégrée : sommaire, barre de progression, codex à déverrouillage,
   illustrations de chapitres et de notices, thème sombre, réglage de taille de
   police), visible au catalogue après merge sans aucune intervention manuelle.
+  Si le brief le demande, le récit est **ancré dans le monde réel** (personnage
+  historique, lieux réels, jargon d'un métier), sur la base d'un dossier
+  documentaire sourcé constitué avant l'écriture (étape 0).
 - **Moteur** : [`livres/_template/`](../../livres/_template/README.md)
   (`atelier-liseuse v1`) — le moteur se copie depuis le template, plus jamais
   depuis le dernier livre publié.
@@ -19,6 +23,17 @@
 
 ## Changelog
 
+- **v4** (2026-08) — ancrage dans le réel sur option du brief : nouvelle
+  section « Ancrage réel » du [`BRIEF.md`](BRIEF.md) et nouvelle **étape 0 —
+  Recherche documentaire**, conditionnelle, qui constitue un dossier sourcé
+  (`livres/<slug>/recherche.md`) avant toute écriture — recherche menée par
+  l'agent lui-même (parallélisée par sub-agents s'il en est capable) ou, sur
+  demande du brief, déléguée par copier-coller à un assistant externe via
+  Pierre. La relecture (étape 5) gagne une passe de vérification factuelle
+  livre ↔ dossier. Motif : demande de Pierre (session Conception du
+  2026-08-13, chantier 7 de la roadmap Conception) — vraisemblance des récits
+  qui empruntent au monde réel (perspective d'un personnage historique, jargon
+  d'un métier, lieux réels).
 - **v3** (2026-08) — le livre naît illustré, en deux passes tracées : entrée
   formalisée par un brief ([`BRIEF.md`](BRIEF.md)) ; moteur copié depuis
   `livres/_template/` (chantier n° 2 de la roadmap Conception — les trois
@@ -40,9 +55,10 @@
 
 ## Les deux rôles de la fabrication
 
-Un livre v3 se fabrique en **deux passes, sur la même branche** :
+Un livre v4 se fabrique en **deux passes, sur la même branche** :
 
-1. **L'auteur** (étapes 1 à 5) écrit le livre complet — texte, codex, champs
+1. **L'auteur** (étapes 0 à 5 ; l'étape 0 seulement si le brief demande
+   l'ancrage réel) écrit le livre complet — texte, codex, champs
    d'images déjà renseignés dans l'îlot JSON — et committe le **manifeste
    d'illustrations** `livres/<slug>/illustrations.md`. À la fin de sa session,
    le livre est publiable : il se lit intégralement, les emplacements d'images
@@ -64,6 +80,10 @@ Rien d'autre n'est supposé connu.
 1. **Recevoir le brief** : le message de lancement contient un
    [`BRIEF.md`](BRIEF.md) rempli. S'il manque, le demander ; s'il est
    incomplet, les défauts de `PREFERENCES.md` s'appliquent aux champs absents.
+   Si le brief contient la section « Ancrage réel », l'étape 0 s'applique — en
+   mode « recherche par l'agent » (le défaut), elle exige un accès de recherche
+   web : s'il manque, le signaler avant de commencer et convenir du mode
+   délégué.
 2. **Choisir le slug** : celui du brief, ou à défaut le proposer — kebab-case
    ASCII (`les-brumes-du-port`), définitif : URL, couverture et clé
    localStorage en dépendent.
@@ -80,12 +100,49 @@ Rien d'autre n'est supposé connu.
 
 ## Étapes de fabrication
 
+### Étape 0 — Recherche documentaire (seulement si le brief demande l'ancrage réel)
+
+Sans section « Ancrage réel » au brief, passer directement à l'étape 1.
+
+- **Entrée** : la section « Ancrage réel » du brief (éléments réels à ancrer,
+  degré d'ancrage, axes prioritaires, sources, mode de recherche).
+- **Travail** : constituer le dossier documentaire du livre **avant toute
+  écriture**, selon le mode fixé par le brief :
+  - **Recherche par l'agent** (défaut) : mener les recherches soi-même. Si
+    l'agent d'exécution sait paralléliser des recherches (sub-agents), répartir
+    par axe — lieux, personnes et personnage historique, événements,
+    vocabulaire et jargon du métier, contexte d'époque — sinon traiter les axes
+    séquentiellement. Chaque fait notable est relié à sa source **datée** ;
+    faits établis, débattus et incertains sont distingués.
+  - **Recherche déléguée** (sur demande du brief, pour économiser le quota de
+    l'agent) : rédiger dans `livres/<slug>/recherche.md` une section
+    « Requêtes en attente » — une requête de recherche **autoportante et
+    copiable-collable** par axe —, committer, puis **suspendre la fabrication**
+    en demandant à Pierre de soumettre ces requêtes à l'assistant externe de
+    son choix (Perplexity, ChatGPT ou autre) et de coller les réponses en
+    retour : c'est le tour d'échange supplémentaire prévu par la recette. À
+    réception, consolider le dossier au même standard que ci-dessus, en
+    marquant la provenance de chaque fait (« réponse d'assistant externe
+    fournie le <AAAA-MM-JJ> »), et vérifier sa cohérence interne.
+- **Sortie** : `livres/<slug>/recherche.md` — un fait notable par entrée, avec
+  sa source datée ; les axes demandés par le brief tous couverts.
+- **Critère de fin** : chaque axe du brief a sa section dans le dossier ;
+  chaque entrée porte une source datée ou la mention explicite de son
+  incertitude ; plus aucune section « Requêtes en attente ».
+- **Commit** : « Dossier documentaire de <titre> : recherches d'ancrage réel »
+  (en mode délégué, un premier commit « Dossier documentaire de <titre> :
+  requêtes en attente » précède la suspension).
+
 ### Étape 1 — Plan et synopsis
 
-- **Entrée** : le brief rempli, le socle `PREFERENCES.md` (§Fond).
+- **Entrée** : le brief rempli, le socle `PREFERENCES.md` (§Fond) ; si l'étape
+  0 a eu lieu, le dossier `livres/<slug>/recherche.md`.
 - **Travail** : poser l'univers avant d'écrire — synopsis, promesse émotionnelle,
   idée centrale, question thématique, liste des chapitres avec leur rôle narratif,
-  personnages et lieux principaux.
+  personnages et lieux principaux. Pour un livre ancré dans le réel, l'univers
+  s'appuie sur le dossier documentaire (perspective du personnage historique,
+  lieux réels, époque) ; ce que le récit invente par-dessus est un choix
+  d'auteur, pas une erreur — mais il ne contredit pas un fait établi du dossier.
 - **Sortie** : `livres/<slug>/index.html` avec le `<head>` complet (§« Le
   `<head>` obligatoire ») et l'îlot JSON amorcé — blocs `meta`, `world` et
   `cover` remplis, chapitres en squelette (ids, numéros, titres) ; le brief
@@ -100,6 +157,9 @@ Rien d'autre n'est supposé connu.
 - **Travail** : écrire les chapitres dans l'îlot JSON (blocs de texte), dans l'ordre
   du plan. Un lot cohérent de chapitres par commit. Longueurs : celles du brief,
   sinon les défauts du socle (8 à 12 chapitres, 2 000 à 3 000 mots chacun).
+  Pour un livre ancré dans le réel : jargon du métier, lieux, dates et gestes
+  techniques viennent du dossier documentaire — toute affirmation ancrée doit
+  y être traçable.
 - **Sortie** : les `chapters[].blocks[]` de l'îlot remplis (les champs `image`
   attendront l'étape 4).
 - **Critère de fin** : le livre s'ouvre en `file://`, chaque chapitre écrit
@@ -116,7 +176,9 @@ Rien d'autre n'est supposé connu.
   méthode anti-divulgâchage — puis relier les notices aux blocs par les
   `mentions`. Compléter `entityAudit` pour toute entité nommée sans notice.
   Densité cible : celle du brief, sinon les défauts du socle (15 à 30 notices,
-  ≥ 40 % des blocs porteurs d'au moins une mention).
+  ≥ 40 % des blocs porteurs d'au moins une mention). Pour un livre ancré dans
+  le réel, les notices qui décrivent des personnes, lieux ou faits réels
+  s'appuient sur le dossier documentaire.
 - **Sortie** : le `codex[]` de l'îlot rempli, `mentions` posées, `entityAudit`
   complet.
 - **Critère de fin** :
@@ -154,14 +216,16 @@ Rien d'autre n'est supposé connu.
 
 - **Entrée** : le livre complet (texte + champs d'images + manifeste).
 - **Travail** : relecture intégrale (cohérence narrative, orthographe, respect de
-  `PREFERENCES.md` et du brief), corrections ; passage de la checklist
-  « Vérifications avant PR (auteur) ».
+  `PREFERENCES.md` et du brief), corrections ; si l'étape 0 a eu lieu, passe de
+  **vérification factuelle** livre ↔ dossier (chaque référence au réel du texte
+  et du codex est traçable à une entrée sourcée de `recherche.md`) ; passage de
+  la checklist « Vérifications avant PR (auteur) ».
 - **Sortie** : le livre corrigé.
 - **Critère de fin** : toutes les cases de la checklist auteur cochées.
 - **Commit** : « Relecture de <titre> : corrections »
 
 Puis : push et **pull request** (protocole de session — description structurée
-Rôle : Production / roman-atelier v3, divergences de moteur signalées, et la
+Rôle : Production / roman-atelier v4, divergences de moteur signalées, et la
 mention explicite : « En attente de la passe illustrateur —
 `livres/<slug>/illustrations.md` »).
 
@@ -190,12 +254,14 @@ C'est le seul point de passage entre les deux rôles, et il tient en un message.
 
 ## Structure de fichiers
 
-Un livre v3 est **toujours un dossier** (il porte des images) :
+Un livre v4 est **toujours un dossier** (il porte des images) :
 
 ```text
 livres/<slug>/
   index.html          ← point d'entrée (obligatoirement index.html)
   brief.md            ← le brief d'entrée, recopié tel quel (étape 1)
+  recherche.md        ← le dossier documentaire sourcé (étape 0 —
+                        seulement si le brief demande l'ancrage réel)
   illustrations.md    ← le manifeste pour l'illustrateur (étape 4)
   images/
     chapter-01.webp   ← une par chapitre, numérotation sur 2 chiffres
@@ -228,7 +294,7 @@ recette et le moteur) :
   <meta name="book:date" content="2026-08-13">
 
   <!-- Traçabilité : recette et moteur (ignorées par le catalogue) -->
-  <meta name="book:workflow" content="roman-atelier v3">
+  <meta name="book:workflow" content="roman-atelier v4">
   <meta name="reader-engine" content="atelier-liseuse v1">
 
   <!-- Utilisé par l'onglet du navigateur et comme fallback de titre -->
@@ -239,7 +305,7 @@ recette et le moteur) :
 - **`book:author` = le nom du ou des modèles** (`Claude Fable`, `GPT 5.5`,
   `Gemini 3.1 pro`…). **Pas de pseudonyme collectif** type « Atelier des récits
   explorables » — cette dérive a effacé la provenance de la moitié du catalogue
-  (audit §B.6). En v3 le champ liste les deux rôles : l'auteur l'écrit à l'étape
+  (audit §B.6). Depuis la v3 le champ liste les deux rôles : l'auteur l'écrit à l'étape
   1 sous la forme « <son modèle> (texte) » ; l'illustrateur y ajoute
   « , <son modèle> (images) » pendant sa passe.
 - `book:date` : `AAAA`, `AAAA-MM` ou `AAAA-MM-JJ`.
@@ -311,13 +377,16 @@ recette et le moteur) :
       d'images se masquent) ;
 - [ ] les 5 meta `book:*` sont présentes et exactes (`book:author` =
       « <modèle> (texte) » à ce stade) ;
-- [ ] `<meta name="book:workflow" content="roman-atelier v3">` et
+- [ ] `<meta name="book:workflow" content="roman-atelier v4">` et
       `<meta name="reader-engine" content="atelier-liseuse v1">` présentes ;
 - [ ] `livres/<slug>/brief.md` et `livres/<slug>/illustrations.md` committés ;
+- [ ] si le brief demande l'ancrage réel : `livres/<slug>/recherche.md`
+      committé (entrées sourcées et datées, plus de « Requêtes en attente »)
+      et vérification factuelle livre ↔ dossier passée (étape 5) ;
 - [ ] socle [`PREFERENCES.md`](../../docs/conception/PREFERENCES.md) et brief
       respectés (fond et forme — longueurs, densité de mentions) ;
 - [ ] protocole de session d'`AGENTS.md` : commits d'étapes poussés, PR ouverte
-      avec description structurée (Rôle : Production / roman-atelier v3),
+      avec description structurée (Rôle : Production / roman-atelier v4),
       divergences de moteur signalées, passe illustrateur annoncée.
 
 ## Vérifications avant merge (après la passe illustrateur)
