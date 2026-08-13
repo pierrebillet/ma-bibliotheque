@@ -1,5 +1,12 @@
 # Chantier d’exploration — Fonctionnalités utilisateur locales
 
+> ⚠️ **Étude archivée** (juillet 2026, non normative — ne plus suivre telle quelle).
+> Les éléments retenus ont été arbitrés dans [`../../bibliotheque/VISION.md`](../../bibliotheque/VISION.md)
+> (hiérarchie des directions, paliers, pistes écartées) ; le reste est conservé ici
+> pour la traçabilité. Certains prérequis supposés (`assets/`, `_site/`, « livre
+> d'exemple », build) n'existent pas dans le dépôt réel.
+
+
 Statut : document de cadrage exploratoire, non normatif  
 Projet : Ma Bibliothèque HTML  
 Technologies envisagées : `localStorage`, APIs navigateur, export/import de fichiers
