@@ -42,7 +42,8 @@ Cette copie est synchronisée automatiquement après chaque merge sur `main` (`s
 
 ## Format attendu de `catalog.json`
 
-Le fichier suit le schéma version 1 de `SPEC.md` :
+Le fichier suit le schéma version 1, documenté champ par champ dans
+[`CATALOGUE.md`](CATALOGUE.md). Exemple minimal :
 
 ```json
 {

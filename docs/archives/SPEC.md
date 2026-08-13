@@ -7,8 +7,10 @@
 > `livres/` sont pris en charge, le tri par défaut est par date d'ajout, les liens
 > s'ouvrent dans un nouvel onglet, et l'arborescence (`assets/`, `guides/`, `tests/`…)
 > n'a jamais été créée. L'écart complet est documenté dans
-> `audits/2026-08-rapport-etonnement.md`. **Source de vérité actuelle : `README.md`
-> et `AGENTS.md`**, puis `AUTOMATISATION.md` et `FRONTEND.md` pour le détail technique.
+> [`../audits/2026-08-rapport-etonnement.md`](../audits/2026-08-rapport-etonnement.md).
+> **Source de vérité actuelle : [`AGENTS.md`](../../AGENTS.md)** (routage par rôle),
+> puis [`../bibliotheque/`](../bibliotheque/README.md) (`AUTOMATISATION.md`,
+> `FRONTEND.md`, `CATALOGUE.md`) pour le détail technique.
 
 Version de la spécification : 1.0  
 Statut : ~~source normative du projet~~ **intention historique, partiellement obsolète**  

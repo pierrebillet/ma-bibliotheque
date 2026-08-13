@@ -5,8 +5,11 @@
 > devenus la forme recommandée pour les livres illustrés** (contrairement aux §2.1 et
 > §2.3) ; toutes les couvertures du dépôt sont en `.jpg` (le §8 privilégie `.webp`) ;
 > les §11-12 décrivent un contrat « aucune intervention technique » qui ne correspond
-> plus au workflow réel par branches et pull requests. Le bloc `<head>` du §9 reste
-> valide et utile. **Source de vérité actuelle : `README.md` et `AGENTS.md`.**
+> plus au workflow réel par branches et pull requests. Les parties encore valides ont
+> été rapatriées dans la documentation vivante : le bloc `<head>` du §9 dans
+> [`../../ateliers/roman-atelier/WORKFLOW.md`](../../ateliers/roman-atelier/WORKFLOW.md),
+> l'ordre d'extraction du §5 dans [`../bibliotheque/CATALOGUE.md`](../bibliotheque/CATALOGUE.md).
+> **Source de vérité actuelle : [`AGENTS.md`](../../AGENTS.md)** (routage par rôle).
 
 Version : 1.0  
 Statut : ~~source normative complémentaire à `SPEC.md`~~ **partiellement obsolète, voir encart**

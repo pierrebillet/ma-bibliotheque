@@ -7,7 +7,8 @@
 > 5 (livre d'exemple + recette) **jamais commencées**, et les livres de démonstration
 > ont été supprimés. Le travail réellement effectué (refonte de l'index, livres
 > illustrés en dossier, briefs `dev-mvp/`) n'y figure pas. Une nouvelle roadmap sera
-> reconstruite brique par brique — voir `audits/2026-08-rapport-etonnement.md` §D.
+> reconstruite brique par brique — voir
+> [`../audits/2026-08-rapport-etonnement.md`](../audits/2026-08-rapport-etonnement.md) §D.
 
 Version : 1.0  
 Point de départ : étape 1 terminée par la production de `SPEC.md`, `CONVENTIONS.md` et `ROADMAP.md`.
