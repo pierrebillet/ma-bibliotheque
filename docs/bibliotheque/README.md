@@ -2,7 +2,9 @@
 
 Tu conçois et développes la **plateforme** qui héberge et affiche les livres.
 Prérequis : avoir lu [`AGENTS.md`](../../AGENTS.md) (règles d'or + protocole de
-session).
+session). Le cap du rôle — vision produit, paliers, chantiers priorisés — vit dans
+[`VISION.md`](VISION.md) et [`ROADMAP.md`](ROADMAP.md) : tout chantier de plateforme
+s'y rattache.
 
 ## Périmètre du rôle
 
@@ -66,6 +68,8 @@ format relève du rôle Conception ([`docs/conception/`](../conception/README.md
 
 | Document | Contenu |
 |---|---|
+| [`VISION.md`](VISION.md) | Vision produit : but, hiérarchie des directions, principes durables, paliers (1.0 → 1.x → PWA → comptes) avec critères de passage |
+| [`ROADMAP.md`](ROADMAP.md) | Chantiers priorisés vers la 1.0 et au-delà, avec niveau d'architecture et statut |
 | [`FRONTEND.md`](FRONTEND.md) | Fonctionnement d'`index.html` : chargement, validation, fonctionnalités, règles d'évolution |
 | [`AUTOMATISATION.md`](AUTOMATISATION.md) | La chaîne CI de bout en bout : déclencheurs, déroulé d'un run, diagnostic des 4 pannes types |
 | [`CATALOGUE.md`](CATALOGUE.md) | Le schéma de `catalog.json` champ par champ, les règles d'extraction, le bloc `#demo-catalog` |
