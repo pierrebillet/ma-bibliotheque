@@ -1,4 +1,4 @@
-# BRIEF.md — gabarit du brief de lancement (roman-atelier v3)
+# BRIEF.md — gabarit du brief de lancement (roman-atelier v4)
 
 C'est le **seul document d'entrée** d'une fabrication : Pierre le remplit et le
 colle dans le message de lancement de la session Production. Tout champ optionnel
@@ -28,6 +28,19 @@ Copier le bloc ci-dessous et remplacer les valeurs :
 - **Public** : <défaut : tout public, pas de contenus sensibles>
 - **Codex** : <nombre de notices, voix souhaitée pour le codex — défaut :
   15 à 30 notices, voix au choix de l'auteur, ≥ 40 % des blocs avec mention>
+
+## Ancrage réel (optionnel — déclenche l'étape 0 de recherche documentaire)
+- **Éléments réels à ancrer** : <personnage historique, lieux réels, métier et
+  son jargon, événements, époque — ce que le récit doit rendre juste>
+- **Degré d'ancrage** : <tout le récit, ou seulement certains éléments —
+  préciser ce qui reste inventé>
+- **Axes prioritaires** : <les recherches à mener en premier — défaut : tous
+  les éléments listés ci-dessus>
+- **Sources** : <à privilégier ou à exclure — défaut : au choix de l'auteur,
+  sources datées exigées>
+- **Mode de recherche** : <par l'agent (défaut) ou déléguée : l'agent prépare
+  des requêtes à copier-coller dans un assistant externe (Perplexity, ChatGPT
+  ou autre) pour économiser son quota — prévoir un tour d'échange en plus>
 
 ## Illustrations (optionnel)
 - **Volume** : <défaut : 1 image par chapitre + couverture + environ un tiers
@@ -60,6 +73,14 @@ Copier le bloc ci-dessous et remplacer les valeurs :
   doute.
 - **Codex** : voix du registre de la gardienne — sec, daté, administratif qui
   se fissure.
+
+## Ancrage réel (optionnel)
+- **Éléments réels à ancrer** : le métier de gardien de phare (jargon,
+  routines d'entretien, hiérarchie de l'administration des Phares et Balises)
+  et les côtes du Finistère.
+- **Degré d'ancrage** : le cadre et le métier seulement — le phare de Kervel,
+  ses personnages et la lumière au large restent inventés.
+- **Mode de recherche** : par l'agent.
 
 ## Illustrations (optionnel)
 - **Direction artistique** : gouache sombre, lumières rares et chaudes, mer
