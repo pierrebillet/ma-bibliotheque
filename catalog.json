@@ -1,8 +1,26 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-12T20:48:12Z",
-  "bookCount": 11,
+  "generatedAt": "2026-08-13T16:33:30Z",
+  "bookCount": 12,
   "books": [
+    {
+      "id": "la-clause-du-meilleur-ennemi",
+      "filename": "index.html",
+      "sourcePath": "livres/la-clause-du-meilleur-ennemi/index.html",
+      "href": "livres/la-clause-du-meilleur-ennemi/index.html",
+      "title": "La Clause du meilleur ennemi",
+      "author": "Claude Fable (texte)",
+      "description": "Paris, 2005-2026. Octave Brossard et Salomé Vidal réussissent tout, sauf à s’ignorer : vingt ans de coups bas élégants entre deux fondateurs que rien n’oppose — sinon une vieille clause griffonnée un soir de prix partagé. Comédie dramatique dans le monde des startups et du capital-risque.",
+      "tags": [
+        "comédie dramatique",
+        "startup",
+        "rivalité",
+        "Paris"
+      ],
+      "date": "2026-08-13",
+      "datePrecision": "day",
+      "cover": null
+    },
     {
       "id": "la-doublure-v2",
       "filename": "index.html",
