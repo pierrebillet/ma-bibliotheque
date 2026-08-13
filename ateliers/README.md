@@ -7,9 +7,9 @@ bibliothèque. Plusieurs ateliers cohabitent, un par type de livrable.
 
 ## Registre des ateliers
 
-| Atelier | Livrable | Version | Statut | Exemples publiés |
-|---|---|---|---|---|
-| [`roman-atelier/`](roman-atelier/WORKFLOW.md) | Roman-web autonome avec liseuse « Atelier » (sommaire, progression, codex à déverrouillage) | v2 | stable | [`livres/lequation-du-calme/`](../livres/lequation-du-calme), [`livres/la-doublure.html`](../livres/la-doublure.html) |
+| Atelier | Livrable | Version | Statut | Moteur | Exemples publiés |
+|---|---|---|---|---|---|
+| [`roman-atelier/`](roman-atelier/WORKFLOW.md) | Roman-web autonome avec liseuse « Atelier » (sommaire, progression, codex à déverrouillage) | v2 | stable | « Atelier » (copie non versionnée — alignement prévu sur `livres/_template/`, [roadmap Conception](../docs/conception/ROADMAP.md) chantier 2) | [`livres/lequation-du-calme/`](../livres/lequation-du-calme), [`livres/la-doublure.html`](../livres/la-doublure.html) |
 
 Les workflows sont **versionnés** (numéro en tête + changelog) et chaque livre
 produit trace la version de recette utilisée
