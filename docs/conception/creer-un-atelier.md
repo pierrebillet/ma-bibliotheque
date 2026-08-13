@@ -101,3 +101,29 @@ version suivante (boucle d'amélioration de la [`VISION.md`](VISION.md)).
 
 Pour **faire évoluer** un atelier existant : même protocole, la modification du
 `WORKFLOW.md` incrémente la version et documente le pourquoi au changelog.
+
+## 6. Cohabitation des ateliers
+
+Plusieurs ateliers produisent des livrables de formats différents, tous affichés
+dans le même catalogue. Trois règles suffisent pour qu'ils cohabitent :
+
+- **Déclaration du format au catalogue** : aujourd'hui, un livrable déclare son
+  format par ses `book:tags` ; demain, par le champ `format` du schéma de catalogue
+  v2 ([roadmap Bibliothèque](../bibliotheque/ROADMAP.md), chantier 5 — la
+  gouvernance des tags y est le chantier 6). Dans les deux cas, c'est le
+  `WORKFLOW.md` de l'atelier qui fixe la valeur exacte que ses livrables déclarent,
+  pour que deux livres du même format soient toujours étiquetés pareil.
+- **Partage de briques** : le moteur de lecture commun vit dans `livres/_template/`
+  ([`ROADMAP.md`](ROADMAP.md), chantier 2) et chaque livre déclare la version
+  embarquée par `<meta name="reader-engine">`. Chaque atelier annonce dans le
+  registre [`../../ateliers/README.md`](../../ateliers/README.md) le moteur qu'il
+  utilise : le template (et sa version) ou un moteur propre. On sait ainsi d'un
+  coup d'œil quels ateliers profitent d'une amélioration du template.
+- **Nouvel atelier ou nouvelle version ?** Un nouveau *type de livrable* → un
+  nouvel atelier ; une amélioration du *même* type de livrable → une version +1 du
+  `WORKFLOW.md` existant. Deux ateliers ne produisent jamais le même type de
+  livrable (registre : « un par type de livrable »).
+
+Ces règles ne demandent rien au rôle Bibliothèque : quand un format a besoin d'un
+champ de catalogue ou d'un comportement d'index nouveau, cela reste un chantier
+Bibliothèque préalable (§1, dernier point).
