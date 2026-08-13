@@ -1,5 +1,12 @@
 # Chantier d’exploration — Champ des possibles fonctionnels du MVP
 
+> ⚠️ **Étude archivée** (juillet 2026, non normative — ne plus suivre telle quelle).
+> Les éléments retenus ont été arbitrés dans [`../../bibliotheque/VISION.md`](../../bibliotheque/VISION.md)
+> (hiérarchie des directions, paliers, pistes écartées) ; le reste est conservé ici
+> pour la traçabilité. Certains prérequis supposés (`assets/`, `_site/`, « livre
+> d'exemple », build) n'existent pas dans le dépôt réel.
+
+
 Statut : document d’opportunités, non normatif  
 Projet : Ma Bibliothèque HTML  
 Périmètre : GitHub Pages, JavaScript navigateur, GitHub Actions, fichiers statiques, Cloudron/n8n en extension facultative
