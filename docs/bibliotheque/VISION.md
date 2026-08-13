@@ -157,6 +157,10 @@ peut servir un frontend statique inchangé ; une web app (rendu serveur, routes,
 fonctions) ne se justifie que par des besoins supplémentaires démontrés. La
 simplicité de déploiement reste le juge de paix jusqu'au bout.
 
+Ce palier est aussi le prérequis du palier « Ma Bibliothèque 2.0 » de la Conception
+(génération de livres de bout en bout via la clé API de l'utilisateur — voir
+[`../conception/VISION.md`](../conception/VISION.md)).
+
 ## Ce qui a été écarté
 
 Issues des études archivées ([`../archives/dev-mvp/`](../archives/dev-mvp)), ces

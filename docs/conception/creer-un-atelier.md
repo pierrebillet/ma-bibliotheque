@@ -38,10 +38,43 @@ localStorage **dans le livrable** (clé préfixée par le slug : `<slug>-state-v
 l'esthétique, le ton, la langue du contenu, le processus de fabrication lui-même
 (nombre d'étapes, rôles multi-agents, outils).
 
-## 3. Critères d'acceptation d'un nouvel atelier
+## 3. Le standard de recette
 
-- [ ] Le `WORKFLOW.md` est exécutable de bout en bout par un agent qui n'a lu que
-      `AGENTS.md` et ce workflow (test : le faire exécuter par un agent à froid).
+Un `WORKFLOW.md` est une **recette de cuisine** : elle doit produire le résultat
+attendu à chaque exécution, par n'importe quel agent (Claude Code, Codex ou autre,
+de façon indifférenciée). Concrètement :
+
+- **Exécutable à froid** : la recette ne suppose aucun contexte conversationnel —
+  un agent qui n'a lu que `AGENTS.md` et le workflow a tout ce qu'il faut (les
+  exigences transverses sont référencées par lien, ex. [`PREFERENCES.md`](PREFERENCES.md),
+  jamais supposées connues).
+- **Chaque étape est un contrat** : *entrée* (ce dont l'étape a besoin) → *travail*
+  → *sortie* (les fichiers produits/modifiés) → *critère de fin* (comment savoir
+  que c'est fini) → **commit attendu** (message type en français).
+- **Commandes exactes** : toute vérification est une commande copiable-collable ou
+  une observation objective (« le fichier X contient Y »), pas un jugement.
+- **Agent-agnostique strictement** : aucune référence à un outil, une fonction ou
+  une interface propre à un agent donné (« utilise ta fonction X », « ouvre ton
+  panneau Y » sont interdits). Uniquement des fichiers, des commandes shell/python
+  et des critères observables.
+- **Chemins exacts** : chaque fichier mentionné l'est par son chemin complet depuis
+  la racine du dépôt.
+- **Versionnée** : numéro de version en tête, changelog des évolutions avec leur
+  pourquoi ; le livrable produit trace la version utilisée
+  (`<meta name="book:workflow" content="<atelier> vN">` — meta ignorée par le
+  catalogue, sans risque).
+
+Toute interprétation qu'un agent Production a dû faire pendant une exécution est un
+**défaut de la recette** : elle doit être remontée dans la PR et corrigée par une
+version suivante (boucle d'amélioration de la [`VISION.md`](VISION.md)).
+
+## 4. Critères d'acceptation d'un nouvel atelier
+
+- [ ] Le `WORKFLOW.md` respecte le standard de recette du §3 (test : le faire
+      exécuter par un agent à froid, idéalement un agent différent de celui qui
+      l'a écrit).
+- [ ] Il décline le socle éditorial [`PREFERENCES.md`](PREFERENCES.md) sans le
+      contredire ni le recopier.
 - [ ] Les étapes de fabrication correspondent à des **commits** identifiables
       (protocole de session d'`AGENTS.md`).
 - [ ] Un prototype (ou premier livrable) passe
@@ -54,14 +87,17 @@ l'esthétique, le ton, la langue du contenu, le processus de fabrication lui-mê
 - [ ] L'atelier est inscrit au registre [`../../ateliers/README.md`](../../ateliers/README.md)
       avec son statut (`expérimental` ou `stable`).
 
-## 4. Procédure
+## 5. Procédure
 
 1. **Brancher** : `conception/atelier-<nom>` (protocole de session).
 2. **Prototyper** si nécessaire — le prototype suit les contraintes du §1 et passe
    par les mêmes vérifications qu'un livrable de production.
 3. **Rédiger** `ateliers/<nom-atelier>/WORKFLOW.md` en copiant
-   [`GABARIT-WORKFLOW.md`](GABARIT-WORKFLOW.md).
+   [`GABARIT-WORKFLOW.md`](GABARIT-WORKFLOW.md) (version 1, changelog initialisé).
 4. **Inscrire** l'atelier dans le registre `ateliers/README.md` (statut
    `expérimental` tant qu'un second livrable n'a pas confirmé le workflow).
 5. **PR** avec description structurée ; signaler explicitement les choix de format
    qui mériteraient l'avis de Pierre.
+
+Pour **faire évoluer** un atelier existant : même protocole, la modification du
+`WORKFLOW.md` incrémente la version et documente le pourquoi au changelog.
