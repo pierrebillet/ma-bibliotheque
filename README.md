@@ -11,20 +11,21 @@ Le projet a une double vocation :
    contribution passe par une pull request comme dans un vrai projet logiciel.
 2. **Un gabarit appropriable** : à terme, n'importe qui doit pouvoir forker ce dépôt,
    y brancher son coding agent préféré et écrire ses propres livres selon ses propres
-   références. Les briques (guides, templates, skills) sont ajoutées progressivement.
+   références. Les briques (guides, templates, ateliers) sont ajoutées progressivement.
 
 ## Où est la vérité ?
 
-La documentation historique a dérivé de l'implémentation. Hiérarchie de confiance :
+La documentation est organisée par **rôle d'agent**. Point d'entrée unique :
+[`AGENTS.md`](AGENTS.md).
 
-| Document | Statut |
+| Document | Contenu |
 |---|---|
-| `README.md` (ce fichier) et `AGENTS.md` | **Source de vérité actuelle** |
-| `AUTOMATISATION.md` | Fiable — décrit la chaîne de catalogue réelle |
-| `FRONTEND.md` | Fiable — décrit `index.html` |
-| `audits/2026-08-rapport-etonnement.md` | Audit complet de l'état du projet (août 2026) |
-| `SPEC.md`, `CONVENTIONS.md`, `ROADMAP.md` | **Historiques, partiellement obsolètes** — voir l'encart en tête de chacun |
-| `dev-mvp/` | Briefs d'exploration, non normatifs |
+| [`AGENTS.md`](AGENTS.md) | Point d'entrée des agents : routage par rôle, règles d'or, protocole de session |
+| [`docs/bibliotheque/`](docs/bibliotheque/README.md) | Rôle Bibliothèque : la plateforme (`index.html`, générateur de catalogue, CI) |
+| [`docs/conception/`](docs/conception/README.md) | Rôle Conception : créer un nouveau format de livrable et son atelier |
+| [`ateliers/`](ateliers/README.md) | Rôle Production : les workflows de production des livrables |
+| [`docs/audits/`](docs/audits) | États des lieux datés (audit d'août 2026) |
+| [`docs/archives/`](docs/archives/README.md) | Documents historiques (`SPEC.md`, `CONVENTIONS.md`, `ROADMAP.md`, `dev-mvp/`) — **ne plus suivre** |
 
 ## Structure du dépôt
 
@@ -38,15 +39,23 @@ livres/               Les livres
     index.html
     images/
 couvertures/          Une couverture par livre : <slug>.jpg|png|webp (ratio 2:3)
-scripts/build_catalog.py   Générateur du catalogue
+scripts/build_catalog.py        Générateur du catalogue
 .github/workflows/catalog.yml   CI : vérification en PR + régénération sur main
-audits/               Audits et rapports d'étonnement
-dev-mvp/              Études d'exploration
+AGENTS.md             Point d'entrée des agents (routage par rôle + protocole de session)
+ateliers/             Workflows de production des livrables
+  roman-atelier/        écrire un roman-web avec la liseuse « Atelier »
+docs/
+  bibliotheque/       Doc de la plateforme (frontend, automatisation, schéma du catalogue)
+  conception/         Créer un nouveau format de livrable et son atelier
+  audits/             États des lieux datés
+  archives/           Docs historiques, conservées pour la traçabilité
 ```
 
 ## Ajouter un livre (résumé)
 
-Le contrat détaillé pour les agents est dans [`AGENTS.md`](AGENTS.md). En bref :
+Le workflow complet est dans
+[`ateliers/roman-atelier/WORKFLOW.md`](ateliers/roman-atelier/WORKFLOW.md) ; les
+règles communes dans [`AGENTS.md`](AGENTS.md). En bref :
 
 1. Créer une branche, puis `livres/<slug>/index.html` (slug en kebab-case ASCII :
    `mon-livre`) avec les 5 métadonnées `book:*` dans le `<head>`.
@@ -72,6 +81,7 @@ Le contrat détaillé pour les agents est dans [`AGENTS.md`](AGENTS.md). En bref
 ## Historique du projet
 
 Le projet a été démarré avec ChatGPT (spec + premiers livres), puis ouvert à d'autres
-agents. L'audit d'août 2026 (`audits/2026-08-rapport-etonnement.md`) documente l'état
-des lieux complet — workflow, format des livres, bibliothèque — et la liste des
-chantiers à venir.
+agents. L'audit d'août 2026
+([`docs/audits/2026-08-rapport-etonnement.md`](docs/audits/2026-08-rapport-etonnement.md))
+documente l'état des lieux complet — workflow, format des livres, bibliothèque — et
+la liste des chantiers à venir.
