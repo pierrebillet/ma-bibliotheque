@@ -1,19 +1,36 @@
-# Atelier roman-atelier — écrire un roman-web avec la liseuse « Atelier »
+# Atelier roman-atelier — écrire un roman-web illustré avec la liseuse « Atelier »
 
-- **Version** : 2
-- **Statut** : stable
-- **Livrable** : un roman-web HTML autonome (récit + liseuse intégrée « Atelier des
-  récits explorables » : sommaire, barre de progression, codex à déverrouillage,
-  thème sombre, réglage de taille de police), visible au catalogue après merge sans
-  aucune intervention manuelle.
-- **Exemples publiés** : [`livres/lequation-du-calme/`](../../livres/lequation-du-calme),
-  [`livres/la-doublure.html`](../../livres/la-doublure.html).
+- **Version** : 3
+- **Statut** : stable (l'étape illustrations et le relai illustrateur, nouveaux
+  en v3, attendent leur exécution pilote à froid — roadmap Conception, session S2)
+- **Livrable** : un roman-web HTML autonome **illustré nativement** (récit +
+  liseuse intégrée : sommaire, barre de progression, codex à déverrouillage,
+  illustrations de chapitres et de notices, thème sombre, réglage de taille de
+  police), visible au catalogue après merge sans aucune intervention manuelle.
+- **Moteur** : [`livres/_template/`](../../livres/_template/README.md)
+  (`atelier-liseuse v1`) — le moteur se copie depuis le template, plus jamais
+  depuis le dernier livre publié.
+- **Exemples publiés** : [`livres/lequation-du-calme/`](../../livres/lequation-du-calme)
+  et [`livres/la-doublure.html`](../../livres/la-doublure.html) (v2, non
+  illustrés) ; aucun livre v3 encore.
 - **Préférences** : ce workflow décline le socle éditorial
   [`docs/conception/PREFERENCES.md`](../../docs/conception/PREFERENCES.md) — le lire
   avant l'étape 1, il fait partie de la recette.
 
 ## Changelog
 
+- **v3** (2026-08) — le livre naît illustré, en deux passes tracées : entrée
+  formalisée par un brief ([`BRIEF.md`](BRIEF.md)) ; moteur copié depuis
+  `livres/_template/` (chantier n° 2 de la roadmap Conception — les trois
+  défauts connus du moteur y sont corrigés) ; structure de l'îlot JSON
+  spécifiée ([`livres/_template/DONNEES.md`](../../livres/_template/DONNEES.md))
+  au lieu d'être « observable dans les livres de référence » ; nouvelle étape 4
+  « Illustrations » avec manifeste committé (`livres/<slug>/illustrations.md`)
+  et relai vers un agent illustrateur ; vérifications outillées
+  ([`outils/verifier.py`](outils/verifier.py)) ; images en WebP. Motif : les
+  éditions illustrées d'août ont été produites hors processus et sans
+  traçabilité (audit §B.7) ; la v3 fait de l'illustration une étape de la
+  recette au lieu d'une dérive.
 - **v2** (2026-08) — mise au standard de recette
   ([`creer-un-atelier.md`](../../docs/conception/creer-un-atelier.md) §3) : étapes
   au format entrée/travail/sortie/critère de fin/commit, traçabilité
@@ -21,35 +38,58 @@
 - **v1** (2026-08) — première formalisation de la pratique observée sur les livres
   d'août (PR #5).
 
+## Les deux rôles de la fabrication
+
+Un livre v3 se fabrique en **deux passes, sur la même branche** :
+
+1. **L'auteur** (étapes 1 à 5) écrit le livre complet — texte, codex, champs
+   d'images déjà renseignés dans l'îlot JSON — et committe le **manifeste
+   d'illustrations** `livres/<slug>/illustrations.md`. À la fin de sa session,
+   le livre est publiable : il se lit intégralement, les emplacements d'images
+   se masquent proprement tant que les fichiers n'existent pas.
+2. **L'illustrateur** (un autre agent, une autre session — voir §« Le relai
+   illustrateur ») exécute le manifeste : il produit les fichiers d'images aux
+   noms exacts, et rien d'autre. Aucune édition de l'îlot JSON n'est nécessaire
+   ni autorisée de sa part.
+
+Chaque rôle committe sous son nom ; `book:author` liste les deux modèles.
+
 ## Avant de commencer
 
 Prérequis de lecture : [`/AGENTS.md`](../../AGENTS.md) (règles d'or + protocole de
-session), ce workflow, et [`PREFERENCES.md`](../../docs/conception/PREFERENCES.md).
+session), ce workflow, [`PREFERENCES.md`](../../docs/conception/PREFERENCES.md) et
+[`livres/_template/DONNEES.md`](../../livres/_template/DONNEES.md).
 Rien d'autre n'est supposé connu.
 
-1. **Choisir le slug** : kebab-case ASCII (`les-brumes-du-port`), définitif — URL,
-   couverture et clé localStorage en dépendent.
-2. **Ouvrir le livre de référence** : le livre le plus récent de la famille
-   « Atelier » (aujourd'hui `livres/lequation-du-calme/` et
-   `livres/la-doublure.html`). Le moteur de liseuse s'y copie-colle d'un livre à
-   l'autre : **repartir du plus récent**, signaler dans la PR toute divergence
-   introduite. (La factorisation en template versionné `livres/_template/` est le
-   chantier n° 2 de [`docs/conception/ROADMAP.md`](../../docs/conception/ROADMAP.md) ;
-   tant qu'il n'est pas fait, cette règle de copie s'applique.)
-3. **Créer la branche** : `atelier/roman-<slug>` (protocole de session).
+1. **Recevoir le brief** : le message de lancement contient un
+   [`BRIEF.md`](BRIEF.md) rempli. S'il manque, le demander ; s'il est
+   incomplet, les défauts de `PREFERENCES.md` s'appliquent aux champs absents.
+2. **Choisir le slug** : celui du brief, ou à défaut le proposer — kebab-case
+   ASCII (`les-brumes-du-port`), définitif : URL, couverture et clé
+   localStorage en dépendent.
+3. **Copier le moteur** :
+   ```bash
+   mkdir -p livres/<slug>/images
+   cp livres/_template/index.html livres/<slug>/index.html
+   ```
+   Ne copier ni `README.md` ni `DONNEES.md`. Le `<script>` du moteur ne se
+   modifie pas (toute divergence est signalée dans la PR) ; la palette CSS
+   (variables de `:root` et `[data-theme="dark"]`) peut être adaptée à
+   l'univers du livre.
+4. **Créer la branche** : `atelier/roman-<slug>` (protocole de session).
 
 ## Étapes de fabrication
 
 ### Étape 1 — Plan et synopsis
 
-- **Entrée** : le thème/brief du livre (fourni par Pierre ou choisi), le socle
-  `PREFERENCES.md` (§Fond).
+- **Entrée** : le brief rempli, le socle `PREFERENCES.md` (§Fond).
 - **Travail** : poser l'univers avant d'écrire — synopsis, promesse émotionnelle,
   idée centrale, question thématique, liste des chapitres avec leur rôle narratif,
   personnages et lieux principaux.
-- **Sortie** : le fichier du livre créé (structure du §« Structure de fichiers »)
-  avec le `<head>` complet (§« Le `<head>` obligatoire ») et l'îlot JSON amorcé :
-  bloc `meta` + bloc `world` remplis, chapitres en squelette (titres seuls).
+- **Sortie** : `livres/<slug>/index.html` avec le `<head>` complet (§« Le
+  `<head>` obligatoire ») et l'îlot JSON amorcé — blocs `meta`, `world` et
+  `cover` remplis, chapitres en squelette (ids, numéros, titres) ; le brief
+  recopié tel quel en `livres/<slug>/brief.md` (traçabilité de l'entrée).
 - **Critère de fin** : `python scripts/build_catalog.py --output
   /tmp/catalog-verification.json` passe et le slug apparaît dans le JSON généré.
 - **Commit** : « Plan de <titre> : synopsis et structure »
@@ -58,56 +98,119 @@ Rien d'autre n'est supposé connu.
 
 - **Entrée** : le plan committé à l'étape 1.
 - **Travail** : écrire les chapitres dans l'îlot JSON (blocs de texte), dans l'ordre
-  du plan. Un lot cohérent de chapitres par commit.
-- **Sortie** : les `chapters[]` de l'îlot remplis.
+  du plan. Un lot cohérent de chapitres par commit. Longueurs : celles du brief,
+  sinon les défauts du socle (8 à 12 chapitres, 2 000 à 3 000 mots chacun).
+- **Sortie** : les `chapters[].blocks[]` de l'îlot remplis (les champs `image`
+  attendront l'étape 4).
 - **Critère de fin** : le livre s'ouvre en `file://`, chaque chapitre écrit
-  s'affiche et la navigation fonctionne, aucune erreur dans la console du
-  navigateur.
+  s'affiche et la navigation fonctionne, aucune erreur JavaScript dans la
+  console du navigateur.
 - **Commit(s)** : « Chapitres 1-3 de <titre> », « Chapitres 4-6 de <titre> »…
 
 ### Étape 3 — Codex et annexes
 
 - **Entrée** : les chapitres écrits.
-- **Travail** : rédiger les fiches du codex (personnages, lieux, concepts) et leurs
-  règles de déverrouillage, en reliant les fiches aux mentions dans le texte.
-- **Sortie** : le `codex[]` de l'îlot rempli, liens texte ↔ fiches en place.
-- **Critère de fin** : intégrité référentielle parfaite — chaque fiche atteignable
-  depuis le texte, aucune fiche orpheline, aucun lien mort (norme des livres
-  récents : 0 défaut).
+- **Travail** : rédiger les notices du codex (personnages, lieux, concepts…)
+  dans la voix de `meta.codexVoice`, avec **tous** les champs de la spécification
+  ([`DONNEES.md`](../../livres/_template/DONNEES.md)) — y compris les champs de
+  méthode anti-divulgâchage — puis relier les notices aux blocs par les
+  `mentions`. Compléter `entityAudit` pour toute entité nommée sans notice.
+  Densité cible : celle du brief, sinon les défauts du socle (15 à 30 notices,
+  ≥ 40 % des blocs porteurs d'au moins une mention).
+- **Sortie** : le `codex[]` de l'îlot rempli, `mentions` posées, `entityAudit`
+  complet.
+- **Critère de fin** :
+  `python ateliers/roman-atelier/outils/verifier.py livres/<slug>` ne signale
+  aucun défaut d'intégrité (0 notice orpheline, 0 lien mort, déverrouillages
+  cohérents) — les manques d'images sont encore tolérés à ce stade (`--sans-images`).
 - **Commit** : « Codex de <titre> : personnages, lieux, concepts »
 
-### Étape 4 — Relecture, couverture et finitions
+### Étape 4 — Illustrations : champs d'images et manifeste
 
-- **Entrée** : le livre complet.
+- **Entrée** : le livre écrit (chapitres + codex), la direction artistique du
+  brief s'il y en a une.
+- **Travail** :
+  1. renseigner dans l'îlot les champs d'images (spec `DONNEES.md`) : pour
+     **chaque chapitre**, `image` (`images/chapter-NN.webp`, NN = numéro sur
+     2 chiffres), `alt` et `visualDescription` ; pour les **notices majeures**
+     (par défaut : les mieux reliées, environ un tiers du codex — le brief peut
+     fixer autre chose), `image` (`images/codex-<id>.webp`), `alt` et
+     `visualDescription` ; et le bloc `cover` (couverture
+     `../../couvertures/<slug>.webp`) ;
+  2. écrire le manifeste `livres/<slug>/illustrations.md` en copiant le gabarit
+     [`GABARIT-ILLUSTRATIONS.md`](GABARIT-ILLUSTRATIONS.md) : bible visuelle
+     commune, une entrée par image (nom de fichier exact, dimensions, prompt,
+     alt), contraintes techniques et consignes de session pour l'illustrateur.
+- **Sortie** : l'îlot avec tous les champs d'images remplis +
+  `livres/<slug>/illustrations.md`.
+- **Critère de fin** : `python ateliers/roman-atelier/outils/verifier.py
+  livres/<slug> --sans-images` passe (il vérifie notamment que chaque image de
+  l'îlot a son entrée au manifeste et réciproquement) ; le livre reste
+  entièrement lisible en `file://` alors qu'aucun fichier d'image n'existe
+  encore (les emplacements se masquent, aucune image cassée à l'écran).
+- **Commit** : « Illustrations de <titre> : champs d'images et manifeste »
+
+### Étape 5 — Relecture et finitions
+
+- **Entrée** : le livre complet (texte + champs d'images + manifeste).
 - **Travail** : relecture intégrale (cohérence narrative, orthographe, respect de
-  `PREFERENCES.md`), corrections ; création de la couverture
-  (§« Images et couverture ») ; passage de la checklist finale.
-- **Sortie** : le livre corrigé + `couvertures/<slug>.jpg` (ou `.png`/`.webp`).
-- **Critère de fin** : toutes les cases de « Vérifications avant PR » cochées.
-- **Commit** : « Relecture de <titre> : corrections et couverture »
+  `PREFERENCES.md` et du brief), corrections ; passage de la checklist
+  « Vérifications avant PR (auteur) ».
+- **Sortie** : le livre corrigé.
+- **Critère de fin** : toutes les cases de la checklist auteur cochées.
+- **Commit** : « Relecture de <titre> : corrections »
 
 Puis : push et **pull request** (protocole de session — description structurée
-Rôle : Production / roman-atelier v2, divergences de moteur signalées).
+Rôle : Production / roman-atelier v3, divergences de moteur signalées, et la
+mention explicite : « En attente de la passe illustrateur —
+`livres/<slug>/illustrations.md` »).
+
+## Le relai illustrateur
+
+C'est le seul point de passage entre les deux rôles, et il tient en un message.
+
+- **Qui** : Pierre (ou l'orchestrateur de la session) lance un agent
+  illustrateur — Codex, Claude Code ou autre agent capable de générer des
+  images — après la PR de l'auteur.
+- **Le message de relai**, en une phrase :
+  > Sur la branche `atelier/roman-<slug>` du dépôt, exécute le manifeste
+  > `livres/<slug>/illustrations.md`.
+- **Ce que fait l'illustrateur** (tout est écrit dans le manifeste, qui est
+  autoportant) : produire chaque fichier d'image listé, au nom exact, au format
+  et au poids prescrits ; ajouter son modèle à `book:author` (seule édition de
+  HTML autorisée, voir le manifeste) ; committer en français et pousser sur la
+  même branche. **Rien d'autre** : pas d'édition de l'îlot JSON, pas de retouche
+  du texte, pas de nouveau fichier hors de `livres/<slug>/images/` et
+  `couvertures/<slug>.webp`.
+- **Après sa passe** : la checklist « Vérifications avant merge » (ci-dessous)
+  se passe sur la branche — par l'illustrateur s'il le peut, sinon par l'auteur
+  ou un relecteur. La PR ne se merge qu'une fois cette checklist verte.
+- **Traçabilité** : `book:author` = « <modèle auteur> (texte), <modèle
+  illustrateur> (images) » ; les rôles sont détaillés dans la PR.
 
 ## Structure de fichiers
 
-- **Livre sans images** : un seul fichier `livres/<slug>.html`.
-- **Livre avec images** (recommandé dès qu'il y a des illustrations) :
-  ```text
-  livres/<slug>/
-    index.html          ← point d'entrée (obligatoirement index.html)
-    images/
-      chapter-01.jpg    ← numérotation sur 2 chiffres (tri lexicographique correct)
-      codex-<slug-entree>.jpg
-  ```
+Un livre v3 est **toujours un dossier** (il porte des images) :
+
+```text
+livres/<slug>/
+  index.html          ← point d'entrée (obligatoirement index.html)
+  brief.md            ← le brief d'entrée, recopié tel quel (étape 1)
+  illustrations.md    ← le manifeste pour l'illustrateur (étape 4)
+  images/
+    chapter-01.webp   ← une par chapitre, numérotation sur 2 chiffres
+    codex-<id>.webp   ← notices illustrées (id = id de la notice)
+```
+
 - Profondeur maximale : **un seul niveau** de dossier sous `livres/`.
-- Toutes les ressources du livre restent **dans son dossier** (la couverture, elle,
-  vit dans `couvertures/` ; le livre n'a pas besoin de la référencer).
+- Toutes les ressources du livre restent **dans son dossier** ; la couverture,
+  elle, vit dans `couvertures/<slug>.webp`.
 
 ## Le `<head>` obligatoire
 
-Bloc à copier dans le point d'entrée (les 5 meta `book:*` alimentent le catalogue ;
-`book:workflow` trace la recette) :
+Le template en contient un gabarit prêt à remplacer. Pour référence (les 5 meta
+`book:*` alimentent le catalogue ; `book:workflow` et `reader-engine` tracent la
+recette et le moteur) :
 
 ```html
 <head>
@@ -116,7 +219,7 @@ Bloc à copier dans le point d'entrée (les 5 meta `book:*` alimentent le catalo
 
   <!-- Métadonnées utilisées par Ma Bibliothèque -->
   <meta name="book:title" content="Titre complet du livre">
-  <meta name="book:author" content="Claude Fable">
+  <meta name="book:author" content="Claude Fable (texte), GPT 5.5 (images)">
   <meta
     name="book:description"
     content="Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue."
@@ -124,74 +227,107 @@ Bloc à copier dans le point d'entrée (les 5 meta `book:*` alimentent le catalo
   <meta name="book:tags" content="genre, thème, lieu (1 à 6 tags, séparés par des virgules)">
   <meta name="book:date" content="2026-08-13">
 
-  <!-- Traçabilité : version de la recette utilisée (ignorée par le catalogue) -->
-  <meta name="book:workflow" content="roman-atelier v2">
+  <!-- Traçabilité : recette et moteur (ignorées par le catalogue) -->
+  <meta name="book:workflow" content="roman-atelier v3">
+  <meta name="reader-engine" content="atelier-liseuse v1">
 
   <!-- Utilisé par l'onglet du navigateur et comme fallback de titre -->
   <title>Titre complet du livre</title>
 </head>
 ```
 
-- **`book:author` = le nom du modèle qui écrit** (`Claude Fable`, `GPT 5.5`,
+- **`book:author` = le nom du ou des modèles** (`Claude Fable`, `GPT 5.5`,
   `Gemini 3.1 pro`…). **Pas de pseudonyme collectif** type « Atelier des récits
   explorables » — cette dérive a effacé la provenance de la moitié du catalogue
-  (audit §B.6). Livre multi-agents : tous les modèles séparés par des virgules, et
-  les rôles (auteur / illustrateur / relecteur) détaillés dans la PR.
+  (audit §B.6). En v3 le champ liste les deux rôles : l'auteur l'écrit à l'étape
+  1 sous la forme « <son modèle> (texte) » ; l'illustrateur y ajoute
+  « , <son modèle> (images) » pendant sa passe.
 - `book:date` : `AAAA`, `AAAA-MM` ou `AAAA-MM-JJ`.
 
 ## Le moteur de liseuse
 
-- **Données** : le récit vit dans un îlot
-  `<script type="application/json" id="book-data">` — structure observable dans les
-  livres de référence : `meta` (slug, titre, auteur…), `world` (promesse
-  émotionnelle, idée centrale, question thématique), `chapters[]` (blocs de texte,
-  images éventuelles), `codex[]` (fiches avec règles de déverrouillage). Reprendre
-  la structure du livre de référence à l'identique.
-- **Persistance** : clé localStorage **exactement** `<slug>-state-v1` (voir
-  `PREFERENCES.md` §Forme — convention violée par 4 livres sur 7 par le passé, ne
-  pas reproduire).
-- **Fonctionnalités à ne pas régresser** (présentes dans le moteur de référence) :
-  sommaire, `role="progressbar"` mis à jour, codex à déverrouillage robuste au
-  rechargement, thème sombre, taille de police, piège de focus dans les dialogues,
-  région `aria-live` pour les déblocages, `prefers-reduced-motion`, échappement
-  HTML systématique des données de l'îlot.
-- **Défauts connus du moteur** (audit §B.4) — à corriger si l'occasion se présente,
-  en le signalant dans la PR : `function close()` écrase `window.close` ;
-  `entry(id)` sans garde (un id de codex manquant bloque tout le rendu) ; précédence
-  `||`/`&&` dans la recherche du codex qui masque les fiches verrouillées dès qu'on
-  tape.
+- **Source unique** : [`livres/_template/index.html`](../../livres/_template/index.html)
+  (`atelier-liseuse v1`), copié tel quel. Les trois défauts historiques du
+  moteur (audit §B.4 : `close()` écrasé, `entry()` sans garde, recherche du
+  codex) y sont corrigés — ne pas les réintroduire en copiant un ancien livre.
+- **Données** : le récit vit dans l'îlot
+  `<script type="application/json" id="book-data">`, dont la structure est
+  spécifiée champ par champ dans
+  [`livres/_template/DONNEES.md`](../../livres/_template/DONNEES.md).
+- **Persistance** : la clé localStorage `<slug>-state-v1` est dérivée de
+  `meta.slug` par le moteur — renseigner `meta.slug` correctement suffit.
+- **Fonctionnalités à ne pas régresser** : sommaire, `role="progressbar"` mis à
+  jour, codex à déverrouillage robuste au rechargement, thème sombre, taille de
+  police, piège de focus dans les dialogues, région `aria-live` pour les
+  déblocages, `prefers-reduced-motion`, échappement HTML systématique des
+  données de l'îlot, visionneuse d'images, dégradation propre des images
+  manquantes.
 
 ## Images et couverture
 
-- **Couverture obligatoire** : `couvertures/<slug>.jpg` (ou `.png`/`.webp` — `.webp`
-  préféré à terme), ratio **2:3** (ex. 800×1200), poids < 300 Ko visé. Le nom doit
-  être **exactement** le slug, sinon elle est ignorée en silence et un placeholder
-  est généré.
-- **Images de chapitre** : `images/chapter-NN.jpg` (NN sur 2 chiffres) ; poids,
-  `loading="lazy"`, `width`/`height` et `alt` : voir `PREFERENCES.md` §Forme.
+- **Format** : **WebP** pour tout (chapitres, notices, couverture). JPEG toléré
+  en repli si la chaîne de l'illustrateur ne produit pas de WebP — le signaler
+  dans la PR.
+- **Couverture obligatoire** : `couvertures/<slug>.webp`, ratio **2:3**
+  (cible : 800×1200), poids **< 300 Ko**. Le nom doit être **exactement** le
+  slug, sinon elle est ignorée en silence et un placeholder est généré.
+- **Images de chapitre** : `livres/<slug>/images/chapter-NN.webp` (NN = numéro
+  du chapitre sur 2 chiffres), **1600×900**, poids **≤ 150 Ko** ; une par
+  chapitre.
+- **Images de notice** : `livres/<slug>/images/codex-<id>.webp` (id = id exact
+  de la notice), **1600×900**, poids **≤ 150 Ko** ; notices majeures seulement
+  (défaut : environ un tiers du codex).
+- Le moteur pose `width`/`height` (1600×900 par défaut) et `loading="lazy"`
+  hors première image ; si une image déroge aux dimensions, renseigner
+  `imageWidth`/`imageHeight` dans l'îlot.
+- Les `alt` sont écrits par l'**auteur** (étape 4) et vivent dans l'îlot — pas
+  par l'illustrateur.
+- Conversion/compression (commandes de référence, reprises dans le manifeste) :
+  ```bash
+  cwebp -q 82 -resize 1600 900 source.png -o images/chapter-01.webp
+  # ou, si seul ImageMagick est disponible :
+  magick source.png -resize 1600x900^ -gravity center -extent 1600x900 -quality 82 images/chapter-01.webp
+  ```
 
 ## Interdits spécifiques
 
 - **Moratoire sur les éditions dérivées en doublon** (`-v2`, `-illustree`) : ne pas
   créer une entrée de catalogue séparée pour une variante d'un livre existant.
-  Préférer enrichir le livre existant (images intégrées avec bascule d'affichage) ou
-  attendre le schéma de catalogue v2 (`variantOf`) — audit
+  Un livre v3 naît illustré ; on n'illustre pas rétroactivement un livre publié
+  par une nouvelle entrée — audit
   [`docs/audits/2026-08-rapport-etonnement.md`](../../docs/audits/2026-08-rapport-etonnement.md) §D.
 - Jamais toucher `catalog.json` ni le bloc `#demo-catalog` (règles d'or).
 - Aucune ressource distante (CDN, fonts, images externes).
+- L'illustrateur ne modifie que les fichiers d'images et la meta `book:author`.
 
-## Vérifications avant PR
+## Vérifications avant PR (auteur, fin d'étape 5)
 
 - [ ] `python scripts/build_catalog.py --output /tmp/catalog-verification.json`
       passe sans erreur et le livre apparaît dans le JSON généré ;
-- [ ] le livre s'ouvre et se lit en `file://` (hors ligne, sans erreur console) ;
-- [ ] les 5 meta `book:*` sont présentes et exactes (`book:author` = modèle) ;
-- [ ] `<meta name="book:workflow" content="roman-atelier v2">` présente ;
-- [ ] couverture en place (`couvertures/<slug>.…`, ratio 2:3, nom = slug exact) ;
-- [ ] codex : aucune fiche orpheline, aucun lien cassé, aucune image sans `alt` ;
-- [ ] clé localStorage `<slug>-state-v1` ;
-- [ ] socle [`PREFERENCES.md`](../../docs/conception/PREFERENCES.md) respecté
-      (fond et forme) ;
+- [ ] `python ateliers/roman-atelier/outils/verifier.py livres/<slug> --sans-images`
+      passe sans défaut ;
+- [ ] le livre s'ouvre et se lit en `file://` de bout en bout, sans erreur
+      JavaScript en console et **sans image cassée à l'écran** (les emplacements
+      d'images se masquent) ;
+- [ ] les 5 meta `book:*` sont présentes et exactes (`book:author` =
+      « <modèle> (texte) » à ce stade) ;
+- [ ] `<meta name="book:workflow" content="roman-atelier v3">` et
+      `<meta name="reader-engine" content="atelier-liseuse v1">` présentes ;
+- [ ] `livres/<slug>/brief.md` et `livres/<slug>/illustrations.md` committés ;
+- [ ] socle [`PREFERENCES.md`](../../docs/conception/PREFERENCES.md) et brief
+      respectés (fond et forme — longueurs, densité de mentions) ;
 - [ ] protocole de session d'`AGENTS.md` : commits d'étapes poussés, PR ouverte
-      avec description structurée (Rôle : Production / roman-atelier v2),
-      divergences de moteur signalées.
+      avec description structurée (Rôle : Production / roman-atelier v3),
+      divergences de moteur signalées, passe illustrateur annoncée.
+
+## Vérifications avant merge (après la passe illustrateur)
+
+- [ ] `python ateliers/roman-atelier/outils/verifier.py livres/<slug>`
+      passe sans défaut **sans** `--sans-images` (toutes les images du manifeste
+      existent, formats, dimensions et poids conformes) ;
+- [ ] couverture en place (`couvertures/<slug>.webp`, ratio 2:3, nom = slug
+      exact, < 300 Ko) ;
+- [ ] `book:author` liste les deux rôles : « <modèle> (texte), <modèle> (images) » ;
+- [ ] le livre se lit en `file://` avec toutes ses illustrations affichées ;
+- [ ] la PR détaille les rôles (auteur / illustrateur) et l'outil ayant produit
+      les images.
