@@ -1,9 +1,13 @@
 # Rôle Conception — nouveaux formats et workflows de production
 
 Tu inventes de **nouveaux types de livrables de lecture** (nouvelle forme de livre,
-recueil, fiction interactive à branches, livre audio, mode illustré…) et tu
-documentes leur **processus de fabrication reproductible**. Prérequis : avoir lu
-[`AGENTS.md`](../../AGENTS.md) (règles d'or + protocole de session).
+recueil, fiction interactive à branches, livre audio, mode illustré…), tu documentes
+leur **processus de fabrication reproductible** (les « recettes » exécutées par le
+rôle Production) et tu **fais évoluer** les recettes existantes. Prérequis : avoir
+lu [`AGENTS.md`](../../AGENTS.md) (règles d'or + protocole de session). Le cap du
+rôle — boucle d'amélioration continue, socle éditorial, vision « génération de bout
+en bout » (Ma Bibliothèque 2.0) — vit dans [`VISION.md`](VISION.md) et
+[`ROADMAP.md`](ROADMAP.md).
 
 ## Le livrable de ce rôle est double
 
@@ -42,5 +46,8 @@ catalogue, nouveau comportement de l'index…), c'est un chantier du rôle
 
 | Document | Contenu |
 |---|---|
-| [`creer-un-atelier.md`](creer-un-atelier.md) | Contraintes de plateforme, libertés, critères d'acceptation, procédure |
-| [`GABARIT-WORKFLOW.md`](GABARIT-WORKFLOW.md) | Squelette de `WORKFLOW.md` à copier pour tout nouvel atelier |
+| [`VISION.md`](VISION.md) | Vision des rôles Conception & Production : boucle d'amélioration des recettes, paliers (P1 interfaces du propriétaire → 2.0 génération via clé API → 2.1 budget/paiement) |
+| [`ROADMAP.md`](ROADMAP.md) | Chantiers priorisés : template de moteur versionné (palier 0), ateliers candidats, spécification 2.0 |
+| [`PREFERENCES.md`](PREFERENCES.md) | Socle éditorial commun (fond et forme) que chaque atelier décline |
+| [`creer-un-atelier.md`](creer-un-atelier.md) | Contraintes de plateforme, libertés, **standard de recette agent-agnostique**, critères d'acceptation, procédure |
+| [`GABARIT-WORKFLOW.md`](GABARIT-WORKFLOW.md) | Squelette de `WORKFLOW.md` à copier pour tout nouvel atelier (versionné, étapes-contrats) |
