@@ -48,6 +48,7 @@ catalogue, nouveau comportement de l'index…), c'est un chantier du rôle
 |---|---|
 | [`VISION.md`](VISION.md) | Vision des rôles Conception & Production : boucle d'amélioration des recettes, paliers (P1 interfaces du propriétaire → 2.0 génération via clé API → 2.1 budget/paiement) |
 | [`ROADMAP.md`](ROADMAP.md) | Chantiers priorisés : template de moteur versionné (palier 0), ateliers candidats, spécification 2.0 |
+| [`IDEES.md`](IDEES.md) | Vivier d'idées (fonctionnalités de lecture, variété de contenus) : les pistes non engagées, d'où se piochent les prochains ateliers |
 | [`PREFERENCES.md`](PREFERENCES.md) | Socle éditorial commun (fond et forme) que chaque atelier décline |
 | [`creer-un-atelier.md`](creer-un-atelier.md) | Contraintes de plateforme, libertés, **standard de recette agent-agnostique**, critères d'acceptation, procédure |
 | [`GABARIT-WORKFLOW.md`](GABARIT-WORKFLOW.md) | Squelette de `WORKFLOW.md` à copier pour tout nouvel atelier (versionné, étapes-contrats) |
