@@ -1,8 +1,11 @@
 # PREFERENCES.md — socle éditorial commun
 
-> **Statut : premier jet, extrait des livres existants du catalogue — à valider et
-> corriger par Pierre.** Les points marqués *(à compléter par Pierre)* sont des
-> emplacements volontairement laissés ouverts. Ce document évolue par pull request.
+> **Statut : extrait des livres existants du catalogue — à valider et corriger
+> par Pierre.** Les blocs « Défauts proposés » comblent les emplacements
+> laissés ouverts par le premier jet : ce sont des propositions tirées des
+> meilleurs livres, en vigueur tant que Pierre ne les a pas corrigées, et que
+> chaque brief peut surcharger ponctuellement. Ce document évolue par pull
+> request.
 
 Ce socle rassemble les préférences transverses à **toutes** les lectures de la
 bibliothèque : le **fond** (contenu) et la **forme** (fonctionnalités). Autorité :
@@ -28,12 +31,22 @@ Observé dans les livres publiés, tenu pour acquis sauf correction :
 - **Provenance assumée** : `book:author` = le nom du modèle qui écrit ; pour un
   livre multi-agents, les rôles sont détaillés dans la PR.
 
-*(à compléter par Pierre)* :
+**Défauts proposés** *(extraits des meilleurs livres du catalogue — Pierre les
+corrige librement par PR ; chaque brief peut les surcharger au cas par cas)* :
 
-- Thèmes et genres favoris ; thèmes à éviter ou exclus.
-- Tons privilégiés (contemplatif, haletant, humoristique…).
-- Longueurs cibles (nombre de chapitres, mots par chapitre).
-- Public visé (tout public ? contenus sensibles ?).
+- **Genres** : ceux du catalogue actuel comme terrain naturel — récit
+  d'atmosphère littéraire, espionnage, science-fiction sociale, mystère — sans
+  s'y enfermer : le brief fixe le genre. Pas de genre exclu a priori.
+- **Tons** : registre littéraire soigné, tension retenue plutôt que
+  spectaculaire ; l'humour est bienvenu s'il sert la voix du livre.
+- **Longueurs cibles** (celles de `lequation-du-calme`, la référence de
+  qualité) : **8 à 12 chapitres** ; **2 000 à 3 000 mots par chapitre**
+  (~20 000 à 30 000 mots au total) ; **15 à 30 notices** de matière annexe ;
+  et surtout une exploration dense — **au moins 40 % des blocs de texte
+  porteurs d'une mention** vers la matière annexe (c'est ce qui distingue les
+  meilleurs livres du catalogue des autres).
+- **Public** : tout public. Pas de contenus sensibles (violence graphique,
+  sexualité explicite) sauf demande explicite du brief.
 
 ## Forme — les fonctionnalités des lectures
 
@@ -53,10 +66,17 @@ Attendu de toute lecture publiée, quel que soit son format :
 - **Sobriété des ressources** : images compressées (WebP ≤ 150 Ko visé par image de
   chapitre, couverture < 300 Ko), pas de JavaScript superflu.
 
-*(à compléter par Pierre)* :
+**Défauts proposés** *(même statut que ci-dessus)* :
 
-- Fonctionnalités de liseuse à généraliser ou au contraire à abandonner (ex. carte,
-  graphe de relations, mode impression, lecture audio).
+- **À généraliser** — le socle du moteur de référence
+  [`livres/_template/`](../../livres/_template/README.md) : dialogues natifs
+  avec piège de focus, visionneuse d'illustrations, annonces `aria-live` des
+  déblocages, dégradation propre des images manquantes.
+- **Optionnelles sur demande du brief** — les inventions des premiers livres
+  (carte, graphe de relations, mode impression, gestes tactiles) : ne pas les
+  imposer, ne pas les interdire ; si le brief en demande une, la divergence de
+  moteur est signalée dans la PR.
+- **À abandonner** — aucune fonctionnalité identifiée à ce jour.
 
 ## Ce que ce socle n'est pas
 
