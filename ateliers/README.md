@@ -9,7 +9,7 @@ bibliothèque. Plusieurs ateliers cohabitent, un par type de livrable.
 
 | Atelier | Livrable | Version | Statut | Moteur | Exemples publiés |
 |---|---|---|---|---|---|
-| [`roman-atelier/`](roman-atelier/WORKFLOW.md) | Roman-web autonome **illustré nativement** avec liseuse « Atelier » (sommaire, progression, codex à déverrouillage, illustrations), fabriqué en deux passes tracées : auteur puis illustrateur (brief : [`BRIEF.md`](roman-atelier/BRIEF.md)) | v3 | stable (étape illustrations en attente de son pilote à froid) | [`livres/_template/`](../livres/_template/README.md) (`atelier-liseuse v1`) | [`livres/lequation-du-calme/`](../livres/lequation-du-calme), [`livres/la-doublure.html`](../livres/la-doublure.html) (v2, non illustrés) |
+| [`roman-atelier/`](roman-atelier/WORKFLOW.md) | Roman-web autonome **illustré nativement** avec liseuse « Atelier » (sommaire, progression, codex à déverrouillage, illustrations), fabriqué en deux passes tracées : auteur puis illustrateur (brief : [`BRIEF.md`](roman-atelier/BRIEF.md)) ; ancrage dans le monde réel sur option du brief, avec recherche documentaire sourcée en amont de l'écriture | v4 | stable (étapes illustrations et recherche documentaire en attente de leur pilote à froid) | [`livres/_template/`](../livres/_template/README.md) (`atelier-liseuse v1`) | [`livres/lequation-du-calme/`](../livres/lequation-du-calme), [`livres/la-doublure.html`](../livres/la-doublure.html) (v2, non illustrés) |
 
 Les workflows sont **versionnés** (numéro en tête + changelog) et chaque livre
 produit trace la version de recette utilisée
