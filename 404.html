@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+  <title>Page introuvable — Ma bibliothèque</title>
+  <!-- URLs absolues nécessaires : GitHub Pages sert cette page à n'importe quelle
+       profondeur d'URL, un chemin relatif ne résoudrait pas depuis livres/… -->
+  <link rel="icon" href="https://pierrebillet.github.io/ma-bibliotheque/favicon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --page: #f2efe8;
+      --page-soft: #e8e3d8;
+      --text: #201f1b;
+      --muted: #68655d;
+      --line: rgba(53, 49, 40, 0.17);
+      --accent: #6f4d2d;
+      --accent-strong: #4e331d;
+      --accent-soft: #e8d8c4;
+      --serif: Georgia, "Times New Roman", Times, serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --page: #171814;
+        --page-soft: #1e201b;
+        --text: #f2ede3;
+        --muted: #b8b1a5;
+        --line: rgba(239, 229, 212, 0.15);
+        --accent: #d0a66f;
+        --accent-strong: #efd2aa;
+        --accent-soft: #493927;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 2rem 1.25rem;
+      color: var(--text);
+      background: linear-gradient(180deg, var(--page), var(--page-soft));
+      font-family: var(--sans);
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    main { max-width: 34rem; }
+
+    .code {
+      font-family: var(--serif);
+      font-size: clamp(4rem, 14vw, 6.5rem);
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin: 0;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(1.4rem, 5vw, 1.9rem);
+      margin: 0.75rem 0 0;
+    }
+
+    p {
+      color: var(--muted);
+      margin: 1rem 0 0;
+    }
+
+    .retour {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.7rem 1.4rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--accent);
+      color: var(--page);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .retour:hover, .retour:focus-visible { background: var(--accent-strong); }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="code" aria-hidden="true">404</p>
+    <h1>Page introuvable</h1>
+    <p>Cette page n’existe pas — ou le livre que vous cherchez a changé d’adresse.
+       Le catalogue de la bibliothèque, lui, est toujours là.</p>
+    <a class="retour" href="https://pierrebillet.github.io/ma-bibliotheque/">Retourner à la bibliothèque</a>
+  </main>
+</body>
+</html>
