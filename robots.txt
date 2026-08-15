@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pierrebillet.github.io/ma-bibliotheque/sitemap.xml

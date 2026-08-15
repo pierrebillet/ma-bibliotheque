@@ -630,6 +630,30 @@ def sync_demo_catalog(index_path: Path, payload: dict[str, object]) -> bool:
     return True
 
 
+def render_sitemap(payload: dict[str, object], base_url: str) -> str:
+    """Rend le sitemap XML : la page d'accueil puis chaque livre du catalogue.
+
+    Sortie déterministe (pas d'horodatage) : le fichier ne change que si la
+    liste des livres change, ce qui évite les commits de bruit côté CI.
+    """
+    base = base_url.rstrip("/") + "/"
+    locations = [base]
+    books = payload.get("books")
+    if isinstance(books, list):
+        for book in books:
+            if isinstance(book, dict) and isinstance(book.get("href"), str):
+                locations.append(base + book["href"])
+
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    for location in locations:
+        lines.append(f"  <url><loc>{html.escape(location, quote=True)}</loc></url>")
+    lines.append("</urlset>")
+    return "\n".join(lines) + "\n"
+
+
 def generate(root: Path, output_path: Path) -> dict[str, object]:
     books_dir = root / "livres"
     sources = discover_books(books_dir)
@@ -712,7 +736,23 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         default=Path("index.html"),
         help="Chemin de la page d'accueil, absolu ou relatif à --root (défaut : index.html).",
     )
-    return parser.parse_args(argv)
+    parser.add_argument(
+        "--sitemap",
+        type=Path,
+        default=None,
+        help="Écrit aussi un sitemap XML à ce chemin, absolu ou relatif à --root (exige --base-url).",
+    )
+    parser.add_argument(
+        "--base-url",
+        default=None,
+        help="URL absolue de la racine du site publié, utilisée par --sitemap (ex. https://exemple.github.io/depot/).",
+    )
+    args = parser.parse_args(argv)
+    if args.sitemap is not None and not args.base_url:
+        parser.error("--sitemap exige --base-url.")
+    if args.base_url and not re.match(r"^https?://", args.base_url):
+        parser.error("--base-url doit être une URL absolue http(s)://…")
+    return args
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -725,6 +765,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.sync_demo_catalog:
             index_path = args.index if args.index.is_absolute() else root / args.index
             demo_changed = sync_demo_catalog(index_path, payload)
+        sitemap_path: Path | None = None
+        if args.sitemap is not None:
+            sitemap_path = args.sitemap if args.sitemap.is_absolute() else root / args.sitemap
+            write_text_atomic(sitemap_path, render_sitemap(payload, args.base_url))
     except Exception as error:
         print(f"::error::{annotation_escape(type(error).__name__ + ': ' + str(error))}", file=sys.stderr)
         return 1
@@ -733,6 +777,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(f"Catalogue généré : {count} livre{'s' if count != 1 else ''} -> {output_path}")
     if args.sync_demo_catalog:
         print("Bloc #demo-catalog synchronisé." if demo_changed else "Bloc #demo-catalog déjà à jour.")
+    if sitemap_path is not None:
+        print(f"Sitemap généré : {count + 1} URL -> {sitemap_path}")
     return 0
 
 

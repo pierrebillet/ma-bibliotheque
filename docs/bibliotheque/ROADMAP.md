@@ -26,7 +26,7 @@ Par ordre de priorité. La 1.0 est atteinte quand tout est fait (VISION, palier 
 
 | # | Chantier | Contenu | Niveau | Source | Statut |
 |---|---|---|---|---|---|
-| 1 | **Hygiène web** | Favicon, `404.html`, `.nojekyll`, Open Graph/Twitter Card sur l'index (partage social exploitable), `robots.txt` + sitemap | ①/③ | §C.3.7, §D.4.5 | à faire |
+| 1 | **Hygiène web** | Favicon, `404.html`, `.nojekyll`, Open Graph/Twitter Card sur l'index (partage social exploitable), `robots.txt` + sitemap (généré par la CI comme `catalog.json`) | ①/③ | §C.3.7, §D.4.5 | **fait (2026-08-15)** |
 | 2 | **Purge CSS + ratio des cartes** | Supprimer les couches CSS mortes (~700 lignes, quatre refontes empilées) ; trancher cartes 4:5 vs couvertures 2:3 (aujourd'hui ~17 % de l'image rognée) et documenter le choix | ① | §C.3.2, §C.3.4 | à faire |
 | 3 | **Accessibilité et ergonomie de l'index** | Un seul lien par carte (au lieu de trois identiques), `aria-live` qui n'annonce que le résultat, select custom conforme (`aria-activedescendant`), lien statique de repli `<noscript>`, description visible sur mobile | ① | §C.3.6 | à faire |
 | 4 | **Couvertures optimisées et découplées** | Passage WebP (~1,2 Mo au lieu de 4,9), couverture embarquée `livres/<slug>/cover.*` acceptée en repli, formats `.jpeg`/`.avif` reconnus | ①/③ | §C.3.5, §D.4.4 | à faire |
