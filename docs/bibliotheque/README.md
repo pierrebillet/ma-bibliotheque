@@ -24,6 +24,9 @@ format relève du rôle Conception ([`docs/conception/`](../conception/README.md
   HTML + CSS + JS dans le fichier unique.
 - **Chemins relatifs** partout, sans slash initial ni domaine codé en dur (le site
   doit fonctionner à la racine d'un domaine comme dans un sous-répertoire Pages).
+  Exception documentée : les métadonnées destinées aux robots et scrapers portent
+  l'URL canonique absolue — voir [`FRONTEND.md`](FRONTEND.md) §Évolution pour la
+  liste des fichiers concernés.
 - **Injection DOM sûre** : `textContent` uniquement, jamais de HTML construit depuis
   les données du catalogue.
 - **Une seule balise** `<script id="demo-catalog" type="application/json">` dans
@@ -33,7 +36,8 @@ format relève du rôle Conception ([`docs/conception/`](../conception/README.md
   dans [`CATALOGUE.md`](CATALOGUE.md) ; l'index valide chaque entrée et ignore les
   entrées invalides.
 - **Interface CLI du script** : les options `--root`, `--output`,
-  `--sync-demo-catalog`, `--index` sont utilisées par la CI — ne pas les casser.
+  `--sync-demo-catalog`, `--index`, `--sitemap`, `--base-url` sont utilisées par
+  la CI — ne pas les casser.
 - **Déclencheurs de `catalog.yml`** : les chemins surveillés (`livres/**`,
   `couvertures/**`, `scripts/**`, `index.html`, `catalog.json`) conditionnent tout
   le fonctionnement automatique.
@@ -53,11 +57,14 @@ format relève du rôle Conception ([`docs/conception/`](../conception/README.md
    ```bash
    python scripts/build_catalog.py --output /tmp/catalog-verification.json
    ```
-   Pour tester aussi la synchronisation du bloc demo sans toucher aux fichiers réels :
+   Pour tester aussi la synchronisation du bloc demo et le sitemap sans toucher
+   aux fichiers réels :
    ```bash
    cp index.html /tmp/index-verification.html
    python scripts/build_catalog.py --output /tmp/catalog-verification.json \
-     --sync-demo-catalog --index /tmp/index-verification.html
+     --sync-demo-catalog --index /tmp/index-verification.html \
+     --sitemap /tmp/sitemap-verification.xml \
+     --base-url "https://pierrebillet.github.io/ma-bibliotheque/"
    ```
 2. **Prévisualisation** : ouvrir `index.html` en `file://` (utilise le bloc
    `#demo-catalog`) puis via un serveur HTTP local (`python -m http.server`, utilise

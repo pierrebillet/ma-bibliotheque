@@ -6,6 +6,7 @@
 scripts/build_catalog.py
 .github/workflows/catalog.yml
 catalog.json
+sitemap.xml
 index.html          (bloc #demo-catalog uniquement)
 ```
 
@@ -46,9 +47,10 @@ Un commit qui ne touche que `catalog.json` ne relance pas ce workflow, et le com
 7. La date d’ajout Git du fichier (`git log --diff-filter=A`, sans `--follow` pour qu’une édition dérivée n’hérite pas de la date de son livre source) est récupérée. Si l’historique est indisponible, la date de modification du fichier est utilisée. Cette date sert uniquement à classer les entrées du catalogue du plus récent au plus ancien ; le champ JSON `date` reste réservé à `book:date`.
 8. `catalog.json` est écrit en UTF-8, JSON indenté, avec un saut de ligne final.
 9. Le bloc `#demo-catalog` de `index.html` est réécrit avec le même JSON (option `--sync-demo-catalog` du script ; les `</` y sont échappés en `<\/` pour rester valides en HTML). Si le bloc est introuvable ou présent plusieurs fois, le script sort en erreur.
-10. Si ni `catalog.json` ni `index.html` n’ont changé, le workflow s’arrête sans commit.
-11. Sinon, le bot GitHub committe les deux fichiers (`chore: met à jour le catalogue (catalog.json + bloc demo) [skip ci]`) et pousse sur `main`, avec rebase et jusqu’à trois tentatives en cas de push concurrent.
-12. Le workflow demande explicitement un nouveau build GitHub Pages. Cette étape est nécessaire parce qu’un commit poussé avec `GITHUB_TOKEN` ne déclenche pas seul un build Pages en mode branche.
+10. `sitemap.xml` est régénéré (options `--sitemap` et `--base-url` du script) : la page d’accueil puis chaque livre du catalogue, en URL absolues. L’URL de base est dérivée de `GITHUB_REPOSITORY` (`https://<owner>.github.io/<repo>/`) — aucun domaine codé en dur dans le workflow. La sortie est déterministe (pas d’horodatage) : le fichier ne change que si la liste des livres change.
+11. Si ni `catalog.json`, ni `index.html`, ni `sitemap.xml` n’ont changé, le workflow s’arrête sans commit.
+12. Sinon, le bot GitHub committe les fichiers modifiés (`chore: met à jour le catalogue (catalog.json, bloc demo, sitemap) [skip ci]`) et pousse sur `main`, avec rebase et jusqu’à trois tentatives en cas de push concurrent.
+13. Le workflow demande explicitement un nouveau build GitHub Pages. Cette étape est nécessaire parce qu’un commit poussé avec `GITHUB_TOKEN` ne déclenche pas seul un build Pages en mode branche.
 
 ## Vérifier qu’un run a réussi
 
@@ -58,7 +60,7 @@ Un commit qui ne touche que `catalog.json` ne relance pas ce workflow, et le com
 4. Si le catalogue a changé, vérifier la présence d’un commit nommé :
 
    ```text
-   chore: met à jour le catalogue (catalog.json + bloc demo) [skip ci]
+   chore: met à jour le catalogue (catalog.json, bloc demo, sitemap) [skip ci]
    ```
 
 5. Dans **Actions**, vérifier ensuite que le workflow système GitHub Pages (`pages-build-deployment`) est vert.
