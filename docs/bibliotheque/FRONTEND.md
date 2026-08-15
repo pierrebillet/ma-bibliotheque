@@ -29,8 +29,16 @@ La page fournit :
 - paramètres partageables `q`, `tag` et `sort` ;
 - couvertures réelles avec remplacement automatique en cas d’erreur ;
 - placeholder stable calculé par FNV-1a à partir de `id + "\n" + title` ;
-- ouverture des livres dans un nouvel onglet ;
+- ouverture des livres dans un nouvel onglet, par un **lien unique par carte** :
+  le lien du titre, étendu à toute la surface de la carte par un pseudo-élément
+  (le bouton « Lire » est décoratif, le bouton de copie reste un contrôle distinct) ;
 - copie de l’URL absolue de chaque livre ;
+- selects custom (tag, tri) conformes au motif ARIA listbox : le focus reste sur
+  la liste, l’option active est désignée par `aria-activedescendant` ;
+- annonce du nombre de résultats aux lecteurs d’écran (`aria-live` porté par le
+  seul décompte, pas par la barre entière) ;
+- repli sans JavaScript : le bloc `<noscript>` pointe vers `catalog.json` pour
+  retrouver les URL publiques des livres ;
 - états de chargement, catalogue vide, aucun résultat et erreur ;
 - mode sombre automatique, navigation clavier et réduction des animations.
 
