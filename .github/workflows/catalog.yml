@@ -16,6 +16,7 @@ on:
       - "scripts/**"
       - "catalog.json"
       - "index.html"
+      - "sitemap.xml"
   workflow_dispatch:
 
 permissions:
@@ -47,12 +48,14 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Vérifier la génération du catalogue et du bloc demo
+      - name: Vérifier la génération du catalogue, du bloc demo et du sitemap
         run: |
           cp index.html /tmp/index-verification.html
           python scripts/build_catalog.py \
             --output /tmp/catalog-verification.json \
-            --sync-demo-catalog --index /tmp/index-verification.html
+            --sync-demo-catalog --index /tmp/index-verification.html \
+            --sitemap /tmp/sitemap-verification.xml \
+            --base-url "https://${GITHUB_REPOSITORY%%/*}.github.io/${GITHUB_REPOSITORY#*/}/"
 
       - name: Vérifier que catalog.json n'a pas été édité à la main
         shell: bash
@@ -67,6 +70,20 @@ jobs:
             exit 1
           fi
           echo "catalog.json n'est pas modifié par cette pull request."
+
+      - name: Vérifier que sitemap.xml n'a pas été édité à la main
+        shell: bash
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          # sitemap.xml appartient au bot : il est régénéré automatiquement
+          # après le merge sur main. Une pull request ne doit pas le modifier.
+          git fetch origin "$BASE_REF"
+          if ! git diff --quiet "origin/$BASE_REF"...HEAD -- sitemap.xml; then
+            echo "::error file=sitemap.xml::Cette pull request modifie sitemap.xml. Ne pas l'éditer à la main : il est régénéré automatiquement après le merge sur main."
+            exit 1
+          fi
+          echo "sitemap.xml n'est pas modifié par cette pull request."
 
       - name: Vérifier que le bloc demo-catalog n'a pas été édité à la main
         shell: bash
@@ -106,14 +123,17 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Générer catalog.json et synchroniser le bloc demo-catalog
-        run: python scripts/build_catalog.py --sync-demo-catalog
+      - name: Générer catalog.json, le bloc demo-catalog et sitemap.xml
+        run: |
+          python scripts/build_catalog.py --sync-demo-catalog \
+            --sitemap sitemap.xml \
+            --base-url "https://${GITHUB_REPOSITORY%%/*}.github.io/${GITHUB_REPOSITORY#*/}/"
 
       - name: Détecter une modification du catalogue
         id: catalogue-diff
         shell: bash
         run: |
-          if [[ -n "$(git status --porcelain -- catalog.json index.html)" ]]; then
+          if [[ -n "$(git status --porcelain -- catalog.json index.html sitemap.xml)" ]]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -125,8 +145,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- catalog.json index.html
-          git commit -m "chore: met à jour le catalogue (catalog.json + bloc demo) [skip ci]"
+          git add -- catalog.json index.html sitemap.xml
+          git commit -m "chore: met à jour le catalogue (catalog.json, bloc demo, sitemap) [skip ci]"
           for tentative in 1 2 3; do
             if git push origin HEAD:main; then
               exit 0
