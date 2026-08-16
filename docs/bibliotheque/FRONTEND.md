@@ -78,7 +78,7 @@ Le fichier suit le schéma version 1, documenté champ par champ dans
 }
 ```
 
-Les couvertures utilisent un objet `cover` dont le champ `href` pointe vers `couvertures/<slug>.webp`, `.png` ou `.jpg`. En l’absence de couverture, la valeur doit être `null`.
+Les couvertures utilisent un objet `cover` dont le champ `href` pointe vers `couvertures/<slug>.webp`, `.avif`, `.png`, `.jpg` ou `.jpeg` — ou, pour une couverture embarquée, vers `livres/<slug>/cover.*` ou `livres/<slug>/images/cover.*` (le validateur accepte les préfixes `couvertures/` et `livres/`). En l’absence de couverture, la valeur doit être `null`.
 
 ## Évolution
 
