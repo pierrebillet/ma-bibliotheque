@@ -33,7 +33,7 @@ SCHEMA_VERSION = 1
 SCAN_CHUNK_BYTES = 64 * 1024
 MAX_SCAN_BYTES = 4 * 1024 * 1024
 ENCODING_PROBE_BYTES = 16 * 1024
-COVER_EXTENSIONS = ("webp", "png", "jpg")
+COVER_EXTENSIONS = ("webp", "avif", "png", "jpg", "jpeg")
 BOOK_META_NAMES = {
     "book:title",
     "book:author",
@@ -369,21 +369,24 @@ def cover_signature_is_valid(path: Path, extension: str) -> bool:
 
     if extension == "png":
         return prefix.startswith(b"\x89PNG\r\n\x1a\n")
-    if extension == "jpg":
+    if extension in ("jpg", "jpeg"):
         return prefix.startswith(b"\xff\xd8\xff")
     if extension == "webp":
         return len(prefix) >= 12 and prefix[:4] == b"RIFF" and prefix[8:12] == b"WEBP"
+    if extension == "avif":
+        # Signature minimale : boîte ISO BMFF « ftyp » de marque majeure avif/avis.
+        # Un AVIF de marque majeure mif1 (avif seulement en marque compatible) est refusé.
+        return len(prefix) >= 12 and prefix[4:8] == b"ftyp" and prefix[8:12] in (b"avif", b"avis")
     return False
 
 
-def resolve_cover(root: Path, slug: str) -> dict[str, str] | None:
-    covers_dir = root / "couvertures"
+def select_valid_cover(root: Path, candidates: Sequence[Path]) -> tuple[Path, str] | None:
     valid: list[tuple[Path, str]] = []
 
-    for extension in COVER_EXTENSIONS:
-        candidate = covers_dir / f"{slug}.{extension}"
+    for candidate in candidates:
         if not candidate.is_file():
             continue
+        extension = candidate.suffix.lstrip(".").lower()
         relative = candidate.relative_to(root).as_posix()
         if not cover_signature_is_valid(candidate, extension):
             warn("Couverture ignorée : signature binaire incompatible avec son extension.", relative)
@@ -400,7 +403,29 @@ def resolve_cover(root: Path, slug: str) -> dict[str, str] | None:
             f"Plusieurs couvertures valides ; {selected.name} est utilisée, ignorée(s) : {ignored}.",
             selected.relative_to(root).as_posix(),
         )
+    return selected, extension
 
+
+def resolve_cover(root: Path, slug: str, book_path: Path) -> dict[str, str] | None:
+    covers_dir = root / "couvertures"
+    selection = select_valid_cover(
+        root, [covers_dir / f"{slug}.{extension}" for extension in COVER_EXTENSIONS]
+    )
+
+    # Repli : couverture embarquée dans le dossier du livre (impossible pour un
+    # livre à plat livres/<slug>.html). couvertures/<slug>.* garde la priorité.
+    if selection is None and book_path.parent != root / "livres":
+        book_dir = book_path.parent
+        selection = select_valid_cover(
+            root,
+            [book_dir / f"cover.{extension}" for extension in COVER_EXTENSIONS]
+            + [book_dir / "images" / f"cover.{extension}" for extension in COVER_EXTENSIONS],
+        )
+
+    if selection is None:
+        return None
+
+    selected, extension = selection
     relative = selected.relative_to(root).as_posix()
     return {
         "filename": selected.name,
@@ -475,7 +500,7 @@ def fallback_entry(root: Path, path: Path, slug: str) -> dict[str, object]:
         "tags": [],
         "date": None,
         "datePrecision": None,
-        "cover": resolve_cover(root, slug),
+        "cover": resolve_cover(root, slug, path),
     }
 
 
@@ -503,7 +528,7 @@ def build_book(root: Path, path: Path, slug: str) -> dict[str, object]:
         "tags": tags,
         "date": book_date,
         "datePrecision": date_precision,
-        "cover": resolve_cover(root, slug),
+        "cover": resolve_cover(root, slug, path),
     }
 
 
