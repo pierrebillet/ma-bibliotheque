@@ -2109,7 +2109,7 @@
         const datePrecision = ["year", "month", "day"].includes(raw.datePrecision) ? raw.datePrecision : null;
 
         let cover = null;
-        if (isPlainObject(raw.cover) && isSafeRelativePath(raw.cover.href, "couvertures/")) {
+        if (isPlainObject(raw.cover) && (isSafeRelativePath(raw.cover.href, "couvertures/") || isSafeRelativePath(raw.cover.href, "livres/"))) {
           cover = { href: raw.cover.href };
         }
 
