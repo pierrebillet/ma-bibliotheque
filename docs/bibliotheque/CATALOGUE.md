@@ -35,10 +35,10 @@ document fait foi pour le schéma version 1.
       "date": "2026-08-11",
       "datePrecision": "day",
       "cover": {
-        "filename": "mon-livre.jpg",
-        "sourcePath": "couvertures/mon-livre.jpg",
-        "href": "couvertures/mon-livre.jpg",
-        "format": "jpg"
+        "filename": "mon-livre.webp",
+        "sourcePath": "couvertures/mon-livre.webp",
+        "href": "couvertures/mon-livre.webp",
+        "format": "webp"
       }
     }
   ]
@@ -67,7 +67,7 @@ document fait foi pour le schéma version 1.
 | `tags` | tableau de chaînes | Dédupliqués (insensible casse/accents), graphie de la première occurrence conservée. |
 | `date` | chaîne ou `null` | `AAAA`, `AAAA-MM` ou `AAAA-MM-JJ` ; valeur invalide ignorée avec avertissement. |
 | `datePrecision` | chaîne ou `null` | `year`, `month` ou `day` selon la forme de `date`. |
-| `cover` | objet ou `null` | `filename`, `sourcePath`, `href`, `format` (`webp`/`png`/`jpg`). `null` si aucune couverture valide — l'index génère alors un placeholder déterministe (FNV-1a sur `id + "\n" + title`). |
+| `cover` | objet ou `null` | `filename`, `sourcePath`, `href`, `format` (`webp`/`avif`/`png`/`jpg`/`jpeg`). `href` pointe vers `couvertures/<slug>.*` ou, en repli, vers la couverture embarquée `livres/<slug>/cover.*` ou `livres/<slug>/images/cover.*`. `null` si aucune couverture valide — l'index génère alors un placeholder déterministe (FNV-1a sur `id + "\n" + title`). |
 
 ## Règles d'extraction (résumé du comportement réel du script)
 
@@ -84,9 +84,13 @@ document fait foi pour le schéma version 1.
 - **Normalisation** : décodage des entités, suppression des caractères de contrôle,
   Unicode NFC, blancs réduits à un espace, trim. Tags découpés sur la virgule
   uniquement.
-- **Couverture** : `couvertures/<slug>.webp`, puis `.png`, puis `.jpg` — le premier
-  fichier dont la **signature binaire** correspond au format. Nom ≠ slug exact ⇒
-  couverture ignorée en silence.
+- **Couverture** : `couvertures/<slug>.webp`, puis `.avif`, `.png`, `.jpg`, `.jpeg` —
+  le premier fichier dont la **signature binaire** correspond au format. Nom ≠ slug
+  exact ⇒ couverture ignorée en silence. **Repli embarqué** : si `couvertures/` ne
+  fournit rien et que le livre est un dossier, le script cherche
+  `livres/<slug>/cover.<ext>` puis `livres/<slug>/images/cover.<ext>` (mêmes
+  extensions, même contrôle de signature). `couvertures/` garde toujours la priorité ;
+  un livre à plat (`livres/<slug>.html`) n'a pas de repli possible.
 - **Date d'ajout** (clé de tri) : `git log --diff-filter=A` sur le point d'entrée,
   sans `--follow` (pour que les éditions dérivées n'héritent pas de la date de leur
   livre source), repli sur la date de modification du fichier.

@@ -43,7 +43,7 @@ Un commit qui ne touche que `catalog.json` ne relance pas ce workflow, et le com
 3. Le script parcourt les fichiers `livres/*.html` du premier niveau **et** les sous-dossiers `livres/<slug>/` (point d’entrée : `index.html`, sinon `<slug>.html`, sinon l’unique fichier HTML du dossier). Les fichiers et dossiers cachés (préfixe `.`) et le dossier `_template` sont ignorés. La profondeur est limitée à un niveau : `livres/serie/tome-1/` n’est pas découvert.
 4. Pour chaque livre, il extrait les métadonnées `book:*`, puis applique les fallbacks prévus pour le titre.
 5. La lecture s’arrête à la fermeture de `<head>` lorsqu’elle existe ; sans `<head>` exploitable, elle est plafonnée à 4 Mio pour rester sûre avec les fichiers très volumineux.
-6. Les couvertures sont recherchées dans l’ordre `.webp`, `.png`, `.jpg` et leur signature binaire minimale est contrôlée.
+6. Les couvertures sont recherchées dans `couvertures/<slug>.*` dans l’ordre `.webp`, `.avif`, `.png`, `.jpg`, `.jpeg` et leur signature binaire minimale est contrôlée. En l’absence de couverture valide dans `couvertures/`, un livre-dossier peut embarquer la sienne : `livres/<slug>/cover.*`, puis `livres/<slug>/images/cover.*` (mêmes extensions, même contrôle). `couvertures/` garde toujours la priorité.
 7. La date d’ajout Git du fichier (`git log --diff-filter=A`, sans `--follow` pour qu’une édition dérivée n’hérite pas de la date de son livre source) est récupérée. Si l’historique est indisponible, la date de modification du fichier est utilisée. Cette date sert uniquement à classer les entrées du catalogue du plus récent au plus ancien ; le champ JSON `date` reste réservé à `book:date`.
 8. `catalog.json` est écrit en UTF-8, JSON indenté, avec un saut de ligne final.
 9. Le bloc `#demo-catalog` de `index.html` est réécrit avec le même JSON (option `--sync-demo-catalog` du script ; les `</` y sont échappés en `<\/` pour rester valides en HTML). Si le bloc est introuvable ou présent plusieurs fois, le script sort en erreur.
@@ -128,7 +128,7 @@ GitHub Pages n’est pas encore activé en mode branche, la source n’est pas `
 - placer le livre directement sous `livres/` avec l’extension `.html` en minuscules ;
 - utiliser exactement `book:title`, `book:author`, `book:description`, `book:tags` et `book:date` dans `<head>` ;
 - enregistrer les nouveaux livres en UTF-8 avec `<meta charset="utf-8">` ;
-- nommer la couverture avec le même nom de base et une extension `.webp`, `.png` ou `.jpg` en minuscules ;
+- nommer la couverture avec le même nom de base et une extension `.webp`, `.avif`, `.png`, `.jpg` ou `.jpeg` en minuscules (ou, pour un livre-dossier, embarquer `cover.*` à la racine du dossier ou dans `images/`) ;
 - consulter les annotations jaunes du run, corriger le fichier, puis committer à nouveau.
 
 ### 4. Le bloc `#demo-catalog` est introuvable
