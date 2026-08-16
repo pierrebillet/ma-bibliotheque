@@ -64,7 +64,7 @@ Ce protocole harmonise la façon de travailler de tous les agents sur ce dépôt
 
 | Élément | Rôle |
 |---|---|
-| `livres/`, `couvertures/` | Les livrables publiés et leurs couvertures (`couvertures/<slug>.jpg\|png\|webp`, ratio 2:3) |
+| `livres/`, `couvertures/` | Les livrables publiés et leurs couvertures (`couvertures/<slug>.webp\|avif\|png\|jpg\|jpeg`, ratio 2:3 ; repli possible pour un livre-dossier : `livres/<slug>/cover.*` ou `livres/<slug>/images/cover.*`) |
 | `scripts/build_catalog.py` | Découvre les livres, extrait les meta `book:*`, résout les couvertures, génère `catalog.json` |
 | `.github/workflows/catalog.yml` | CI : vérification sur PR ; régénération du catalogue après merge sur `main` |
 | `index.html` | Page d'accueil autonome (recherche, filtres, tri) |
