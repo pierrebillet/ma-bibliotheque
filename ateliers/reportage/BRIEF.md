@@ -1,4 +1,4 @@
-# BRIEF.md — gabarit du brief de lancement (reportage v2)
+# BRIEF.md — gabarit du brief de lancement (reportage v3)
 
 C'est le **seul document d'entrée** d'une fabrication : Pierre le remplit et le
 colle dans le message de lancement de la session Production. Tout champ
