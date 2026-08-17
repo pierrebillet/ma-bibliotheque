@@ -16,6 +16,10 @@
 - **Exemples publiés** : <chemins dans livres/, ou « aucun encore »>
 - **Préférences** : ce workflow décline le socle éditorial
   [`docs/conception/PREFERENCES.md`](../../docs/conception/PREFERENCES.md).
+- **Brief** : gabarit d'entrée dans [`BRIEF.md`](BRIEF.md) <!-- copié de
+  docs/conception/GABARIT-BRIEF.md — obligatoire pour tout atelier
+  (creer-un-atelier.md §4) : c'est le document que Pierre remplit pour lancer
+  une production. -->.
 
 ## Changelog
 

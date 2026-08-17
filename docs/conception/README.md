@@ -28,7 +28,9 @@ diversification des livrables, pas le prototype.
 2. S'inspirer de l'atelier de référence :
    [`../../ateliers/roman-atelier/WORKFLOW.md`](../../ateliers/roman-atelier/WORKFLOW.md).
 3. Rédiger le workflow en copiant [`GABARIT-WORKFLOW.md`](GABARIT-WORKFLOW.md) vers
-   `ateliers/<nom-atelier>/WORKFLOW.md`.
+   `ateliers/<nom-atelier>/WORKFLOW.md`, et le gabarit de brief en copiant
+   [`GABARIT-BRIEF.md`](GABARIT-BRIEF.md) vers `ateliers/<nom-atelier>/BRIEF.md`
+   (tout atelier naît avec son brief).
 4. Inscrire le nouvel atelier dans le registre
    [`../../ateliers/README.md`](../../ateliers/README.md).
 5. Ouvrir la PR (protocole de session d'`AGENTS.md`) en décrivant le format, les
@@ -52,3 +54,4 @@ catalogue, nouveau comportement de l'index…), c'est un chantier du rôle
 | [`PREFERENCES.md`](PREFERENCES.md) | Socle éditorial commun (fond et forme) que chaque atelier décline |
 | [`creer-un-atelier.md`](creer-un-atelier.md) | Contraintes de plateforme, libertés, **standard de recette agent-agnostique**, critères d'acceptation, procédure |
 | [`GABARIT-WORKFLOW.md`](GABARIT-WORKFLOW.md) | Squelette de `WORKFLOW.md` à copier pour tout nouvel atelier (versionné, étapes-contrats) |
+| [`GABARIT-BRIEF.md`](GABARIT-BRIEF.md) | Squelette de `BRIEF.md` à copier pour tout nouvel atelier : le document unique que Pierre remplit pour lancer une production (identité obligatoire, défauts explicites, exemple rempli) |
