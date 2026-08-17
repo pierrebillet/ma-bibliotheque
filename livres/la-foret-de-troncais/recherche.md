@@ -20,9 +20,9 @@ national privé ne sont jamais confondus.
   https://catalogue.bnf.fr/ark:/12148/cb33821989w
 - **Établi.** Le premier aménagement connu propre à Tronçais est la Réformation
   générale des forêts du Bourbonnais de **1672**. Elle ne décrit que 150
-  hectares de futaie saine et prescrit recépage, semis et contrôle des coupes,
-  avec un âge d'exploitabilité théorique de 200 ans. Source : DOCOB 2013,
-  même URL.
+  hectares de futaie saine, âgée d'environ 150 ans, et prescrit recépage, semis
+  et contrôle des coupes, avec un âge d'exploitabilité théorique de 200 ans.
+  Source : DOCOB 2013, même URL.
 - **Interprétation étayée.** La formule « Colbert planta Tronçais en 1670 pour
   la Marine » est un raccourci mémoriel. La formulation sûre est : sous
   l'impulsion de la réforme colbertienne, le massif est borné, protégé et
@@ -57,6 +57,11 @@ national privé ne sont jamais confondus.
   invoque à la fois les usages locaux, la conservation et les besoins de la
   Marine. Source primaire : Archives départementales de l'Allier,
   https://archives.allier.fr/image/188824/272142?crop=centre&download=1&force-inline=&format=pdf&realHeight=1796&realWidth=1453&region=full&size=%21800%2C800
+- **Établi.** En octobre 1793, Rambourg demande l'autorisation d'établir un
+  second fourneau à Saint-Jean-de-Bouys afin de contribuer à
+  l'approvisionnement de la manufacture d'armes de Moulins. Source primaire :
+  *Archives parlementaires*, rapport du 8 octobre 1793,
+  https://www.persee.fr/doc/arcpa_0000-0000_1910_num_76_1_42444_t1_0237_0000_8
 - **À nuancer.** La Révolution entraîne pillages, défrichements et besoins de
   guerre, mais elle n'est pas l'unique cause de la crise : la pression des
   forges précède 1789 et se prolonge au XIXe siècle. Source : ministère de la
@@ -84,9 +89,12 @@ national privé ne sont jamais confondus.
   Bouteille. Source : ONF, *Tronçais, une chênaie prestigieuse*, URL ci-dessus.
 - **Données courantes.** La fiche de synthèse ONF éditée le 30 janvier 2026
   retient 10 531,51 hectares de gestion, dont 10 359,53 boisés et 10 243,79 en
-  production. Le document de gestion est en transition : la page générale
-  mentionne encore l'aménagement 2001-2025. Source : ONF, fiche d'aménagement
-  A007444H, édition 2026,
+  production. Elle classe 10 151,17 hectares en futaie régulière ou en
+  conversion et affiche une échéance en 2030 ; la page générale de l'ONF
+  mentionne encore l'aménagement 2001-2025 et sa révision. Le document de
+  gestion est donc présenté comme en transition, sans masquer cette divergence
+  entre les deux publications. Source : ONF, fiche d'aménagement A007444H,
+  édition 2026,
   https://www.onf.fr/%2B%2Bamgt%2B%2BA007444H/%2B%2Bzfiles%2B%2B617c7ef0
 - **Établi.** Chênes sessile et pédonculé occupent environ 90 % de la surface
   boisée ; les pins sylvestre et laricio et d'autres feuillus complètent le
@@ -201,6 +209,21 @@ national privé ne sont jamais confondus.
   sommet, pas un prix permanent ; la correction 2025 rappelle que même un
   projet pensé sur 250 ans rencontre les cycles courts du vin et des spiritueux.
 
+### Sources complémentaires mobilisées dans le texte et le Codex
+
+- BnF / CCFr, notice de l'ordonnance de 1669 :
+  https://ccfr.bnf.fr/portailccfr/ark%3A/16871/00111596859
+- ONF, cadre juridique des ventes de bois :
+  https://www.onf.fr/produits-services/acheter-du-bois/les-essentiels/%2B/2f%3A%3Aventes-de-bois-et-achat-de-services-dexploitation-forestiere-ce-que-dit-la-loi.html?lang=fr
+- INRAE Phénobois, visite de la Tonnellerie du Val de Loire, 2025 :
+  https://phenobois.hub.inrae.fr/actualites/visite-de-la-tonnellerie-du-val-de-loire
+- AFP / *Le Figaro Vin*, vente de Cérilly et tonnellerie, 24 octobre 2022 :
+  https://avis-vin.lefigaro.fr/economie-du-vin/o152433-une-industrie-de-la-tonnellerie-en-surchauffe-la-vente-record-des-plus-beaux-chenes-de-le-foret-de-troncais
+- ONF, bilan de la commercialisation des bois publics en 2025 :
+  https://www.onf.fr/vivre-la-foret/enjeux-foret/usages-bois-atouts/%2B/2d06%3A%3Alonf-conforte-son-role-structurant-pour-la-fliere-bois.html
+- SAFT, fiche locale de la Futaie Colbert II :
+  https://www.saft03.com/la-foret-de-troncais/futaie-colbert-2/
+
 ## Changement climatique et avenir du chêne sessile
 
 - **Établi.** Dans un suivi ONF de 2020 sur 179 placettes et plus de 3 600
@@ -280,8 +303,8 @@ national privé ne sont jamais confondus.
 
 ### `images/figure-c6-b08.webp`
 
-- URL directe : via Wikimedia Commons, fichier source
-  `Chêne Stebbing II Forêt de Tronçais 28 avril 2024.jpg`.
+- URL directe :
+  https://upload.wikimedia.org/wikipedia/commons/7/77/Ch%C3%AAne_Stebbing_II_For%C3%AAt_de_Tron%C3%A7ais_28_avril_2024.jpg
 - Page hôte : https://commons.wikimedia.org/wiki/File%3ACh%C3%AAne_Stebbing_II_For%C3%AAt_de_Tron%C3%A7ais_28_avril_2024.jpg
 - Crédit : Francis Vérillon, 28 avril 2024. Licence CC0 1.0.
 - Consultation : 17 août 2026.
