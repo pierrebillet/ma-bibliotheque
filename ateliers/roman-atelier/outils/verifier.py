@@ -12,6 +12,13 @@ clé localStorage, correspondance îlot <-> manifeste d'illustrations, et
 conformité des fichiers d'images (format, dimensions, poids) et de la
 couverture.
 
+Depuis le moteur atelier-liseuse v2, une image peut être un **document du
+web** (figure de bloc ou image de notice porteuse d'un objet `source`) : le
+crédit `source.label`/`source.url` (http(s)) est alors contrôlé, le champ
+`visualDescription` n'est pas exigé et l'image est hors manifeste
+d'illustrations (sa traçabilité vit dans recherche.md). Sans `source`,
+l'image reste une illustration générée soumise aux règles habituelles.
+
 `--sans-images` : ignore l'existence et la conformité des fichiers d'images
 (phase « texte d'abord », avant la passe de l'agent illustrateur).
 
@@ -39,6 +46,8 @@ ISLAND_RE = re.compile(
 BOOK_METAS = ("book:title", "book:author", "book:description", "book:tags", "book:date")
 CHAPTER_IMG_MAX = 150 * 1024
 COVER_IMG_MAX = 300 * 1024
+FIGURE_IMG_MAX = 300 * 1024  # documents du web : lisibilité avant compression
+SOURCE_URL_RE = re.compile(r"^https?://")
 
 defauts: list[str] = []
 avert: list[str] = []
@@ -282,24 +291,61 @@ def main() -> int:
           "dérogeable par le brief)")
 
     # --- images : îlot <-> manifeste <-> fichiers
-    island_images: list[tuple[str, dict, str]] = []  # (chemin, porteur, label)
+    def is_web_document(holder: dict, label: str) -> bool:
+        """True si le porteur déclare un crédit `source` (document du web, v2)
+        — en contrôlant sa complétude au passage."""
+        src = holder.get("source")
+        if src is None:
+            return False
+        if not isinstance(src, dict) or not str(src.get("label", "")).strip():
+            d(f"{label} : source.label absent ou vide (crédit obligatoire)")
+        if isinstance(src, dict) and not SOURCE_URL_RE.match(str(src.get("url", ""))):
+            d(f"{label} : source.url « {src.get('url', '')} » invalide (http(s):// exigé)")
+        return True
+
+    island_images: list[tuple[str, dict, str]] = []  # illustrations générées (chemin, porteur, label)
+    web_images: list[tuple[str, dict, str]] = []     # documents du web avec crédit source (v2)
     for ch in chapters:
         if ch.get("image"):
             island_images.append((ch["image"], ch, f"chapitre {ch.get('number')}"))
         exp = f"images/chapter-{int(ch.get('number', 0)):02d}.webp"
         if ch.get("image") and ch["image"] != exp:
             w(f"chapitre {ch.get('number')} : image « {ch['image']} » hors convention « {exp} »")
+        for bl in ch.get("blocks", []):
+            fig = bl.get("figure")
+            if not fig:
+                continue
+            bid = bl.get("id", "?")
+            label = f"figure du bloc {bid}"
+            img = str(fig.get("image", ""))
+            for key in ("image", "caption"):
+                if not str(fig.get(key, "")).strip():
+                    d(f"{label} : champ « {key} » absent ou vide")
+            if img and ("://" in img or img.startswith("/") or ".." in img):
+                d(f"{label} : chemin « {img} » non local (le fichier vit dans livres/<slug>/images/, "
+                  "aucune ressource distante)")
+            elif img and not img.startswith(f"images/figure-{bid}."):
+                w(f"{label} : image « {img} » hors convention « images/figure-{bid}.webp »")
+            if not (fig.get("imageWidth") and fig.get("imageHeight")):
+                d(f"{label} : imageWidth/imageHeight manquants (dimensions réelles exigées, "
+                  "pas de défaut 1600×900 pour les figures)")
+            if img:
+                (web_images if is_web_document(fig, label) else island_images).append((img, fig, label))
     for x in codex:
         if x.get("image"):
-            island_images.append((x["image"], x, f"notice {x.get('id')}"))
+            label = f"notice {x.get('id')}"
             exp = f"images/codex-{x.get('id')}.webp"
             if x["image"] != exp:
-                w(f"notice {x.get('id')} : image « {x['image']} » hors convention « {exp} »")
+                w(f"{label} : image « {x['image']} » hors convention « {exp} »")
+            (web_images if is_web_document(x, label) else island_images).append((x["image"], x, label))
     for path, holder, label in island_images:
         if not str(holder.get("alt", "")).strip():
             d(f"{label} : image sans alt")
         if not str(holder.get("visualDescription", "")).strip():
             d(f"{label} : image sans visualDescription (source du prompt du manifeste)")
+    for path, holder, label in web_images:
+        if not str(holder.get("alt", "")).strip():
+            d(f"{label} : image sans alt")
 
     cover = book.get("cover", {})
     if cover and not str(cover.get("alt", "")).strip():
@@ -318,8 +364,9 @@ def main() -> int:
                 d(f"image de l'îlot absente du manifeste illustrations.md : {p}")
             for p in sorted(listed - island_set):
                 d(f"image du manifeste absente de l'îlot : {p}")
-        elif island_images or not args.sans_images:
-            d("manifeste livres/<slug>/illustrations.md manquant (étape 4 de la recette)")
+        elif island_images:
+            d("manifeste livres/<slug>/illustrations.md manquant (étape illustrations de la "
+              "recette : des images générées sont déclarées dans l'îlot)")
         if not (book_dir / "brief.md").is_file():
             w("brief.md absent du dossier du livre (traçabilité de l'entrée, étape 1)")
 
@@ -327,6 +374,11 @@ def main() -> int:
         for path, holder, label in island_images:
             expect = (holder.get("imageWidth", 1600), holder.get("imageHeight", 900))
             check_image_file(book_dir / path, label, CHAPTER_IMG_MAX, expect=expect)
+        for path, holder, label in web_images:
+            expect = None
+            if holder.get("imageWidth") and holder.get("imageHeight"):
+                expect = (holder["imageWidth"], holder["imageHeight"])
+            check_image_file(book_dir / path, label, FIGURE_IMG_MAX, expect=expect)
         covers = [p for ext in ("webp", "png", "jpg", "jpeg")
                   for p in [root / "couvertures" / f"{slug}.{ext}"] if p.is_file()]
         if not covers:
@@ -336,7 +388,8 @@ def main() -> int:
 
     print(f"{slug} : {len(chapters)} chapitres, {len(all_blocks)} blocs, {words} mots, "
           f"{len(codex)} notices, densité de mentions {density:.0%}, "
-          f"{len(island_images)} images déclarées")
+          f"{len(island_images)} images générées déclarées, "
+          f"{len(web_images)} documents du web déclarés")
     return report()
 
 
