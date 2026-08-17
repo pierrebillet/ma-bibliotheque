@@ -656,13 +656,14 @@ def sync_demo_catalog(index_path: Path, payload: dict[str, object]) -> bool:
 
 
 def render_sitemap(payload: dict[str, object], base_url: str) -> str:
-    """Rend le sitemap XML : la page d'accueil puis chaque livre du catalogue.
+    """Rend le sitemap XML : les pages statiques puis chaque livre du catalogue.
 
     Sortie déterministe (pas d'horodatage) : le fichier ne change que si la
     liste des livres change, ce qui évite les commits de bruit côté CI.
     """
     base = base_url.rstrip("/") + "/"
-    locations = [base]
+    # Pages statiques du site (hors livres) : l'accueil et la page « à propos ».
+    locations = [base, base + "a-propos.html"]
     books = payload.get("books")
     if isinstance(books, list):
         for book in books:
@@ -791,9 +792,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             index_path = args.index if args.index.is_absolute() else root / args.index
             demo_changed = sync_demo_catalog(index_path, payload)
         sitemap_path: Path | None = None
+        sitemap_url_count = 0
         if args.sitemap is not None:
             sitemap_path = args.sitemap if args.sitemap.is_absolute() else root / args.sitemap
-            write_text_atomic(sitemap_path, render_sitemap(payload, args.base_url))
+            sitemap_xml = render_sitemap(payload, args.base_url)
+            sitemap_url_count = sitemap_xml.count("<url>")
+            write_text_atomic(sitemap_path, sitemap_xml)
     except Exception as error:
         print(f"::error::{annotation_escape(type(error).__name__ + ': ' + str(error))}", file=sys.stderr)
         return 1
@@ -803,7 +807,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.sync_demo_catalog:
         print("Bloc #demo-catalog synchronisé." if demo_changed else "Bloc #demo-catalog déjà à jour.")
     if sitemap_path is not None:
-        print(f"Sitemap généré : {count + 1} URL -> {sitemap_path}")
+        print(f"Sitemap généré : {sitemap_url_count} URL -> {sitemap_path}")
     return 0
 
 
