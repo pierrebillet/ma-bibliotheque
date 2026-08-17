@@ -86,7 +86,48 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
     "thematicQuestion": "Que vaut une décision dont le résultat n’apparaît qu’après la mort de tous ceux qui l’ont prise ?"
   },
   "entityAudit": {
-    "excluded": []
+    "excluded": [
+      {
+        "label": "ONF, DREAL, INRAE, DSF et CNPF",
+        "reason": "Institutions productrices des sources, couvertes par Sources et méthode et Avenir climatique."
+      },
+      {
+        "label": "France Bois Forêt, Fédération des Tonneliers de France et Agridées",
+        "reason": "Sources économiques couvertes par Merrain et tonnellerie."
+      },
+      {
+        "label": "Allier, Cérilly et Saint-Bonnet-Tronçais",
+        "reason": "Repères administratifs couverts par Massif de Tronçais."
+      },
+      {
+        "label": "Remenanche, Réserve, Lande Blanche et Bouteille",
+        "reason": "Sous-ensembles géographiques couverts par Massif de Tronçais."
+      },
+      {
+        "label": "Nicolas Rambourg",
+        "reason": "Acteur de la concession de 1788, couvert par Crises des forges."
+      },
+      {
+        "label": "Étangs de Tronçais, Saloup et Pirot",
+        "reason": "Exemples hydrauliques couverts par Étangs de Tronçais."
+      },
+      {
+        "label": "Stebbing I",
+        "reason": "Ancien arbre couvert par la notice Stebbing II."
+      },
+      {
+        "label": "Chêne pubescent, chêne vert, douglas, séquoia et cèdre de l’Atlas",
+        "reason": "Essences d’essai couvertes collectivement par Avenir climatique."
+      },
+      {
+        "label": "Philippe de Champaigne, Garitan, Francis Vérillon et photographes ONF",
+        "reason": "Auteurs et crédits des documents visuels, sans rôle autonome dans le reportage."
+      },
+      {
+        "label": "Marine de guerre, arsenaux et canal de Berry",
+        "reason": "Éléments de contexte couverts respectivement par Colbert et l’ordonnance de 1669 et Étangs de Tronçais."
+      }
+    ]
   },
   "cover": {
     "image": "../../couvertures/la-foret-de-troncais.webp",
@@ -630,7 +671,455 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
       ]
     }
   ],
-  "codex": []
+  "codex": [
+    {
+      "id": "sources-et-methode",
+      "title": "Sources et méthode",
+      "category": "méthode",
+      "hook": "Un carnet de terrain peut aussi être un carnet de vérification.",
+      "text": "Ce reportage ne part pas d’une plantation supposée, mais d’un dossier documentaire. Pour l’histoire du massif, la source pivot est le Document d’objectifs Natura 2000 de la forêt de Tronçais, produit par l’ONF Berry-Bourbonnais et la DREAL en décembre 2013 : https://www.auvergne-rhone-alpes.developpement-durable.gouv.fr/IMG/pdf/FR8301021_Foret-troncais_DOCOB_2013_cle219ee1.pdf. Je l’ai croisé avec les pages historiques de l’ONF, les archives départementales de l’Allier, des articles de Persée et des chapitres d’OpenEdition. Les chiffres qui changent selon les périmètres restent attribués à leur source ; une date employée par un récit secondaire n’est pas transformée en fait primaire. La Marine est un objectif national établi, mais la quantité de bois de Tronçais effectivement livrée aux arsenaux reste mal documentée. La formule d’une plantation générale par Colbert en 1670 est donc signalée comme un raccourci mémoriel. Le texte distingue ce qui est établi, ce qui est une interprétation étayée et ce qui demeure incertain. Consultation des sources : 17 août 2026.",
+      "links": [
+        "massif-de-troncais",
+        "carte-des-fleury",
+        "colbert-et-ordonnance"
+      ],
+      "unlockBlock": "c1-b01",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b01",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b01",
+      "unlockChapter": 1,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner au lecteur le protocole de vérification et les limites documentaires du reportage."
+    },
+    {
+      "id": "massif-de-troncais",
+      "title": "Massif de Tronçais",
+      "category": "lieu",
+      "hook": "Un territoire domanial n’est pas un peuplement uniforme.",
+      "text": "L’ONF présente Tronçais comme un massif domanial d’environ 10 583 hectares, organisé en quatre ensembles : Remenanche, Réserve, Lande Blanche et Bouteille. Cette surface décrit le périmètre de gestion, pas une forêt composée partout des mêmes arbres, du même âge ou de la même destination. Le Document d’objectifs Natura 2000 emploie parfois d’autres chiffres selon le périmètre historique ou écologique retenu ; je conserve donc toujours la source et sa définition. La forêt est à la fois un habitat, un domaine public, un réseau de parcelles et une ressource en bois. Ses vieux chênes ne résument pas ses jeunes peuplements, ses landes ou ses routes. La page ONF « Tronçais, une chênaie prestigieuse au cœur du territoire » fournit la surface et les quatre sous-massifs : https://www.onf.fr/foret-exception/troncais-foret-dexception/%2B/8c6%3A%3Atroncais-foret-dexception-une-chenaie-prestigieuse-au-coeur-du-territoire.html. Consultation : 17 août 2026.",
+      "links": [
+        "ronds-forestiers",
+        "carte-des-fleury",
+        "colbert-et-ordonnance"
+      ],
+      "unlockBlock": "c1-b01",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b01",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b01",
+      "unlockChapter": 1,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Fournir l’échelle géographique et la distinction entre surface forestière et composition des peuplements."
+    },
+    {
+      "id": "ronds-forestiers",
+      "title": "Ronds forestiers",
+      "category": "lieu",
+      "hook": "À Tronçais, un rond est un carrefour et un outil de lecture.",
+      "text": "Les ronds sont les carrefours qui donnent une structure lisible au massif. Ils distribuent les routes, ouvrent des perspectives et relient les parcelles entre elles. Dans le plan de circulation publié par l’ONF, ils apparaissent avec les voies, les secteurs et les itinéraires qui organisent les usages contemporains. Le réseau conserve environ 70 kilomètres de routes ouvertes, dont 23 kilomètres réservés aux usages non motorisés. Ces chiffres ne décrivent pas une simple promenade : ils montrent une infrastructure de surveillance, d’entretien, de desserte et de circulation des bois. La carte apporte ici une information que le texte seul ne donne pas : la forêt est aussi une géométrie au sol. Le document source est la page ONF « Forêt domaniale de Tronçais : un nouveau plan de circulation » : https://www.onf.fr/vivre-la-foret/%2B/1751%3A%3Aforet-domaniale-de-troncais-un-nouveau-plan-de-circulation.html. Consultation : 17 août 2026.",
+      "links": [
+        "massif-de-troncais",
+        "carte-des-fleury"
+      ],
+      "unlockBlock": "c1-b04",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b04",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b04",
+      "unlockChapter": 1,
+      "unlockPosition": 4,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Faire comprendre la forêt comme un territoire organisé par ses routes, ses carrefours et ses parcelles."
+    },
+    {
+      "id": "carte-des-fleury",
+      "title": "Carte des Fleury",
+      "category": "document historique",
+      "hook": "En 1665, la carte précède l’origine légendaire de 1670.",
+      "text": "La carte dite des Fleury, dressée en 1665, est le document qui corrige le plus directement l’idée d’une forêt créée par Colbert. Le DOCOB de Tronçais indique qu’elle montre déjà un massif aux limites proches de celles que nous lui connaissons. Elle recense environ 14 000 arpents, soit près de 7 000 hectares de terres anciennement dépendantes de la forêt. La conversion reste approximative, car l’arpent n’a pas une valeur métrique universelle. Ce qui est sûr ne dépend pas du dernier chiffre : avant l’ordonnance de 1669, le territoire existe déjà, il est assez vaste pour être mesuré et il relève d’une histoire foncière antérieure. La carte ne prouve ni la santé de chaque arbre ni l’uniformité des peuplements. Elle prouve une continuité territoriale. Source : ONF Berry-Bourbonnais et DREAL, « DOCOB — Forêt de Tronçais », décembre 2013 : https://www.auvergne-rhone-alpes.developpement-durable.gouv.fr/IMG/pdf/FR8301021_Foret-troncais_DOCOB_2013_cle219ee1.pdf. Consultation : 17 août 2026.",
+      "links": [
+        "massif-de-troncais",
+        "reformation-de-1672"
+      ],
+      "unlockBlock": "c1-b03",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b03",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b03",
+      "unlockChapter": 1,
+      "unlockPosition": 3,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner une preuve datée de l’existence du massif avant la séquence colbertienne."
+    },
+    {
+      "id": "colbert-et-ordonnance",
+      "title": "Colbert et l’ordonnance de 1669",
+      "category": "personnage et institution",
+      "hook": "Colbert a réformé une politique forestière ; il n’a pas signé une plantation unique.",
+      "text": "Colbert est secrétaire d’État de la Marine de 1669 à 1683, dans une période où la monarchie cherche à sécuriser les bois nécessaires aux arsenaux et aux grands ouvrages. L’ordonnance sur le fait des eaux et forêts est donnée en août 1669 ; elle prolonge la fermeture du domaine engagée en 1661 et organise la police, les coupes, les usages et la conservation des bois à l’échelle du royaume. La notice bibliographique de la BnF permet d’identifier le texte et ses éditions : https://ccfr.bnf.fr/portailccfr/ark%3A/16871/00111596859. Pour le contexte des réformes de 1669, voir Étienne Taillemite, « Colbert, secrétaire d’État de la Marine, et les réformes de 1669 », *La Gazette des archives*, 1971 : https://www.persee.fr/doc/gazar_0016-5522_1971_num_72_1_2196_t1_0058_0000_4. Cette politique nationale explique le bornage et la réformation de Tronçais. Elle ne constitue pas la preuve d’un ordre primaire de plantation générale en 1670, ni d’une livraison intégrale du massif à la Marine. Consultation : 17 août 2026.",
+      "links": [
+        "reformation-de-1672",
+        "massif-de-troncais",
+        "taillis-sous-futaie"
+      ],
+      "unlockBlock": "c1-b09",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b09",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b09",
+      "unlockChapter": 1,
+      "unlockPosition": 9,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Distinguer la réforme nationale de Colbert de la plantation locale que la mémoire lui attribue."
+    },
+    {
+      "id": "reformation-de-1672",
+      "title": "Réformation de 1672",
+      "category": "événement administratif",
+      "hook": "Le premier aménagement connu commence par un constat de dégradation.",
+      "text": "La Réformation générale des forêts du Bourbonnais de 1672 est le premier aménagement connu propre au massif de Tronçais. Son constat ne décrit pas une jeune futaie ordonnée pour la Marine : environ 150 hectares seulement sont considérés comme une futaie saine, âgée d’environ 150 ans, tandis que le reste de la forêt est dégradé. La réponse prescrite est le recépage et le semis, avec un âge théorique d’exploitabilité de 200 ans. Le recépage reprend les peuplements épuisés ; le semis prépare une régénération par les graines. Les opérations de recépage prévues sont réputées achevées en 1735. La date de 1672 est donc plus précise que la formule « plantation de 1670 ». Elle documente un diagnostic, des prescriptions et un horizon de gestion, non un geste unique dont tous les arbres actuels seraient issus. Source : ONF Berry-Bourbonnais et DREAL, *DOCOB — Forêt de Tronçais*, décembre 2013 : https://www.auvergne-rhone-alpes.developpement-durable.gouv.fr/IMG/pdf/FR8301021_Foret-troncais_DOCOB_2013_cle219ee1.pdf. Consultation : 17 août 2026.",
+      "links": [
+        "colbert-et-ordonnance",
+        "taillis-sous-futaie",
+        "futaie-reguliere"
+      ],
+      "unlockBlock": "c1-b07",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b07",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b07",
+      "unlockChapter": 1,
+      "unlockPosition": 7,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Remplacer la date mythique de 1670 par le premier diagnostic et aménagement local documenté."
+    },
+    {
+      "id": "taillis-sous-futaie",
+      "title": "Taillis-sous-futaie",
+      "category": "sylviculture",
+      "hook": "Un régime qui combine des rejets rapides et quelques arbres réservés.",
+      "text": "Le taillis-sous-futaie associe plusieurs vitesses de croissance. Le taillis fournit des rejets exploités relativement jeunes ; des arbres réservés, les baliveaux ou les sujets de futaie, restent plus longtemps pour produire des pièces de plus grande dimension. Ce régime répond mieux à un besoin régulier de combustible que la futaie régulière, dont les horizons se comptent en siècles. À Tronçais, le DOCOB indique qu’en 1779 environ 6 900 hectares sont conduits en taillis-sous-futaie, d’abord avec une rotation de cinquante ans, puis de quarante ans à partir de 1788. Environ 3 700 hectares du secteur central restent en futaie. Il ne faut donc pas traduire « deux tiers exploités » par une disparition uniforme de la forêt : les régimes et les réserves ne sont pas les mêmes partout. Source : ONF Berry-Bourbonnais et DREAL, *DOCOB — Forêt de Tronçais*, décembre 2013 : https://www.auvergne-rhone-alpes.developpement-durable.gouv.fr/IMG/pdf/FR8301021_Foret-troncais_DOCOB_2013_cle219ee1.pdf. Consultation : 17 août 2026.",
+      "links": [
+        "reformation-de-1672",
+        "crises-des-forges",
+        "futaie-reguliere"
+      ],
+      "unlockBlock": "c3-b01",
+      "firstMentionChapter": 3,
+      "firstMentionBlock": "c3-b01",
+      "earliestSafeChapter": 3,
+      "earliestSafeBlock": "c3-b01",
+      "unlockChapter": 3,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner le vocabulaire nécessaire pour comprendre les régimes de coupe qui ont succédé à la réformation."
+    },
+    {
+      "id": "crises-des-forges",
+      "title": "Crises des forges",
+      "category": "histoire industrielle",
+      "hook": "À Tronçais, le bois devient combustible, puis enjeu politique.",
+      "text": "La crise des forges ne commence pas avec la Révolution, même si elle se prolonge dans les années de guerre. Un arrêt du Conseil du 6 février 1788 concède à Nicolas Rambourg plus de 5 000 arpents pour alimenter ses établissements. Une protestation de septembre 1791 invoque les droits d’usage, la conservation de la forêt et les besoins de la Marine. En 1793, Rambourg demande encore un second fourneau à Saint-Jean-de-Bouys pour contribuer à l’approvisionnement de la manufacture d’armes de Moulins. Les documents montrent donc un conflit entre une forêt conçue comme réserve et une industrie qui demande du combustible immédiatement. Le ministère de la Culture ajoute les pillages, défrichements, confiscations et besoins de guerre au tableau national, mais il serait faux d’attribuer toute la dégradation aux seules coupes révolutionnaires. Sources : Archives départementales de l’Allier, document numérisé : https://archives.allier.fr/image/188824/272142?crop=centre&download=1&force-inline=&format=pdf&realHeight=1796&realWidth=1453&region=full&size=%21800%2C800 ; Archives parlementaires, rapport du 8 octobre 1793 : https://www.persee.fr/doc/arcpa_0000-0000_1910_num_76_1_42444_t1_0237_0000_8. Consultation : 17 août 2026.",
+      "links": [
+        "taillis-sous-futaie",
+        "etangs-de-troncais",
+        "buffevent"
+      ],
+      "unlockBlock": "c3-b01",
+      "firstMentionChapter": 3,
+      "firstMentionBlock": "c3-b01",
+      "earliestSafeChapter": 3,
+      "earliestSafeBlock": "c3-b01",
+      "unlockChapter": 3,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Relier les coupes, le charbon de bois, la sidérurgie et les conflits d’usage autour de la forêt."
+    },
+    {
+      "id": "etangs-de-troncais",
+      "title": "Étangs de Tronçais",
+      "category": "infrastructure",
+      "hook": "Les étangs sont les retenues d’eau d’une économie du fer et du transport.",
+      "text": "Les étangs de Tronçais ne sont pas des accidents naturels isolés. Le DOCOB indique qu’ils sont artificiels et les rattache à des usages précis. L’étang de Tronçais est créé en 1789 pour fournir de l’énergie à la forge de Tronçais ; Saloup est aménagé en 1817 pour cette même économie industrielle ; Pirot date de 1848 et accompagne le canal de Berry. D’autres retenues servent les forges de Morat ou de Sologne. Ces dates font apparaître une autre carte du massif : une carte hydraulique, parallèle à celle des parcelles et des routes. L’eau actionne, transporte ou régularise ; le bois devient charbon ; le minerai devient fer. Quand on regarde les étangs à partir de cette histoire, ils cessent d’être un simple motif paysager. Ils sont les ouvrages d’une forêt travaillée par l’industrie. Source : ONF Berry-Bourbonnais et DREAL, *DOCOB — Forêt de Tronçais*, décembre 2013 : https://www.auvergne-rhone-alpes.developpement-durable.gouv.fr/IMG/pdf/FR8301021_Foret-troncais_DOCOB_2013_cle219ee1.pdf. Consultation : 17 août 2026.",
+      "links": [
+        "crises-des-forges",
+        "taillis-sous-futaie"
+      ],
+      "unlockBlock": "c3-b07",
+      "firstMentionChapter": 3,
+      "firstMentionBlock": "c3-b07",
+      "earliestSafeChapter": 3,
+      "earliestSafeBlock": "c3-b07",
+      "unlockChapter": 3,
+      "unlockPosition": 7,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Rendre visible l’infrastructure hydraulique qui reliait la forêt au fonctionnement des forges et du canal."
+    },
+    {
+      "id": "buffevent",
+      "title": "Joseph Louis de Buffévent",
+      "category": "forestier",
+      "hook": "La chênaie actuelle porte surtout la marque d’une restauration du XIXe siècle.",
+      "text": "Joseph Louis de Buffévent intervient après le constat de 1832 : les secteurs est et ouest sont fortement rajeunis, et environ 2 000 hectares de la réserve centrale sont troués par le surpâturage et le passage des mulets chargés de charbon. À partir de 1835, son aménagement installe la futaie régulière sur l’ensemble du massif, avec un âge d’exploitabilité initial de 160 ans. Des pins sylvestres comblent les vides ; le chêne pédonculé est privilégié dans les sols humides. L’ONF présente cette continuité de gestion depuis 1835 comme la singularité de Tronçais et rappelle que la majorité des peuplements actuels doit davantage à Buffévent et à l’École de Nancy qu’à Colbert. La Futaie Colbert est une survivance importante, mais elle n’est pas l’origine unique de la chênaie contemporaine. Sources : *DOCOB — Forêt de Tronçais*, décembre 2013 : https://www.auvergne-rhone-alpes.developpement-durable.gouv.fr/IMG/pdf/FR8301021_Foret-troncais_DOCOB_2013_cle219ee1.pdf ; ONF, « Vivre la forêt de Tronçais : l’histoire de la sylviculture grandeur nature » : https://www.onf.fr/onf/%2B/bf6%3A%3Avivre-la-foret-de-troncais-lhistoire-de-la-sylviculture-grandeur-nature.html. Consultation : 17 août 2026.",
+      "links": [
+        "reformation-de-1672",
+        "futaie-reguliere",
+        "cycle-de-regeneration"
+      ],
+      "unlockBlock": "c3-b06",
+      "firstMentionChapter": 3,
+      "firstMentionBlock": "c3-b06",
+      "earliestSafeChapter": 3,
+      "earliestSafeBlock": "c3-b06",
+      "unlockChapter": 3,
+      "unlockPosition": 6,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Réattribuer la forme actuelle de la chênaie à la restauration de Buffévent et à la futaie régulière du XIXe siècle."
+    },
+    {
+      "id": "futaie-reguliere",
+      "title": "La futaie régulière",
+      "category": "sylviculture",
+      "hook": "Une parcelle où les arbres ont des âges proches, mais où le travail se mesure en générations.",
+      "text": "La futaie régulière rassemble, dans une même parcelle, des arbres d’âges sensiblement proches et de dimensions voisines. À Tronçais, ce traitement est associé à l’aménagement de Buffévent mis en œuvre à partir de 1835. La fiche ONF éditée le 30 janvier 2026 classe 10 151,17 hectares en futaie régulière ou en conversion vers ce traitement ; le chêne sessile ou pédonculé représente environ 90 % de la surface boisée. Cette régularité ne signifie pas que les arbres sont identiques ni que la forêt est une plantation uniforme. Les coupes d’amélioration, les dépressages et les éclaircies sélectionnent progressivement les sujets d’avenir. L’ONF situe ces interventions à des intervalles de huit à douze ans. La coupe définitive ouvre ensuite une phase de régénération, lorsque les semis sont présents et que la lumière peut être dosée. La futaie régulière est donc une organisation de la relève, non une absence de nature. Sources : ONF, « La futaie régulière de chêne » : https://www.onf.fr/onf/%2B/1204%3A%3Ala-futaie-reguliere-recette-durable-pour-un-bois-de-qualite-superieure.html?lang=fr ; ONF, fiche d’aménagement de Tronçais, édition 30/01/2026 : https://www.onf.fr/%2B%2Bamgt%2B%2BA007444H/%2B%2Bzfiles%2B%2B617c7ef0.",
+      "links": [
+        "buffevent",
+        "baliveau-et-semencier",
+        "cycle-de-regeneration",
+        "reserves-de-vieux-bois",
+        "chene-sessile-et-pedoncule"
+      ],
+      "unlockBlock": "c2-b07",
+      "firstMentionChapter": 2,
+      "firstMentionBlock": "c2-b07",
+      "earliestSafeChapter": 2,
+      "earliestSafeBlock": "c2-b07",
+      "unlockChapter": 2,
+      "unlockPosition": 7,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner au lecteur la définition opératoire du traitement qui structure l’histoire sylvicole de Tronçais."
+    },
+    {
+      "id": "baliveau-et-semencier",
+      "title": "Baliveau et semencier",
+      "category": "vocabulaire forestier",
+      "hook": "Deux arbres conservés, deux fonctions : réserver une tige ou préparer la relève.",
+      "text": "Le lexique ONF réserve le mot baliveau à un brin de taillis ou à une tige issue de semis maintenu lors d’une coupe de taillis ou de taillis-sous-futaie pour constituer une réserve. Le balivage est le choix de ces tiges à chaque passage. Dans une futaie régulière adulte, le terme le plus juste est souvent semencier : l’arbre conservé produit les graines qui permettront la génération suivante. Il faut aussi distinguer l’arbre d’avenir, choisi pour la qualité de son fût et de sa croissance. Ces mots ne sont pas interchangeables. Ils renvoient à des traitements, des moments et des objectifs différents. À Tronçais, cette précision est importante : le massif a connu le taillis-sous-futaie avant la futaie régulière, et le vocabulaire garde la trace de cette conversion. Sources : ONF, « Lexique des termes forestiers » : https://www.onf.fr/%2B%2Bamgt%2B%2BA018611U/%2B%2Bzfiles%2B%2B712e369e ; ONF, « Coupes de régénération » : https://www.onf.fr/vivre-la-foret/%2B/7ef%3A%3Acoupes-de-regeneration-renouveler-progressivement-la-foret.html.",
+      "links": [
+        "futaie-reguliere",
+        "taillis-sous-futaie",
+        "cycle-de-regeneration"
+      ],
+      "unlockBlock": "c4-b04",
+      "firstMentionChapter": 4,
+      "firstMentionBlock": "c4-b04",
+      "earliestSafeChapter": 4,
+      "earliestSafeBlock": "c4-b04",
+      "unlockChapter": 4,
+      "unlockPosition": 4,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Empêcher une confusion de vocabulaire entre l’ancien taillis-sous-futaie et la régénération de la futaie régulière."
+    },
+    {
+      "id": "futaie-colbert-ii",
+      "title": "La Futaie Colbert II",
+      "category": "lieu patrimonial",
+      "hook": "Un site pédagogique du XIXe siècle, distinct de la réserve historique qui porte le nom de Colbert.",
+      "text": "La Futaie Colbert II est aussi présentée comme la futaie Buffévent. Elle ne doit pas être confondue avec la réserve biologique de la Futaie Colbert historique. Les supports locaux décrivent un peuplement d’environ 13 hectares, planté en 1806, aujourd’hui traversé par un sentier pédagogique d’environ un kilomètre et sept stations. L’ONF la présente comme une chênaie de plus de deux siècles où l’on peut expliquer la futaie régulière au public. Le nom rappelle l’ordonnance de 1669, mais le peuplement témoigne surtout de la restauration et de la conduite du XIXe siècle. Il ne constitue donc pas la preuve d’une plantation générale de Tronçais par Colbert en 1670. C’est un lieu où deux mémoires se superposent : la réforme royale et le travail ultérieur des forestiers. Sources : ONF, « Tronçais, une chênaie prestigieuse » : https://www.onf.fr/foret-exception/troncais-foret-dexception/%2B/8c6%3A%3Atroncais-foret-dexception-une-chenaie-prestigieuse-au-coeur-du-territoire.html ; ONF, « Un sentier pour traverser la Futaie Colbert II » : https://www.onf.fr/onf/%2B/922%3A%3Atroncais-un-sentier-pour-traverser-la-futaie-colbert-ii.html ; SAFT, « Futaie Colbert II » : https://www.saft03.com/la-foret-de-troncais/futaie-colbert-2/.",
+      "links": [
+        "buffevent",
+        "futaie-reguliere",
+        "reserves-de-vieux-bois"
+      ],
+      "unlockBlock": "c3-b08",
+      "firstMentionChapter": 3,
+      "firstMentionBlock": "c3-b08",
+      "earliestSafeChapter": 3,
+      "earliestSafeBlock": "c3-b08",
+      "unlockChapter": 3,
+      "unlockPosition": 8,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Distinguer la futaie pédagogique Buffévent de la réserve ancienne et corriger la confusion entre Colbert et Colbert II."
+    },
+    {
+      "id": "cycle-de-regeneration",
+      "title": "Le cycle de régénération",
+      "category": "sylviculture",
+      "hook": "Deux siècles d’objectif, dix à quinze ans d’ouverture, et des semis qui décident de la suite.",
+      "text": "Le cycle de régénération commence avant la coupe définitive. Les arbres mûrs produisent des semis ; les coupes d’ensemencement, secondaires puis définitives apportent progressivement la lumière nécessaire à leur croissance. Pour le chêne sessile, l’ONF indique une phase progressive actuelle de dix à quinze ans. La régénération naturelle prévaut dans environ 80 % des peuplements à renouveler des forêts publiques gérées par l’Office. À Tronçais, les âges d’exploitabilité de la fiche 2026 sont de 200, 250 ou 300 ans selon les séries. Ces chiffres décrivent l’âge objectif du peuplement, pas la rotation des éclaircies, qui revient plutôt tous les huit à douze ans. La réussite dépend de la densité des semis, de la lumière, du sol, du gibier et des conditions climatiques. Le cycle est une organisation de la relève ; il ne garantit pas que la prochaine génération reproduira exactement la précédente. Sources : ONF, « Coupes de régénération » : https://www.onf.fr/vivre-la-foret/%2B/7ef%3A%3Acoupes-de-regeneration-renouveler-progressivement-la-foret.html ; ONF, « La futaie régulière de chêne » : https://www.onf.fr/onf/%2B/1204%3A%3Ala-futaie-reguliere-recette-durable-pour-un-bois-de-qualite-superieure.html?lang=fr ; ONF, fiche d’aménagement 2026 : https://www.onf.fr/%2B%2Bamgt%2B%2BA007444H/%2B%2Bzfiles%2B%2B617c7ef0.",
+      "links": [
+        "futaie-reguliere",
+        "baliveau-et-semencier",
+        "avenir-climatique",
+        "reserves-de-vieux-bois"
+      ],
+      "unlockBlock": "c3-b09",
+      "firstMentionChapter": 3,
+      "firstMentionBlock": "c3-b09",
+      "earliestSafeChapter": 3,
+      "earliestSafeBlock": "c3-b09",
+      "unlockChapter": 3,
+      "unlockPosition": 9,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Faire comprendre que l’âge d’exploitabilité et les rotations d’intervention sont deux horloges différentes."
+    },
+    {
+      "id": "reserves-de-vieux-bois",
+      "title": "Les réserves de vieux bois",
+      "category": "biodiversité",
+      "hook": "Vieillissement, sénescence et réserves biologiques : une forêt de production garde aussi des arbres hors récolte.",
+      "text": "La futaie régulière ne conduit pas tous les gros bois vers la vente. La fiche d’aménagement ONF éditée en 2026 distingue 48,70 hectares d’îlots de vieillissement, 21,78 hectares d’îlots de sénescence, 13,03 hectares de réserve biologique dirigée avec maintien de très gros bois et 100,27 hectares de réserve biologique intégrale pris en compte dans la sénescence. Les totaux annoncés sont de 61,73 hectares pour le vieillissement et 122,05 hectares pour la sénescence. Ces surfaces forment un réseau de continuités pour les arbres âgés, le bois mort, les cavités, les insectes saproxyliques, les pics et les chauves-souris. L’ONF présente aussi Nantigny et la Futaie Colbert comme deux réserves biologiques du massif. Un arbre conservé n’est donc pas un arbre oublié : il remplit une fonction écologique, paysagère ou scientifique que le volume marchand ne mesure pas. Sources : ONF, fiche d’aménagement de Tronçais, édition 30/01/2026 : https://www.onf.fr/%2B%2Bamgt%2B%2BA007444H/%2B%2Bzfiles%2B%2B617c7ef0 ; ONF, « Tronçais, une chênaie prestigieuse » : https://www.onf.fr/foret-exception/troncais-foret-dexception/%2B/8c6%3A%3Atroncais-foret-dexception-une-chenaie-prestigieuse-au-coeur-du-territoire.html.",
+      "links": [
+        "futaie-reguliere",
+        "cycle-de-regeneration",
+        "futaie-colbert-ii",
+        "la-sentinelle",
+        "stebbing-ii",
+        "avenir-climatique"
+      ],
+      "unlockBlock": "c4-b09",
+      "firstMentionChapter": 4,
+      "firstMentionBlock": "c4-b09",
+      "earliestSafeChapter": 4,
+      "earliestSafeBlock": "c4-b09",
+      "unlockChapter": 4,
+      "unlockPosition": 9,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Élargir la définition de la valeur forestière aux vieux bois, aux habitats et aux réserves hors production."
+    },
+    {
+      "id": "chene-sessile-et-pedoncule",
+      "title": "Chêne sessile et chêne pédonculé",
+      "category": "essence",
+      "hook": "Deux chênes proches, mais des rapports différents à l’eau, au bois et au climat.",
+      "text": "La fiche ONF 2026 regroupe le chêne sessile et le chêne pédonculé sous une même ligne, qui couvre environ 90 % de la surface boisée de Tronçais. Leur écologie n’est pourtant pas identique. Le pédonculé dépend davantage des sols frais et des réserves d’eau ; le sessile supporte mieux certains déficits, sans être à l’abri des sécheresses répétées. Le suivi ONF de 2020, mené sur 179 placettes et plus de 3 600 arbres, relevait des symptômes sur environ 15 à 20 % des sessiles contre 25 % des pédonculés ; la mortalité du sessile était alors estimée à 2 ou 3 %. Ces chiffres décrivent une situation observée, pas une garantie pour l’avenir. La distinction compte aussi pour la tonnellerie : l’ONF rapporte des différences de porosité, de tanins et d’arômes dans une expérimentation de 48 arbres. Une essence mieux adaptée aujourd’hui peut néanmoins subir demain un sol plus sec, des ravageurs ou une concurrence accrue. Sources : ONF, fiche d’aménagement 2026 : https://www.onf.fr/%2B%2Bamgt%2B%2BA007444H/%2B%2Bzfiles%2B%2B617c7ef0 ; ONF, suivi des sécheresses à Tronçais : https://www.onf.fr/onf/%2B/b30%3A%3Atroncais-les-secheresses-cumulees-depuis-ans-laissent-des-marques.html?lang=fr ; ONF, expérimentation « Chêne de tonnellerie » : https://www.onf.fr/outils/articles/33093a63-9560-4212-a441-221e5823a100/%2B%2Bversions%2B%2B/4/%2B%2Bparas%2B%2B/3/%2B%2Bass%2B%2B/4/%2B%2Bi18n%2B%2Bdata%3Afr?_=1606904437.240156.",
+      "links": [
+        "futaie-reguliere",
+        "merrain-et-tonnellerie",
+        "avenir-climatique",
+        "cycle-de-regeneration"
+      ],
+      "unlockBlock": "c5-b01",
+      "firstMentionChapter": 5,
+      "firstMentionBlock": "c5-b01",
+      "earliestSafeChapter": 5,
+      "earliestSafeBlock": "c5-b01",
+      "unlockChapter": 5,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner une base biologique et climatique à la différence entre le sessile et le pédonculé avant d’aborder le marché du bois."
+    },
+    {
+      "id": "merrain-et-tonnellerie",
+      "title": "Merrain et tonnellerie",
+      "category": "filière bois",
+      "hook": "Une fraction du chêne devient douelle, puis rencontre le vin, le whisky et les cycles du marché.",
+      "text": "Le merrain est une fraction spécialisée de la récolte, pas le destin de chaque chêne. Une synthèse CNPF-ONF de 2018 estime sa part entre 3 et 30 % selon les coupes ; l’ONF évoque environ 50 000 à 55 000 m³ récoltés annuellement à Tronçais selon les documents et les années. Le merrandier tronçonne les grumes en billons, les fend dans le sens du fil, trie les quartiers et les empile pour un séchage de 24 à 36 mois. Les merrains deviennent ensuite des douelles assemblées et chauffées par le tonnelier. À Cérilly, le 18 octobre 2022, un lot de 1 539 m³ a atteint 722 €/m³ et un arbre d’environ 220 ans près de 25 000 euros. Ce sont des records, non une moyenne. Les indicateurs France Bois Forêt 2022-2025 concernent le chêne sur pied en forêt privée à l’échelle nationale ; ils ne constituent pas une cote locale de Tronçais. Sources : CNPF Auvergne-Rhône-Alpes, « Parlons Forêt n°5 » : https://auvergnerhonealpes.cnpf.fr/sites/socle/files/cnpf-old/hd_parlons_foret_n5_distille.pdf ; Agridées, vente de Cérilly, 21/10/2022 : https://www.agridees.com/articles/bois-sur-pied-prix-records-a-la-vente-onf-de-cerilly-allier/ ; France Bois Forêt, indicateur 2026 : https://franceboisforet.fr/wp-content/uploads/2026/05/FBF_PRIX_PIED_2026_11_web.pdf.",
+      "links": [
+        "chene-sessile-et-pedoncule",
+        "futaie-reguliere",
+        "avenir-climatique",
+        "sources-et-methode"
+      ],
+      "unlockBlock": "c5-b01",
+      "firstMentionChapter": 5,
+      "firstMentionBlock": "c5-b01",
+      "earliestSafeChapter": 5,
+      "earliestSafeBlock": "c5-b01",
+      "unlockChapter": 5,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Relier le temps sylvicole à la transformation du bois et apprendre au lecteur à distinguer record local et indicateur national."
+    },
+    {
+      "id": "avenir-climatique",
+      "title": "L’avenir climatique",
+      "category": "climat et gestion",
+      "hook": "Régénérer naturellement, enrichir, expérimenter : trois réponses prudentes à un climat qui ne donne plus la même garantie.",
+      "text": "Depuis 2018, les forêts domaniales de l’Allier subissent des sécheresses répétées. L’ONF annonce trois orientations : régénérer naturellement lorsque les semenciers sont assez nombreux, enrichir les régénérations avec des provenances de chêne sessile venues de régions plus sèches, puis tester une palette d’essences dans des îlots d’avenir. En trois ans, 300 000 plants ont été installés dans les forêts publiques de l’Allier, dont 100 000 à Tronçais ; 80 hectares d’îlots d’avenir sont annoncés. Le bilan sanitaire Allier 2025 signale encore les séquelles des sécheresses antérieures, des mortalités diffuses dans les futaies adultes et des rougissements de jeunes semis. Les dispositifs TRONSAVE et EXTRONSAVE étudient à Tronçais le compromis entre ouverture, concurrence, température et humidité du sol. Une étude INRAE sur 600 chênes suggère une adaptation génétique sur quelques générations, sans prédire le climat de 2200. La stratégie est donc adaptative : conserver, diversifier, mesurer et corriger. Sources : ONF, programme Allier, 25/03/2025 : https://appliforet.onf.fr/vivre-la-foret/enjeux-foret/changement-climatique-foret/%2B/26fe%3A%3Areparer-et-preparer-les-chenaies-de-lallier-face-aux-evolutions-climatiques.html ; DSF Allier 2025 : https://draaf.auvergne-rhone-alpes.agriculture.gouv.fr/IMG/pdf/bilan_allier_dsf_2025vdef.pdf ; TRONSAVE/EXTRONSAVE : https://agriculture.gouv.fr/telecharger/151462 ; INRAE, 06/01/2022 : https://www.inrae.fr/actualites/levolution-suit-climat-chenes-se-sont-rapidement-adaptes-aux-variations-climatiques-lanthropocene.",
+      "links": [
+        "chene-sessile-et-pedoncule",
+        "cycle-de-regeneration",
+        "reserves-de-vieux-bois",
+        "merrain-et-tonnellerie",
+        "sources-et-methode"
+      ],
+      "unlockBlock": "c6-b01",
+      "firstMentionChapter": 6,
+      "firstMentionBlock": "c6-b01",
+      "earliestSafeChapter": 6,
+      "earliestSafeBlock": "c6-b01",
+      "unlockChapter": 6,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner au dernier chapitre une stratégie concrète, pluraliste et mesurée plutôt qu’une promesse de solution unique."
+    },
+    {
+      "id": "la-sentinelle",
+      "title": "La Sentinelle",
+      "category": "arbre remarquable",
+      "hook": "Un arbre de plusieurs siècles, dont l’âge et l’état actuel doivent être formulés avec prudence.",
+      "text": "La galerie ONF de 2011 décrit la Sentinelle en parcelle 138, haute d’environ 28 mètres et âgée de quatre siècles. La commune de Saint-Bonnet-Tronçais rapporte une autre tradition : arbre choisi par l’administration en 1899 pour mourir naturellement, il aurait environ 530 ans, 30 mètres de hauteur et 6,5 mètres de circonférence. Ces chiffres ne sont pas parfaitement concordants. La SAFT signalait au printemps 2023 de nombreuses observations sans signe de vie, en ajoutant que le pire était à craindre ; je ne trouve pas de confirmation institutionnelle plus récente dans le dossier. Il faut donc conserver la formule « état actuel incertain ». La Sentinelle reste un repère de la longue durée, un habitat potentiel et une archive de croissance, mais son inscription dans les listes d’arbres remarquables ne prouve pas qu’elle soit vivante en 2026. Sources : ONF, galerie 2011 : https://www.onf.fr/vivre-la-foret/%2B/1f7%3A%3Atroncais-une-foret-vivre-et-rever.html ; commune de Saint-Bonnet-Tronçais : https://saintbonnettroncais.fr/arbres ; SAFT, brève printemps 2023 : https://storage.e.jimdo.com/file/fef82f40-3ef8-4cae-9844-0a54b187cc49/Breve%20printemps%202023.pdf.",
+      "links": [
+        "stebbing-ii",
+        "reserves-de-vieux-bois",
+        "avenir-climatique"
+      ],
+      "unlockBlock": "c6-b07",
+      "firstMentionChapter": 6,
+      "firstMentionBlock": "c6-b07",
+      "earliestSafeChapter": 6,
+      "earliestSafeBlock": "c6-b07",
+      "unlockChapter": 6,
+      "unlockPosition": 7,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Montrer comment documenter un arbre remarquable sans transformer une tradition locale ou une observation ancienne en certitude actuelle."
+    },
+    {
+      "id": "stebbing-ii",
+      "title": "Stebbing II",
+      "category": "arbre remarquable",
+      "hook": "Le nom d’un arbre tombé en 1961, conservé par le suivant et par plusieurs cartes qui ne donnent pas toutes la même parcelle.",
+      "text": "La commune de Saint-Bonnet-Tronçais explique que le premier Stebbing, baptisé en 1951, est tombé en 1961 ; l’arbre actuel est donc Stebbing II. Elle lui attribue plus de 400 ans, 37 mètres de hauteur et environ 5 mètres de circonférence. La galerie ONF de 2011 parle simplement de « Stebbing » et le situe en parcelle 229, tandis que des sources locales utilisent la parcelle 227. Cette divergence de nomenclature doit rester visible. Une photographie de Francis Vérillon, prise le 28 avril 2024 et publiée sous licence CC0 1.0 sur Wikimedia Commons, documente son apparence récente ; elle ne constitue pas un suivi sanitaire ni une mesure nouvelle de son âge. Stebbing II est ainsi un bon exemple de notice documentaire : un nom transmis, des chiffres hérités, une image datée et une part d’incertitude que le forestier ne doit pas combler par aplomb. Sources : commune de Saint-Bonnet-Tronçais : https://saintbonnettroncais.fr/arbres ; ONF, galerie 2011 : https://www.onf.fr/vivre-la-foret/%2B/1f7%3A%3Atroncais-une-foret-vivre-et-rever.html ; Wikimedia Commons, Francis Vérillon, 28/04/2024 : https://commons.wikimedia.org/wiki/File%3ACh%C3%AAne_Stebbing_II_For%C3%AAt_de_Tron%C3%A7ais_28_avril_2024.jpg.",
+      "links": [
+        "la-sentinelle",
+        "reserves-de-vieux-bois",
+        "avenir-climatique"
+      ],
+      "unlockBlock": "c6-b08",
+      "firstMentionChapter": 6,
+      "firstMentionBlock": "c6-b08",
+      "earliestSafeChapter": 6,
+      "earliestSafeBlock": "c6-b08",
+      "unlockChapter": 6,
+      "unlockPosition": 8,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner une échelle humaine au chêne remarquable tout en distinguant photographie récente, tradition locale et diagnostic sanitaire."
+    }
+  ]
 }
 </script>
 <script>
