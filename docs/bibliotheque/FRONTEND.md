@@ -43,6 +43,22 @@ La page fournit :
 - états de chargement, catalogue vide, aucun résultat et erreur ;
 - mode sombre automatique, navigation clavier et réduction des animations.
 
+## Feuille de style
+
+Le CSS d’`index.html` est une **couche unique** depuis le chantier 2 de la roadmap
+(2026-08-17) : les quatre refontes empilées (~600 lignes mortes mais téléchargées
+et évaluées — audit §C.3.2) ont été remplacées par leur rendu final consolidé.
+Pour le faire évoluer : **modifier les règles en place**, jamais rempiler une
+nouvelle couche qui surcharge l’ancienne.
+
+**Ratio des cartes : 2:3** (tranché au même chantier, audit §C.3.4). Les cartes de
+la galerie adoptent le ratio des couvertures — 2:3, la convention du dépôt
+(`AGENTS.md`) — au lieu du 4:5 qui rognait ~17 % de chaque image. Une couverture
+produite par un atelier s’affiche donc entière, sans recadrage (`object-fit: cover`
+sur des ratios identiques). Si une future direction artistique veut un autre ratio,
+c’est le format des couvertures qu’il faudra faire évoluer avec elle, pas l’un sans
+l’autre.
+
 ## Prévisualisation locale
 
 Les navigateurs bloquent généralement `fetch()` entre fichiers ouverts avec le protocole `file://`. Pour permettre l’ouverture directe de `index.html`, le fichier contient une copie intégrée du catalogue de démonstration, utilisée uniquement lorsque le chargement échoue sous `file://`.
