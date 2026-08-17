@@ -19,6 +19,14 @@ crédit `source.label`/`source.url` (http(s)) est alors contrôlé, le champ
 d'illustrations (sa traçabilité vit dans recherche.md). Sans `source`,
 l'image reste une illustration générée soumise aux règles habituelles.
 
+Depuis le schéma de catalogue v2, le <head> porte aussi cinq metas qualitatives
+à vocabulaire fermé (`book:genre`, `book:format`, `book:tonalite`,
+`book:exigence`, `book:audience`) : elles sont exigées et leur valeur est
+contrôlée contre les listes ci-dessous. La meta optionnelle `book:variant-of`
+désigne le livre dont le livrable est une autre édition (slug existant sous
+`livres/`). La `nature` (fiction/reportage) n'est pas déclarée : le générateur
+la dérive de `book:workflow`.
+
 `--sans-images` : ignore l'existence et la conformité des fichiers d'images
 (phase « texte d'abord », avant la passe de l'agent illustrateur).
 
@@ -38,12 +46,54 @@ from pathlib import Path
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 DATE_RE = re.compile(r"^\d{4}(?:-\d{2}(?:-\d{2})?)?$")
 META_RE = re.compile(
-    r'<meta\s+name="(book:[a-z]+|reader-engine)"\s+content="([^"]*)"', re.S
+    r'<meta\s+name="(book:[a-z-]+|reader-engine)"\s+content="([^"]*)"', re.S
 )
+COMMENT_RE = re.compile(r"<!--.*?-->", re.S)
 ISLAND_RE = re.compile(
     r'<script type="application/json" id="book-data">(.*?)</script>', re.S
 )
-BOOK_METAS = ("book:title", "book:author", "book:description", "book:tags", "book:date")
+BOOK_METAS = (
+    "book:title",
+    "book:author",
+    "book:description",
+    "book:tags",
+    "book:date",
+    "book:genre",
+    "book:format",
+    "book:tonalite",
+    "book:exigence",
+    "book:audience",
+)
+
+# Vocabulaires fermés des metas qualitatives du schéma de catalogue v2.
+# Source de vérité : docs/bibliotheque/CATALOGUE.md — tenir synchrone avec
+# scripts/build_catalog.py (graphies exactes, accents compris).
+GENRES = (
+    "science-fiction",
+    "fantasy",
+    "fantastique",
+    "anticipation",
+    "espionnage",
+    "policier",
+    "aventure",
+    "comédie dramatique",
+    "drame",
+    "histoire",
+    "société",
+    "sciences",
+    "portrait",
+)
+FORMATS = ("texte", "illustré")
+TONALITES = ("lumineuse", "douce-amère", "contemplative", "ironique", "tendue", "sombre")
+EXIGENCES = ("accessible", "intermédiaire", "exigeante")
+AUDIENCES = ("tout public", "ados et adultes", "adultes")
+VOCABULAIRES = {
+    "book:genre": GENRES,
+    "book:format": FORMATS,
+    "book:tonalite": TONALITES,
+    "book:exigence": EXIGENCES,
+    "book:audience": AUDIENCES,
+}
 CHAPTER_IMG_MAX = 150 * 1024
 COVER_IMG_MAX = 300 * 1024
 FIGURE_IMG_MAX = 300 * 1024  # documents du web : lisibilité avant compression
@@ -164,12 +214,31 @@ def main() -> int:
         d(f"slug « {slug} » hors convention (kebab-case ASCII)")
 
     # --- métadonnées du <head>
-    metas = dict(META_RE.findall(html))
+    # Les commentaires HTML sont retirés d'abord : une meta commentée (le gabarit
+    # propose ainsi book:variant-of) est invisible du navigateur comme du
+    # générateur de catalogue, elle doit l'être aussi du vérificateur.
+    metas = dict(META_RE.findall(COMMENT_RE.sub("", html)))
     for name in BOOK_METAS:
         if not metas.get(name, "").strip():
             d(f"meta {name} absente ou vide dans le <head>")
     if not template and metas.get("book:date") and not DATE_RE.match(metas["book:date"]):
         d(f"book:date « {metas['book:date']} » invalide (AAAA[-MM[-JJ]])")
+    for name, vocabulaire in VOCABULAIRES.items():
+        valeur = metas.get(name, "").strip()
+        if valeur and valeur not in vocabulaire:
+            d(f"meta {name} « {valeur} » hors vocabulaire — valeurs admises : "
+              f"{', '.join(vocabulaire)} (docs/bibliotheque/CATALOGUE.md)")
+    variante = metas.get("book:variant-of", "").strip()
+    if variante:
+        if not SLUG_RE.match(variante):
+            d(f"book:variant-of « {variante} » hors convention (kebab-case ASCII)")
+        elif variante == slug:
+            d(f"book:variant-of « {variante} » : un livre ne peut pas être sa propre "
+              "édition dérivée")
+        elif not ((root / "livres" / f"{variante}.html").is_file()
+                  or (root / "livres" / variante).is_dir()):
+            d(f"book:variant-of « {variante} » : aucun livre livres/{variante}.html ni "
+              f"livres/{variante}/ dans le dépôt")
     if "atelier des récits explorables" in metas.get("book:author", "").lower():
         d("book:author = pseudonyme collectif interdit (règle d'or : nom du modèle)")
     if not metas.get("book:workflow", "").strip():

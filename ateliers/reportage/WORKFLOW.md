@@ -1,6 +1,6 @@
 # Atelier reportage — composer un reportage explorable
 
-- **Version** : 3
+- **Version** : 4
 - **Statut** : expérimental (en attente de son exécution pilote à froid —
   roadmap Conception, chantier 8)
 - **Livrable** : un **reportage** — un livre-web HTML autonome **non romancé**
@@ -22,6 +22,15 @@
 
 ## Changelog
 
+- **v4** (2026-08) — schéma de catalogue v2 : le `<head>` porte cinq **metas
+  qualitatives à vocabulaire fermé** (`book:genre`, `book:format`,
+  `book:tonalite`, `book:exigence`, `book:audience`), plus `book:variant-of`
+  pour les seules éditions dérivées. Surtout, la séparation d'avec les fictions
+  ne passe plus par les tags mais par la `nature`, que le générateur **dérive de
+  `book:workflow`** (meta jusque-là ignorée) : le premier tag `reportage`,
+  solution d'attente de la v2, **n'est plus imposé** aux nouveaux livres. Motif :
+  chantier 5 de la [roadmap Bibliothèque](../../docs/bibliotheque/ROADMAP.md) —
+  un champ dédié plutôt qu'un tag détourné.
 - **v3** (2026-08) — couverture strictement sans texte : titre, sous-titre,
   crédit, logo, signature, filigrane et pseudo-texte sont interdits dans le
   fichier image, puisque l'interface de la bibliothèque superpose déjà les
@@ -238,7 +247,7 @@ La signature du format : elle s'exécute **toujours**, avant toute écriture.
 - **Commit** : « Relecture de <titre> : vérification factuelle et corrections »
 
 Puis : push et **pull request** (protocole de session — description structurée
-Rôle : Production / reportage v3 ; si le brief demande des illustrations
+Rôle : Production / reportage v4 ; si le brief demande des illustrations
 générées, la mention explicite : « En attente de la passe illustrateur —
 `livres/<slug>/illustrations.md` »).
 
@@ -331,26 +340,82 @@ Le template en contient un gabarit prêt à remplacer. Pour référence :
     name="book:description"
     content="Ce que le lecteur va découvrir, en une ou deux phrases (≤ 600 caractères)."
   >
-  <meta name="book:tags" content="reportage, histoire, <lieu ou thème> (1 à 6 tags)">
+  <meta name="book:tags" content="<lieu>, <thème>, <période> (1 à 6 tags)">
   <meta name="book:date" content="2026-08-17">
 
-  <!-- Traçabilité : recette et moteur (ignorées par le catalogue) -->
-  <meta name="book:workflow" content="reportage v3">
+  <!-- Metas qualitatives (vocabulaires fermés, voir ci-dessous) -->
+  <meta name="book:genre" content="histoire">
+  <meta name="book:format" content="illustré">
+  <meta name="book:tonalite" content="contemplative">
+  <meta name="book:exigence" content="accessible">
+  <meta name="book:audience" content="tout public">
+
+  <!-- Recette (lue par le générateur : elle en dérive la nature) et moteur -->
+  <meta name="book:workflow" content="reportage v4">
   <meta name="reader-engine" content="atelier-liseuse v2">
 
   <title>Titre complet du reportage</title>
 </head>
 ```
 
-- **`book:tags` commence obligatoirement par `reportage`** : c'est le marqueur
-  qui sépare ces lectures des fictions au catalogue, en attendant le champ
-  `nature` du schéma v2 ([roadmap
-  Bibliothèque](../../docs/bibliotheque/ROADMAP.md), chantier 5 ; règle de
-  cohabitation de
-  [`creer-un-atelier.md`](../../docs/conception/creer-un-atelier.md) §6).
 - **`book:author` = le nom du ou des modèles** (règle d'or d'`AGENTS.md`) ; si
   le reportage reçoit des illustrations générées, l'illustrateur ajoute
   « , <son modèle> (images) » pendant sa passe.
+
+### La nature du livre : dérivée de `book:workflow`
+
+Le catalogue sépare les reportages des fictions par le champ `nature`, mais
+**aucune meta ne le porte** : `scripts/build_catalog.py` le déduit du nom
+d'atelier lu dans `book:workflow` (le contenu sans son suffixe ` vN`) via sa
+table `ATELIER_NATURE`, où cet atelier est enregistré comme producteur de
+**reportages**. Renseigner `<meta name="book:workflow" content="reportage v4">`
+suffit donc à ranger le livre du bon côté — et trace au passage la version de
+recette utilisée. Une meta absente ou un atelier inconnu de la table retombent
+sur `fiction`.
+
+En conséquence, **le premier tag `reportage` n'est plus obligatoire** : c'était
+la solution d'attente de la v2, avant que le schéma v2 du catalogue n'existe.
+Les `book:tags` d'un nouveau reportage sont donc **libres et documentaires**
+(lieu, thème, période, matière du sujet) et n'ont plus à répéter le format. Les
+livres déjà publiés gardent leur tag `reportage` : l'assainissement du
+vocabulaire de tags existant relève du **chantier 6 de la [roadmap
+Bibliothèque](../../docs/bibliotheque/ROADMAP.md)** (gouvernance des tags), pas
+de la production.
+
+### Les cinq metas qualitatives (vocabulaires fermés)
+
+Elles sont **obligatoires** et n'acceptent que les valeurs ci-dessous, à la
+graphie exacte (accents compris). Source de vérité :
+[`docs/bibliotheque/CATALOGUE.md`](../../docs/bibliotheque/CATALOGUE.md) —
+n'inventer aucune valeur : une valeur hors vocabulaire est un défaut bloquant du
+vérificateur. Un seul terme par meta, celui qui décrit le mieux le reportage
+dans son ensemble.
+
+| Meta | Valeurs admises |
+|---|---|
+| `book:genre` | `science-fiction`, `fantasy`, `fantastique`, `anticipation`, `espionnage`, `policier`, `aventure`, `comédie dramatique`, `drame`, `histoire`, `société`, `sciences`, `portrait` |
+| `book:format` | `texte`, `illustré` |
+| `book:tonalite` | `lumineuse`, `douce-amère`, `contemplative`, `ironique`, `tendue`, `sombre` |
+| `book:exigence` | `accessible`, `intermédiaire`, `exigeante` |
+| `book:audience` | `tout public`, `ados et adultes`, `adultes` |
+
+- Pour un reportage, `book:genre` est le registre du sujet — le plus souvent
+  `histoire`, `sciences`, `société` ou `portrait` (un reportage sur une personne
+  réelle) ; les genres de fiction n'ont pas lieu d'être ici.
+- `book:format` vaut `illustré` dès qu'un document du web ou une illustration
+  générée est posé dans le livre, `texte` sinon (un reportage sans aucun
+  document est conforme, §« Les documents du web »).
+- Rien à renseigner pour la longueur : `wordCount` et le temps de lecture sont
+  **calculés** par `scripts/build_catalog.py` à partir de l'îlot JSON.
+
+### `book:variant-of` (optionnelle, cas rare)
+
+Réservée aux **éditions dérivées** : un livre qui est une autre édition d'un
+livre déjà publié déclare le slug de ce livre source
+(`<meta name="book:variant-of" content="la-foret-de-troncais">`), ce qui permet
+au catalogue de les regrouper au lieu de les afficher en doublon. Le slug doit
+exister sous `livres/` (`<slug>.html` ou dossier `<slug>/`) et ne peut pas être
+celui du livre lui-même. Un reportage ordinaire n'a pas cette meta.
 
 ## Conventions spécifiques de l'atelier
 
@@ -375,21 +440,21 @@ Le template en contient un gabarit prêt à remplacer. Pour référence :
 Le `<head>` du livrable produit contient la version de la recette utilisée :
 
 ```html
-<meta name="book:workflow" content="reportage v3">
+<meta name="book:workflow" content="reportage v4">
 ```
 
-(meta ignorée par le générateur de catalogue — aucune incidence.) La PR de
+Cette meta est **lue par le générateur de catalogue** : son nom d'atelier
+(`reportage`, suffixe de version retiré) donne la `nature` du livre. La PR de
 production mentionne aussi cette version.
 
 ## Contraintes de plateforme
 
 Ce livrable respecte les contraintes communes du
 [`§1 de creer-un-atelier.md`](../../docs/conception/creer-un-atelier.md)
-(emplacement, slug, 5 meta `book:*`, couverture 2:3 sans texte, autonomie,
-accessibilité).
+(emplacement, slug, 10 meta `book:*` dont les cinq metas qualitatives à
+vocabulaire fermé, couverture 2:3 sans texte, autonomie, accessibilité).
 Points où cet atelier est plus strict :
 
-- premier tag imposé (`reportage`) ;
 - dossier documentaire `recherche.md` committé, entrées sourcées et datées,
   section « Documents visuels » tenue ;
 - aucune affirmation du livre sans trace dans le dossier ;
@@ -406,9 +471,11 @@ Points où cet atelier est plus strict :
       légende, crédit — s'exécutent quand même) ;
 - [ ] le reportage s'ouvre et se lit en `file://` de bout en bout, documents
       affichés avec légende et crédit, sans erreur JavaScript en console ;
-- [ ] les 5 meta `book:*` sont présentes et exactes, `book:tags` commence par
-      `reportage` ;
-- [ ] `<meta name="book:workflow" content="reportage v3">` et
+- [ ] les 10 meta `book:*` sont présentes et exactes (les cinq metas
+      qualitatives prennent une valeur du vocabulaire fermé) ;
+- [ ] `book:variant-of` **absente**, sauf édition dérivée assumée (slug d'un
+      livre existant) ;
+- [ ] `<meta name="book:workflow" content="reportage v4">` et
       `<meta name="reader-engine" content="atelier-liseuse v2">` présentes ;
 - [ ] `livres/<slug>/brief.md` et `livres/<slug>/recherche.md` committés
       (entrées sourcées et datées, section « Documents visuels » complète,
@@ -425,6 +492,6 @@ Points où cet atelier est plus strict :
 - [ ] socle [`PREFERENCES.md`](../../docs/conception/PREFERENCES.md) et brief
       respectés (fond et forme — longueurs, densité de mentions) ;
 - [ ] protocole de session d'`AGENTS.md` : commits d'étapes poussés, PR
-      ouverte avec description structurée (Rôle : Production / reportage v3),
+      ouverte avec description structurée (Rôle : Production / reportage v4),
       divergences de moteur signalées, passe illustrateur annoncée si
       l'étape 6 s'applique.

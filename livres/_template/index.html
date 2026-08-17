@@ -3,15 +3,35 @@
 <meta charset="utf-8">
 <!-- ============================================================
      GABARIT — remplacer chaque valeur AVANT le premier commit.
-     Les 5 meta book:* alimentent le catalogue (voir
+     Les 10 meta book:* alimentent le catalogue (voir
      ateliers/roman-atelier/WORKFLOW.md §« Le <head> obligatoire »).
+     Vocabulaires fermés (docs/bibliotheque/CATALOGUE.md) :
+       genre    : science-fiction | fantasy | fantastique | anticipation |
+                  espionnage | policier | aventure | comédie dramatique |
+                  drame | histoire | société | sciences | portrait
+       format   : texte | illustré
+       tonalite : lumineuse | douce-amère | contemplative | ironique |
+                  tendue | sombre
+       exigence : accessible | intermédiaire | exigeante
+       audience : tout public | ados et adultes | adultes
+     La nature (fiction/reportage) ne se déclare pas : elle est dérivée de
+     book:workflow par scripts/build_catalog.py.
      ============================================================ -->
 <meta name="book:title" content="Titre complet du livre">
 <meta name="book:author" content="Nom du modèle qui écrit">
 <meta name="book:description" content="Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue.">
-<meta name="book:tags" content="genre, thème, lieu">
+<meta name="book:tags" content="thème, lieu, motif">
 <meta name="book:date" content="AAAA-MM-JJ">
-<meta name="book:workflow" content="roman-atelier v3">
+<meta name="book:genre" content="science-fiction">
+<meta name="book:format" content="illustré">
+<meta name="book:tonalite" content="contemplative">
+<meta name="book:exigence" content="intermédiaire">
+<meta name="book:audience" content="tout public">
+<!-- Cas rare — autre édition d'un livre déjà publié : décommenter et renseigner
+     le slug du livre source (moratoire sur les doublons : voir le WORKFLOW).
+<meta name="book:variant-of" content="slug-du-livre-source">
+-->
+<meta name="book:workflow" content="roman-atelier v6">
 <meta name="reader-engine" content="atelier-liseuse v2">
 <title>Titre complet du livre</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
