@@ -1,6 +1,6 @@
 # Atelier roman-atelier — écrire un roman-web illustré avec la liseuse « Atelier »
 
-- **Version** : 5
+- **Version** : 6
 - **Statut** : stable (l'étape illustrations et le relai illustrateur, nouveaux
   en v3, et l'étape de recherche documentaire, nouvelle en v4, attendent leur
   exécution pilote à froid — roadmap Conception, session S2)
@@ -23,6 +23,16 @@
 
 ## Changelog
 
+- **v6** (2026-08) — schéma de catalogue v2 : le `<head>` porte cinq
+  **metas qualitatives à vocabulaire fermé** (`book:genre`, `book:format`,
+  `book:tonalite`, `book:exigence`, `book:audience`), plus `book:variant-of`
+  pour les seules éditions dérivées ; `book:workflow`, jusqu'ici purement
+  documentaire, est désormais **lue par le générateur** qui en dérive la
+  `nature` du livre (l'atelier n'a donc rien à déclarer de plus pour être rangé
+  du côté des fictions). Le vérificateur exige les dix metas et contrôle les
+  vocabulaires. Motif : chantier 5 de la [roadmap
+  Bibliothèque](../../docs/bibliotheque/ROADMAP.md) — donner à l'index de quoi
+  trier et filtrer sans faire porter cette charge aux tags libres.
 - **v5** (2026-08) — couverture strictement sans texte : le titre et les
   métadonnées sont déjà superposés en HTML dans la bibliothèque. Le manifeste,
   les contraintes d'images et la vérification finale interdisent désormais
@@ -61,7 +71,7 @@
 
 ## Les deux rôles de la fabrication
 
-Un livre v5 se fabrique en **deux passes, sur la même branche** :
+Un livre v6 se fabrique en **deux passes, sur la même branche** :
 
 1. **L'auteur** (étapes 0 à 5 ; l'étape 0 seulement si le brief demande
    l'ancrage réel) écrit le livre complet — texte, codex, champs
@@ -231,7 +241,7 @@ Sans section « Ancrage réel » au brief, passer directement à l'étape 1.
 - **Commit** : « Relecture de <titre> : corrections »
 
 Puis : push et **pull request** (protocole de session — description structurée
-Rôle : Production / roman-atelier v5, divergences de moteur signalées, et la
+Rôle : Production / roman-atelier v6, divergences de moteur signalées, et la
 mention explicite : « En attente de la passe illustrateur —
 `livres/<slug>/illustrations.md` »).
 
@@ -260,7 +270,7 @@ C'est le seul point de passage entre les deux rôles, et il tient en un message.
 
 ## Structure de fichiers
 
-Un livre v5 est **toujours un dossier** (il porte des images) :
+Un livre v6 est **toujours un dossier** (il porte des images) :
 
 ```text
 livres/<slug>/
@@ -280,9 +290,8 @@ livres/<slug>/
 
 ## Le `<head>` obligatoire
 
-Le template en contient un gabarit prêt à remplacer. Pour référence (les 5 meta
-`book:*` alimentent le catalogue ; `book:workflow` et `reader-engine` tracent la
-recette et le moteur) :
+Le template en contient un gabarit prêt à remplacer. Pour référence (les 10 meta
+`book:*` alimentent le catalogue ; `reader-engine` trace le moteur) :
 
 ```html
 <head>
@@ -296,11 +305,18 @@ recette et le moteur) :
     name="book:description"
     content="Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue."
   >
-  <meta name="book:tags" content="genre, thème, lieu (1 à 6 tags, séparés par des virgules)">
+  <meta name="book:tags" content="thème, lieu, motif (1 à 6 tags, séparés par des virgules)">
   <meta name="book:date" content="2026-08-13">
 
-  <!-- Traçabilité : recette et moteur (ignorées par le catalogue) -->
-  <meta name="book:workflow" content="roman-atelier v5">
+  <!-- Metas qualitatives (vocabulaires fermés, voir ci-dessous) -->
+  <meta name="book:genre" content="anticipation">
+  <meta name="book:format" content="illustré">
+  <meta name="book:tonalite" content="douce-amère">
+  <meta name="book:exigence" content="intermédiaire">
+  <meta name="book:audience" content="ados et adultes">
+
+  <!-- Recette (lue par le générateur : elle en dérive la nature) et moteur -->
+  <meta name="book:workflow" content="roman-atelier v6">
   <meta name="reader-engine" content="atelier-liseuse v1">
 
   <!-- Utilisé par l'onglet du navigateur et comme fallback de titre -->
@@ -315,6 +331,51 @@ recette et le moteur) :
   1 sous la forme « <son modèle> (texte) » ; l'illustrateur y ajoute
   « , <son modèle> (images) » pendant sa passe.
 - `book:date` : `AAAA`, `AAAA-MM` ou `AAAA-MM-JJ`.
+
+### Les cinq metas qualitatives (vocabulaires fermés)
+
+Elles sont **obligatoires** et n'acceptent que les valeurs ci-dessous, à la
+graphie exacte (accents compris). Source de vérité :
+[`docs/bibliotheque/CATALOGUE.md`](../../docs/bibliotheque/CATALOGUE.md) — s'y
+reporter en cas de doute, et n'inventer aucune valeur : une valeur hors
+vocabulaire est un défaut bloquant du vérificateur. Un seul terme par meta, celui
+qui décrit le mieux le livre dans son ensemble.
+
+| Meta | Valeurs admises |
+|---|---|
+| `book:genre` | `science-fiction`, `fantasy`, `fantastique`, `anticipation`, `espionnage`, `policier`, `aventure`, `comédie dramatique`, `drame`, `histoire`, `société`, `sciences`, `portrait` |
+| `book:format` | `texte`, `illustré` |
+| `book:tonalite` | `lumineuse`, `douce-amère`, `contemplative`, `ironique`, `tendue`, `sombre` |
+| `book:exigence` | `accessible`, `intermédiaire`, `exigeante` |
+| `book:audience` | `tout public`, `ados et adultes`, `adultes` |
+
+- Un livre de cet atelier naît illustré : `book:format` vaut normalement
+  `illustré` (`texte` seulement si le brief renonce explicitement aux images).
+- Les `book:tags` restent **libres et complémentaires** (thème, lieu, motif) :
+  ils ne rejouent pas le genre ni le format, désormais portés par leur meta.
+- Rien à renseigner pour la longueur : `wordCount` et le temps de lecture sont
+  **calculés** par `scripts/build_catalog.py` à partir de l'îlot JSON.
+
+### La nature du livre : dérivée, jamais déclarée
+
+Le catalogue range les livres par `nature` (`fiction` ou `reportage`), mais
+**aucune meta ne la porte** : `scripts/build_catalog.py` la déduit du nom
+d'atelier lu dans `book:workflow` (le contenu sans son suffixe ` vN`) via sa
+table `ATELIER_NATURE`. Cet atelier y est enregistré comme producteur de
+**fictions** : renseigner `<meta name="book:workflow" content="roman-atelier v6">`
+suffit, et c'est aussi ce qui trace la version de recette utilisée. Une meta
+absente ou un atelier inconnu de la table retombent sur `fiction`.
+
+### `book:variant-of` (optionnelle, cas rare)
+
+Réservée aux **éditions dérivées** : un livre qui est une autre édition d'un
+livre déjà publié déclare le slug de ce livre source
+(`<meta name="book:variant-of" content="lequation-du-calme">`), ce qui permet au
+catalogue de les regrouper au lieu de les afficher en doublon. Le slug doit
+exister sous `livres/` (`<slug>.html` ou dossier `<slug>/`) et ne peut pas être
+celui du livre lui-même. **Ne pas l'utiliser pour créer un doublon** : le
+moratoire sur les éditions dérivées (§« Interdits spécifiques ») reste en
+vigueur. Un livre ordinaire n'a pas cette meta.
 
 ## Le moteur de liseuse
 
@@ -384,9 +445,12 @@ recette et le moteur) :
 - [ ] le livre s'ouvre et se lit en `file://` de bout en bout, sans erreur
       JavaScript en console et **sans image cassée à l'écran** (les emplacements
       d'images se masquent) ;
-- [ ] les 5 meta `book:*` sont présentes et exactes (`book:author` =
-      « <modèle> (texte) » à ce stade) ;
-- [ ] `<meta name="book:workflow" content="roman-atelier v5">` et
+- [ ] les 10 meta `book:*` sont présentes et exactes (`book:author` =
+      « <modèle> (texte) » à ce stade ; les cinq metas qualitatives prennent
+      une valeur du vocabulaire fermé) ;
+- [ ] `book:variant-of` **absente**, sauf édition dérivée assumée (slug d'un
+      livre existant) ;
+- [ ] `<meta name="book:workflow" content="roman-atelier v6">` et
       `<meta name="reader-engine" content="atelier-liseuse v1">` présentes ;
 - [ ] `livres/<slug>/brief.md` et `livres/<slug>/illustrations.md` committés ;
 - [ ] si le brief demande l'ancrage réel : `livres/<slug>/recherche.md`
@@ -395,7 +459,7 @@ recette et le moteur) :
 - [ ] socle [`PREFERENCES.md`](../../docs/conception/PREFERENCES.md) et brief
       respectés (fond et forme — longueurs, densité de mentions) ;
 - [ ] protocole de session d'`AGENTS.md` : commits d'étapes poussés, PR ouverte
-      avec description structurée (Rôle : Production / roman-atelier v5),
+      avec description structurée (Rôle : Production / roman-atelier v6),
       divergences de moteur signalées, passe illustrateur annoncée.
 
 ## Vérifications avant merge (après la passe illustrateur)
