@@ -1,8 +1,33 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-16T11:20:21Z",
-  "bookCount": 12,
+  "generatedAt": "2026-08-17T07:14:41Z",
+  "bookCount": 13,
   "books": [
+    {
+      "id": "la-foret-de-troncais",
+      "filename": "index.html",
+      "sourcePath": "livres/la-foret-de-troncais/index.html",
+      "href": "livres/la-foret-de-troncais/index.html",
+      "title": "La forêt de Tronçais — Le pari des siècles",
+      "author": "GPT 5.6",
+      "description": "À Tronçais, la légende d’une forêt plantée par Colbert en 1670 cache une histoire plus riche : un massif ancien, des forges, deux siècles de futaie régulière, le merrain des grands vins et, désormais, l’épreuve du climat.",
+      "tags": [
+        "reportage",
+        "forêt",
+        "Tronçais",
+        "histoire",
+        "sylviculture",
+        "chêne"
+      ],
+      "date": "2026-08-17",
+      "datePrecision": "day",
+      "cover": {
+        "filename": "la-foret-de-troncais.webp",
+        "sourcePath": "couvertures/la-foret-de-troncais.webp",
+        "href": "couvertures/la-foret-de-troncais.webp",
+        "format": "webp"
+      }
+    },
     {
       "id": "la-clause-du-meilleur-ennemi",
       "filename": "index.html",
