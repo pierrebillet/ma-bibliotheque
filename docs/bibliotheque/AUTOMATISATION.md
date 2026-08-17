@@ -41,11 +41,11 @@ Un commit qui ne touche que `catalog.json` ne relance pas ce workflow, et le com
 1. `actions/checkout` récupère `main` avec tout l’historique Git (`fetch-depth: 0`).
 2. Python 3.12 exécute `scripts/build_catalog.py`, sans installation de paquet.
 3. Le script parcourt les fichiers `livres/*.html` du premier niveau **et** les sous-dossiers `livres/<slug>/` (point d’entrée : `index.html`, sinon `<slug>.html`, sinon l’unique fichier HTML du dossier). Les fichiers et dossiers cachés (préfixe `.`) et le dossier `_template` sont ignorés. La profondeur est limitée à un niveau : `livres/serie/tome-1/` n’est pas découvert.
-4. Pour chaque livre, il extrait les métadonnées `book:*`, puis applique les fallbacks prévus pour le titre.
-5. La lecture s’arrête à la fermeture de `<head>` lorsqu’elle existe ; sans `<head>` exploitable, elle est plafonnée à 4 Mio pour rester sûre avec les fichiers très volumineux.
+4. Pour chaque livre, il extrait les douze métadonnées `book:*` du schéma version 2 (`book:title`, `book:author`, `book:description`, `book:tags`, `book:date`, `book:workflow`, `book:genre`, `book:format`, `book:tonalite`, `book:exigence`, `book:audience`, `book:variant-of`), puis applique les fallbacks prévus pour le titre. `nature` est déduite de `book:workflow` (atelier inconnu ou meta absente : `fiction` par défaut) ; `genre`, `format`, `tonalite`, `exigence` et `audience` suivent des vocabulaires fermés — une valeur hors vocabulaire est signalée en annotation et le champ reste `null` ; `book:variant-of` n’est retenu que s’il désigne un autre livre réellement publié. Champ par champ : [`CATALOGUE.md`](CATALOGUE.md).
+5. La lecture du `<head>` s’arrête à sa fermeture lorsqu’elle existe ; sans `<head>` exploitable, elle est plafonnée à 4 Mio pour rester sûre avec les fichiers très volumineux. Une seconde lecture, plafonnée à 8 Mio, alimente `wordCount` : les chapitres de l’îlot `<script type="application/json">` d’abord, le texte visible du body en repli (retenu au-delà de 500 mots), sinon `wordCount` et `readingMinutes` restent `null` avec une annotation. `readingMinutes` vaut `wordCount` divisé par 200 mots/minute.
 6. Les couvertures sont recherchées dans `couvertures/<slug>.*` dans l’ordre `.webp`, `.avif`, `.png`, `.jpg`, `.jpeg` et leur signature binaire minimale est contrôlée. En l’absence de couverture valide dans `couvertures/`, un livre-dossier peut embarquer la sienne : `livres/<slug>/cover.*`, puis `livres/<slug>/images/cover.*` (mêmes extensions, même contrôle). `couvertures/` garde toujours la priorité.
 7. La date d’ajout Git du fichier (`git log --diff-filter=A`, sans `--follow` pour qu’une édition dérivée n’hérite pas de la date de son livre source) est récupérée. Si l’historique est indisponible, la date de modification du fichier est utilisée. Cette date sert uniquement à classer les entrées du catalogue du plus récent au plus ancien ; le champ JSON `date` reste réservé à `book:date`.
-8. `catalog.json` est écrit en UTF-8, JSON indenté, avec un saut de ligne final.
+8. `catalog.json` est écrit en UTF-8, JSON indenté, avec un saut de ligne final, en `schemaVersion: 2`.
 9. Le bloc `#demo-catalog` de `index.html` est réécrit avec le même JSON (option `--sync-demo-catalog` du script ; les `</` y sont échappés en `<\/` pour rester valides en HTML). Si le bloc est introuvable ou présent plusieurs fois, le script sort en erreur.
 10. `sitemap.xml` est régénéré (options `--sitemap` et `--base-url` du script) : la page d’accueil puis chaque livre du catalogue, en URL absolues. L’URL de base est dérivée de `GITHUB_REPOSITORY` (`https://<owner>.github.io/<repo>/`) — aucun domaine codé en dur dans le workflow. La sortie est déterministe (pas d’horodatage) : le fichier ne change que si la liste des livres change.
 11. Si ni `catalog.json`, ni `index.html`, ni `sitemap.xml` n’ont changé, le workflow s’arrête sans commit.
@@ -114,11 +114,14 @@ GitHub Pages n’est pas encore activé en mode branche, la source n’est pas `
 
 - le run est vert, mais le titre est dérivé du nom de fichier ;
 - une couverture est remplacée par le placeholder ;
+- un badge de durée, de format ou de nature manque sur la carte, ou le livre reste hors de son onglet fiction/reportage ;
 - le livre est absent après filtrage ou semble mal classé.
 
 **Cause probable**
 
 - métadonnée vide ou mal nommée ;
+- valeur hors du vocabulaire fermé d’un champ qualitatif (`book:genre`, `book:format`, `book:tonalite`, `book:exigence`, `book:audience`), `book:workflow` absent ou pointant vers un atelier inconnu, `book:variant-of` visant un livre inexistant ;
+- prose portée par des littéraux JavaScript plutôt que par un îlot JSON de chapitres (`wordCount` et `readingMinutes` restent `null`) ;
 - HTML ou encodage atypique au-delà de la zone lue ;
 - couverture avec un nom, une extension ou une signature incorrecte ;
 - sous-dossier sans point d’entrée identifiable (plusieurs fichiers HTML et aucun `index.html`), ou imbriqué à plus d’un niveau sous `livres/`.
@@ -126,7 +129,7 @@ GitHub Pages n’est pas encore activé en mode branche, la source n’est pas `
 **Résolution**
 
 - placer le livre directement sous `livres/` avec l’extension `.html` en minuscules ;
-- utiliser exactement `book:title`, `book:author`, `book:description`, `book:tags` et `book:date` dans `<head>` ;
+- utiliser exactement `book:title`, `book:author`, `book:description`, `book:tags`, `book:date` et les metas qualitatives du schéma v2 (`book:genre`, `book:format`, `book:tonalite`, `book:exigence`, `book:audience`, plus `book:workflow` et `book:variant-of` quand ils s’appliquent) dans `<head>`, avec les graphies exactes des vocabulaires de [`CATALOGUE.md`](CATALOGUE.md) ;
 - enregistrer les nouveaux livres en UTF-8 avec `<meta charset="utf-8">` ;
 - nommer la couverture avec le même nom de base et une extension `.webp`, `.avif`, `.png`, `.jpg` ou `.jpeg` en minuscules (ou, pour un livre-dossier, embarquer `cover.*` à la racine du dossier ou dans `images/`) ;
 - consulter les annotations jaunes du run, corriger le fichier, puis committer à nouveau.
