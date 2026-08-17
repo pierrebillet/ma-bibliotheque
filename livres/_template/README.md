@@ -14,7 +14,7 @@
 
 | Fichier | Rôle |
 |---|---|
-| [`index.html`](index.html) | Le moteur complet, avec un `<head>` gabarit et un îlot JSON d'exemple minimal (2 chapitres, 3 notices) qui illustre chaque champ. |
+| [`index.html`](index.html) | Le moteur complet, avec un `<head>` gabarit (10 meta `book:*` et leurs vocabulaires fermés en commentaire) et un îlot JSON d'exemple minimal (2 chapitres, 3 notices) qui illustre chaque champ. |
 | [`DONNEES.md`](DONNEES.md) | Spécification normative de l'îlot `#book-data` : champs, types, obligatoire/optionnel, champs lus par le moteur vs champs éditoriaux, règles de cohérence. |
 
 ## Créer un livre à partir du template
@@ -25,9 +25,10 @@ En bref :
 
 1. `cp livres/_template/index.html livres/<slug>/index.html` (jamais de copie du
    `README.md` ni de `DONNEES.md` dans le dossier du livre) ;
-2. remplacer tout le `<head>` gabarit (5 meta `book:*`, `book:workflow`, titre) —
-   conserver `<meta name="reader-engine" content="atelier-liseuse v2">` telle
-   quelle ;
+2. remplacer tout le `<head>` gabarit (10 meta `book:*` — dont les cinq metas
+   qualitatives à vocabulaire fermé listées en commentaire —, `book:workflow`,
+   titre) ; `book:variant-of` reste commentée sauf édition dérivée ; conserver
+   `<meta name="reader-engine" content="atelier-liseuse v2">` telle quelle ;
 3. remplacer intégralement l'îlot JSON d'exemple (spec : `DONNEES.md`) ;
 4. ne pas modifier le `<script>` du moteur. Toute divergence doit être signalée
    dans la PR (règle de `roman-atelier`) ; une amélioration durable se fait ici,
