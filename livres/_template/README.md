@@ -1,6 +1,6 @@
 # livres/_template/ — moteur de liseuse de référence « Atelier »
 
-- **Version du moteur** : `atelier-liseuse v1` (déclarée par
+- **Version du moteur** : `atelier-liseuse v2` (déclarée par
   `<meta name="reader-engine">` dans chaque livre qui l'embarque).
 - **Rôle** : c'est la brique commune annoncée par
   [`docs/conception/creer-un-atelier.md`](../../docs/conception/creer-un-atelier.md)
@@ -26,7 +26,7 @@ En bref :
 1. `cp livres/_template/index.html livres/<slug>/index.html` (jamais de copie du
    `README.md` ni de `DONNEES.md` dans le dossier du livre) ;
 2. remplacer tout le `<head>` gabarit (5 meta `book:*`, `book:workflow`, titre) —
-   conserver `<meta name="reader-engine" content="atelier-liseuse v1">` telle
+   conserver `<meta name="reader-engine" content="atelier-liseuse v2">` telle
    quelle ;
 3. remplacer intégralement l'îlot JSON d'exemple (spec : `DONNEES.md`) ;
 4. ne pas modifier le `<script>` du moteur. Toute divergence doit être signalée
@@ -39,6 +39,24 @@ l'univers du livre ; le reste du CSS se conserve tel quel.
 
 ## Origine et changelog du moteur
 
+- **atelier-liseuse v2** (2026-08) — figures documentaires, pour le format
+  reportage (session Conception du 2026-08-17) :
+  - champ optionnel `figure` sur les blocs de chapitre : image affichée **entre
+    deux paragraphes** avec légende visible et, pour un document récupéré sur le
+    web, crédit « Source : … » lié à la page d'origine (spécification :
+    [`DONNEES.md`](DONNEES.md) §`chapters[].blocks[].figure`) ;
+  - champ optionnel `source` sur les notices du codex : même crédit sous
+    l'image de la fiche quand elle est un document du web ; **la présence de
+    `source` distingue le document récupéré de l'illustration générée** (qui,
+    elle, ne cite pas de source) ;
+  - garde-fous : fichier image local uniquement (URL absolue refusée), lien de
+    source limité à `http(s)://`, échappement des attributs (`escA`), figure
+    incomplète ignorée, figure entière masquée si le fichier manque (même
+    dégradation propre qu'en v1) ; dimensions intrinsèques libres (pas de
+    1600×900 imposé aux documents), `loading="lazy"`, zoom par la visionneuse
+    existante ;
+  - rétrocompatible : sans `figure` ni `source`, rendu identique à v1 ; les
+    livres publiés (copies embarquées du moteur) ne sont pas régénérés.
 - **atelier-liseuse v1** (2026-08) — moteur extrait de
   `livres/lequation-du-calme-illustree/` (le plus abouti du catalogue), avec les
   corrections et durcissements suivants :

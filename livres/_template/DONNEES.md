@@ -1,4 +1,4 @@
-# DONNEES.md — spécification de l'îlot `#book-data` (atelier-liseuse v1)
+# DONNEES.md — spécification de l'îlot `#book-data` (atelier-liseuse v2)
 
 Spécification **normative** des données embarquées dans un livre de la famille
 « Atelier » : le bloc `<script type="application/json" id="book-data">` du point
@@ -94,6 +94,33 @@ Un bloc = un paragraphe du récit.
 | `id` | chaîne | obligatoire | [moteur] | `c<chapitre>-b<NN>` (ex. `c1-b01`, NN sur 2 chiffres). Unique dans tout le livre. Cible des déverrouillages et des liens profonds `#chapter/<id-chapitre>/<id-bloc>`. |
 | `text` | chaîne | obligatoire | [moteur] | Le paragraphe, texte brut (échappé par le moteur — jamais de HTML). |
 | `mentions` | tableau de chaînes | obligatoire (peut être vide) | [moteur] | Ids de notices du codex évoquées par ce paragraphe. Affichées en références contextuelles sous le bloc (« Notice à venir » tant que verrouillées). Chaque id doit exister dans `codex[]`. |
+| `figure` | objet | optionnel | [moteur] | Figure affichée **après ce paragraphe** (v2). Voir ci-dessous. |
+
+### `chapters[].blocks[].figure` — figure dans le corps du chapitre (v2)
+
+Une figure est une image insérée entre deux paragraphes : document récupéré sur
+le web (photographie, carte, graphe, gravure — auquel cas le crédit `source` est
+**obligatoire**) ou illustration générée (pas de `source`, mais alors
+`visualDescription` et une entrée au manifeste `illustrations.md`, comme toute
+image générée). Le moteur **ignore silencieusement une figure incomplète**
+(image non locale, `alt` ou `caption` manquant) et **masque la figure entière**
+si le fichier n'existe pas (dégradation propre). Un bloc porte au plus une
+figure ; pour deux figures consécutives, utiliser deux blocs consécutifs.
+
+| Champ | Type | Statut | Nature | Contenu |
+|---|---|---|---|---|
+| `image` | chaîne | obligatoire | [moteur] | Chemin **local relatif** dans le dossier du livre : `images/figure-<id-bloc>.webp` (`.png`/`.jpg` tolérés pour un document du web). URL absolue, chemin commençant par `/` ou contenant `..` : refusés (figure non rendue). Aucune ressource distante. |
+| `alt` | chaîne | obligatoire | [moteur] | Ce que le document montre, pour les lecteurs d'écran. |
+| `caption` | chaîne | obligatoire | [moteur] | Légende visible : ce que la figure apporte au propos. |
+| `source` | objet `{label, url}` | obligatoire pour un document du web ; absent pour une illustration générée | [moteur] | Crédit affiché « Source : <label> » sous la légende. `label` : nom de la source (média, institution, auteur). `url` : page d'origine, `http(s)://` uniquement (tout autre schéma → label affiché sans lien). C'est la **seule** référence externe autorisée : le fichier image, lui, est toujours local. |
+| `imageWidth`, `imageHeight` | entiers | obligatoires | [moteur] | Dimensions intrinsèques réelles du fichier (pas de défaut 1600×900 pour les figures : les documents du web ont des formats variables ; absents, le moteur omet les attributs). |
+| `origin` | chaîne | optionnel | [éditorial] | Traçabilité libre : licence si connue, page consultée, date de récupération (le registre complet vit dans `recherche.md` pour les formats documentaires). |
+
+**La présence de `source` marque la provenance** (convention valable aussi pour
+les images de notices) : avec `source` = document récupéré sur le web (crédit
+affiché, pas de `visualDescription` exigé, hors manifeste `illustrations.md` —
+sa traçabilité vit dans `recherche.md`) ; sans `source` = illustration générée
+(contrat de génération habituel : `visualDescription` + manifeste).
 
 ## `codex[]` — les notices
 
@@ -108,10 +135,11 @@ Champs lus par le moteur :
 | `text` | chaîne | obligatoire | Corps de la notice, dans la voix de `meta.codexVoice`. Paragraphes séparés par une ligne vide (`\n\n`). |
 | `links` | tableau de chaînes | obligatoire (peut être vide) | Ids de notices liées (navigation entre fiches). Chaque id doit exister. |
 | `unlockBlock` | chaîne | obligatoire | Id du bloc dont la lecture déverrouille la notice. Doit exister dans un chapitre. |
-| `image` | chaîne | optionnel | `images/codex-<id>.webp`. Colonne illustrée de la fiche. |
+| `image` | chaîne | optionnel | `images/codex-<id>.webp`. Colonne illustrée de la fiche. Chemin local uniquement (mêmes règles que `figure.image`). |
 | `alt` | chaîne | obligatoire si `image` | Comme pour les chapitres. |
-| `visualDescription` | chaîne | obligatoire si `image` | Comme pour les chapitres. |
-| `imageWidth`, `imageHeight` | entiers | optionnels | Comme pour les chapitres. |
+| `source` | objet `{label, url}` | obligatoire si `image` est un document du web ; absent si illustration générée | Crédit affiché sous l'image de la fiche (v2) : « Source : <label> » lié à la page d'origine (`http(s)://` uniquement). Mêmes règles que `figure.source`. |
+| `visualDescription` | chaîne | obligatoire si `image` sans `source` (illustration générée) | Comme pour les chapitres. Inutile pour un document du web (rien à générer). |
+| `imageWidth`, `imageHeight` | entiers | optionnels | Comme pour les chapitres (renseigner les dimensions réelles pour un document du web qui déroge au 1600×900). |
 
 Champs de méthode anti-divulgâchage — tous [éditorial], **obligatoires** (c'est
 la marque de qualité des livres récents ; `verifier.py` contrôle leur présence
