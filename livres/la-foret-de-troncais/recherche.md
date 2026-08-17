@@ -235,7 +235,7 @@ national privé ne sont jamais confondus.
 
 ## Documents visuels
 
-### `images/document-carte-reserve.webp`
+### `images/figure-c1-b04.webp`
 
 - URL directe :
   https://www.onf.fr/outils/actus/d7e1d222-386e-442d-9986-c69e21fcca8a/%2B%2Bversions%2B%2B/1/%2B%2Bparas%2B%2B/10/%2B%2Bass%2B%2B/4/%2B%2Bi18n%2B%2Bdata%3Afr?_=1661775180.388544&download=1
@@ -246,7 +246,7 @@ national privé ne sont jamais confondus.
   routes et multiplication des ronds ; la carte rend visible le quadrillage de
   gestion que le texte seul ne permet pas de saisir.
 
-### `images/document-portrait-colbert.webp`
+### `images/figure-c2-b03.webp`
 
 - URL directe :
   https://upload.wikimedia.org/wikipedia/commons/4/4d/Colbert_par_Philippe_de_Champaigne.jpg
@@ -257,7 +257,7 @@ national privé ne sont jamais confondus.
 - Information apportée : visage contemporain de l'administrateur dont le nom a
   absorbé, dans la mémoire, le travail de générations de forestiers.
 
-### `images/document-futaie.webp`
+### `images/figure-c4-b03.webp`
 
 - URL directe :
   https://www.onf.fr/outils/articles/87990321-5ce0-4e2a-aad4-574151d5d99b/%2B%2Bversions%2B%2B/1/%2B%2Bparas%2B%2B/5/%2B%2Bi18n%2B%2Bdata%3Afr/%2B%2Bthumb%2B%2Bmd%3Aw1200?_=1631798567.220789
@@ -267,7 +267,7 @@ national privé ne sont jamais confondus.
 - Information apportée : rectitude des chênes sessiles et homogénéité verticale
   d'une parcelle conduite en futaie régulière.
 
-### `images/document-cycle-sylvicole.webp`
+### `images/figure-c4-b07.webp`
 
 - URL directe :
   https://www.onf.fr/outils/articles/e9039f28-6cba-40f3-aa29-1a6c117964f8/%2B%2Bversions%2B%2B/2/%2B%2Bparas%2B%2B/2/%2B%2Bi18n%2B%2Bdata%3Afr/%2B%2Bthumb%2B%2Bmd%3Aw1200?_=1597741611.291323
@@ -278,7 +278,7 @@ national privé ne sont jamais confondus.
   éclaircies, sélection et régénération ; elle distingue le cycle de deux
   siècles des interventions régulières.
 
-### `images/document-stebbing-ii.webp`
+### `images/figure-c6-b08.webp`
 
 - URL directe : via Wikimedia Commons, fichier source
   `Chêne Stebbing II Forêt de Tronçais 28 avril 2024.jpg`.
@@ -288,10 +288,18 @@ national privé ne sont jamais confondus.
 - Information apportée : échelle humaine et état visible récent d'un chêne de
   plus de quatre siècles ; ce document n'est pas un diagnostic sanitaire.
 
-## Document non collecté : graphe des prix
+### `images/figure-c5-b07.webp`
 
-Une série comparable des seules ventes ONF de Tronçais n'a pas été trouvée. Le
-reportage pourra redessiner un petit graphe **national** 2022-2025 à partir de
-l'indicateur France Bois Forêt, avec un repère séparé pour le record de Cérilly
-2022. Il devra afficher explicitement les deux périmètres pour ne pas fabriquer
-une fausse série locale.
+- Document redessiné localement à partir de deux sources : France Bois Forêt,
+  *Indicateur 2026*, mai 2026,
+  https://franceboisforet.fr/wp-content/uploads/2026/05/FBF_PRIX_PIED_2026_11_web.pdf ;
+  Agridées, *Bois sur pied : prix records à la vente ONF de Cérilly*,
+  21 octobre 2022,
+  https://www.agridees.com/articles/bois-sur-pied-prix-records-a-la-vente-onf-de-cerilly-allier/
+- Crédit : données France Bois Forêt et Agridées ; réalisation GPT 5.6.
+- Consultation et réalisation : 17 août 2026.
+- Information apportée : les quatre barres montrent la baisse de la moyenne
+  nationale du chêne privé toutes qualités entre 2022 et 2025 ; un cartouche
+  séparé montre le lot exceptionnel ONF de Tronçais à Cérilly en 2022. Les
+  séries ne sont volontairement pas reliées afin de ne pas fabriquer un cours
+  local inexistant.
