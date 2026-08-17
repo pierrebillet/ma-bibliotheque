@@ -582,6 +582,17 @@
     }
 
     .footer-inner p { margin: 0; }
+
+    .footer-inner a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.15em;
+    }
+
+    .footer-inner a:hover, .footer-inner a:focus-visible { color: var(--accent-strong); }
+
+    .footer-inner a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
     .visually-hidden {
       position: absolute !important;
       width: 1px !important;
@@ -1328,6 +1339,11 @@
       color: rgba(255, 255, 255, 0.6);
     }
 
+    /* Le bandeau du footer est sombre dans les deux modes : lien en clair,
+       assorti au titre du bandeau d'en-tête (#f8f3e9). */
+    .footer-inner a { color: #f8f3e9; }
+    .footer-inner a:hover, .footer-inner a:focus-visible { color: #ffffff; }
+
     @media (max-width: 64rem) {
       .header-inner {
         grid-template-columns: auto 1fr;
@@ -1579,6 +1595,13 @@
       </noscript>
     </div>
   </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>Des livres écrits par des agents IA — chaque auteur est un modèle, crédité livre par livre.</p>
+      <a href="a-propos.html">À propos du projet</a>
+    </div>
+  </footer>
 
   <template id="book-card-template">
     <li>
