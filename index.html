@@ -156,11 +156,65 @@
 
     .main-inner { width: min(calc(100% - 3rem), 78rem); }
 
+    /* Onglets de nature (schéma de catalogue v2) : segmented control posé
+       au-dessus de la grille de filtres. Les radios natifs portent l'état et
+       restent focusables ; les labels font office de boutons. */
+    .nature-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 0;
+      padding: 0 0 1rem;
+      border: 0;
+    }
+
+    .nature-tabs[hidden] { display: none; }
+
+    .nature-tabs input[type="radio"] {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .nature-tab {
+      display: inline-flex;
+      min-height: 2.4rem;
+      align-items: center;
+      padding: 0.5rem 0.95rem;
+      border: 1px solid var(--line-strong);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.64rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+    }
+
+    .nature-tab:hover { border-color: var(--accent); background: var(--accent-soft); color: var(--text); }
+
+    .nature-tabs input[type="radio"]:checked + .nature-tab {
+      border-color: var(--text);
+      background: var(--text);
+      color: var(--page);
+    }
+
+    .nature-tabs input[type="radio"]:focus-visible + .nature-tab {
+      outline: 3px solid color-mix(in srgb, var(--accent) 82%, white);
+      outline-offset: 3px;
+    }
+
     .controls {
       position: relative;
       z-index: 5;
       display: grid;
-      grid-template-columns: minmax(0, 1.8fr) minmax(10rem, 0.7fr) minmax(12rem, 0.8fr);
+      grid-template-columns: minmax(0, 1.6fr) minmax(8.5rem, 0.55fr) minmax(8.5rem, 0.55fr) minmax(11rem, 0.7fr);
       border-bottom: 2px solid var(--text);
     }
 
@@ -610,6 +664,17 @@
       margin-top: 0.35rem;
     }
 
+    /* Mention d'édition (champ variantOf du schéma v2) : texte simple, jamais
+       un lien — la carte ne porte qu'un seul lien, celui du titre. */
+    .book-variant {
+      max-width: 31rem;
+      margin: 0.3rem 0 0;
+      color: rgba(255, 255, 255, 0.66);
+      font-size: 0.68rem;
+      font-style: italic;
+      letter-spacing: 0.03em;
+    }
+
     .book-description {
       display: -webkit-box;
       overflow: hidden;
@@ -620,6 +685,32 @@
       line-height: 1.5;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
+    }
+
+    /* Badges (durée, format, nature) issus du schéma v2 : cartouches encadrés,
+       volontairement distincts des .tag qui, eux, portent le préfixe « # ». */
+    .badge-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.4rem;
+      margin: 0.75rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .badge {
+      max-width: 100%;
+      overflow: hidden;
+      padding: 0.2rem 0.55rem;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      line-height: 1.4;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .tag-list {
@@ -837,10 +928,14 @@
       h1 { font-size: clamp(3rem, 13vw, 4.8rem); }
       .intro { padding-top: 0.9rem; }
       .main-inner { width: min(calc(100% - 2rem), 78rem); }
+      /* Deux colonnes : la recherche prend la première rangée entière, genre et
+         tag se partagent la deuxième, le tri occupe la troisième plutôt que de
+         laisser une cellule orpheline. Seul le tag garde une bordure gauche. */
       .controls { grid-template-columns: 1fr 1fr; }
       .field-search { grid-column: 1 / -1; border-bottom: 1px solid var(--line); }
+      .field-sort { grid-column: 1 / -1; border-top: 1px solid var(--line); }
       .field + .field { border-left: 0; }
-      .field:last-child { border-left: 1px solid var(--line); }
+      .field + .field.field-tag { border-left: 1px solid var(--line); }
       .library-grid { grid-template-columns: 1fr; gap: 2rem; }
       .library-grid > li:nth-child(even) { transform: none; }
       .book-heading { font-size: clamp(2.3rem, 9vw, 4rem); }
@@ -850,6 +945,7 @@
       .controls { grid-template-columns: 1fr; }
       .field, .field:first-child { grid-column: auto; padding: 0.85rem 0 0.75rem; }
       .field + .field, .field:last-child { border-top: 1px solid var(--line); border-left: 0; }
+      .field + .field.field-tag { border-left: 0; }
       .select-menu { top: calc(100% + 0.75rem); }
       .results-bar { min-height: 4.3rem; align-items: flex-start; flex-direction: column; }
       .book-body { padding: 1.2rem; }
@@ -893,6 +989,10 @@
 
   <main id="catalogue">
     <div class="main-inner">
+      <fieldset class="nature-tabs" id="nature-tabs" hidden>
+        <legend class="visually-hidden">Nature des lectures</legend>
+      </fieldset>
+
       <form class="controls" id="filters" role="search" aria-label="Rechercher et trier les livres">
         <div class="field field-search">
           <label for="search">Rechercher</label>
@@ -905,7 +1005,21 @@
           </div>
         </div>
 
-        <div class="field field-select">
+        <div class="field field-select field-genre">
+          <span class="field-label" id="genre-filter-label">Genre</span>
+          <div class="select-control">
+            <select class="native-select" id="genre-filter" name="genre" tabindex="-1" aria-hidden="true">
+              <option value="">Tous les genres</option>
+            </select>
+            <button class="select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="genre-filter-menu" aria-labelledby="genre-filter-label genre-filter-value">
+              <span class="select-value" id="genre-filter-value">Tous les genres</span>
+              <span class="select-chevron" aria-hidden="true"></span>
+            </button>
+            <div class="select-menu" id="genre-filter-menu" role="listbox" tabindex="-1" aria-labelledby="genre-filter-label" hidden></div>
+          </div>
+        </div>
+
+        <div class="field field-select field-tag">
           <span class="field-label" id="tag-filter-label">Tag</span>
           <div class="select-control">
             <select class="native-select" id="tag-filter" name="tag" tabindex="-1" aria-hidden="true">
@@ -919,7 +1033,7 @@
           </div>
         </div>
 
-        <div class="field field-select">
+        <div class="field field-select field-sort">
           <span class="field-label" id="sort-label">Trier par</span>
           <div class="select-control">
             <select class="native-select" id="sort" name="sort" tabindex="-1" aria-hidden="true">
@@ -1001,7 +1115,9 @@
         <div class="book-body">
           <h2 class="book-heading"><a class="book-title-link" target="_blank" rel="noopener noreferrer"></a></h2>
           <p class="book-byline"></p>
+          <p class="book-variant"></p>
           <p class="book-meta"></p>
+          <ul class="badge-list" aria-label="Caractéristiques"></ul>
           <p class="book-description"></p>
           <ul class="tag-list" aria-label="Tags"></ul>
           <div class="card-actions">
@@ -1354,6 +1470,14 @@
 
       const SORTS = new Set(["date-desc", "title-asc", "author-asc"]);
       const DEFAULT_SORT = "date-desc";
+      // Le site doit rester lisible pendant la fenêtre qui sépare le merge d'un
+      // livre du commit du bot CI : catalog.json peut encore être en v1 alors
+      // que la page, elle, est déjà celle du schéma v2.
+      const SCHEMA_VERSIONS = new Set([1, 2]);
+      const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+      const DEFAULT_NATURE = "fiction";
+      const NATURE_LABELS = { fiction: "Fictions", reportage: "Reportages" };
+      const MAX_LABEL_LENGTH = 40;
       const collator = new Intl.Collator("fr", { sensitivity: "base", numeric: true });
       const dateFormatter = new Intl.DateTimeFormat("fr-FR", { dateStyle: "long", timeZone: "UTC" });
       const monthFormatter = new Intl.DateTimeFormat("fr-FR", { month: "long", year: "numeric", timeZone: "UTC" });
@@ -1362,6 +1486,8 @@
         form: document.querySelector("#filters"),
         search: document.querySelector("#search"),
         clearSearch: document.querySelector("#clear-search"),
+        natureTabs: document.querySelector("#nature-tabs"),
+        genre: document.querySelector("#genre-filter"),
         tag: document.querySelector("#tag-filter"),
         sort: document.querySelector("#sort"),
         count: document.querySelector("#result-count"),
@@ -1380,12 +1506,17 @@
       const state = {
         books: [],
         query: "",
+        nature: "",
+        genre: "",
         tag: "",
         sort: DEFAULT_SORT,
         searchTimer: 0
       };
 
       const customSelects = new Map();
+      // Index id → livre, alimenté après chargement : sert à résoudre le titre
+      // d'origine d'une variante (champ variantOf).
+      const booksById = new Map();
 
       function setupCustomSelect(select) {
         if (customSelects.has(select)) return customSelects.get(select);
@@ -1533,9 +1664,21 @@
         return value.startsWith(prefix);
       }
 
+      // Champs libres du schéma v2 (genre, format, tonalité, exigence, audience) :
+      // aucun vocabulaire n'est imposé côté client, seule la forme est vérifiée.
+      function optionalLabel(value) {
+        if (typeof value !== "string") return null;
+        const trimmed = value.trim();
+        return trimmed && trimmed.length <= MAX_LABEL_LENGTH ? trimmed : null;
+      }
+
+      function positiveInteger(value) {
+        return Number.isInteger(value) && value > 0 ? value : null;
+      }
+
       function validateBook(raw) {
         if (!isPlainObject(raw)) return null;
-        if (typeof raw.id !== "string" || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(raw.id)) return null;
+        if (typeof raw.id !== "string" || !SLUG_PATTERN.test(raw.id)) return null;
         if (typeof raw.title !== "string" || !raw.title.trim()) return null;
         if (!isSafeRelativePath(raw.href, "livres/")) return null;
 
@@ -1552,11 +1695,26 @@
           cover = { href: raw.cover.href };
         }
 
+        // Schéma v2, lecture tolérante : un catalogue v1 (champs absents) donne
+        // une nature « fiction » et des caractéristiques nulles.
+        const nature = typeof raw.nature === "string" && raw.nature.trim() ? raw.nature.trim() : DEFAULT_NATURE;
+        const genre = optionalLabel(raw.genre);
+        const format = optionalLabel(raw.format);
+        const tonalite = optionalLabel(raw.tonalite);
+        const exigence = optionalLabel(raw.exigence);
+        const audience = optionalLabel(raw.audience);
+        const variantOf = typeof raw.variantOf === "string" && SLUG_PATTERN.test(raw.variantOf) ? raw.variantOf : null;
+        const wordCount = positiveInteger(raw.wordCount);
+        const readingMinutes = positiveInteger(raw.readingMinutes);
+
         const searchText = normalizeSearch([
           raw.id,
           raw.title,
           author,
           description,
+          nature,
+          genre,
+          tonalite,
           ...tags
         ].filter(Boolean).join(" "));
 
@@ -1570,13 +1728,22 @@
           date,
           datePrecision,
           cover,
+          nature,
+          genre,
+          format,
+          tonalite,
+          exigence,
+          audience,
+          variantOf,
+          wordCount,
+          readingMinutes,
           searchText
         };
       }
 
       function validateCatalog(payload) {
         if (!isPlainObject(payload)) throw new Error("Le fichier catalog.json ne contient pas un objet JSON valide.");
-        if (payload.schemaVersion !== 1) throw new Error("La version du catalogue n’est pas prise en charge.");
+        if (!SCHEMA_VERSIONS.has(payload.schemaVersion)) throw new Error("La version du catalogue n’est pas prise en charge.");
         if (!Array.isArray(payload.books)) throw new Error("La liste des livres est absente du catalogue.");
 
         // Validation tolérante : une entrée invalide est ignorée et signalée en
@@ -1628,6 +1795,8 @@
         const query = params.get("q")?.trim() ?? "";
         const requestedSort = params.get("sort") ?? DEFAULT_SORT;
         state.query = query;
+        state.nature = params.get("nature")?.trim() ?? "";
+        state.genre = params.get("genre")?.trim() ?? "";
         state.tag = params.get("tag")?.trim() ?? "";
         state.sort = SORTS.has(requestedSort) ? requestedSort : DEFAULT_SORT;
         elements.search.value = state.query;
@@ -1640,9 +1809,92 @@
         const url = new URL(location.href);
         const params = url.searchParams;
         state.query ? params.set("q", state.query) : params.delete("q");
+        state.nature ? params.set("nature", state.nature) : params.delete("nature");
+        state.genre ? params.set("genre", state.genre) : params.delete("genre");
         state.tag ? params.set("tag", state.tag) : params.delete("tag");
         state.sort !== DEFAULT_SORT ? params.set("sort", state.sort) : params.delete("sort");
         history.replaceState(null, "", `${url.pathname}${params.toString() ? `?${params}` : ""}${url.hash}`);
+      }
+
+      function natureLabel(nature) {
+        if (NATURE_LABELS[nature]) return NATURE_LABELS[nature];
+        return nature.charAt(0).toLocaleUpperCase("fr") + nature.slice(1);
+      }
+
+      // Onglets de nature : « Tout » d'abord, puis les natures réellement
+      // présentes (fiction en tête, le reste par ordre alphabétique). Les
+      // compteurs portent sur tout le catalogue, indépendamment des autres
+      // filtres. Le bloc reste masqué tant qu'il n'y a qu'une seule nature.
+      function buildNatureTabs() {
+        const counts = new Map();
+        for (const book of state.books) {
+          counts.set(book.nature, (counts.get(book.nature) ?? 0) + 1);
+        }
+
+        const natures = [...counts.keys()].sort((a, b) => {
+          if (a === DEFAULT_NATURE) return -1;
+          if (b === DEFAULT_NATURE) return 1;
+          return collator.compare(natureLabel(a), natureLabel(b));
+        });
+
+        if (state.nature && !counts.has(state.nature)) state.nature = "";
+
+        const entries = [
+          { value: "", label: "Tout", count: state.books.length },
+          ...natures.map((nature) => ({ value: nature, label: natureLabel(nature), count: counts.get(nature) }))
+        ];
+
+        const fragment = document.createDocumentFragment();
+        entries.forEach((entry, index) => {
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = "nature";
+          input.id = `nature-tab-${index}`;
+          input.value = entry.value;
+          input.checked = entry.value === state.nature;
+
+          const label = document.createElement("label");
+          label.className = "nature-tab";
+          label.htmlFor = input.id;
+          label.textContent = `${entry.label} (${entry.count})`;
+
+          fragment.append(input, label);
+        });
+
+        const legend = elements.natureTabs.querySelector("legend");
+        elements.natureTabs.replaceChildren();
+        if (legend) elements.natureTabs.append(legend);
+        elements.natureTabs.append(fragment);
+        elements.natureTabs.hidden = natures.length < 2;
+      }
+
+      function syncNatureTabs() {
+        for (const input of elements.natureTabs.querySelectorAll("input[name='nature']")) {
+          input.checked = input.value === state.nature;
+        }
+      }
+
+      function buildGenreOptions() {
+        const byNormalized = new Map();
+        for (const book of state.books) {
+          if (!book.genre) continue;
+          const key = normalizeSearch(book.genre);
+          if (!byNormalized.has(key)) byNormalized.set(key, book.genre);
+        }
+
+        const genres = [...byNormalized.values()].sort(collator.compare);
+        const fragment = document.createDocumentFragment();
+        for (const genre of genres) {
+          const option = document.createElement("option");
+          option.value = genre;
+          option.textContent = genre;
+          fragment.append(option);
+        }
+        elements.genre.append(fragment);
+
+        const matchedGenre = genres.find((genre) => normalizeSearch(genre) === normalizeSearch(state.genre));
+        state.genre = matchedGenre ?? "";
+        elements.genre.value = state.genre;
       }
 
       function buildTagOptions() {
@@ -1709,13 +1961,36 @@
 
       function filteredBooks() {
         const terms = normalizeSearch(state.query).split(" ").filter(Boolean);
+        const selectedGenre = normalizeSearch(state.genre);
         const selectedTag = normalizeSearch(state.tag);
 
         return sortBooks(state.books.filter((book) => {
           const queryMatches = terms.every((term) => book.searchText.includes(term));
+          const natureMatches = !state.nature || book.nature === state.nature;
+          const genreMatches = !selectedGenre || (Boolean(book.genre) && normalizeSearch(book.genre) === selectedGenre);
           const tagMatches = !selectedTag || book.tags.some((tag) => normalizeSearch(tag) === selectedTag);
-          return queryMatches && tagMatches;
+          return queryMatches && natureMatches && genreMatches && tagMatches;
         }));
+      }
+
+      // « 25 min » en dessous d'une heure ; au-delà, heures et reste arrondis
+      // aux 5 minutes, avec un « ≈ » qui signale l'approximation.
+      function formatReadingTime(minutes) {
+        if (!Number.isInteger(minutes) || minutes <= 0) return "";
+        if (minutes < 60) return `${minutes} min`;
+        const rounded = Math.round(minutes / 5) * 5;
+        const hours = Math.floor(rounded / 60);
+        const rest = rounded % 60;
+        return rest ? `≈ ${hours} h ${rest}` : `≈ ${hours} h`;
+      }
+
+      function humanizeSlug(slug) {
+        const words = slug.replace(/-/g, " ").trim();
+        return words ? words.charAt(0).toLocaleUpperCase("fr") + words.slice(1) : slug;
+      }
+
+      function variantSourceTitle(slug) {
+        return booksById.get(slug)?.title ?? humanizeSlug(slug);
       }
 
       function fnv1a(value) {
@@ -1801,7 +2076,9 @@
         const coverLink = fragment.querySelector(".cover-link");
         const titleLink = fragment.querySelector(".book-title-link");
         const byline = fragment.querySelector(".book-byline");
+        const variant = fragment.querySelector(".book-variant");
         const meta = fragment.querySelector(".book-meta");
+        const badges = fragment.querySelector(".badge-list");
         const description = fragment.querySelector(".book-description");
         const tags = fragment.querySelector(".tag-list");
         const copyButton = fragment.querySelector(".copy-button");
@@ -1819,10 +2096,38 @@
           byline.remove();
         }
 
+        if (book.variantOf) {
+          const sourceTitle = variantSourceTitle(book.variantOf);
+          variant.textContent = `Autre édition de « ${sourceTitle} »`;
+          variant.title = sourceTitle;
+        } else {
+          variant.remove();
+        }
+
         if (book.date) {
           meta.textContent = formatDate(book.date, book.datePrecision);
         } else {
           meta.remove();
+        }
+
+        // Badges : durée de lecture, format illustré, nature autre que fiction
+        // (la fiction est la norme du catalogue, on ne l'étiquette pas).
+        const badgeLabels = [];
+        const readingTime = formatReadingTime(book.readingMinutes);
+        if (readingTime) badgeLabels.push(readingTime);
+        if (book.format === "illustré") badgeLabels.push("illustré");
+        if (book.nature !== DEFAULT_NATURE) badgeLabels.push(book.nature);
+
+        if (badgeLabels.length) {
+          for (const label of badgeLabels) {
+            const badge = document.createElement("li");
+            badge.className = "badge";
+            badge.textContent = label;
+            badge.title = label;
+            badges.append(badge);
+          }
+        } else {
+          badges.remove();
         }
 
         if (book.description) {
@@ -1880,7 +2185,7 @@
       function render() {
         const books = filteredBooks();
         elements.grid.replaceChildren();
-        const hasFilters = Boolean(state.query || state.tag || state.sort !== DEFAULT_SORT);
+        const hasFilters = Boolean(state.query || state.nature || state.genre || state.tag || state.sort !== DEFAULT_SORT);
         elements.reset.hidden = !hasFilters;
         elements.clearSearch.hidden = !state.query;
 
@@ -1912,11 +2217,15 @@
       function resetFilters() {
         window.clearTimeout(state.searchTimer);
         state.query = "";
+        state.nature = "";
+        state.genre = "";
         state.tag = "";
         state.sort = DEFAULT_SORT;
         elements.search.value = "";
+        elements.genre.value = "";
         elements.tag.value = "";
         elements.sort.value = DEFAULT_SORT;
+        syncNatureTabs();
         syncCustomSelects();
         render();
         elements.search.focus();
@@ -1938,6 +2247,16 @@
           render();
           elements.search.focus();
         });
+        elements.natureTabs.addEventListener("change", (event) => {
+          const input = event.target;
+          if (!(input instanceof HTMLInputElement) || input.name !== "nature") return;
+          state.nature = input.value;
+          render();
+        });
+        elements.genre.addEventListener("change", () => {
+          state.genre = elements.genre.value;
+          render();
+        });
         elements.tag.addEventListener("change", () => {
           state.tag = elements.tag.value;
           render();
@@ -1957,7 +2276,12 @@
         try {
           const catalog = await loadCatalog();
           state.books = catalog.books;
+          booksById.clear();
+          for (const book of state.books) booksById.set(book.id, book);
+          buildNatureTabs();
+          buildGenreOptions();
           buildTagOptions();
+          setupCustomSelect(elements.genre);
           setupCustomSelect(elements.tag);
           setupCustomSelect(elements.sort);
           render();
