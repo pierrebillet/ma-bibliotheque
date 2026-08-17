@@ -1,4 +1,4 @@
-# BRIEF.md — gabarit du brief de lancement (mediation-culturelle v1)
+# BRIEF.md — gabarit du brief de lancement (reportage v2)
 
 C'est le **seul document d'entrée** d'une fabrication : Pierre le remplit et le
 colle dans le message de lancement de la session Production. Tout champ
@@ -33,18 +33,30 @@ Copier le bloc ci-dessous et remplacer les valeurs :
   des requêtes à copier-coller dans un assistant externe (Perplexity, ChatGPT
   ou autre) pour économiser son quota — prévoir un tour d'échange en plus>
 
+## Documents du web (optionnel)
+- **Volume** : <attente sur la densité de documents (photos, cartes, graphes,
+  gravures… insérés dans le corps et sur les notices, avec crédit de source) —
+  défaut : au jugement de l'auteur, règle de pertinence de l'atelier : un
+  document n'entre que s'il apporte une information que le texte ne porte
+  pas, jamais de décoratif ; zéro document est conforme>
+- **Types attendus** : <ex. cartes d'époque, graphes de données, portraits,
+  fac-similés — défaut : ce que la recherche fait émerger>
+- **Sources d'images** : <à privilégier ou à exclure (institutions, archives,
+  presse…) — défaut : au choix de l'auteur, page source identifiable exigée>
+
 ## Cadrage éditorial (optionnel)
 - **Public** : <défaut : tout public curieux, aucun prérequis sur le sujet>
 - **Longueur** : <nombre de chapitres et de mots — défaut : 6 à 10 chapitres,
   1 000 à 2 000 mots par chapitre>
 - **Parcours** : <chronologique, thématique, du général au particulier… —
   défaut : au choix de l'auteur, au service du sujet>
-- **Codex** : <nombre de notices, voix du médiateur — défaut : 15 à 30
+- **Codex** : <nombre de notices, voix qui guide le lecteur — défaut : 15 à 30
   notices, ≥ 40 % des blocs avec mention, voix proposée par l'auteur>
 
-## Illustrations (optionnel)
-- **Volume** : <défaut : aucune illustration — l'étape 6 ne s'applique que si
-  ce bloc est rempli>
+## Illustrations générées (optionnel)
+- **Volume** : <défaut : aucune illustration générée — l'étape 6 ne s'applique
+  que si ce bloc est rempli ; les documents du web, eux, relèvent du bloc
+  « Documents du web »>
 - **Direction artistique** : <défaut : documentaire — gravures, planches,
   photographies d'époque évoquées>
 
@@ -72,6 +84,11 @@ Copier le bloc ci-dessous et remplacer les valeurs :
   en eau, écluses, vocabulaire des ouvrages) ; le chantier et sa main-d'œuvre ;
   le canal aujourd'hui (patrimoine mondial, menaces sur les platanes).
 - **Mode de recherche** : par l'agent.
+
+## Documents du web (optionnel)
+- **Types attendus** : une carte du tracé, le portrait de Riquet, un plan ou
+  une gravure d'époque des ouvrages (écluses, seuil de Naurouze) ; un graphe
+  du trafic si les données existent.
 
 ## Cadrage éditorial (optionnel)
 - **Codex** : voix d'un éclusier qui fait visiter — précise, chaleureuse,
