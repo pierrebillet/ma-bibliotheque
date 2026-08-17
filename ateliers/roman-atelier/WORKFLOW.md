@@ -1,6 +1,6 @@
 # Atelier roman-atelier — écrire un roman-web illustré avec la liseuse « Atelier »
 
-- **Version** : 4
+- **Version** : 5
 - **Statut** : stable (l'étape illustrations et le relai illustrateur, nouveaux
   en v3, et l'étape de recherche documentaire, nouvelle en v4, attendent leur
   exécution pilote à froid — roadmap Conception, session S2)
@@ -23,6 +23,12 @@
 
 ## Changelog
 
+- **v5** (2026-08) — couverture strictement sans texte : le titre et les
+  métadonnées sont déjà superposés en HTML dans la bibliothèque. Le manifeste,
+  les contraintes d'images et la vérification finale interdisent désormais
+  aussi logos, signatures, filigranes et pseudo-texte, sans exception pour la
+  couverture. Motif : éviter les doublons et conflits de lisibilité observés
+  sur plusieurs couvertures publiées.
 - **v4** (2026-08) — ancrage dans le réel sur option du brief : nouvelle
   section « Ancrage réel » du [`BRIEF.md`](BRIEF.md) et nouvelle **étape 0 —
   Recherche documentaire**, conditionnelle, qui constitue un dossier sourcé
@@ -55,7 +61,7 @@
 
 ## Les deux rôles de la fabrication
 
-Un livre v4 se fabrique en **deux passes, sur la même branche** :
+Un livre v5 se fabrique en **deux passes, sur la même branche** :
 
 1. **L'auteur** (étapes 0 à 5 ; l'étape 0 seulement si le brief demande
    l'ancrage réel) écrit le livre complet — texte, codex, champs
@@ -225,7 +231,7 @@ Sans section « Ancrage réel » au brief, passer directement à l'étape 1.
 - **Commit** : « Relecture de <titre> : corrections »
 
 Puis : push et **pull request** (protocole de session — description structurée
-Rôle : Production / roman-atelier v4, divergences de moteur signalées, et la
+Rôle : Production / roman-atelier v5, divergences de moteur signalées, et la
 mention explicite : « En attente de la passe illustrateur —
 `livres/<slug>/illustrations.md` »).
 
@@ -254,7 +260,7 @@ C'est le seul point de passage entre les deux rôles, et il tient en un message.
 
 ## Structure de fichiers
 
-Un livre v4 est **toujours un dossier** (il porte des images) :
+Un livre v5 est **toujours un dossier** (il porte des images) :
 
 ```text
 livres/<slug>/
@@ -294,7 +300,7 @@ recette et le moteur) :
   <meta name="book:date" content="2026-08-13">
 
   <!-- Traçabilité : recette et moteur (ignorées par le catalogue) -->
-  <meta name="book:workflow" content="roman-atelier v4">
+  <meta name="book:workflow" content="roman-atelier v5">
   <meta name="reader-engine" content="atelier-liseuse v1">
 
   <!-- Utilisé par l'onglet du navigateur et comme fallback de titre -->
@@ -336,7 +342,10 @@ recette et le moteur) :
   dans la PR.
 - **Couverture obligatoire** : `couvertures/<slug>.webp`, ratio **2:3**
   (cible : 800×1200), poids **< 300 Ko**. Le nom doit être **exactement** le
-  slug, sinon elle est ignorée en silence et un placeholder est généré.
+  slug, sinon elle est ignorée en silence et un placeholder est généré. Son
+  image ne contient **aucun texte**, sans exception : ni titre, sous-titre,
+  nom, crédit, logo, signature, filigrane ou pseudo-texte. Le titre et les
+  métadonnées sont ajoutés par-dessus en HTML dans la bibliothèque.
 - **Images de chapitre** : `livres/<slug>/images/chapter-NN.webp` (NN = numéro
   du chapitre sur 2 chiffres), **1600×900**, poids **≤ 150 Ko** ; une par
   chapitre.
@@ -377,7 +386,7 @@ recette et le moteur) :
       d'images se masquent) ;
 - [ ] les 5 meta `book:*` sont présentes et exactes (`book:author` =
       « <modèle> (texte) » à ce stade) ;
-- [ ] `<meta name="book:workflow" content="roman-atelier v4">` et
+- [ ] `<meta name="book:workflow" content="roman-atelier v5">` et
       `<meta name="reader-engine" content="atelier-liseuse v1">` présentes ;
 - [ ] `livres/<slug>/brief.md` et `livres/<slug>/illustrations.md` committés ;
 - [ ] si le brief demande l'ancrage réel : `livres/<slug>/recherche.md`
@@ -386,7 +395,7 @@ recette et le moteur) :
 - [ ] socle [`PREFERENCES.md`](../../docs/conception/PREFERENCES.md) et brief
       respectés (fond et forme — longueurs, densité de mentions) ;
 - [ ] protocole de session d'`AGENTS.md` : commits d'étapes poussés, PR ouverte
-      avec description structurée (Rôle : Production / roman-atelier v4),
+      avec description structurée (Rôle : Production / roman-atelier v5),
       divergences de moteur signalées, passe illustrateur annoncée.
 
 ## Vérifications avant merge (après la passe illustrateur)
@@ -395,7 +404,8 @@ recette et le moteur) :
       passe sans défaut **sans** `--sans-images` (toutes les images du manifeste
       existent, formats, dimensions et poids conformes) ;
 - [ ] couverture en place (`couvertures/<slug>.webp`, ratio 2:3, nom = slug
-      exact, < 300 Ko) ;
+      exact, < 300 Ko) et inspectée visuellement : aucun texte, logo,
+      signature, filigrane ni pseudo-texte incrusté ;
 - [ ] `book:author` liste les deux rôles : « <modèle> (texte), <modèle> (images) » ;
 - [ ] le livre se lit en `file://` avec toutes ses illustrations affichées ;
 - [ ] la PR détaille les rôles (auteur / illustrateur) et l'outil ayant produit

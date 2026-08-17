@@ -73,7 +73,8 @@ production mentionne aussi cette version.
 
 Ce livrable respecte les contraintes communes du
 [`§1 de creer-un-atelier.md`](../../docs/conception/creer-un-atelier.md)
-(emplacement, slug, 5 meta `book:*`, couverture 2:3, autonomie, accessibilité).
+(emplacement, slug, 5 meta `book:*`, couverture 2:3 sans texte, autonomie,
+accessibilité).
 <!-- Ne PAS recopier la liste ici ; ajouter seulement les points où cet atelier est
      plus strict que la plateforme. -->
 
@@ -82,6 +83,8 @@ Ce livrable respecte les contraintes communes du
 <!-- Checklist propre au format (rendu, navigation, données), qui se termine
      toujours par :
 - [ ] `<meta name="book:workflow">` présente avec la bonne version ;
+- [ ] couverture inspectée visuellement : aucun texte, logo, signature,
+      filigrane ni pseudo-texte incrusté ;
 - [ ] `python scripts/build_catalog.py --output /tmp/catalog-verification.json`
       passe sans erreur ;
 - [ ] protocole de session d'AGENTS.md respecté (branche, commits d'étapes, PR
