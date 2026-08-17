@@ -18,7 +18,11 @@ vérifiées par `scripts/build_catalog.py` et la CI :
 - **Les 5 métadonnées** `book:title`, `book:author`, `book:description`,
   `book:tags`, `book:date` dans le `<head>` du point d'entrée. `book:author` = le
   **modèle** qui écrit (règle d'or d'`AGENTS.md`).
-- **Couverture** : `couvertures/<slug>.jpg|png|webp`, ratio 2:3, nom = slug exact.
+- **Couverture** : `couvertures/<slug>.jpg|png|webp`, ratio 2:3, nom = slug exact,
+  **sans aucun texte dans l'image** (ni titre, sous-titre, nom, crédit, logo,
+  signature, filigrane ou pseudo-texte). Le titre et les métadonnées sont
+  superposés par l'interface HTML de la bibliothèque ; tout crédit nécessaire
+  reste dans le livre ou sa documentation, jamais dans le fichier de couverture.
 - **Autonomie** : HTML/CSS/JS inline, aucune ressource distante, lisible hors ligne.
 - **Accessibilité** : `lang="fr"`, `alt` sur toutes les images, navigation clavier,
   `prefers-color-scheme` et `prefers-reduced-motion` respectés.
@@ -86,6 +90,9 @@ version suivante (boucle d'amélioration de la [`VISION.md`](VISION.md)).
       sans erreur et s'affiche correctement dans `index.html`.
 - [ ] Les conventions internes du format (nommage des fichiers, structure des
       données, images) sont écrites dans le workflow, pas implicites.
+- [ ] La couverture ne contient aucun texte incrusté ; cette vérification est
+      visuelle et s'applique aussi aux lettres ou pseudo-lettres produites par
+      un générateur d'images.
 - [ ] Le poids reste raisonnable (images compressées, WebP ≤ 150 Ko par image
       visé, couverture < 300 Ko).
 - [ ] L'atelier est inscrit au registre [`../../ateliers/README.md`](../../ateliers/README.md)

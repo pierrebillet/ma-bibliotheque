@@ -1,6 +1,6 @@
 # Atelier reportage — composer un reportage explorable
 
-- **Version** : 2
+- **Version** : 3
 - **Statut** : expérimental (en attente de son exécution pilote à froid —
   roadmap Conception, chantier 8)
 - **Livrable** : un **reportage** — un livre-web HTML autonome **non romancé**
@@ -22,6 +22,12 @@
 
 ## Changelog
 
+- **v3** (2026-08) — couverture strictement sans texte : titre, sous-titre,
+  crédit, logo, signature, filigrane et pseudo-texte sont interdits dans le
+  fichier image, puisque l'interface de la bibliothèque superpose déjà les
+  métadonnées. Les crédits documentaires restent dans `recherche.md` et dans
+  le livre. Motif : éviter les doublons et conflits de lisibilité observés sur
+  des couvertures publiées.
 - **v2** (2026-08) — l'atelier `mediation-culturelle` devient **`reportage`**
   (session Conception du 2026-08-17, sur demande de Pierre). Motifs : un nom
   qui dit mieux le format ; surtout, l'autorisation des **documents du web**
@@ -232,7 +238,7 @@ La signature du format : elle s'exécute **toujours**, avant toute écriture.
 - **Commit** : « Relecture de <titre> : vérification factuelle et corrections »
 
 Puis : push et **pull request** (protocole de session — description structurée
-Rôle : Production / reportage v2 ; si le brief demande des illustrations
+Rôle : Production / reportage v3 ; si le brief demande des illustrations
 générées, la mention explicite : « En attente de la passe illustrateur —
 `livres/<slug>/illustrations.md` »).
 
@@ -304,7 +310,10 @@ livres/<slug>/
 
 - Profondeur maximale : **un seul niveau** de dossier sous `livres/`.
 - Toutes les ressources du livre restent **dans son dossier** ; la couverture,
-  elle, vit dans `couvertures/<slug>.webp` (ratio 2:3, < 300 Ko).
+  elle, vit dans `couvertures/<slug>.webp` (ratio 2:3, < 300 Ko) et ne contient
+  aucun texte, logo, signature, filigrane ou pseudo-texte. Si elle reprend un
+  document du web, son crédit reste dans `recherche.md` et dans le livre, jamais
+  incrusté dans l'image.
 
 ## Le `<head>` obligatoire
 
@@ -326,7 +335,7 @@ Le template en contient un gabarit prêt à remplacer. Pour référence :
   <meta name="book:date" content="2026-08-17">
 
   <!-- Traçabilité : recette et moteur (ignorées par le catalogue) -->
-  <meta name="book:workflow" content="reportage v2">
+  <meta name="book:workflow" content="reportage v3">
   <meta name="reader-engine" content="atelier-liseuse v2">
 
   <title>Titre complet du reportage</title>
@@ -366,7 +375,7 @@ Le template en contient un gabarit prêt à remplacer. Pour référence :
 Le `<head>` du livrable produit contient la version de la recette utilisée :
 
 ```html
-<meta name="book:workflow" content="reportage v2">
+<meta name="book:workflow" content="reportage v3">
 ```
 
 (meta ignorée par le générateur de catalogue — aucune incidence.) La PR de
@@ -376,7 +385,8 @@ production mentionne aussi cette version.
 
 Ce livrable respecte les contraintes communes du
 [`§1 de creer-un-atelier.md`](../../docs/conception/creer-un-atelier.md)
-(emplacement, slug, 5 meta `book:*`, couverture 2:3, autonomie, accessibilité).
+(emplacement, slug, 5 meta `book:*`, couverture 2:3 sans texte, autonomie,
+accessibilité).
 Points où cet atelier est plus strict :
 
 - premier tag imposé (`reportage`) ;
@@ -398,7 +408,7 @@ Points où cet atelier est plus strict :
       affichés avec légende et crédit, sans erreur JavaScript en console ;
 - [ ] les 5 meta `book:*` sont présentes et exactes, `book:tags` commence par
       `reportage` ;
-- [ ] `<meta name="book:workflow" content="reportage v2">` et
+- [ ] `<meta name="book:workflow" content="reportage v3">` et
       `<meta name="reader-engine" content="atelier-liseuse v2">` présentes ;
 - [ ] `livres/<slug>/brief.md` et `livres/<slug>/recherche.md` committés
       (entrées sourcées et datées, section « Documents visuels » complète,
@@ -406,12 +416,15 @@ Points où cet atelier est plus strict :
 - [ ] chaque figure et image de notice issue du web : fichier local dans
       `images/`, `alt`, légende, `source.label` + `source.url` exacts, entrée
       « Documents visuels » à jour, règle de pertinence passée ;
+- [ ] couverture inspectée visuellement : aucun texte, crédit, logo, signature,
+      filigrane ni pseudo-texte incrusté ; son éventuelle source documentaire
+      est créditée hors image ;
 - [ ] vérification factuelle livre ↔ dossier passée (étape 5) ; notice
       « Sources et méthode » présente et déverrouillée dès le premier
       chapitre ;
 - [ ] socle [`PREFERENCES.md`](../../docs/conception/PREFERENCES.md) et brief
       respectés (fond et forme — longueurs, densité de mentions) ;
 - [ ] protocole de session d'`AGENTS.md` : commits d'étapes poussés, PR
-      ouverte avec description structurée (Rôle : Production / reportage v2),
+      ouverte avec description structurée (Rôle : Production / reportage v3),
       divergences de moteur signalées, passe illustrateur annoncée si
       l'étape 6 s'applique.

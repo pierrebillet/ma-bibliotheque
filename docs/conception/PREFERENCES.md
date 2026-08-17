@@ -65,6 +65,9 @@ Attendu de toute lecture publiée, quel que soit son format :
   (images dimensionnées, chargement paresseux hors première image).
 - **Sobriété des ressources** : images compressées (WebP ≤ 150 Ko visé par image de
   chapitre, couverture < 300 Ko), pas de JavaScript superflu.
+- **Couverture sans texte** : aucun titre, sous-titre, nom, crédit, logo,
+  signature, filigrane ni pseudo-texte n'est incrusté dans l'image ; l'interface
+  HTML de la bibliothèque porte déjà le titre et les métadonnées.
 
 **Défauts proposés** *(même statut que ci-dessus)* :
 
