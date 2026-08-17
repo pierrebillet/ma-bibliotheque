@@ -47,8 +47,11 @@ entrée) :
   ```
 - Images de chapitre et de notice : **1600×900**, poids **≤ 150 Ko**.
 - Couverture : **800×1200** (ratio 2:3), poids **< 300 Ko**.
-- Aucun texte lisible incrusté dans les images (titres, lettrages) sauf si une
-  entrée le demande explicitement.
+- **Couverture : aucun texte autorisé**, sans exception — ni titre, sous-titre,
+  nom, crédit, logo, signature, filigrane ou pseudo-texte. Le titre est ajouté
+  par-dessus en HTML dans la bibliothèque.
+- Images intérieures : aucun texte lisible incrusté (titres, lettrages), sauf si
+  une entrée le demande explicitement pour une raison narrative.
 - Vérification finale (depuis la racine du dépôt) :
   ```bash
   python ateliers/roman-atelier/outils/verifier.py livres/<slug>
@@ -70,7 +73,8 @@ toutes les images restent cohérentes.>
 - **Fichier** : `couvertures/<slug>.webp` (à la racine du dépôt) — 800×1200, < 300 Ko
 - **Sujet** : <ce que montre la couverture>
 - **Prompt** : <bible visuelle + composition verticale 2:3, point focal, place
-  implicite du titre en tiers supérieur (sans lettrage)>
+  implicite du titre en tiers supérieur ; aucun texte, logo, signature,
+  filigrane ou pseudo-texte>
 - **Alt de référence** (déjà dans l'îlot, ne pas le modifier) : « <cover.alt> »
 
 ## Images de chapitre
