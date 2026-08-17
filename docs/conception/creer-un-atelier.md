@@ -73,6 +73,10 @@ version suivante (boucle d'amélioration de la [`VISION.md`](VISION.md)).
 - [ ] Le `WORKFLOW.md` respecte le standard de recette du §3 (test : le faire
       exécuter par un agent à froid, idéalement un agent différent de celui qui
       l'a écrit).
+- [ ] L'atelier fournit son **gabarit de brief** `ateliers/<nom-atelier>/BRIEF.md`
+      (copié de [`GABARIT-BRIEF.md`](GABARIT-BRIEF.md)) : le document unique
+      que Pierre remplit pour lancer une production — identité obligatoire,
+      champs optionnels avec leurs défauts, exemple rempli.
 - [ ] Il décline le socle éditorial [`PREFERENCES.md`](PREFERENCES.md) sans le
       contredire ni le recopier.
 - [ ] Les étapes de fabrication correspondent à des **commits** identifiables
@@ -93,7 +97,10 @@ version suivante (boucle d'amélioration de la [`VISION.md`](VISION.md)).
 2. **Prototyper** si nécessaire — le prototype suit les contraintes du §1 et passe
    par les mêmes vérifications qu'un livrable de production.
 3. **Rédiger** `ateliers/<nom-atelier>/WORKFLOW.md` en copiant
-   [`GABARIT-WORKFLOW.md`](GABARIT-WORKFLOW.md) (version 1, changelog initialisé).
+   [`GABARIT-WORKFLOW.md`](GABARIT-WORKFLOW.md) (version 1, changelog
+   initialisé) **et** `ateliers/<nom-atelier>/BRIEF.md` en copiant
+   [`GABARIT-BRIEF.md`](GABARIT-BRIEF.md) — l'atelier naît avec son gabarit de
+   brief, dès la première version.
 4. **Inscrire** l'atelier dans le registre `ateliers/README.md` (statut
    `expérimental` tant qu'un second livrable n'a pas confirmé le workflow).
 5. **PR** avec description structurée ; signaler explicitement les choix de format
