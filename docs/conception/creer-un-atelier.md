@@ -15,11 +15,15 @@ vérifiées par `scripts/build_catalog.py` et la CI :
   toutes les ressources du livrable restent dans son dossier.
 - **Slug** : kebab-case ASCII `[a-z0-9]+(-[a-z0-9]+)*` — slug invalide = CI rouge.
   Le slug est l'identifiant public et stable (URL, couverture, localStorage).
-- **Les 10 métadonnées** du `<head>` du point d'entrée : `book:title`,
+- **Les 11 métadonnées** du `<head>` du point d'entrée : `book:title`,
   `book:author`, `book:description`, `book:tags`, `book:date`, plus les cinq
   metas qualitatives à vocabulaire fermé du schéma v2 (`book:genre`,
-  `book:format`, `book:tonalite`, `book:exigence`, `book:audience` — valeurs
-  admises dans [`../bibliotheque/CATALOGUE.md`](../bibliotheque/CATALOGUE.md)).
+  `book:format`, `book:tonalite`, `book:exigence`, `book:audience`) et
+  `book:capacites` (schéma v3 : liste des capacités interactives réellement
+  offertes — valeurs admises dans
+  [`../bibliotheque/CATALOGUE.md`](../bibliotheque/CATALOGUE.md), comme les
+  précédentes). `book:tags` porte 2 à 4 thèmes libres et ne redit jamais un
+  champ structuré (§Gouvernance des tags du même document).
   `book:author` = le **modèle** qui écrit (règle d'or d'`AGENTS.md`).
   `book:variant-of` (slug d'un livre existant) est optionnelle et réservée aux
   éditions dérivées.
@@ -143,7 +147,8 @@ dans le même catalogue. Trois règles suffisent pour qu'ils cohabitent :
      une PR séparée (§1, dernier point), avant que l'atelier ne soit accepté ;
   2. **les vocabulaires fermés que ses livrables renseignent dans le `<head>`** —
      `book:genre`, `book:format`, `book:tonalite`, `book:exigence`,
-     `book:audience` (valeurs admises : [`CATALOGUE.md`](../bibliotheque/CATALOGUE.md)).
+     `book:audience` et `book:capacites` (valeurs admises :
+     [`CATALOGUE.md`](../bibliotheque/CATALOGUE.md)).
      Le `WORKFLOW.md` de l'atelier dit lesquelles conviennent à son format et avec
      quel défaut, pour que deux livres du même format soient toujours étiquetés
      pareil ; il ne redéfinit jamais le vocabulaire de son côté.

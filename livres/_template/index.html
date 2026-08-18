@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <!-- ============================================================
      GABARIT — remplacer chaque valeur AVANT le premier commit.
-     Les 10 meta book:* alimentent le catalogue (voir
+     Les 11 meta book:* alimentent le catalogue (voir
      ateliers/roman-atelier/WORKFLOW.md §« Le <head> obligatoire »).
      Vocabulaires fermés (docs/bibliotheque/CATALOGUE.md) :
        genre    : science-fiction | fantasy | fantastique | anticipation |
@@ -14,6 +14,10 @@
                   tendue | sombre
        exigence : accessible | intermédiaire | exigeante
        audience : tout public | ados et adultes | adultes
+       capacites: codex | carte | relations | choix | audio (liste séparée par
+                  des virgules — ne déclarer que ce que le livre offre vraiment)
+     tags : 2 à 4 thèmes libres (thème, lieu, motif) qui ne redisent jamais un
+     champ ci-dessus ni la nature.
      La nature (fiction/reportage) ne se déclare pas : elle est dérivée de
      book:workflow par scripts/build_catalog.py.
      ============================================================ -->
@@ -32,6 +36,7 @@
 <meta name="book:variant-of" content="slug-du-livre-source">
 -->
 <meta name="book:workflow" content="roman-atelier v6">
+<meta name="book:capacites" content="codex">
 <meta name="reader-engine" content="atelier-liseuse v2">
 <title>Titre complet du livre</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">

@@ -64,6 +64,7 @@ BOOK_METAS = (
     "book:tonalite",
     "book:exigence",
     "book:audience",
+    "book:capacites",
 )
 
 # Vocabulaires fermés des metas qualitatives du schéma de catalogue v2.
@@ -103,6 +104,10 @@ NATURES = ("fiction", "reportage")
 TAGS_RESERVES = (*GENRES, *FORMATS, *TONALITES, *EXIGENCES, *AUDIENCES, *NATURES)
 TAGS_MIN = 2
 TAGS_MAX = 4
+# Capacités interactives déclarées (chantier 7, schéma de catalogue v3) : ce que le
+# livre fait en plus de dérouler son texte. Vocabulaire fermé — tenir synchrone avec
+# scripts/build_catalog.py (CAPACITES) et docs/bibliotheque/CATALOGUE.md.
+CAPACITES = ("codex", "carte", "relations", "choix", "audio")
 CHAPTER_IMG_MAX = 150 * 1024
 COVER_IMG_MAX = 300 * 1024
 FIGURE_IMG_MAX = 300 * 1024  # documents du web : lisibilité avant compression
@@ -243,6 +248,11 @@ def main() -> int:
         if valeur and valeur not in vocabulaire:
             d(f"meta {name} « {valeur} » hors vocabulaire — valeurs admises : "
               f"{', '.join(vocabulaire)} (docs/bibliotheque/CATALOGUE.md)")
+    capacites = [c.strip() for c in metas.get("book:capacites", "").split(",") if c.strip()]
+    for capacite in capacites:
+        if cle(capacite) not in {cle(v) for v in CAPACITES}:
+            d(f"book:capacites : « {capacite} » hors vocabulaire — valeurs admises : "
+              f"{', '.join(CAPACITES)} (docs/bibliotheque/CATALOGUE.md)")
     tags = [t.strip() for t in metas.get("book:tags", "").split(",") if t.strip()]
     reserves = {cle(v): v for v in TAGS_RESERVES}
     for tag in tags:
@@ -333,6 +343,10 @@ def main() -> int:
 
     # --- codex : intégrité référentielle
     codex = book.get("codex", [])
+    # Le moteur atelier-liseuse embarque toujours un codex : un livre qui en a un
+    # doit le déclarer, sinon le badge manquera à l'index (chantier 7).
+    if codex and not any(cle(c) == "codex" for c in capacites):
+        d("book:capacites : le livre a un codex mais ne le déclare pas")
     ids = [x.get("id", "") for x in codex]
     dup = {i for i in ids if ids.count(i) > 1}
     for i in sorted(dup):
