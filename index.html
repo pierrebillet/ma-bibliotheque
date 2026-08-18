@@ -1596,8 +1596,8 @@
       const SORTS = new Set(["date-desc", "title-asc", "author-asc"]);
       const DEFAULT_SORT = "date-desc";
       // Le site doit rester lisible pendant la fenêtre qui sépare le merge d'un
-      // livre du commit du bot CI : catalog.json peut encore être en v1 alors
-      // que la page, elle, est déjà celle du schéma v2.
+      // livre du commit du bot CI : catalog.json peut encore être en v2 alors
+      // que la page, elle, est déjà celle du schéma v3.
       const SCHEMA_VERSIONS = new Set([2, 3]);
       const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
       const DEFAULT_NATURE = "fiction";
@@ -1823,8 +1823,8 @@
           cover = { href: raw.cover.href };
         }
 
-        // Schéma v2, lecture tolérante : un catalogue v1 (champs absents) donne
-        // une nature « fiction » et des caractéristiques nulles.
+        // Lecture tolérante : un catalogue de la version précédente (champs
+        // absents) donne une nature « fiction » et des caractéristiques nulles.
         const nature = typeof raw.nature === "string" && raw.nature.trim() ? raw.nature.trim() : DEFAULT_NATURE;
         const genre = optionalLabel(raw.genre);
         const format = optionalLabel(raw.format);
