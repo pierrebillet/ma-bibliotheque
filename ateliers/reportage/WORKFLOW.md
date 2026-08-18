@@ -340,7 +340,7 @@ Le template en contient un gabarit prêt à remplacer. Pour référence :
     name="book:description"
     content="Ce que le lecteur va découvrir, en une ou deux phrases (≤ 600 caractères)."
   >
-  <meta name="book:tags" content="<lieu>, <thème>, <période> (1 à 6 tags)">
+  <meta name="book:tags" content="<lieu>, <thème>, <période> (2 à 4 tags)">
   <meta name="book:date" content="2026-08-17">
 
   <!-- Metas qualitatives (vocabulaires fermés, voir ci-dessous) -->
@@ -349,6 +349,9 @@ Le template en contient un gabarit prêt à remplacer. Pour référence :
   <meta name="book:tonalite" content="contemplative">
   <meta name="book:exigence" content="accessible">
   <meta name="book:audience" content="tout public">
+
+  <!-- Capacités interactives réellement offertes (vocabulaire fermé, liste) -->
+  <meta name="book:capacites" content="codex">
 
   <!-- Recette (lue par le générateur : elle en dérive la nature) et moteur -->
   <meta name="book:workflow" content="reportage v4">
@@ -373,16 +376,16 @@ suffit donc à ranger le livre du bon côté — et trace au passage la version 
 recette utilisée. Une meta absente ou un atelier inconnu de la table retombent
 sur `fiction`.
 
-En conséquence, **le premier tag `reportage` n'est plus obligatoire** : c'était
-la solution d'attente de la v2, avant que le schéma v2 du catalogue n'existe.
-Les `book:tags` d'un nouveau reportage sont donc **libres et documentaires**
-(lieu, thème, période, matière du sujet) et n'ont plus à répéter le format. Les
-livres déjà publiés gardent leur tag `reportage` : l'assainissement du
-vocabulaire de tags existant relève du **chantier 6 de la [roadmap
-Bibliothèque](../../docs/bibliotheque/ROADMAP.md)** (gouvernance des tags), pas
-de la production.
+En conséquence, **le tag `reportage` est interdit** : c'était la solution
+d'attente de la v2, avant que le schéma v2 du catalogue n'existe, et le chantier 6
+l'a retiré du seul reportage publié. Les `book:tags` d'un reportage sont
+**libres et documentaires** (lieu, thème, période, matière du sujet), au nombre
+de **2 à 4**, et ne répètent ni la nature, ni le genre, ni le format : ces
+champs ont leur propre filtre à l'index. Règle complète :
+[`docs/bibliotheque/CATALOGUE.md`](../../docs/bibliotheque/CATALOGUE.md)
+§Gouvernance des tags.
 
-### Les cinq metas qualitatives (vocabulaires fermés)
+### Les metas qualitatives et les capacités (vocabulaires fermés)
 
 Elles sont **obligatoires** et n'acceptent que les valeurs ci-dessous, à la
 graphie exacte (accents compris). Source de vérité :
@@ -398,7 +401,14 @@ dans son ensemble.
 | `book:tonalite` | `lumineuse`, `douce-amère`, `contemplative`, `ironique`, `tendue`, `sombre` |
 | `book:exigence` | `accessible`, `intermédiaire`, `exigeante` |
 | `book:audience` | `tout public`, `ados et adultes`, `adultes` |
+| `book:capacites` | `codex`, `carte`, `relations`, `choix`, `audio` — **liste** séparée par des virgules |
 
+- `book:capacites` déclare **ce que le reportage fait** en plus de dérouler son
+  texte. Le moteur embarque toujours un codex : `codex` au minimum. Ajouter
+  `carte`, `relations`, `choix` ou `audio` **seulement si le livre les offre
+  réellement** — une capacité annoncée et absente est pire qu'un badge manquant.
+  Les documents et illustrations ne sont pas une capacité : `book:format` le dit
+  déjà.
 - Pour un reportage, `book:genre` est le registre du sujet — le plus souvent
   `histoire`, `sciences`, `société` ou `portrait` (un reportage sur une personne
   réelle) ; les genres de fiction n'ont pas lieu d'être ici.
@@ -451,8 +461,9 @@ production mentionne aussi cette version.
 
 Ce livrable respecte les contraintes communes du
 [`§1 de creer-un-atelier.md`](../../docs/conception/creer-un-atelier.md)
-(emplacement, slug, 10 meta `book:*` dont les cinq metas qualitatives à
-vocabulaire fermé, couverture 2:3 sans texte, autonomie, accessibilité).
+(emplacement, slug, 11 meta `book:*` dont les cinq metas qualitatives à
+vocabulaire fermé et `book:capacites`, couverture 2:3 sans texte, autonomie,
+accessibilité).
 Points où cet atelier est plus strict :
 
 - dossier documentaire `recherche.md` committé, entrées sourcées et datées,
@@ -471,8 +482,9 @@ Points où cet atelier est plus strict :
       légende, crédit — s'exécutent quand même) ;
 - [ ] le reportage s'ouvre et se lit en `file://` de bout en bout, documents
       affichés avec légende et crédit, sans erreur JavaScript en console ;
-- [ ] les 10 meta `book:*` sont présentes et exactes (les cinq metas
-      qualitatives prennent une valeur du vocabulaire fermé) ;
+- [ ] les 11 meta `book:*` sont présentes et exactes (les cinq metas
+      qualitatives prennent une valeur du vocabulaire fermé ; `book:capacites`
+      liste les capacités réellement offertes, `codex` compris) ;
 - [ ] `book:variant-of` **absente**, sauf édition dérivée assumée (slug d'un
       livre existant) ;
 - [ ] `<meta name="book:workflow" content="reportage v4">` et
