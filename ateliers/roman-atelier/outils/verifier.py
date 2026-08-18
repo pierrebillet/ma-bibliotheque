@@ -41,6 +41,7 @@ import json
 import re
 import struct
 import sys
+import unicodedata
 from pathlib import Path
 
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -94,6 +95,14 @@ VOCABULAIRES = {
     "book:exigence": EXIGENCES,
     "book:audience": AUDIENCES,
 }
+NATURES = ("fiction", "reportage")
+# Gouvernance des tags (chantier 6 de la roadmap Bibliothèque) : les tags portent
+# des thèmes, des lieux, des motifs — jamais ce que les champs structurés disent
+# déjà. Un tag qui reprend une valeur de vocabulaire fermé ou une nature serait
+# écarté du catalogue par scripts/build_catalog.py ; autant le refuser ici.
+TAGS_RESERVES = (*GENRES, *FORMATS, *TONALITES, *EXIGENCES, *AUDIENCES, *NATURES)
+TAGS_MIN = 2
+TAGS_MAX = 4
 CHAPTER_IMG_MAX = 150 * 1024
 COVER_IMG_MAX = 300 * 1024
 FIGURE_IMG_MAX = 300 * 1024  # documents du web : lisibilité avant compression
@@ -109,6 +118,12 @@ def d(msg: str) -> None:
 
 def w(msg: str) -> None:
     avert.append(msg)
+
+
+def cle(valeur: str) -> str:
+    """Clé de comparaison insensible à la casse et aux accents (comme le générateur)."""
+    decompose = unicodedata.normalize("NFD", valeur)
+    return "".join(c for c in decompose if not unicodedata.combining(c)).casefold()
 
 
 # ---------------------------------------------------------------- images
@@ -228,6 +243,17 @@ def main() -> int:
         if valeur and valeur not in vocabulaire:
             d(f"meta {name} « {valeur} » hors vocabulaire — valeurs admises : "
               f"{', '.join(vocabulaire)} (docs/bibliotheque/CATALOGUE.md)")
+    tags = [t.strip() for t in metas.get("book:tags", "").split(",") if t.strip()]
+    reserves = {cle(v): v for v in TAGS_RESERVES}
+    for tag in tags:
+        canonique = reserves.get(cle(tag))
+        if canonique is not None:
+            d(f"book:tags : « {tag} » reprend la valeur structurée « {canonique} » "
+              "(genre, format, tonalité, exigence, audience ou nature) — les tags "
+              "portent des thèmes, des lieux, des motifs (docs/bibliotheque/CATALOGUE.md)")
+    if tags and not template and not TAGS_MIN <= len(tags) <= TAGS_MAX:
+        d(f"book:tags : {len(tags)} tags — la gouvernance en prévoit {TAGS_MIN} à "
+          f"{TAGS_MAX} (thème, lieu, motif)")
     variante = metas.get("book:variant-of", "").strip()
     if variante:
         if not SLUG_RE.match(variante):

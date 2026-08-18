@@ -340,7 +340,7 @@ Le template en contient un gabarit prêt à remplacer. Pour référence :
     name="book:description"
     content="Ce que le lecteur va découvrir, en une ou deux phrases (≤ 600 caractères)."
   >
-  <meta name="book:tags" content="<lieu>, <thème>, <période> (1 à 6 tags)">
+  <meta name="book:tags" content="<lieu>, <thème>, <période> (2 à 4 tags)">
   <meta name="book:date" content="2026-08-17">
 
   <!-- Metas qualitatives (vocabulaires fermés, voir ci-dessous) -->
@@ -373,14 +373,14 @@ suffit donc à ranger le livre du bon côté — et trace au passage la version 
 recette utilisée. Une meta absente ou un atelier inconnu de la table retombent
 sur `fiction`.
 
-En conséquence, **le premier tag `reportage` n'est plus obligatoire** : c'était
-la solution d'attente de la v2, avant que le schéma v2 du catalogue n'existe.
-Les `book:tags` d'un nouveau reportage sont donc **libres et documentaires**
-(lieu, thème, période, matière du sujet) et n'ont plus à répéter le format. Les
-livres déjà publiés gardent leur tag `reportage` : l'assainissement du
-vocabulaire de tags existant relève du **chantier 6 de la [roadmap
-Bibliothèque](../../docs/bibliotheque/ROADMAP.md)** (gouvernance des tags), pas
-de la production.
+En conséquence, **le tag `reportage` est interdit** : c'était la solution
+d'attente de la v2, avant que le schéma v2 du catalogue n'existe, et le chantier 6
+l'a retiré du seul reportage publié. Les `book:tags` d'un reportage sont
+**libres et documentaires** (lieu, thème, période, matière du sujet), au nombre
+de **2 à 4**, et ne répètent ni la nature, ni le genre, ni le format : ces
+champs ont leur propre filtre à l'index. Règle complète :
+[`docs/bibliotheque/CATALOGUE.md`](../../docs/bibliotheque/CATALOGUE.md)
+§Gouvernance des tags.
 
 ### Les cinq metas qualitatives (vocabulaires fermés)
 

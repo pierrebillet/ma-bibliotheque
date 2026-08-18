@@ -81,6 +81,22 @@ TONALITES = ("lumineuse", "douce-amère", "contemplative", "ironique", "tendue",
 EXIGENCES = ("accessible", "intermédiaire", "exigeante")
 AUDIENCES = ("tout public", "ados et adultes", "adultes")
 
+# Gouvernance des tags (chantier 6 de la roadmap Bibliothèque). Les tags sont le
+# seul vocabulaire libre du catalogue : ils portent les thèmes, les lieux et les
+# motifs, jamais ce que les champs structurés disent déjà. Un tag qui reprend une
+# valeur de vocabulaire fermé (genre, format, tonalité, exigence, audience) ou une
+# nature ferait doublon avec les filtres de l'index : il est écarté du catalogue
+# avec un avertissement. Source de vérité : docs/bibliotheque/CATALOGUE.md.
+MAX_TAGS = 4
+RESERVED_TAG_VALUES = (
+    *GENRES,
+    *FORMATS,
+    *TONALITES,
+    *EXIGENCES,
+    *AUDIENCES,
+    *ATELIER_NATURE.values(),
+)
+
 # Comptage des mots : vitesse de lecture retenue et plancher du repli « texte visible ».
 WORDS_PER_MINUTE = 200
 MIN_VISIBLE_WORDS = 500
@@ -357,6 +373,36 @@ def deduplicate_tags(raw_values: Iterable[str]) -> list[str]:
     return tags
 
 
+def sanitize_tags(tags: Sequence[str], relative_path: str) -> list[str]:
+    """Écarte les tags qui redisent un champ structuré ; avertit au-delà de MAX_TAGS.
+
+    Non bloquant : un livre mal étiqueté reste publié, simplement sans le tag
+    redondant. Le contrôle en amont (refus à l'écriture) est l'affaire du
+    vérificateur d'atelier.
+    """
+    reserved = {comparison_key(value): value for value in RESERVED_TAG_VALUES}
+    kept: list[str] = []
+    for tag in tags:
+        canonical = reserved.get(comparison_key(tag))
+        if canonical is not None:
+            warn(
+                f"Tag « {tag} » écarté : il reprend la valeur structurée "
+                f"« {canonical} » (genre, format, tonalité, exigence, audience ou "
+                "nature), déjà portée par son propre champ.",
+                relative_path,
+            )
+            continue
+        kept.append(tag)
+
+    if len(kept) > MAX_TAGS:
+        warn(
+            f"Le livre porte {len(kept)} tags : la gouvernance en prévoit {MAX_TAGS} "
+            "au plus (thèmes, lieux, motifs).",
+            relative_path,
+        )
+    return kept
+
+
 def parse_book_date(values: Sequence[str], relative_path: str) -> tuple[str | None, str | None]:
     valid_values: list[tuple[str, str]] = []
     for value in values:
@@ -404,8 +450,6 @@ def warn_long_values(
     for tag in tags:
         if len(tag) > 40:
             warn(f"Le tag « {tag} » dépasse 40 caractères.", relative_path)
-    if len(tags) > 20:
-        warn("Le livre comporte plus de 20 tags.", relative_path)
 
 
 def resolve_nature(workflow_value: str | None, relative_path: str) -> str:
@@ -768,7 +812,7 @@ def build_book(root: Path, path: Path, slug: str, known_slugs: set[str]) -> dict
     author = first_scalar(parser.values["book:author"], "book:author", relative)
     description = first_scalar(parser.values["book:description"], "book:description", relative)
     title = meta_title or (parser.titles[0] if parser.titles else None) or humanize_slug(slug)
-    tags = deduplicate_tags(parser.values["book:tags"])
+    tags = sanitize_tags(deduplicate_tags(parser.values["book:tags"]), relative)
     book_date, date_precision = parse_book_date(parser.values["book:date"], relative)
 
     nature = resolve_nature(
