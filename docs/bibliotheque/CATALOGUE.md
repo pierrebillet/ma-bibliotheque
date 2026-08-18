@@ -31,7 +31,7 @@ document fait foi pour le schéma version 2.
       "title": "Mon livre",
       "author": "Claude Fable",
       "description": "Résumé en une ou deux phrases.",
-      "tags": ["fiction", "aventure"],
+      "tags": ["haute couture", "Paris"],
       "nature": "fiction",
       "genre": "espionnage",
       "format": "texte",
@@ -84,7 +84,7 @@ tant que la version précédente est acceptée.
 | `title` | chaîne | Jamais vide (voir fallbacks ci-dessous). |
 | `author` | chaîne ou `null` | Le **modèle** qui a écrit le livre (règle d'or d'`AGENTS.md`). |
 | `description` | chaîne ou `null` | Texte brut, ≤ 600 caractères recommandés. |
-| `tags` | tableau de chaînes | Dédupliqués (insensible casse/accents), graphie de la première occurrence conservée. Vocabulaire **libre** — les champs qualitatifs ci-dessous ne s'y substituent pas. |
+| `tags` | tableau de chaînes | 2 à 4 **thèmes libres** (thème, lieu, motif, matière du sujet). Dédupliqués (insensible casse/accents), graphie de la première occurrence conservée. Un tag ne redit jamais un champ structuré : voir « Gouvernance des tags » ci-dessous. |
 | `nature` | chaîne | **Toujours renseignée** : `fiction` ou `reportage`. Déduite de l'atelier (`book:workflow`), jamais d'un tag. Sépare romans et reportages à l'index. |
 | `genre` | chaîne ou `null` | Vocabulaire fermé (voir ci-dessous). `null` si la meta est absente ou hors vocabulaire. |
 | `format` | chaîne ou `null` | Vocabulaire fermé : `texte` ou `illustré`. |
@@ -128,6 +128,39 @@ Toute modification d'une liste se fait **dans le même commit aux trois endroits
 Une divergence est silencieuse et coûteuse : le vérificateur laisserait passer une
 valeur que le générateur jetterait ensuite sans que personne ne relise
 l'avertissement.
+
+## Gouvernance des tags
+
+Les `tags` sont le **seul vocabulaire libre** du catalogue. Depuis le schéma v2, le
+classement structuré est porté par `nature`, `genre` et `format` ; les tags n'ont
+plus à le répéter. Chantier 6 de la [`ROADMAP.md`](ROADMAP.md).
+
+**La règle, en une phrase** : un tag porte un **thème, un lieu, un motif ou une
+matière de sujet** — jamais ce qu'un champ structuré dit déjà, jamais la manière
+d'écrire, jamais l'édition.
+
+- **2 à 4 tags par livre.** En dessous, le tag n'apporte rien ; au-dessus, le filtre
+  de l'index se transforme en nuage.
+- **Interdit : reprendre une valeur de vocabulaire fermé** (`genre`, `format`,
+  `tonalite`, `exigence`, `audience`) **ou une nature** (`fiction`, `reportage`).
+  Ces valeurs ont leur propre champ et leur propre filtre : `science-fiction`,
+  `illustré` ou `reportage` en tag feraient doublon.
+- **Interdit aussi : les étiquettes de manière et d'édition** — `récit littéraire`,
+  `exploration documentaire`, `édition illustrée`, `récit spéculatif`. La manière
+  relève de `tonalite` et `exigence`, l'édition de `format` et `variantOf`.
+- **Écrire au singulier**, en minuscules, sauf pour un nom propre (`Paris`,
+  `Tronçais`).
+
+**Double contrôle, comme pour les vocabulaires fermés :**
+
+- `scripts/build_catalog.py` (`RESERVED_TAG_VALUES`, `MAX_TAGS`) **écarte** du
+  catalogue tout tag qui reprend une valeur structurée, avec un avertissement, et
+  avertit au-delà de 4 tags. Non bloquant : le livre reste publié.
+- `ateliers/roman-atelier/outils/verifier.py` (`TAGS_RESERVES`, `TAGS_MIN`,
+  `TAGS_MAX`) en fait un **défaut bloquant** avant même l'écriture du livre.
+
+L'assainissement des 13 livres publiés a été fait dans le même chantier : 39 tags
+distincts ramenés à 28, aucun tag inventé — uniquement des retraits.
 
 ## Règles d'extraction (résumé du comportement réel du script)
 
@@ -209,7 +242,6 @@ rester valides dans une balise `<script>` (strictement équivalent après
 ## Suites
 
 Le schéma v2 est posé ; ce qu'on en fait relève des chantiers suivants de
-[`ROADMAP.md`](ROADMAP.md) : le **chantier 6** (gouvernance des tags) assainit le
-vocabulaire libre des `tags` maintenant que `nature`, `genre` et `format` portent le
-classement structuré, et le **chantier 7** (catégories déclaratives affichées) expose
-ces champs à l'index sous forme de badges et de filtres.
+[`ROADMAP.md`](ROADMAP.md). Les chantiers 6 (gouvernance des tags) et 7 (capacités
+interactives déclarées) sont faits ; la 1.0 « catalogue public soigné » est atteinte.
+La suite relève du palier 2 de [`VISION.md`](VISION.md).

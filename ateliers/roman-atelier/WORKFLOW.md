@@ -305,7 +305,7 @@ Le template en contient un gabarit prêt à remplacer. Pour référence (les 10 
     name="book:description"
     content="Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue."
   >
-  <meta name="book:tags" content="thème, lieu, motif (1 à 6 tags, séparés par des virgules)">
+  <meta name="book:tags" content="thème, lieu, motif (2 à 4 tags, séparés par des virgules)">
   <meta name="book:date" content="2026-08-13">
 
   <!-- Metas qualitatives (vocabulaires fermés, voir ci-dessous) -->
@@ -351,8 +351,14 @@ qui décrit le mieux le livre dans son ensemble.
 
 - Un livre de cet atelier naît illustré : `book:format` vaut normalement
   `illustré` (`texte` seulement si le brief renonce explicitement aux images).
-- Les `book:tags` restent **libres et complémentaires** (thème, lieu, motif) :
-  ils ne rejouent pas le genre ni le format, désormais portés par leur meta.
+- Les `book:tags` restent **libres et complémentaires** (thème, lieu, motif) mais
+  gouvernés depuis le chantier 6 : **2 à 4 tags**, jamais une valeur de vocabulaire
+  fermé (`genre`, `format`, `tonalite`, `exigence`, `audience`) ni une nature
+  (`fiction`, `reportage`), jamais une étiquette de manière (`récit littéraire`,
+  `exploration documentaire`) ou d'édition (`édition illustrée`). Le vérificateur en
+  fait un défaut bloquant et le générateur écarte le tag fautif. Règle complète :
+  [`docs/bibliotheque/CATALOGUE.md`](../../docs/bibliotheque/CATALOGUE.md)
+  §Gouvernance des tags.
 - Rien à renseigner pour la longueur : `wordCount` et le temps de lecture sont
   **calculés** par `scripts/build_catalog.py` à partir de l'îlot JSON.
 
