@@ -29,7 +29,7 @@
   pour les seules éditions dérivées ; `book:workflow`, jusqu'ici purement
   documentaire, est désormais **lue par le générateur** qui en dérive la
   `nature` du livre (l'atelier n'a donc rien à déclarer de plus pour être rangé
-  du côté des fictions). Le vérificateur exige les dix metas et contrôle les
+  du côté des fictions). Le vérificateur exige les onze metas et contrôle les
   vocabulaires. Motif : chantier 5 de la [roadmap
   Bibliothèque](../../docs/bibliotheque/ROADMAP.md) — donner à l'index de quoi
   trier et filtrer sans faire porter cette charge aux tags libres.
@@ -290,7 +290,7 @@ livres/<slug>/
 
 ## Le `<head>` obligatoire
 
-Le template en contient un gabarit prêt à remplacer. Pour référence (les 10 meta
+Le template en contient un gabarit prêt à remplacer. Pour référence (les 11 meta
 `book:*` alimentent le catalogue ; `reader-engine` trace le moteur) :
 
 ```html
@@ -305,7 +305,7 @@ Le template en contient un gabarit prêt à remplacer. Pour référence (les 10 
     name="book:description"
     content="Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue."
   >
-  <meta name="book:tags" content="thème, lieu, motif (1 à 6 tags, séparés par des virgules)">
+  <meta name="book:tags" content="thème, lieu, motif (2 à 4 tags, séparés par des virgules)">
   <meta name="book:date" content="2026-08-13">
 
   <!-- Metas qualitatives (vocabulaires fermés, voir ci-dessous) -->
@@ -314,6 +314,9 @@ Le template en contient un gabarit prêt à remplacer. Pour référence (les 10 
   <meta name="book:tonalite" content="douce-amère">
   <meta name="book:exigence" content="intermédiaire">
   <meta name="book:audience" content="ados et adultes">
+
+  <!-- Capacités interactives réellement offertes (vocabulaire fermé, liste) -->
+  <meta name="book:capacites" content="codex">
 
   <!-- Recette (lue par le générateur : elle en dérive la nature) et moteur -->
   <meta name="book:workflow" content="roman-atelier v6">
@@ -348,11 +351,25 @@ qui décrit le mieux le livre dans son ensemble.
 | `book:tonalite` | `lumineuse`, `douce-amère`, `contemplative`, `ironique`, `tendue`, `sombre` |
 | `book:exigence` | `accessible`, `intermédiaire`, `exigeante` |
 | `book:audience` | `tout public`, `ados et adultes`, `adultes` |
+| `book:capacites` | `codex`, `carte`, `relations`, `choix`, `audio` — **liste** séparée par des virgules |
 
 - Un livre de cet atelier naît illustré : `book:format` vaut normalement
   `illustré` (`texte` seulement si le brief renonce explicitement aux images).
-- Les `book:tags` restent **libres et complémentaires** (thème, lieu, motif) :
-  ils ne rejouent pas le genre ni le format, désormais portés par leur meta.
+- `book:capacites` déclare **ce que le livre fait** en plus de dérouler son texte.
+  Un livre de cet atelier a toujours un codex : `codex` au minimum, et le
+  vérificateur en fait un défaut bloquant si l'îlot porte un codex non déclaré.
+  Ajouter `carte`, `relations`, `choix` ou `audio` **seulement si le livre les
+  offre réellement** — une capacité annoncée et absente est pire qu'un badge
+  manquant. Les illustrations ne sont pas une capacité : `book:format` le dit
+  déjà.
+- Les `book:tags` restent **libres et complémentaires** (thème, lieu, motif) mais
+  gouvernés depuis le chantier 6 : **2 à 4 tags**, jamais une valeur de vocabulaire
+  fermé (`genre`, `format`, `tonalite`, `exigence`, `audience`) ni une nature
+  (`fiction`, `reportage`), jamais une étiquette de manière (`récit littéraire`,
+  `exploration documentaire`) ou d'édition (`édition illustrée`). Le vérificateur en
+  fait un défaut bloquant et le générateur écarte le tag fautif. Règle complète :
+  [`docs/bibliotheque/CATALOGUE.md`](../../docs/bibliotheque/CATALOGUE.md)
+  §Gouvernance des tags.
 - Rien à renseigner pour la longueur : `wordCount` et le temps de lecture sont
   **calculés** par `scripts/build_catalog.py` à partir de l'îlot JSON.
 
@@ -445,9 +462,10 @@ vigueur. Un livre ordinaire n'a pas cette meta.
 - [ ] le livre s'ouvre et se lit en `file://` de bout en bout, sans erreur
       JavaScript en console et **sans image cassée à l'écran** (les emplacements
       d'images se masquent) ;
-- [ ] les 10 meta `book:*` sont présentes et exactes (`book:author` =
+- [ ] les 11 meta `book:*` sont présentes et exactes (`book:author` =
       « <modèle> (texte) » à ce stade ; les cinq metas qualitatives prennent
-      une valeur du vocabulaire fermé) ;
+      une valeur du vocabulaire fermé ; `book:capacites` liste les capacités
+      réellement offertes, `codex` compris) ;
 - [ ] `book:variant-of` **absente**, sauf édition dérivée assumée (slug d'un
       livre existant) ;
 - [ ] `<meta name="book:workflow" content="roman-atelier v6">` et

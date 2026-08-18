@@ -6,7 +6,7 @@
 - `favicon.svg`, `og-image.png`, `404.html`, `robots.txt`, `.nojekyll` : hygiène web (chantier 1 de la roadmap). `404.html` est servie par GitHub Pages pour toute URL inexistante ; `og-image.png` (1200 × 630) est l’image de partage social de l’index.
 - `a-propos.html` : page « à propos » (chantier 8 de la roadmap) — le récit du projet (quel modèle a écrit quoi, fabrication des livres, contribution). Page statique autonome, sans JavaScript, reliée depuis le pied de page de l’index et référencée dans le sitemap généré.
 - `sitemap.xml` : généré par la CI après chaque merge sur `main` (comme `catalog.json`) — ne pas l’éditer à la main, la CI rejette les pull requests qui le modifient.
-- `catalog.json` : le catalogue réel du site, conforme au schéma version 2, régénéré automatiquement par le workflow (ne pas l’éditer à la main). Une copie de secours est inlinée dans `index.html` (bloc `#demo-catalog`, utilisé uniquement en `file://`) ; cette copie est régénérée automatiquement par le workflow en même temps que `catalog.json` — ne jamais l’éditer à la main, la CI rejette les pull requests qui la modifient.
+- `catalog.json` : le catalogue réel du site, conforme au schéma version 3, régénéré automatiquement par le workflow (ne pas l’éditer à la main). Une copie de secours est inlinée dans `index.html` (bloc `#demo-catalog`, utilisé uniquement en `file://`) ; cette copie est régénérée automatiquement par le workflow en même temps que `catalog.json` — ne jamais l’éditer à la main, la CI rejette les pull requests qui la modifient.
 - `couvertures/` et `livres/` : ressources facultatives incluses dans le paquet de prévisualisation pour que les images et les liens de démonstration fonctionnent localement.
 
 ## Fonctionnement de `index.html`
@@ -21,31 +21,39 @@ Le chemin est relatif : le site fonctionne à la racine d’un domaine, dans un 
 
 Le catalogue est validé légèrement avant affichage : version du schéma, tableau `books`, cohérence de `bookCount`, identifiants, titres et chemins relatifs sûrs. Les contenus sont injectés dans le DOM avec `textContent`, jamais comme HTML.
 
-Les champs qualitatifs du schéma v2 sont lus **défensivement** : `nature` absente ou
+Les champs qualitatifs des schémas v2 et v3 sont lus **défensivement** : `nature` absente ou
 vide vaut `fiction` ; `genre`, `format`, `tonalite`, `exigence` et `audience` doivent
 être des chaînes non vides d’au plus 40 caractères, sinon `null` (aucun vocabulaire
 n’est imposé côté client, la liste fermée est l’affaire du générateur) ; `variantOf`
 doit être un slug de la même forme que `id`, sinon `null` ; `wordCount` et
-`readingMinutes` doivent être des entiers strictement positifs, sinon `null`. Une
-entrée v1 (champs absents) traverse donc le validateur sans erreur.
+`readingMinutes` doivent être des entiers strictement positifs, sinon `null` ;
+`capabilities` doit être un tableau — ses libellés sont filtrés comme les autres
+(chaîne non vide d’au plus 40 caractères), dédupliqués et bornés à huit, sinon le
+tableau est vide. Une entrée v2 (champ `capabilities` absent) traverse donc le
+validateur sans erreur.
 
 La page fournit :
 
 - recherche insensible à la casse et aux accents, avec logique ET entre les termes ;
 - recherche dans le titre, l’auteur, la description, les tags, l’identifiant, ainsi
-  que la nature, le genre et la tonalité ;
+  que la nature, le genre, la tonalité et les capacités déclarées ;
 - onglets de nature construits dynamiquement à partir des natures réellement
   présentes (« Tout » d’abord, puis `fiction`, puis les autres par ordre
   alphabétique), avec compteurs calculés sur le catalogue entier et donc
   indépendants des autres filtres ; le bloc reste masqué tant qu’il n’y a qu’une
-  seule nature au catalogue — cas d’un catalogue v1, ou d’une bibliothèque
-  entièrement composée de fictions ;
+  seule nature au catalogue — cas d’une bibliothèque entièrement composée de
+  fictions ;
 - filtre par genre et filtre par tag ;
 - tris par date, titre ou auteur ;
-- badges par carte : durée de lecture (`« 25 min »` en dessous d’une heure,
-  `« ≈ 2 h 30 »` au-delà, reste arrondi aux 5 minutes), mention `illustré` pour
-  les livres au format illustré, et la nature quand elle diffère de `fiction` —
-  la fiction étant la norme du catalogue, on ne l’étiquette pas ;
+- badges par carte, en deux temps. **Ce que le livre est** : durée de lecture
+  (`« 25 min »` en dessous d’une heure, `« ≈ 2 h 30 »` au-delà, reste arrondi aux
+  5 minutes), mention `illustré` pour les livres au format illustré, et la nature
+  quand elle diffère de `fiction` — la fiction étant la norme du catalogue, on ne
+  l’étiquette pas. Puis **ce qu’il fait** : ses capacités interactives déclarées
+  (schéma v3 — `codex`, `carte`, `relations`, `choix`, `audio`), dans l’ordre du
+  vocabulaire fermé, en trait pointillé (`.badge-capability`) pour les distinguer
+  d’un coup d’œil des premiers ; leur `title` est explicite (« Contient : carte »).
+  Un livre sans capacité déclarée n’affiche simplement aucun badge de ce type ;
 - mention d’édition dérivée (`variantOf`) sous l’auteur : « Autre édition de
   « TITRE » », titre résolu depuis le catalogue chargé (repli : slug humanisé) ;
   texte simple, jamais un lien, pour préserver la règle du lien unique par carte ;
@@ -104,12 +112,12 @@ Cette copie est synchronisée automatiquement après chaque merge sur `main` (`s
 
 ## Format attendu de `catalog.json`
 
-Le fichier suit le schéma version 2, documenté champ par champ dans
+Le fichier suit le schéma version 3, documenté champ par champ dans
 [`CATALOGUE.md`](CATALOGUE.md). Exemple minimal :
 
 ```json
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "generatedAt": "2026-07-12T09:30:00Z",
   "bookCount": 1,
   "books": [
@@ -131,6 +139,7 @@ Le fichier suit le schéma version 2, documenté champ par champ dans
       "date": null,
       "datePrecision": null,
       "variantOf": null,
+      "capabilities": [],
       "wordCount": null,
       "readingMinutes": null,
       "cover": null
@@ -139,15 +148,14 @@ Le fichier suit le schéma version 2, documenté champ par champ dans
 }
 ```
 
-**Versions acceptées : 1 et 2.** L’index refuse toute autre valeur de
+**Versions acceptées : 2 et 3.** L’index refuse toute autre valeur de
 `schemaVersion`, mais accepte la version courante *et* la précédente. Ce n’est pas
 du confort : entre le merge d’une pull request qui fait évoluer le schéma et le
 commit du bot qui régénère `catalog.json` et le bloc `#demo-catalog`, le site sert
-une page déjà en v2 avec un catalogue encore en v1. Refuser v1 afficherait une
-bibliothèque vide pendant toute cette fenêtre. Sur un catalogue v1, les champs v2
-manquants retombent sur leurs valeurs par défaut (`nature` = `fiction`, le reste à
-`null`) : les onglets de nature restent masqués, aucun badge ni mention d’édition
-n’apparaît, et le filtre Genre ne propose que son option par défaut.
+une page déjà en v3 avec un catalogue encore en v2. Refuser v2 afficherait une
+bibliothèque vide pendant toute cette fenêtre. Sur un catalogue v2, le champ v3
+manquant retombe sur sa valeur par défaut (`capabilities` = tableau vide) : aucun
+badge de capacité n’apparaît, le reste de la page fonctionne à l’identique.
 
 Corollaire pour la suite : tout champ ajouté en v*N* doit être lu défensivement
 tant que la v*N-1* est acceptée, et la liste des versions supportées

@@ -29,7 +29,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from typing import Iterable, Sequence
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 SCAN_CHUNK_BYTES = 64 * 1024
 MAX_SCAN_BYTES = 4 * 1024 * 1024
 MAX_BODY_SCAN_BYTES = 8 * 1024 * 1024
@@ -48,6 +48,7 @@ BOOK_META_NAMES = {
     "book:exigence",
     "book:audience",
     "book:variant-of",
+    "book:capacites",
 }
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
@@ -80,6 +81,29 @@ FORMATS = ("texte", "illustré")
 TONALITES = ("lumineuse", "douce-amère", "contemplative", "ironique", "tendue", "sombre")
 EXIGENCES = ("accessible", "intermédiaire", "exigeante")
 AUDIENCES = ("tout public", "ados et adultes", "adultes")
+
+# Capacités interactives déclarées (chantier 7 de la roadmap Bibliothèque, schéma
+# v3). Ce que le livre *fait* en plus de dérouler son texte — ce qu'aucun autre
+# champ ne dit : ni le genre, ni le format (qui décrit les images, pas les
+# fonctions). Vocabulaire fermé, ordre significatif : c'est l'ordre d'affichage
+# des badges à l'index. On ne déclare que ce que le livre offre réellement.
+CAPACITES = ("codex", "carte", "relations", "choix", "audio")
+
+# Gouvernance des tags (chantier 6 de la roadmap Bibliothèque). Les tags sont le
+# seul vocabulaire libre du catalogue : ils portent les thèmes, les lieux et les
+# motifs, jamais ce que les champs structurés disent déjà. Un tag qui reprend une
+# valeur de vocabulaire fermé (genre, format, tonalité, exigence, audience) ou une
+# nature ferait doublon avec les filtres de l'index : il est écarté du catalogue
+# avec un avertissement. Source de vérité : docs/bibliotheque/CATALOGUE.md.
+MAX_TAGS = 4
+RESERVED_TAG_VALUES = (
+    *GENRES,
+    *FORMATS,
+    *TONALITES,
+    *EXIGENCES,
+    *AUDIENCES,
+    *ATELIER_NATURE.values(),
+)
 
 # Comptage des mots : vitesse de lecture retenue et plancher du repli « texte visible ».
 WORDS_PER_MINUTE = 200
@@ -357,6 +381,36 @@ def deduplicate_tags(raw_values: Iterable[str]) -> list[str]:
     return tags
 
 
+def sanitize_tags(tags: Sequence[str], relative_path: str) -> list[str]:
+    """Écarte les tags qui redisent un champ structuré ; avertit au-delà de MAX_TAGS.
+
+    Non bloquant : un livre mal étiqueté reste publié, simplement sans le tag
+    redondant. Le contrôle en amont (refus à l'écriture) est l'affaire du
+    vérificateur d'atelier.
+    """
+    reserved = {comparison_key(value): value for value in RESERVED_TAG_VALUES}
+    kept: list[str] = []
+    for tag in tags:
+        canonical = reserved.get(comparison_key(tag))
+        if canonical is not None:
+            warn(
+                f"Tag « {tag} » écarté : il reprend la valeur structurée "
+                f"« {canonical} » (genre, format, tonalité, exigence, audience ou "
+                "nature), déjà portée par son propre champ.",
+                relative_path,
+            )
+            continue
+        kept.append(tag)
+
+    if len(kept) > MAX_TAGS:
+        warn(
+            f"Le livre porte {len(kept)} tags : la gouvernance en prévoit {MAX_TAGS} "
+            "au plus (thèmes, lieux, motifs).",
+            relative_path,
+        )
+    return kept
+
+
 def parse_book_date(values: Sequence[str], relative_path: str) -> tuple[str | None, str | None]:
     valid_values: list[tuple[str, str]] = []
     for value in values:
@@ -404,8 +458,6 @@ def warn_long_values(
     for tag in tags:
         if len(tag) > 40:
             warn(f"Le tag « {tag} » dépasse 40 caractères.", relative_path)
-    if len(tags) > 20:
-        warn("Le livre comporte plus de 20 tags.", relative_path)
 
 
 def resolve_nature(workflow_value: str | None, relative_path: str) -> str:
@@ -452,6 +504,36 @@ def closed_vocab(
         relative_path,
     )
     return None
+
+
+def resolve_capabilities(values: Sequence[str], relative_path: str) -> list[str]:
+    """Ramène book:capacites au vocabulaire fermé, dans l'ordre de CAPACITES.
+
+    Liste séparée par des virgules, comme book:tags. Une valeur hors vocabulaire
+    est écartée avec un avertissement — jamais bloquant : un livre mal déclaré
+    reste publié, simplement sans le badge correspondant. L'ordre du catalogue est
+    celui de CAPACITES et non celui de la meta : deux livres qui déclarent les
+    mêmes capacités produisent la même liste, donc les mêmes badges dans le même
+    ordre.
+    """
+    declared: set[str] = set()
+    for raw_value in values:
+        for candidate in raw_value.split(","):
+            capacite = normalize_text(candidate)
+            if not capacite:
+                continue
+            key = comparison_key(capacite)
+            for allowed in CAPACITES:
+                if comparison_key(allowed) == key:
+                    declared.add(allowed)
+                    break
+            else:
+                warn(
+                    f"Capacité « {capacite} » hors vocabulaire ignorée "
+                    f"(admises : {', '.join(CAPACITES)}).",
+                    relative_path,
+                )
+    return [capacite for capacite in CAPACITES if capacite in declared]
 
 
 def resolve_variant_of(
@@ -754,6 +836,7 @@ def fallback_entry(root: Path, path: Path, slug: str) -> dict[str, object]:
         "date": None,
         "datePrecision": None,
         "variantOf": None,
+        "capabilities": [],
         "wordCount": None,
         "readingMinutes": None,
         "cover": resolve_cover(root, slug, path),
@@ -768,7 +851,7 @@ def build_book(root: Path, path: Path, slug: str, known_slugs: set[str]) -> dict
     author = first_scalar(parser.values["book:author"], "book:author", relative)
     description = first_scalar(parser.values["book:description"], "book:description", relative)
     title = meta_title or (parser.titles[0] if parser.titles else None) or humanize_slug(slug)
-    tags = deduplicate_tags(parser.values["book:tags"])
+    tags = sanitize_tags(deduplicate_tags(parser.values["book:tags"]), relative)
     book_date, date_precision = parse_book_date(parser.values["book:date"], relative)
 
     nature = resolve_nature(
@@ -807,6 +890,7 @@ def build_book(root: Path, path: Path, slug: str, known_slugs: set[str]) -> dict
         slug,
         relative,
     )
+    capabilities = resolve_capabilities(parser.values["book:capacites"], relative)
     word_count = extract_word_count(path, relative)
 
     warn_long_values(title, author, description, tags, relative)
@@ -829,6 +913,7 @@ def build_book(root: Path, path: Path, slug: str, known_slugs: set[str]) -> dict
         "date": book_date,
         "datePrecision": date_precision,
         "variantOf": variant_of,
+        "capabilities": capabilities,
         "wordCount": word_count,
         "readingMinutes": reading_minutes(word_count),
         "cover": resolve_cover(root, slug, path),
