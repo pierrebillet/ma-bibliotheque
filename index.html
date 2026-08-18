@@ -688,7 +688,9 @@
     }
 
     /* Badges (durée, format, nature) issus du schéma v2 : cartouches encadrés,
-       volontairement distincts des .tag qui, eux, portent le préfixe « # ». */
+       volontairement distincts des .tag qui, eux, portent le préfixe « # ».
+       Les capacités interactives (schéma v3) partagent la même rangée, en trait
+       pointillé : ce que le livre fait, non ce qu'il est. */
     .badge-list {
       display: flex;
       flex-wrap: wrap;
@@ -711,6 +713,12 @@
       text-overflow: ellipsis;
       text-transform: uppercase;
       white-space: nowrap;
+    }
+
+    .badge-capability {
+      border-style: dashed;
+      border-color: rgba(255, 255, 255, 0.45);
+      color: rgba(255, 255, 255, 0.82);
     }
 
     .tag-list {
@@ -1590,11 +1598,14 @@
       // Le site doit rester lisible pendant la fenêtre qui sépare le merge d'un
       // livre du commit du bot CI : catalog.json peut encore être en v1 alors
       // que la page, elle, est déjà celle du schéma v2.
-      const SCHEMA_VERSIONS = new Set([1, 2]);
+      const SCHEMA_VERSIONS = new Set([2, 3]);
       const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
       const DEFAULT_NATURE = "fiction";
       const NATURE_LABELS = { fiction: "Fictions", reportage: "Reportages" };
       const MAX_LABEL_LENGTH = 40;
+      // Capacités interactives (schéma v3) : borne de sécurité côté client, le
+      // vocabulaire fermé du générateur en compte cinq.
+      const MAX_CAPABILITIES = 8;
       const collator = new Intl.Collator("fr", { sensitivity: "base", numeric: true });
       const dateFormatter = new Intl.DateTimeFormat("fr-FR", { dateStyle: "long", timeZone: "UTC" });
       const monthFormatter = new Intl.DateTimeFormat("fr-FR", { month: "long", year: "numeric", timeZone: "UTC" });
@@ -1821,6 +1832,12 @@
         const exigence = optionalLabel(raw.exigence);
         const audience = optionalLabel(raw.audience);
         const variantOf = typeof raw.variantOf === "string" && SLUG_PATTERN.test(raw.variantOf) ? raw.variantOf : null;
+        // Schéma v3 : capacités interactives déclarées. Aucun vocabulaire n'est
+        // imposé côté client (la liste fermée est l'affaire du générateur), on se
+        // borne à des libellés courts, uniques et en nombre borné.
+        const capabilities = Array.isArray(raw.capabilities)
+          ? [...new Set(raw.capabilities.map(optionalLabel).filter(Boolean))].slice(0, MAX_CAPABILITIES)
+          : [];
         const wordCount = positiveInteger(raw.wordCount);
         const readingMinutes = positiveInteger(raw.readingMinutes);
 
@@ -1832,7 +1849,8 @@
           nature,
           genre,
           tonalite,
-          ...tags
+          ...tags,
+          ...capabilities
         ].filter(Boolean).join(" "));
 
         return {
@@ -1852,6 +1870,7 @@
           exigence,
           audience,
           variantOf,
+          capabilities,
           wordCount,
           readingMinutes,
           searchText
@@ -2227,20 +2246,25 @@
           meta.remove();
         }
 
-        // Badges : durée de lecture, format illustré, nature autre que fiction
-        // (la fiction est la norme du catalogue, on ne l'étiquette pas).
-        const badgeLabels = [];
+        // Badges : d'abord ce que le livre EST — durée de lecture, format illustré,
+        // nature autre que fiction (la fiction est la norme du catalogue, on ne
+        // l'étiquette pas) — puis ce qu'il FAIT : ses capacités interactives
+        // déclarées, dans l'ordre du vocabulaire fermé et d'un trait distinct.
+        const badgeSpecs = [];
         const readingTime = formatReadingTime(book.readingMinutes);
-        if (readingTime) badgeLabels.push(readingTime);
-        if (book.format === "illustré") badgeLabels.push("illustré");
-        if (book.nature !== DEFAULT_NATURE) badgeLabels.push(book.nature);
+        if (readingTime) badgeSpecs.push({ label: readingTime, title: readingTime });
+        if (book.format === "illustré") badgeSpecs.push({ label: "illustré", title: "illustré" });
+        if (book.nature !== DEFAULT_NATURE) badgeSpecs.push({ label: book.nature, title: book.nature });
+        for (const capability of book.capabilities) {
+          badgeSpecs.push({ label: capability, title: `Contient : ${capability}`, capability: true });
+        }
 
-        if (badgeLabels.length) {
-          for (const label of badgeLabels) {
+        if (badgeSpecs.length) {
+          for (const spec of badgeSpecs) {
             const badge = document.createElement("li");
-            badge.className = "badge";
-            badge.textContent = label;
-            badge.title = label;
+            badge.className = spec.capability ? "badge badge-capability" : "badge";
+            badge.textContent = spec.label;
+            badge.title = spec.title;
             badges.append(badge);
           }
         } else {

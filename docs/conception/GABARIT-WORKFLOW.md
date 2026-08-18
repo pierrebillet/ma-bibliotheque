@@ -76,7 +76,7 @@ Cette meta est **lue par le générateur de catalogue** : il en retire le suffix
 
 Ce livrable respecte les contraintes communes du
 [`§1 de creer-un-atelier.md`](../../docs/conception/creer-un-atelier.md)
-(emplacement, slug, 10 meta `book:*` dont les cinq metas qualitatives à
+(emplacement, slug, 11 meta `book:*` dont les cinq metas qualitatives à
 vocabulaire fermé, couverture 2:3 sans texte, autonomie, accessibilité).
 <!-- Ne PAS recopier la liste ici ; ajouter seulement les points où cet atelier est
      plus strict que la plateforme. -->
@@ -85,9 +85,10 @@ vocabulaire fermé, couverture 2:3 sans texte, autonomie, accessibilité).
 
 <!-- Checklist propre au format (rendu, navigation, données), qui se termine
      toujours par :
-- [ ] les 10 meta `book:*` présentes et exactes, les cinq metas qualitatives
+- [ ] les 11 meta `book:*` présentes et exactes, les cinq metas qualitatives
       (`book:genre`, `book:format`, `book:tonalite`, `book:exigence`,
-      `book:audience`) prenant une valeur du vocabulaire fermé
+      `book:audience`) prenant une valeur du vocabulaire fermé et
+      `book:capacites` listant les capacités réellement offertes
       (docs/bibliotheque/CATALOGUE.md) ;
 - [ ] `<meta name="book:workflow">` présente avec la bonne version, et **nature
       de l'atelier enregistrée** dans la table `ATELIER_NATURE` de
