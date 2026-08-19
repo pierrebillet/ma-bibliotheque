@@ -74,11 +74,17 @@ Attendu de toute lecture publiée, quel que soit son format :
 - **À généraliser** — le socle du moteur de référence
   [`livres/_template/`](../../livres/_template/README.md) : dialogues natifs
   avec piège de focus, visionneuse d'illustrations, annonces `aria-live` des
-  déblocages, dégradation propre des images manquantes.
-- **Optionnelles sur demande du brief** — les inventions des premiers livres
-  (carte, graphe de relations, mode impression, gestes tactiles) : ne pas les
-  imposer, ne pas les interdire ; si le brief en demande une, la divergence de
-  moteur est signalée dans la PR.
+  déblocages, dégradation propre des images manquantes, et **impression propre
+  de la vue affichée** (acquise depuis `atelier-liseuse v3`).
+- **Optionnelles sur demande du brief** — **carte des lieux** et **graphe de
+  relations** : depuis `atelier-liseuse v3` ce sont des modules du moteur, plus
+  des inventions à refaire livre par livre. Ne pas les imposer, ne pas les
+  interdire ; le brief les demande, l'atelier les remplit depuis le codex, et le
+  livre les déclare dans `book:capacites`. Rien à signaler dans la PR : ce n'est
+  plus une divergence de moteur.
+- **Encore hors moteur** — les fonctionnalités qu'aucune version du template ne
+  sait faire (choix et branches, lecture audio, gestes tactiles) : une demande
+  de brief reste alors une divergence de moteur, signalée dans la PR.
 - **À abandonner** — aucune fonctionnalité identifiée à ce jour.
 
 ## Ce que ce socle n'est pas
