@@ -1,6 +1,6 @@
 # Atelier reportage — composer un reportage explorable
 
-- **Version** : 4
+- **Version** : 5
 - **Statut** : expérimental (en attente de son exécution pilote à froid —
   roadmap Conception, chantier 8)
 - **Livrable** : un **reportage** — un livre-web HTML autonome **non romancé**
@@ -12,8 +12,10 @@
   web** (photographies, cartes, graphes, gravures…), chacun crédité de sa
   source.
 - **Moteur** : [`livres/_template/`](../../livres/_template/README.md)
-  (`atelier-liseuse v2`) — le moteur se copie depuis le template, jamais
-  depuis un livre publié.
+  (`atelier-liseuse v3`) — le moteur se copie depuis le template, jamais
+  depuis un livre publié. Sur demande du brief, deux **modules de lecture**
+  s'ajoutent au codex : carte des lieux et graphe de relations entre les
+  entités du sujet (étape 4 bis).
 - **Exemples publiés** : aucun encore.
 - **Préférences** : ce workflow décline le socle éditorial
   [`docs/conception/PREFERENCES.md`](../../docs/conception/PREFERENCES.md) — le
@@ -22,6 +24,16 @@
 
 ## Changelog
 
+- **v5** (2026-08) — **modules de lecture optionnels** (moteur
+  `atelier-liseuse v3`) : carte des lieux et graphe de relations à révélation
+  progressive, nouvelle section « Modules de lecture » du [`BRIEF.md`](BRIEF.md)
+  et nouvelle **étape 4 bis** conditionnelle. Pour un reportage, ces deux
+  modules sont de la **restitution documentaire** : la carte situe un
+  territoire réel (une carte fausse est une erreur factuelle, pas une licence
+  poétique) et le graphe dit des liens attestés par le dossier — les deux se
+  vérifient à l'étape 5 comme le reste. Le mode impression du moteur v3 est
+  acquis sans rien faire. Motif : chantier 4 de la [roadmap
+  Conception](../../docs/conception/ROADMAP.md).
 - **v4** (2026-08) — schéma de catalogue v2 : le `<head>` porte cinq **metas
   qualitatives à vocabulaire fermé** (`book:genre`, `book:format`,
   `book:tonalite`, `book:exigence`, `book:audience`), plus `book:variant-of`
@@ -227,6 +239,44 @@ La signature du format : elle s'exécute **toujours**, avant toute écriture.
   quel.
 - **Commit** : « Codex de <titre> : notices documentaires et sources »
 
+### Étape 4 bis (optionnelle) — Modules de lecture : carte et graphe de relations
+
+Seulement si le brief demande une carte, un graphe de relations, ou les deux
+(section « Modules de lecture » du [`BRIEF.md`](BRIEF.md)). Sans demande :
+**supprimer les blocs `map` et `relations`** hérités de l'îlot d'exemple du
+template.
+
+- **Entrée** : le codex documentaire (étape 4) et le dossier `recherche.md` —
+  comme le texte, les modules ne disent que ce que le dossier atteste.
+- **Travail** :
+  1. **carte** (`map`) : fond schématique en chemins SVG (`shapes[]` :
+     `eau`, `terre`, `route`, `limite`) dans le repère `"0 0 100 72"`, puis les
+     lieux (`places[]`) reliés à leur notice par `codexId`. Pour un sujet réel,
+     la géographie est une **affirmation factuelle** : positions relatives,
+     tracés et proportions s'appuient sur une source du dossier (carte,
+     coordonnées, plan), citée dans l'entrée correspondante de `recherche.md`.
+     Un fond schématique assumé (« schéma de situation ») vaut mieux qu'une
+     carte faussement précise ; une carte du web reste, elle, une **figure**
+     créditée (§« Les documents du web »), pas ce module ;
+  2. **graphe de relations** (`relations`) : entités (`nodes[]`, `codexId` d'une
+     notice) et liens (`links[]`) dont la `nature` énonce un lien **attesté**
+     (« Ingénieur en chef du chantier, nommé en 1667 »), dans la voix du codex.
+     Une hypothèse d'historien se dit comme telle dans la `nature` ou n'entre
+     pas dans le graphe ;
+  3. déclarer les capacités : ajouter `carte` et/ou `relations` à
+     `<meta name="book:capacites">` (défaut bloquant du vérificateur sinon).
+  Spécification champ par champ :
+  [`DONNEES.md`](../../livres/_template/DONNEES.md) §`map` et §`relations`.
+- **Sortie** : les blocs `map` et/ou `relations` de l'îlot, `book:capacites` à
+  jour, et les entrées de `recherche.md` qui justifient la géographie et les
+  liens.
+- **Critère de fin** :
+  `python ateliers/roman-atelier/outils/verifier.py livres/<slug> --sans-images`
+  ne signale aucun défaut ; en `file://`, les boutons apparaissent, rien ne se
+  révèle avant sa lecture, et chaque affirmation du module (position, lien) est
+  traçable au dossier.
+- **Commit** : « Modules de lecture de <titre> : carte et relations »
+
 ### Étape 5 — Vérification factuelle et relecture
 
 - **Entrée** : le livre complet (chapitres + documents + codex), le dossier
@@ -239,7 +289,9 @@ La signature du format : elle s'exécute **toujours**, avant toute écriture.
   notice a son entrée « Documents visuels » dans `recherche.md`, son crédit
   (`source.label` + `source.url`) exact, une légende juste, et passe la règle
   de pertinence — un document qui ne l'a jamais vraiment passée se retire.
-  Puis relecture intégrale (clarté du parcours, orthographe, respect de
+  **Vérification des modules** (si l'étape 4 bis a eu lieu) : chaque position
+  de la carte et chaque `nature` de lien est traçable à une entrée du dossier ;
+  ce qui ne l'est pas se corrige ou se retire. Puis relecture intégrale (clarté du parcours, orthographe, respect de
   `PREFERENCES.md` et du brief) et passage de la checklist « Vérifications
   avant PR ».
 - **Sortie** : le livre corrigé.
@@ -247,7 +299,7 @@ La signature du format : elle s'exécute **toujours**, avant toute écriture.
 - **Commit** : « Relecture de <titre> : vérification factuelle et corrections »
 
 Puis : push et **pull request** (protocole de session — description structurée
-Rôle : Production / reportage v4 ; si le brief demande des illustrations
+Rôle : Production / reportage v5 ; si le brief demande des illustrations
 générées, la mention explicite : « En attente de la passe illustrateur —
 `livres/<slug>/illustrations.md` »).
 
@@ -351,11 +403,12 @@ Le template en contient un gabarit prêt à remplacer. Pour référence :
   <meta name="book:audience" content="tout public">
 
   <!-- Capacités interactives réellement offertes (vocabulaire fermé, liste) -->
+  <!-- « codex » toujours ; « carte » et « relations » si l'étape 4 bis a eu lieu -->
   <meta name="book:capacites" content="codex">
 
   <!-- Recette (lue par le générateur : elle en dérive la nature) et moteur -->
-  <meta name="book:workflow" content="reportage v4">
-  <meta name="reader-engine" content="atelier-liseuse v2">
+  <meta name="book:workflow" content="reportage v5">
+  <meta name="reader-engine" content="atelier-liseuse v3">
 
   <title>Titre complet du reportage</title>
 </head>
@@ -371,7 +424,7 @@ Le catalogue sépare les reportages des fictions par le champ `nature`, mais
 **aucune meta ne le porte** : `scripts/build_catalog.py` le déduit du nom
 d'atelier lu dans `book:workflow` (le contenu sans son suffixe ` vN`) via sa
 table `ATELIER_NATURE`, où cet atelier est enregistré comme producteur de
-**reportages**. Renseigner `<meta name="book:workflow" content="reportage v4">`
+**reportages**. Renseigner `<meta name="book:workflow" content="reportage v5">`
 suffit donc à ranger le livre du bon côté — et trace au passage la version de
 recette utilisée. Une meta absente ou un atelier inconnu de la table retombent
 sur `fiction`.
@@ -405,8 +458,10 @@ dans son ensemble.
 
 - `book:capacites` déclare **ce que le reportage fait** en plus de dérouler son
   texte. Le moteur embarque toujours un codex : `codex` au minimum. Ajouter
-  `carte`, `relations`, `choix` ou `audio` **seulement si le livre les offre
-  réellement** — une capacité annoncée et absente est pire qu'un badge manquant.
+  `carte` et/ou `relations` si l'étape 4 bis a eu lieu (le vérificateur l'exige
+  dès que l'îlot porte le module), `choix` ou `audio` **seulement si le livre les
+  offre réellement** — une capacité annoncée et absente est pire qu'un badge
+  manquant.
   Les documents et illustrations ne sont pas une capacité : `book:format` le dit
   déjà.
 - Pour un reportage, `book:genre` est le registre du sujet — le plus souvent
@@ -450,7 +505,7 @@ celui du livre lui-même. Un reportage ordinaire n'a pas cette meta.
 Le `<head>` du livrable produit contient la version de la recette utilisée :
 
 ```html
-<meta name="book:workflow" content="reportage v4">
+<meta name="book:workflow" content="reportage v5">
 ```
 
 Cette meta est **lue par le générateur de catalogue** : son nom d'atelier
@@ -487,8 +542,12 @@ Points où cet atelier est plus strict :
       liste les capacités réellement offertes, `codex` compris) ;
 - [ ] `book:variant-of` **absente**, sauf édition dérivée assumée (slug d'un
       livre existant) ;
-- [ ] `<meta name="book:workflow" content="reportage v4">` et
-      `<meta name="reader-engine" content="atelier-liseuse v2">` présentes ;
+- [ ] `<meta name="book:workflow" content="reportage v5">` et
+      `<meta name="reader-engine" content="atelier-liseuse v3">` présentes ;
+- [ ] si le brief demande des modules de lecture (étape 4 bis) : blocs `map`
+      et/ou `relations` remplis, capacités déclarées, géographie et liens
+      sourcés dans `recherche.md` ; sinon, blocs `map` et `relations` du
+      gabarit **supprimés** de l'îlot ;
 - [ ] `livres/<slug>/brief.md` et `livres/<slug>/recherche.md` committés
       (entrées sourcées et datées, section « Documents visuels » complète,
       plus de « Requêtes en attente ») ;
@@ -504,6 +563,6 @@ Points où cet atelier est plus strict :
 - [ ] socle [`PREFERENCES.md`](../../docs/conception/PREFERENCES.md) et brief
       respectés (fond et forme — longueurs, densité de mentions) ;
 - [ ] protocole de session d'`AGENTS.md` : commits d'étapes poussés, PR
-      ouverte avec description structurée (Rôle : Production / reportage v4),
+      ouverte avec description structurée (Rôle : Production / reportage v5),
       divergences de moteur signalées, passe illustrateur annoncée si
       l'étape 6 s'applique.
