@@ -29,7 +29,7 @@ En bref :
    qualitatives à vocabulaire fermé listées en commentaire et `book:capacites` —,
    `book:workflow`,
    titre) ; `book:variant-of` reste commentée sauf édition dérivée ; conserver
-   `<meta name="reader-engine" content="atelier-liseuse v2">` telle quelle ;
+   `<meta name="reader-engine" content="atelier-liseuse v3">` telle quelle ;
 3. remplacer intégralement l'îlot JSON d'exemple (spec : `DONNEES.md`) ;
    **supprimer les blocs `map` et `relations`** si le livre n'a ni carte ni
    graphe — leurs vues et leurs boutons disparaissent alors d'eux-mêmes, et
