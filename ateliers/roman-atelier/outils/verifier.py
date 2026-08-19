@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Vérificateur de livre pour l'atelier roman-atelier (v3).
+"""Vérificateur de livre pour l'atelier roman-atelier (v4).
 
 Usage :
     python ateliers/roman-atelier/outils/verifier.py livres/<slug> [--sans-images]
@@ -18,6 +18,13 @@ crédit `source.label`/`source.url` (http(s)) est alors contrôlé, le champ
 `visualDescription` n'est pas exigé et l'image est hors manifeste
 d'illustrations (sa traçabilité vit dans recherche.md). Sans `source`,
 l'image reste une illustration générée soumise aux règles habituelles.
+
+Depuis le moteur atelier-liseuse v3, l'îlot peut porter deux **modules
+optionnels** — `map` (carte des lieux) et `relations` (graphe des liens entre
+entités du codex) : leur structure est contrôlée (ids de notices existants,
+coordonnées, formes SVG assainies, blocs de déverrouillage) et leur présence doit
+correspondre aux capacités déclarées dans `book:capacites` (`carte`,
+`relations`).
 
 Depuis le schéma de catalogue v2, le <head> porte aussi cinq metas qualitatives
 à vocabulaire fermé (`book:genre`, `book:format`, `book:tonalite`,
@@ -108,6 +115,12 @@ TAGS_MAX = 4
 # livre fait en plus de dérouler son texte. Vocabulaire fermé — tenir synchrone avec
 # scripts/build_catalog.py (CAPACITES) et docs/bibliotheque/CATALOGUE.md.
 CAPACITES = ("codex", "carte", "relations", "choix", "audio")
+# Modules optionnels du moteur atelier-liseuse v3 (spec livres/_template/DONNEES.md).
+SHAPE_KINDS = ("eau", "terre", "route", "limite")
+LABEL_ANCHORS = ("start", "middle", "end")
+VIEWBOX_RE = re.compile(r"^-?\d+(?:\.\d+)?(?:\s+-?\d+(?:\.\d+)?){3}$")
+PATH_D_RE = re.compile(r"^[-0-9.,\sMmLlHhVvCcSsQqTtAaZz]+$")
+PATH_D_MAX = 4000
 CHAPTER_IMG_MAX = 150 * 1024
 COVER_IMG_MAX = 300 * 1024
 FIGURE_IMG_MAX = 300 * 1024  # documents du web : lisibilité avant compression
@@ -391,6 +404,125 @@ def main() -> int:
         if len(known) == 3 and not (known[0] <= known[1] <= known[2]):
             d(f"notice {xid} : ordre firstMention ≤ earliestSafe ≤ unlock non respecté")
 
+
+    # --- modules optionnels du moteur (atelier-liseuse v3) : carte et relations
+    declarees = {cle(c) for c in capacites}
+
+    def check_viewbox(bloc: dict, nom: str) -> None:
+        vb = str(bloc.get("viewBox", "")).strip()
+        if vb and not VIEWBOX_RE.match(vb):
+            d(f"{nom}.viewBox « {vb} » mal formé (quatre nombres séparés par des "
+              "espaces) — le moteur retomberait silencieusement sur « 0 0 100 72 »")
+
+    def coord(holder: dict, champ: str) -> bool:
+        valeur = holder.get(champ)
+        return isinstance(valeur, (int, float)) and not isinstance(valeur, bool)
+
+    lieux_ok = 0
+    carte = book.get("map")
+    if carte is not None:
+        if not isinstance(carte, dict):
+            d("bloc « map » : objet attendu (spec DONNEES.md)")
+            carte = {}
+        check_viewbox(carte, "map")
+        for i, forme in enumerate(carte.get("shapes", []) or []):
+            label = f"map.shapes[{i}]"
+            if not isinstance(forme, dict):
+                d(f"{label} : objet attendu")
+                continue
+            if forme.get("kind") not in SHAPE_KINDS:
+                d(f"{label} : kind « {forme.get('kind')} » hors vocabulaire "
+                  f"({', '.join(SHAPE_KINDS)}) — forme ignorée par le moteur")
+            trace = str(forme.get("d", ""))
+            if not trace.strip():
+                d(f"{label} : attribut « d » absent — forme ignorée par le moteur")
+            elif not PATH_D_RE.match(trace) or len(trace) > PATH_D_MAX:
+                d(f"{label} : attribut « d » non assaini (chiffres, « .,- », espaces et "
+                  f"commandes MmLlHhVvCcSsQqTtAaZz, {PATH_D_MAX} caractères au plus) — "
+                  "forme ignorée par le moteur")
+        lieux = carte.get("places", []) or []
+        for i, lieu in enumerate(lieux):
+            label = f"map.places[{i}]"
+            if not isinstance(lieu, dict):
+                d(f"{label} : objet attendu")
+                continue
+            ref = lieu.get("codexId")
+            valide = True
+            if ref not in idset:
+                d(f"{label} : codexId « {ref} » sans notice correspondante — lieu ignoré "
+                  "par le moteur")
+                valide = False
+            if not (coord(lieu, "x") and coord(lieu, "y")):
+                d(f"{label} : coordonnées x/y absentes ou non numériques — lieu ignoré "
+                  "par le moteur")
+                valide = False
+            if lieu.get("labelAnchor") not in (None, *LABEL_ANCHORS):
+                w(f"{label} : labelAnchor « {lieu.get('labelAnchor')} » hors "
+                  f"({', '.join(LABEL_ANCHORS)}) — le moteur choisira l'ancrage")
+            lieux_ok += 1 if valide else 0
+        if not lieux_ok:
+            d("bloc « map » présent mais aucun lieu exploitable : le moteur n'afficherait "
+              "ni la vue carte ni son bouton")
+
+    noeuds_ok = 0
+    graphe = book.get("relations")
+    if graphe is not None:
+        if not isinstance(graphe, dict):
+            d("bloc « relations » : objet attendu (spec DONNEES.md)")
+            graphe = {}
+        check_viewbox(graphe, "relations")
+        noeuds = graphe.get("nodes", []) or []
+        connus: set[str] = set()
+        for i, noeud in enumerate(noeuds):
+            label = f"relations.nodes[{i}]"
+            if not isinstance(noeud, dict):
+                d(f"{label} : objet attendu")
+                continue
+            ref = noeud.get("codexId")
+            if ref not in idset:
+                d(f"{label} : codexId « {ref} » sans notice correspondante — nœud ignoré "
+                  "par le moteur")
+                continue
+            if ref in connus:
+                d(f"{label} : codexId « {ref} » en double dans nodes[]")
+            connus.add(ref)
+            for champ in ("x", "y"):
+                if champ in noeud and not coord(noeud, champ):
+                    d(f"{label} : {champ} non numérique (l'omettre laisse le moteur "
+                      "disposer les nœuds en cercle)")
+            noeuds_ok += 1
+        if noeuds_ok == 1:
+            w("bloc « relations » : un seul nœud exploitable — un graphe de relations en "
+              "demande au moins deux")
+        for i, lien in enumerate(graphe.get("links", []) or []):
+            label = f"relations.links[{i}]"
+            if not isinstance(lien, dict):
+                d(f"{label} : objet attendu")
+                continue
+            for champ in ("from", "to"):
+                if lien.get(champ) not in connus:
+                    d(f"{label} : {champ} « {lien.get(champ)} » n'est pas un nœud déclaré "
+                      "de relations.nodes[] — lien ignoré par le moteur")
+            if lien.get("from") == lien.get("to"):
+                d(f"{label} : from et to identiques — lien ignoré par le moteur")
+            if not str(lien.get("nature", "")).strip():
+                d(f"{label} : nature absente (ce que le lien est, en quelques mots)")
+            ub = lien.get("unlockBlock")
+            if ub is not None and ub not in block_pos:
+                d(f"{label} : unlockBlock « {ub} » inexistant — le lien resterait invisible")
+        if not noeuds_ok:
+            d("bloc « relations » présent mais aucun nœud exploitable : le moteur "
+              "n'afficherait ni la vue relations ni son bouton")
+
+    for capacite, present in (("carte", lieux_ok > 0), ("relations", noeuds_ok > 0)):
+        if present and cle(capacite) not in declarees:
+            d(f"book:capacites : le livre porte le module « {capacite} » mais ne le "
+              "déclare pas (le badge manquerait au catalogue)")
+        if not present and cle(capacite) in declarees:
+            w(f"book:capacites déclare « {capacite} » sans module correspondant dans "
+              "l'îlot : soit la capacité est fausse, soit le module est fait à la main "
+              "(divergence de moteur à signaler dans la PR)")
+
     # --- densité d'exploration
     n_mention_blocks = sum(1 for ch in chapters for bl in ch.get("blocks", []) if bl.get("mentions"))
     density = n_mention_blocks / len(all_blocks) if all_blocks else 0
@@ -495,10 +627,13 @@ def main() -> int:
         else:
             check_image_file(covers[0], "couverture", COVER_IMG_MAX, ratio=2 / 3)
 
+    modules = ", ".join(
+        nom for nom, actif in (("carte", lieux_ok > 0), ("relations", noeuds_ok > 0)) if actif
+    ) or "aucun"
     print(f"{slug} : {len(chapters)} chapitres, {len(all_blocks)} blocs, {words} mots, "
           f"{len(codex)} notices, densité de mentions {density:.0%}, "
           f"{len(island_images)} images générées déclarées, "
-          f"{len(web_images)} documents du web déclarés")
+          f"{len(web_images)} documents du web déclarés, modules : {modules}")
     return report()
 
 

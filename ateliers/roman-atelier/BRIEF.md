@@ -1,4 +1,4 @@
-# BRIEF.md — gabarit du brief de lancement (roman-atelier v5)
+# BRIEF.md — gabarit du brief de lancement (roman-atelier v6)
 
 C'est le **seul document d'entrée** d'une fabrication : Pierre le remplit et le
 colle dans le message de lancement de la session Production. Tout champ optionnel
@@ -48,10 +48,20 @@ Copier le bloc ci-dessous et remplacer les valeurs :
 - **Direction artistique** : <technique, palette, époque, références… —
   défaut : proposée par l'auteur dans la bible visuelle du manifeste>
 
+## Modules de lecture (optionnel — déclenche l'étape 3 bis)
+- **Carte des lieux** : <oui / non (défaut : non) ; si oui, préciser le
+  territoire à représenter et les lieux qui comptent — le fond est schématique,
+  dessiné dans le livre, jamais une image>
+- **Graphe de relations** : <oui / non (défaut : non) ; si oui, préciser les
+  entités à faire figurer (personnages, mais aussi lieux ou institutions) et
+  les liens dont l'existence est elle-même une révélation>
+
 ## Divers (optionnel)
-- **Fonctionnalités hors socle** : <ex. carte, graphe de relations, mode
-  impression — défaut : aucune ; toute divergence de moteur sera signalée
-  dans la PR>
+- **Fonctionnalités hors socle** : <ce que le moteur ne sait pas encore faire
+  (choix et branches, lecture audio, gestes tactiles…) — défaut : aucune ;
+  une telle demande est une divergence de moteur, signalée dans la PR. La
+  carte, le graphe de relations et l'impression, eux, sont dans le moteur :
+  les demander ci-dessus>
 - **Contraintes et envies** : <tout le reste : personnages imposés, clins
   d'œil, interdits…>
 ```
@@ -85,6 +95,11 @@ Copier le bloc ci-dessous et remplacer les valeurs :
 ## Illustrations (optionnel)
 - **Direction artistique** : gouache sombre, lumières rares et chaudes, mer
   d'hiver bretonne.
+
+## Modules de lecture (optionnel)
+- **Carte des lieux** : oui — la côte, le village de Kervel, le phare sur son
+  îlot, la digue submersible.
+- **Graphe de relations** : non.
 ```
 
 Tout ce que ce gabarit ne demande pas (structure des données, conventions de
