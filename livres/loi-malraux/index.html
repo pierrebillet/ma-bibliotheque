@@ -6,16 +6,16 @@
      Les 5 meta book:* alimentent le catalogue (voir
      ateliers/roman-atelier/WORKFLOW.md §« Le <head> obligatoire »).
      ============================================================ -->
-<meta name="book:title" content="Titre complet du livre">
-<meta name="book:author" content="Nom du modèle qui écrit">
-<meta name="book:description" content="Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue.">
-<meta name="book:tags" content="genre, thème, lieu">
-<meta name="book:date" content="AAAA-MM-JJ">
-<meta name="book:workflow" content="roman-atelier v3">
+<meta name="book:title" content="Ce que Malraux a sauvé">
+<meta name="book:author" content="GPT 5.6 Luna">
+<meta name="book:description" content="En 1962, une loi apprend à la France à protéger des quartiers entiers plutôt que des monuments isolés. De Lyon à Sarlat puis aux sites patrimoniaux remarquables, ce reportage suit une victoire sur le bulldozer et sa question laissée ouverte : qui peut encore habiter derrière les façades sauvées ?">
+<meta name="book:tags" content="reportage, patrimoine, urbanisme, histoire, France">
+<meta name="book:date" content="2026-08-19">
+<meta name="book:workflow" content="reportage v3">
 <meta name="reader-engine" content="atelier-liseuse v2">
-<title>Titre complet du livre</title>
+<title>Ce que Malraux a sauvé</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue.">
+<meta name="description" content="En 1962, une loi apprend à la France à protéger des quartiers entiers plutôt que des monuments isolés. De Lyon à Sarlat puis aux sites patrimoniaux remarquables, ce reportage suit une victoire sur le bulldozer et sa question laissée ouverte : qui peut encore habiter derrière les façades sauvées ?">
 <meta name="theme-color" content="#14181a">
 <style>
 :root{--ivory:#eef0ec;--paper:#f9faf7;--ink:#14181a;--muted:#5b6663;--blue:#135e63;--yellow:#d9a13b;--red:#a83c2e;--pink:#8fa9b4;--line:#c3cbc4;--panel:#f4f6f1;--scale:1;color-scheme:light}
@@ -56,148 +56,45 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
 <script type="application/json" id="book-data">
 {
   "meta": {
-    "slug": "_template",
-    "title": "Titre complet du livre",
-    "author": "Nom du modèle qui écrit",
-    "description": "Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue.",
-    "tags": ["genre", "thème", "lieu"],
-    "date": "AAAA-MM-JJ",
+    "slug": "loi-malraux",
+    "title": "Ce que Malraux a sauvé",
+    "author": "GPT 5.6 Luna",
+    "description": "En 1962, une loi apprend à la France à protéger des quartiers entiers plutôt que des monuments isolés. De Lyon à Sarlat puis aux sites patrimoniaux remarquables, ce reportage suit une victoire sur le bulldozer et sa question laissée ouverte : qui peut encore habiter derrière les façades sauvées ?",
+    "tags": ["reportage", "patrimoine", "urbanisme", "histoire", "France"],
+    "date": "2026-08-19",
     "language": "fr",
-    "edition": "Roman explorable",
-    "codexLabel": "Carnet d’exemple",
-    "codexVoice": "Qui tient le codex, sur quel ton, à partir de quelles sources — cette voix située donne sa couleur à toutes les notices."
+    "edition": "Reportage explorable",
+    "codexLabel": "Dossier des secteurs sauvegardés",
+    "codexVoice": "Un urbaniste des centres anciens ouvre ses dossiers de travail : précis sur le droit, attentif aux habitants, il distingue les faits, les bilans et les controverses, et cite les sources consultées."
   },
   "world": {
-    "emotionalPromise": "Ce que le lecteur doit éprouver en refermant le livre (une phrase).",
-    "centralIdea": "L’idée centrale du récit, en une phrase affirmative.",
+    "emotionalPromise": "Voir dans une rue ancienne non un décor immobile, mais le résultat fragile d’un choix politique entre destruction, restauration et vie quotidienne.",
+    "centralIdea": "La loi Malraux a sauvé les centres anciens en faisant du quartier un patrimoine, sans résoudre à elle seule la question de ceux qui peuvent l’habiter.",
     "satellites": [
-      "Une idée secondaire qui orbite autour de l’idée centrale.",
-      "Une autre idée secondaire (2 à 5 satellites)."
+      "La protection des ensembles urbains est née d’une politique de logement et de construction autant que d’une politique culturelle.",
+      "La loi patrimoniale de 1962 et le régime fiscal apparu en 1977 sont deux histoires distinctes.",
+      "Lyon et Sarlat montrent qu’un même outil produit des temporalités et des effets sociaux différents.",
+      "L’héritage contemporain se joue dans plus d’un millier de sites, souvent situés dans de petites communes.",
+      "La sauvegarde reste vivante seulement si les bâtiments protégés demeurent habitables, adaptables et socialement accessibles."
     ],
-    "thematicQuestion": "La question que le récit pose sans y répondre à la place du lecteur ?"
+    "thematicQuestion": "Sauver une ville, est-ce conserver ses pierres ou permettre à une population de continuer à les habiter ?"
   },
-  "entityAudit": {
-    "excluded": [
-      {"label": "Entité citée dans le texte mais sans notice", "reason": "Pourquoi elle n’a pas de notice (couverte par une autre, purement fonctionnelle…)."}
-    ]
-  },
+  "entityAudit": {"excluded": []},
   "cover": {
-    "image": "../../couvertures/_template.webp",
-    "catalogImage": "couvertures/_template.webp",
-    "alt": "Description de la couverture pour les lecteurs d’écran."
+    "image": "../../couvertures/loi-malraux.webp",
+    "catalogImage": "couvertures/loi-malraux.webp",
+    "alt": "Vue en noir et blanc de l’hôpital de la Charité à Lyon en cours de démolition, avec des murs éventrés au premier plan et les bâtiments anciens au-delà du Rhône."
   },
   "chapters": [
-    {
-      "id": "chapitre-1",
-      "number": 1,
-      "title": "Le seuil",
-      "image": "images/chapter-01.webp",
-      "alt": "La gardienne du phare regarde la mer d’hiver depuis la coursive, une lampe-tempête à la main.",
-      "visualDescription": "Plan large depuis la coursive d’un phare, fin de journée d’hiver ; une femme d’une cinquantaine d’années, manteau de laine, tient une lampe-tempête ; mer grise agitée, lumière rasante dorée sur les embruns.",
-      "blocks": [
-        {
-          "id": "c1-b01",
-          "text": "Maren monta les cent quarante marches sans compter, comme on récite une prière apprise avant les mots. Le phare de Kervel n’éclairait plus les navires depuis douze ans ; il n’éclairait plus qu’elle.",
-          "mentions": ["maren", "phare-de-kervel"]
-        },
-        {
-          "id": "c1-b02",
-          "text": "En bas, le village avait cessé de poser des questions. On laissait à la gardienne son feu inutile, ses registres, ses silences — et cette pièce fermée au sommet, dont personne n’avait vu la clé.",
-          "mentions": []
-        }
-      ]
-    },
-    {
-      "id": "chapitre-2",
-      "number": 2,
-      "title": "Le registre",
-      "blocks": [
-        {
-          "id": "c2-b01",
-          "text": "Le registre des passages ne mentait pas : chaque nuit de tempête depuis douze ans, une ligne de plus, une lumière aperçue au large là où aucune carte ne plaçait de feu. Maren notait, datait, refermait le cahier.",
-          "mentions": ["le-registre-des-passages"],
-          "figure": {
-            "image": "images/figure-c2-b01.webp",
-            "alt": "Double page manuscrite d’un registre maritime : colonnes de dates et d’observations, une ligne soulignée signale une lumière au large.",
-            "caption": "Un registre de veille du XIXᵉ siècle, semblable à celui que tient la gardienne : chaque observation est datée et signée.",
-            "source": {"label": "Archives nationales — fonds des Phares et Balises", "url": "https://exemple.org/archives/registres-de-veille"},
-            "imageWidth": 1200,
-            "imageHeight": 1600,
-            "origin": "Champ libre [éditorial] : licence, page consultée, date de récupération — voir DONNEES.md."
-          }
-        },
-        {
-          "id": "c2-b02",
-          "text": "Elle savait ce que le village ignorait : la pièce fermée n’était pas vide. Elle répondait.",
-          "mentions": []
-        }
-      ]
-    }
+    {"id": "chapitre-1", "number": 1, "title": "Avant le sauvetage", "blocks": []},
+    {"id": "chapitre-2", "number": 2, "title": "Le quartier devient patrimoine", "blocks": []},
+    {"id": "chapitre-3", "number": 3, "title": "Un plan jusque derrière les façades", "blocks": []},
+    {"id": "chapitre-4", "number": 4, "title": "Lyon et Sarlat, deux commencements", "blocks": []},
+    {"id": "chapitre-5", "number": 5, "title": "Le fisc entre dans le quartier", "blocks": []},
+    {"id": "chapitre-6", "number": 6, "title": "Sauver les pierres, déplacer les vies ?", "blocks": []},
+    {"id": "chapitre-7", "number": 7, "title": "La ville héritée", "blocks": []}
   ],
-  "codex": [
-    {
-      "id": "maren",
-      "title": "Maren Solvay",
-      "category": "personnage",
-      "hook": "La gardienne d’un phare éteint, qui tient un registre que personne ne lui demande.",
-      "text": "Gardienne du phare de Kervel depuis vingt ans, restée en poste douze ans après l’extinction officielle du feu.\n\nLe carnet la décrit méthodique, peu liante, exacte — de cette exactitude qui sert autant à consigner qu’à ne pas dire.",
-      "links": ["phare-de-kervel"],
-      "firstMentionChapter": 1,
-      "firstMentionBlock": "c1-b01",
-      "earliestSafeChapter": 1,
-      "earliestSafeBlock": "c1-b01",
-      "unlockChapter": 1,
-      "unlockBlock": "c1-b01",
-      "unlockPosition": 1,
-      "spoilerRisk": "aucun",
-      "delayReason": "",
-      "editorialFunction": "Ancrer la protagoniste et le mystère du poste maintenu après l’extinction."
-    },
-    {
-      "id": "phare-de-kervel",
-      "title": "Le phare de Kervel",
-      "category": "lieu",
-      "hook": "Un feu éteint depuis douze ans, toujours gardé.",
-      "text": "Phare de haute mer rattaché au village de Kervel, éteint par décision administrative il y a douze ans, jamais désarmé.\n\nLa pièce du sommet, fermée à clé, n’apparaît sur aucun plan de l’administration des feux.",
-      "links": ["maren", "le-registre-des-passages"],
-      "image": "images/codex-phare-de-kervel.webp",
-      "alt": "Le phare de Kervel dressé sur son îlot, fenêtre du sommet éclairée alors que la lanterne est éteinte.",
-      "visualDescription": "Vue en contre-plongée d’un phare de granit sur un îlot battu par la houle, crépuscule ; la lanterne principale est éteinte mais une petite fenêtre sous la coursive est éclairée d’une lumière chaude.",
-      "firstMentionChapter": 1,
-      "firstMentionBlock": "c1-b01",
-      "earliestSafeChapter": 1,
-      "earliestSafeBlock": "c1-b01",
-      "unlockChapter": 1,
-      "unlockBlock": "c1-b01",
-      "unlockPosition": 1,
-      "spoilerRisk": "aucun",
-      "delayReason": "",
-      "editorialFunction": "Poser le décor unique du récit et sa contradiction fondatrice (éteint mais gardé)."
-    },
-    {
-      "id": "le-registre-des-passages",
-      "title": "Le registre des passages",
-      "category": "objet",
-      "hook": "Douze ans de lignes datées pour une lumière qui n’existe pas.",
-      "text": "Cahier d’administration détourné de son usage : Maren y consigne, nuit de tempête après nuit de tempête, une lumière observée au large hors de toute position cartographiée.\n\nLa régularité des entrées exclut l’erreur d’observation ; reste à choisir entre l’explication et la réponse.",
-      "links": ["maren"],
-      "image": "images/codex-le-registre-des-passages.webp",
-      "alt": "Reproduction d’une page de registre maritime ancien, colonnes datées à l’encre brune.",
-      "source": {"label": "Musée national de la Marine", "url": "https://exemple.org/collections/registre-maritime"},
-      "imageWidth": 1400,
-      "imageHeight": 1050,
-      "firstMentionChapter": 2,
-      "firstMentionBlock": "c2-b01",
-      "earliestSafeChapter": 2,
-      "earliestSafeBlock": "c2-b01",
-      "unlockChapter": 2,
-      "unlockBlock": "c2-b01",
-      "unlockPosition": 1,
-      "spoilerRisk": "modéré",
-      "delayReason": "Révèle que le mystère est documenté et récurrent ; n’a de sens qu’une fois le poste de Maren établi au chapitre 1.",
-      "editorialFunction": "Basculer le récit du portrait vers l’enquête ; récompenser le lecteur qui atteint le chapitre 2."
-    }
-  ]
+  "codex": []
 }
 </script>
 <script>
