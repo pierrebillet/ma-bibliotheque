@@ -19,9 +19,10 @@
 - **Mode de recherche** : par l’agent, avec recherches parallèles déléguées à
   des sous-agents Luna en effort xhigh.
 - **Documents du web** : au jugement de l’auteur, selon la règle de pertinence
-  du workflow reportage v3.
+  du workflow reportage v5.
 - **Public** : tout public curieux, sans prérequis juridique ni urbanistique.
 - **Longueur, parcours et codex** : dimensionnés par l’auteur après la recherche.
 - **Illustrations générées** : aucune demandée ; les images seront des documents
   du web sourcés si la recherche en fait émerger de pertinents.
-
+- **Modules de lecture** : aucune carte ni graphe de relations demandés ; les
+  deux modules optionnels du workflow v5 restent donc absents.
