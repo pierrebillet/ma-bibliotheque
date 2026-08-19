@@ -1,8 +1,8 @@
 # Dossier documentaire — La loi Malraux
 
-**Date de recherche :** 19 août 2026  
+**Date de recherche :** 19 août 2026
 **Mode :** recherche par l’agent, répartie entre trois sous-agents Luna xhigh,
-puis recoupée par l’agent Production.  
+puis recoupée par l’agent Production.
 **Sujet :** la loi n° 62-903 du 4 août 1962 et la sauvegarde des centres
 historiques français.
 
