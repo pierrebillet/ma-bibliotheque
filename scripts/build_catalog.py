@@ -29,9 +29,10 @@ from html.parser import HTMLParser
 from pathlib import Path
 from typing import Iterable, Sequence
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 3
 SCAN_CHUNK_BYTES = 64 * 1024
 MAX_SCAN_BYTES = 4 * 1024 * 1024
+MAX_BODY_SCAN_BYTES = 8 * 1024 * 1024
 ENCODING_PROBE_BYTES = 16 * 1024
 COVER_EXTENSIONS = ("webp", "avif", "png", "jpg", "jpeg")
 BOOK_META_NAMES = {
@@ -40,8 +41,79 @@ BOOK_META_NAMES = {
     "book:description",
     "book:tags",
     "book:date",
+    "book:workflow",
+    "book:genre",
+    "book:format",
+    "book:tonalite",
+    "book:exigence",
+    "book:audience",
+    "book:variant-of",
+    "book:capacites",
 }
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+
+# Nature du livre, déduite de l'atelier qui l'a produit (meta book:workflow).
+ATELIER_NATURE = {"roman-atelier": "fiction", "reportage": "reportage"}
+DEFAULT_NATURE = "fiction"
+# « roman-atelier v3 » → atelier « roman-atelier » : le suffixe de version est ignoré.
+WORKFLOW_RE = re.compile(r"^(?P<atelier>.+?)(?:\s+v\d+)?$")
+
+# Vocabulaires fermés des champs qualitatifs. Source de vérité documentée dans
+# docs/bibliotheque/CATALOGUE.md ; ces listes sont dupliquées dans
+# ateliers/roman-atelier/outils/verifier.py — toute modification doit être reportée
+# des deux côtés (graphies exactes, accents compris).
+GENRES = (
+    "science-fiction",
+    "fantasy",
+    "fantastique",
+    "anticipation",
+    "espionnage",
+    "policier",
+    "aventure",
+    "comédie dramatique",
+    "drame",
+    "histoire",
+    "société",
+    "sciences",
+    "portrait",
+)
+FORMATS = ("texte", "illustré")
+TONALITES = ("lumineuse", "douce-amère", "contemplative", "ironique", "tendue", "sombre")
+EXIGENCES = ("accessible", "intermédiaire", "exigeante")
+AUDIENCES = ("tout public", "ados et adultes", "adultes")
+
+# Capacités interactives déclarées (chantier 7 de la roadmap Bibliothèque, schéma
+# v3). Ce que le livre *fait* en plus de dérouler son texte — ce qu'aucun autre
+# champ ne dit : ni le genre, ni le format (qui décrit les images, pas les
+# fonctions). Vocabulaire fermé, ordre significatif : c'est l'ordre d'affichage
+# des badges à l'index. On ne déclare que ce que le livre offre réellement.
+CAPACITES = ("codex", "carte", "relations", "choix", "audio")
+
+# Gouvernance des tags (chantier 6 de la roadmap Bibliothèque). Les tags sont le
+# seul vocabulaire libre du catalogue : ils portent les thèmes, les lieux et les
+# motifs, jamais ce que les champs structurés disent déjà. Un tag qui reprend une
+# valeur de vocabulaire fermé (genre, format, tonalité, exigence, audience) ou une
+# nature ferait doublon avec les filtres de l'index : il est écarté du catalogue
+# avec un avertissement. Source de vérité : docs/bibliotheque/CATALOGUE.md.
+MAX_TAGS = 4
+RESERVED_TAG_VALUES = (
+    *GENRES,
+    *FORMATS,
+    *TONALITES,
+    *EXIGENCES,
+    *AUDIENCES,
+    *ATELIER_NATURE.values(),
+)
+
+# Comptage des mots : vitesse de lecture retenue et plancher du repli « texte visible ».
+WORDS_PER_MINUTE = 200
+MIN_VISIBLE_WORDS = 500
+# Îlot de données d'un livre : <script type="application/json">…</script>, attributs
+# dans n'importe quel ordre, identifiant indifférent (#book-data, #bookData, #data…).
+JSON_ISLAND_RE = re.compile(
+    r"<script\b[^>]*\btype\s*=\s*[\"']?application/json[\"']?[^>]*>(?P<body>.*?)</script>",
+    re.DOTALL | re.IGNORECASE,
+)
 # Bloc JSON inliné dans index.html, utilisé comme repli en ouverture file://.
 # Non-greedy jusqu'au premier </script>, comme le parseur HTML des navigateurs.
 DEMO_BLOCK_RE = re.compile(
@@ -309,6 +381,36 @@ def deduplicate_tags(raw_values: Iterable[str]) -> list[str]:
     return tags
 
 
+def sanitize_tags(tags: Sequence[str], relative_path: str) -> list[str]:
+    """Écarte les tags qui redisent un champ structuré ; avertit au-delà de MAX_TAGS.
+
+    Non bloquant : un livre mal étiqueté reste publié, simplement sans le tag
+    redondant. Le contrôle en amont (refus à l'écriture) est l'affaire du
+    vérificateur d'atelier.
+    """
+    reserved = {comparison_key(value): value for value in RESERVED_TAG_VALUES}
+    kept: list[str] = []
+    for tag in tags:
+        canonical = reserved.get(comparison_key(tag))
+        if canonical is not None:
+            warn(
+                f"Tag « {tag} » écarté : il reprend la valeur structurée "
+                f"« {canonical} » (genre, format, tonalité, exigence, audience ou "
+                "nature), déjà portée par son propre champ.",
+                relative_path,
+            )
+            continue
+        kept.append(tag)
+
+    if len(kept) > MAX_TAGS:
+        warn(
+            f"Le livre porte {len(kept)} tags : la gouvernance en prévoit {MAX_TAGS} "
+            "au plus (thèmes, lieux, motifs).",
+            relative_path,
+        )
+    return kept
+
+
 def parse_book_date(values: Sequence[str], relative_path: str) -> tuple[str | None, str | None]:
     valid_values: list[tuple[str, str]] = []
     for value in values:
@@ -356,8 +458,235 @@ def warn_long_values(
     for tag in tags:
         if len(tag) > 40:
             warn(f"Le tag « {tag} » dépasse 40 caractères.", relative_path)
-    if len(tags) > 20:
-        warn("Le livre comporte plus de 20 tags.", relative_path)
+
+
+def resolve_nature(workflow_value: str | None, relative_path: str) -> str:
+    """Déduit la nature du livre de book:workflow ; « fiction » par défaut."""
+    normalized = normalize_text(workflow_value) if workflow_value is not None else ""
+    if not normalized:
+        # Meta absente : les livres publiés avant le schéma v2 restent des fictions.
+        return DEFAULT_NATURE
+
+    match = WORKFLOW_RE.fullmatch(normalized)
+    atelier = normalize_text(match.group("atelier")) if match else normalized
+    key = comparison_key(atelier)
+    for known, nature in ATELIER_NATURE.items():
+        if comparison_key(known) == key:
+            return nature
+
+    warn(
+        f"Atelier « {atelier} » absent de la table ATELIER_NATURE : "
+        f"nature « {DEFAULT_NATURE} » retenue par défaut.",
+        relative_path,
+    )
+    return DEFAULT_NATURE
+
+
+def closed_vocab(
+    value: str | None,
+    vocabulary: Sequence[str],
+    field_name: str,
+    relative_path: str,
+) -> str | None:
+    """Ramène une valeur au vocabulaire fermé ; hors vocabulaire = None non bloquant."""
+    normalized = normalize_text(value) if value is not None else ""
+    if not normalized:
+        return None
+
+    key = comparison_key(normalized)
+    for allowed in vocabulary:
+        if comparison_key(allowed) == key:
+            return allowed
+
+    warn(
+        f"Valeur {field_name} hors vocabulaire ignorée : « {normalized} » "
+        f"(admises : {', '.join(vocabulary)}).",
+        relative_path,
+    )
+    return None
+
+
+def resolve_capabilities(values: Sequence[str], relative_path: str) -> list[str]:
+    """Ramène book:capacites au vocabulaire fermé, dans l'ordre de CAPACITES.
+
+    Liste séparée par des virgules, comme book:tags. Une valeur hors vocabulaire
+    est écartée avec un avertissement — jamais bloquant : un livre mal déclaré
+    reste publié, simplement sans le badge correspondant. L'ordre du catalogue est
+    celui de CAPACITES et non celui de la meta : deux livres qui déclarent les
+    mêmes capacités produisent la même liste, donc les mêmes badges dans le même
+    ordre.
+    """
+    declared: set[str] = set()
+    for raw_value in values:
+        for candidate in raw_value.split(","):
+            capacite = normalize_text(candidate)
+            if not capacite:
+                continue
+            key = comparison_key(capacite)
+            for allowed in CAPACITES:
+                if comparison_key(allowed) == key:
+                    declared.add(allowed)
+                    break
+            else:
+                warn(
+                    f"Capacité « {capacite} » hors vocabulaire ignorée "
+                    f"(admises : {', '.join(CAPACITES)}).",
+                    relative_path,
+                )
+    return [capacite for capacite in CAPACITES if capacite in declared]
+
+
+def resolve_variant_of(
+    value: str | None,
+    known_slugs: set[str],
+    slug: str,
+    relative_path: str,
+) -> str | None:
+    """Valide book:variant-of : slug conforme, différent du livre, et réellement publié."""
+    normalized = normalize_text(value) if value is not None else ""
+    if not normalized:
+        return None
+
+    if not SLUG_RE.fullmatch(normalized):
+        warn(
+            f"book:variant-of ignoré : « {normalized} » n’est pas un identifiant "
+            "kebab-case ASCII.",
+            relative_path,
+        )
+        return None
+    if normalized == slug:
+        warn("book:variant-of ignoré : un livre ne peut pas être sa propre variante.", relative_path)
+        return None
+    if normalized not in known_slugs:
+        warn(
+            f"book:variant-of ignoré : aucun livre du catalogue ne porte l’identifiant "
+            f"« {normalized} ».",
+            relative_path,
+        )
+        return None
+    return normalized
+
+
+class VisibleTextParser(HTMLParser):
+    """Collecte le texte visible du body : ni head, ni script/style/template/noscript."""
+
+    IGNORED_TAGS = ("script", "style", "template", "noscript")
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self._ignored_depth = 0
+        self._after_head = False
+        self._parts: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag.lower() in self.IGNORED_TAGS:
+            self._ignored_depth += 1
+
+    def handle_endtag(self, tag: str) -> None:
+        lowered = tag.lower()
+        if lowered in self.IGNORED_TAGS:
+            if self._ignored_depth:
+                self._ignored_depth -= 1
+        elif lowered == "head":
+            self._after_head = True
+
+    def handle_data(self, data: str) -> None:
+        if self._after_head and self._ignored_depth == 0:
+            self._parts.append(data)
+
+    @property
+    def text(self) -> str:
+        return " ".join(self._parts)
+
+
+def read_source(path: Path, relative_path: str, limit: int) -> str:
+    """Relit le fichier en entier (borné) avec la détection d'encodage du head."""
+    encoding, errors, _ = choose_encoding(path, relative_path)
+    with path.open("rb") as stream:
+        raw = stream.read(limit)
+
+    for candidate, candidate_errors in ((encoding, errors), (encoding, "replace"), ("cp1252", "replace")):
+        try:
+            return raw.decode(candidate, errors=candidate_errors)
+        except (UnicodeDecodeError, LookupError):
+            continue
+    return ""
+
+
+def count_chapter_words(chapters: object) -> int:
+    """Somme les mots des chapitres, quel que soit le dialecte de l'îlot JSON."""
+    if not isinstance(chapters, list):
+        return 0
+
+    total = 0
+    for chapter in chapters:
+        if not isinstance(chapter, dict):
+            continue
+        blocks = chapter.get("blocks")
+        if isinstance(blocks, list):
+            for block in blocks:
+                if isinstance(block, dict) and isinstance(block.get("text"), str):
+                    total += len(block["text"].split())
+            continue
+        for key in ("texte", "text"):
+            value = chapter.get(key)
+            if isinstance(value, str):
+                total += len(value.split())
+                break
+    return total
+
+
+def extract_word_count(path: Path, relative_path: str) -> int | None:
+    """Compte les mots du livre en trois étages ; None si aucun n'aboutit.
+
+    1. Îlots <script type="application/json"> : seuls les chapitres sont comptés,
+       jamais le codex ni les annexes. Le premier îlot qui produit un total non nul
+       l'emporte.
+    2. Repli sur le texte visible du body, retenu seulement s'il est substantiel :
+       en deçà de MIN_VISIBLE_WORDS, ce n'est que l'habillage de la liseuse.
+    3. Sinon None : les livres dont la prose vit dans des littéraux JavaScript ne
+       sont pas mesurables sans exécuter la page.
+    """
+    try:
+        source = read_source(path, relative_path, MAX_BODY_SCAN_BYTES)
+    except OSError as read_error:
+        warn(f"Nombre de mots indéterminable (lecture impossible : {read_error}).", relative_path)
+        return None
+
+    for island in JSON_ISLAND_RE.finditer(source):
+        try:
+            data = json.loads(island.group("body"))
+        except (json.JSONDecodeError, ValueError):
+            continue
+        if not isinstance(data, dict):
+            continue
+        for key in ("chapters", "chapitres"):
+            total = count_chapter_words(data.get(key))
+            if total > 0:
+                return total
+
+    parser = VisibleTextParser()
+    try:
+        parser.feed(source)
+        parser.close()
+    except Exception:  # Tolérance : un HTML très abîmé ne doit pas casser la génération.
+        pass
+    visible = len(parser.text.split())
+    if visible >= MIN_VISIBLE_WORDS:
+        return visible
+
+    warn(
+        "Nombre de mots indéterminable : ni îlot JSON de chapitres exploitable, "
+        "ni texte visible suffisant dans le body.",
+        relative_path,
+    )
+    return None
+
+
+def reading_minutes(word_count: int | None) -> int | None:
+    if word_count is None:
+        return None
+    return max(1, round(word_count / WORDS_PER_MINUTE))
 
 
 def cover_signature_is_valid(path: Path, extension: str) -> bool:
@@ -498,13 +827,23 @@ def fallback_entry(root: Path, path: Path, slug: str) -> dict[str, object]:
         "author": None,
         "description": None,
         "tags": [],
+        "nature": DEFAULT_NATURE,
+        "genre": None,
+        "format": None,
+        "tonalite": None,
+        "exigence": None,
+        "audience": None,
         "date": None,
         "datePrecision": None,
+        "variantOf": None,
+        "capabilities": [],
+        "wordCount": None,
+        "readingMinutes": None,
         "cover": resolve_cover(root, slug, path),
     }
 
 
-def build_book(root: Path, path: Path, slug: str) -> dict[str, object]:
+def build_book(root: Path, path: Path, slug: str, known_slugs: set[str]) -> dict[str, object]:
     relative = path.relative_to(root).as_posix()
     parser = scan_metadata(path, relative)
 
@@ -512,8 +851,47 @@ def build_book(root: Path, path: Path, slug: str) -> dict[str, object]:
     author = first_scalar(parser.values["book:author"], "book:author", relative)
     description = first_scalar(parser.values["book:description"], "book:description", relative)
     title = meta_title or (parser.titles[0] if parser.titles else None) or humanize_slug(slug)
-    tags = deduplicate_tags(parser.values["book:tags"])
+    tags = sanitize_tags(deduplicate_tags(parser.values["book:tags"]), relative)
     book_date, date_precision = parse_book_date(parser.values["book:date"], relative)
+
+    nature = resolve_nature(
+        first_scalar(parser.values["book:workflow"], "book:workflow", relative), relative
+    )
+    genre = closed_vocab(
+        first_scalar(parser.values["book:genre"], "book:genre", relative), GENRES, "book:genre", relative
+    )
+    book_format = closed_vocab(
+        first_scalar(parser.values["book:format"], "book:format", relative),
+        FORMATS,
+        "book:format",
+        relative,
+    )
+    tonalite = closed_vocab(
+        first_scalar(parser.values["book:tonalite"], "book:tonalite", relative),
+        TONALITES,
+        "book:tonalite",
+        relative,
+    )
+    exigence = closed_vocab(
+        first_scalar(parser.values["book:exigence"], "book:exigence", relative),
+        EXIGENCES,
+        "book:exigence",
+        relative,
+    )
+    audience = closed_vocab(
+        first_scalar(parser.values["book:audience"], "book:audience", relative),
+        AUDIENCES,
+        "book:audience",
+        relative,
+    )
+    variant_of = resolve_variant_of(
+        first_scalar(parser.values["book:variant-of"], "book:variant-of", relative),
+        known_slugs,
+        slug,
+        relative,
+    )
+    capabilities = resolve_capabilities(parser.values["book:capacites"], relative)
+    word_count = extract_word_count(path, relative)
 
     warn_long_values(title, author, description, tags, relative)
 
@@ -526,8 +904,18 @@ def build_book(root: Path, path: Path, slug: str) -> dict[str, object]:
         "author": author,
         "description": description,
         "tags": tags,
+        "nature": nature,
+        "genre": genre,
+        "format": book_format,
+        "tonalite": tonalite,
+        "exigence": exigence,
+        "audience": audience,
         "date": book_date,
         "datePrecision": date_precision,
+        "variantOf": variant_of,
+        "capabilities": capabilities,
+        "wordCount": word_count,
+        "readingMinutes": reading_minutes(word_count),
         "cover": resolve_cover(root, slug, path),
     }
 
@@ -656,13 +1044,14 @@ def sync_demo_catalog(index_path: Path, payload: dict[str, object]) -> bool:
 
 
 def render_sitemap(payload: dict[str, object], base_url: str) -> str:
-    """Rend le sitemap XML : la page d'accueil puis chaque livre du catalogue.
+    """Rend le sitemap XML : les pages statiques puis chaque livre du catalogue.
 
     Sortie déterministe (pas d'horodatage) : le fichier ne change que si la
     liste des livres change, ce qui évite les commits de bruit côté CI.
     """
     base = base_url.rstrip("/") + "/"
-    locations = [base]
+    # Pages statiques du site (hors livres) : l'accueil et la page « à propos ».
+    locations = [base, base + "a-propos.html"]
     books = payload.get("books")
     if isinstance(books, list):
         for book in books:
@@ -699,13 +1088,16 @@ def generate(root: Path, output_path: Path) -> dict[str, object]:
         )
 
     git_available = repository_has_git_history(root)
+    # Connu avant la boucle : book:variant-of ne peut désigner qu'un livre du catalogue,
+    # y compris un livre découvert après celui qui le référence.
+    known_slugs = {slug for _, slug in sources}
     sortable: list[tuple[AdditionDate, dict[str, object]]] = []
 
     for path, slug in sources:
         relative = path.relative_to(root).as_posix()
         added = addition_date(root, path, git_available)
         try:
-            entry = build_book(root, path, slug)
+            entry = build_book(root, path, slug, known_slugs)
         except Exception as extraction_error:  # Tolérance volontaire au niveau de chaque livre.
             warn(
                 f"Extraction impossible ({type(extraction_error).__name__}: {extraction_error}) ; utilisation du nom de fichier.",
@@ -791,9 +1183,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             index_path = args.index if args.index.is_absolute() else root / args.index
             demo_changed = sync_demo_catalog(index_path, payload)
         sitemap_path: Path | None = None
+        sitemap_url_count = 0
         if args.sitemap is not None:
             sitemap_path = args.sitemap if args.sitemap.is_absolute() else root / args.sitemap
-            write_text_atomic(sitemap_path, render_sitemap(payload, args.base_url))
+            sitemap_xml = render_sitemap(payload, args.base_url)
+            sitemap_url_count = sitemap_xml.count("<url>")
+            write_text_atomic(sitemap_path, sitemap_xml)
     except Exception as error:
         print(f"::error::{annotation_escape(type(error).__name__ + ': ' + str(error))}", file=sys.stderr)
         return 1
@@ -803,7 +1198,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.sync_demo_catalog:
         print("Bloc #demo-catalog synchronisé." if demo_changed else "Bloc #demo-catalog déjà à jour.")
     if sitemap_path is not None:
-        print(f"Sitemap généré : {count + 1} URL -> {sitemap_path}")
+        print(f"Sitemap généré : {sitemap_url_count} URL -> {sitemap_path}")
     return 0
 
 

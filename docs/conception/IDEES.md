@@ -17,13 +17,14 @@ Statuts possibles : `vivier` · `promue → ROADMAP #n` · `écartée`.
 | Idée | Intérêt | Effort / prérequis | Source | Statut |
 |---|---|---|---|---|
 | Branches à fins multiples, avec suivi des fins découvertes (localStorage du livre) | Le « récit explorable » au sens plein ; rejouabilité | Élevé — extension du moteur ; après le template versionné (ROADMAP #2) | audit §D.3.4 | promue → ROADMAP #4 (fiction interactive) |
-| Carte SVG du monde et graphe de relations entre personnages, en modules optionnels du moteur | Réintroduit des fonctionnalités régressées appréciées | Moyen — modules du template (ROADMAP #2) | audit §B.3, §D.3.3 | promue → ROADMAP #4 |
-| Mode impression (CSS `@media print` soigné) | Lecture papier ; fonctionnalité régressée des moteurs de juillet | Faible — CSS seul, généralisable via le template | audit §D.3.7 | vivier |
+| Carte SVG du monde et graphe de relations entre personnages, en modules optionnels du moteur | Réintroduit des fonctionnalités régressées appréciées | Moyen — modules du template (ROADMAP #2) | audit §B.3, §D.3.3 | **faite** (2026-08-19, ROADMAP #4 — moteur `atelier-liseuse v3`) |
+| Mode impression (CSS `@media print` soigné) | Lecture papier ; fonctionnalité régressée des moteurs de juillet | Faible — CSS seul, généralisable via le template | audit §D.3.7 | **faite** (2026-08-19, promue → ROADMAP #9 — moteur `atelier-liseuse v3`) |
 | Lecture audio via Web Speech API (TTS du navigateur, hors ligne) | Accessibilité ; « livre audio » sans fichier audio ni dépendance externe | Moyen — qualité de voix variable selon navigateur | audit §D.3.7 | vivier |
 | Annotations et surlignage du lecteur, persistés en localStorage | Appropriation du texte ; reste dans le contrat « tout local » | Moyen — UI de sélection + stockage par chapitre | session 2026-08 | vivier |
 | Frise chronologique de l'univers, alimentée par l'îlot JSON | Prolonge le codex ; aide aux récits non linéaires | Moyen — module optionnel du moteur | session 2026-08 | vivier |
 | Récapitulatif « ce qu'il faut retenir » déverrouillé en fin de chapitre | Renforce la boucle codex/curiosité ; aide à la reprise de lecture | Faible — convention d'écriture + petit ajout moteur | session 2026-08 | vivier |
 | Suivi des fins et des embranchements visités (arbre de parcours affichable) | Compagnon naturel des branches ; rend l'exploration visible | Moyen — dépend de la fiction interactive | session 2026-08 | vivier |
+| Frise/carte du parcours de lecture réellement suivi (lieux visités reliés dans l'ordre de lecture) | Prolongement direct du module carte : la carte raconte aussi *comment* on a lu | Faible — le moteur v3 connaît déjà les lieux et la progression | session 2026-08-19 | vivier |
 
 ## Variété de contenus
 

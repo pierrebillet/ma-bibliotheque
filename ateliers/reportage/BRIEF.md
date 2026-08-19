@@ -1,4 +1,4 @@
-# BRIEF.md — gabarit du brief de lancement (reportage v3)
+# BRIEF.md — gabarit du brief de lancement (reportage v4)
 
 C'est le **seul document d'entrée** d'une fabrication : Pierre le remplit et le
 colle dans le message de lancement de la session Production. Tout champ
@@ -60,6 +60,15 @@ Copier le bloc ci-dessous et remplacer les valeurs :
 - **Direction artistique** : <défaut : documentaire — gravures, planches,
   photographies d'époque évoquées>
 
+## Modules de lecture (optionnel — déclenche l'étape 4 bis)
+- **Carte des lieux** : <oui / non (défaut : non) ; si oui, préciser le
+  territoire à situer — le fond est un schéma dessiné dans le livre, sourcé
+  comme le reste ; une carte trouvée sur le web relève du bloc « Documents du
+  web »>
+- **Graphe de relations** : <oui / non (défaut : non) ; si oui, préciser les
+  entités à faire figurer (personnes, institutions, lieux) — chaque lien
+  affiché doit être attesté par le dossier>
+
 ## Divers (optionnel)
 - **Contraintes et envies** : <périmètre à exclure, thèmes sensibles à
   traiter avec précaution, clins d'œil…>
@@ -93,6 +102,13 @@ Copier le bloc ci-dessous et remplacer les valeurs :
 ## Cadrage éditorial (optionnel)
 - **Codex** : voix d'un éclusier qui fait visiter — précise, chaleureuse,
   fière du vocabulaire du métier.
+
+## Modules de lecture (optionnel)
+- **Carte des lieux** : oui — schéma de situation du tracé Toulouse → étang de
+  Thau, avec le seuil de Naurouze, l'alimentation depuis la Montagne Noire et
+  trois ou quatre ouvrages remarquables.
+- **Graphe de relations** : oui — Riquet, Colbert, Louis XIV, l'abbé Mourgues,
+  les entrepreneurs du chantier ; chaque lien daté et sourcé.
 ```
 
 Tout ce que ce gabarit ne demande pas (structure des données, conventions de

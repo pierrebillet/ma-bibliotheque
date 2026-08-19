@@ -1,18 +1,21 @@
 # Atelier roman-atelier — écrire un roman-web illustré avec la liseuse « Atelier »
 
-- **Version** : 5
+- **Version** : 7
 - **Statut** : stable (l'étape illustrations et le relai illustrateur, nouveaux
   en v3, et l'étape de recherche documentaire, nouvelle en v4, attendent leur
   exécution pilote à froid — roadmap Conception, session S2)
 - **Livrable** : un roman-web HTML autonome **illustré nativement** (récit +
   liseuse intégrée : sommaire, barre de progression, codex à déverrouillage,
   illustrations de chapitres et de notices, thème sombre, réglage de taille de
-  police), visible au catalogue après merge sans aucune intervention manuelle.
+  police, impression propre), visible au catalogue après merge sans aucune
+  intervention manuelle. Sur demande du brief, le livre peut porter une
+  **carte des lieux** et un **graphe de relations** à révélation progressive
+  (étape 3 bis) — deux modules du moteur, sans divergence à justifier.
   Si le brief le demande, le récit est **ancré dans le monde réel** (personnage
   historique, lieux réels, jargon d'un métier), sur la base d'un dossier
   documentaire sourcé constitué avant l'écriture (étape 0).
 - **Moteur** : [`livres/_template/`](../../livres/_template/README.md)
-  (`atelier-liseuse v1`) — le moteur se copie depuis le template, plus jamais
+  (`atelier-liseuse v3`) — le moteur se copie depuis le template, plus jamais
   depuis le dernier livre publié.
 - **Exemples publiés** : [`livres/lequation-du-calme/`](../../livres/lequation-du-calme)
   et [`livres/la-doublure.html`](../../livres/la-doublure.html) (v2, non
@@ -23,6 +26,27 @@
 
 ## Changelog
 
+- **v7** (2026-08) — **modules de lecture optionnels** : le moteur
+  (`atelier-liseuse v3`) sait afficher une carte des lieux et un graphe de
+  relations à révélation progressive, ainsi qu'imprimer proprement la vue
+  affichée. Nouvelle section « Modules de lecture » du [`BRIEF.md`](BRIEF.md) et
+  nouvelle **étape 3 bis**, conditionnelle, qui remplit les îlots `map` et
+  `relations` depuis le codex déjà écrit. Ces trois fonctionnalités ne sont plus
+  des « divergences de moteur » à justifier dans la PR : elles font partie de la
+  recette. Motif : chantier 4 de la [roadmap
+  Conception](../../docs/conception/ROADMAP.md) — réintroduire les
+  fonctionnalités régressées par la standardisation (audit §B.3) sans revenir
+  aux moteurs faits main.
+- **v6** (2026-08) — schéma de catalogue v2 : le `<head>` porte cinq
+  **metas qualitatives à vocabulaire fermé** (`book:genre`, `book:format`,
+  `book:tonalite`, `book:exigence`, `book:audience`), plus `book:variant-of`
+  pour les seules éditions dérivées ; `book:workflow`, jusqu'ici purement
+  documentaire, est désormais **lue par le générateur** qui en dérive la
+  `nature` du livre (l'atelier n'a donc rien à déclarer de plus pour être rangé
+  du côté des fictions). Le vérificateur exige les onze metas et contrôle les
+  vocabulaires. Motif : chantier 5 de la [roadmap
+  Bibliothèque](../../docs/bibliotheque/ROADMAP.md) — donner à l'index de quoi
+  trier et filtrer sans faire porter cette charge aux tags libres.
 - **v5** (2026-08) — couverture strictement sans texte : le titre et les
   métadonnées sont déjà superposés en HTML dans la bibliothèque. Le manifeste,
   les contraintes d'images et la vérification finale interdisent désormais
@@ -61,7 +85,7 @@
 
 ## Les deux rôles de la fabrication
 
-Un livre v5 se fabrique en **deux passes, sur la même branche** :
+Un livre v6 se fabrique en **deux passes, sur la même branche** :
 
 1. **L'auteur** (étapes 0 à 5 ; l'étape 0 seulement si le brief demande
    l'ancrage réel) écrit le livre complet — texte, codex, champs
@@ -193,6 +217,43 @@ Sans section « Ancrage réel » au brief, passer directement à l'étape 1.
   cohérents) — les manques d'images sont encore tolérés à ce stade (`--sans-images`).
 - **Commit** : « Codex de <titre> : personnages, lieux, concepts »
 
+### Étape 3 bis (optionnelle) — Modules de lecture : carte et graphe de relations
+
+Seulement si le brief demande une carte, un graphe de relations, ou les deux
+(section « Modules de lecture » du [`BRIEF.md`](BRIEF.md)). Sans demande : ne
+rien faire, et **supprimer les blocs `map` et `relations`** hérités de l'îlot
+d'exemple du template.
+
+- **Entrée** : le codex écrit (étape 3) — les modules ne montrent que des
+  entités qui ont déjà leur notice.
+- **Travail** :
+  1. **carte** (`map`) : dessiner un fond schématique en chemins SVG
+     (`shapes[]`, quatre natures : `eau`, `terre`, `route`, `limite`) dans le
+     repère `"0 0 100 72"`, puis placer les lieux (`places[]`) en reliant
+     chacun à sa notice par `codexId`. Une carte sobre et juste vaut mieux
+     qu'une carte détaillée : 4 à 12 lieux, un fond qui tient en quelques
+     chemins. Aucune image de fond (le fond vit dans l'îlot, pas dans
+     `images/`) ;
+  2. **graphe de relations** (`relations`) : déclarer les entités (`nodes[]`,
+     `codexId` d'une notice) et les liens (`links[]`) avec, pour chacun, une
+     `nature` écrite dans la voix du codex (« Sœur cadette, tenue à distance »).
+     Laisser les coordonnées vides suffit (disposition en cercle) ; les
+     renseigner permet de composer une disposition parlante. Un lien qui est
+     lui-même une révélation porte son `unlockBlock` ;
+  3. déclarer les capacités : ajouter `carte` et/ou `relations` à
+     `<meta name="book:capacites">` — le vérificateur en fait un défaut bloquant
+     si le module est là sans sa capacité.
+  Spécification champ par champ :
+  [`DONNEES.md`](../../livres/_template/DONNEES.md) §`map` et §`relations`.
+- **Sortie** : les blocs `map` et/ou `relations` de l'îlot, `book:capacites` à
+  jour.
+- **Critère de fin** :
+  `python ateliers/roman-atelier/outils/verifier.py livres/<slug> --sans-images`
+  ne signale aucun défaut ; à l'ouverture en `file://`, les boutons « Carte » et
+  « Relations » apparaissent, un lecteur qui n'a rien lu ne voit **aucun nom de
+  lieu ni d'entité**, et les éléments se révèlent bien au fil de la lecture.
+- **Commit** : « Modules de lecture de <titre> : carte et relations »
+
 ### Étape 4 — Illustrations : champs d'images et manifeste
 
 - **Entrée** : le livre écrit (chapitres + codex), la direction artistique du
@@ -231,7 +292,7 @@ Sans section « Ancrage réel » au brief, passer directement à l'étape 1.
 - **Commit** : « Relecture de <titre> : corrections »
 
 Puis : push et **pull request** (protocole de session — description structurée
-Rôle : Production / roman-atelier v5, divergences de moteur signalées, et la
+Rôle : Production / roman-atelier v7, divergences de moteur signalées, et la
 mention explicite : « En attente de la passe illustrateur —
 `livres/<slug>/illustrations.md` »).
 
@@ -260,7 +321,7 @@ C'est le seul point de passage entre les deux rôles, et il tient en un message.
 
 ## Structure de fichiers
 
-Un livre v5 est **toujours un dossier** (il porte des images) :
+Un livre v6 est **toujours un dossier** (il porte des images) :
 
 ```text
 livres/<slug>/
@@ -280,9 +341,8 @@ livres/<slug>/
 
 ## Le `<head>` obligatoire
 
-Le template en contient un gabarit prêt à remplacer. Pour référence (les 5 meta
-`book:*` alimentent le catalogue ; `book:workflow` et `reader-engine` tracent la
-recette et le moteur) :
+Le template en contient un gabarit prêt à remplacer. Pour référence (les 11 meta
+`book:*` alimentent le catalogue ; `reader-engine` trace le moteur) :
 
 ```html
 <head>
@@ -296,12 +356,23 @@ recette et le moteur) :
     name="book:description"
     content="Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue."
   >
-  <meta name="book:tags" content="genre, thème, lieu (1 à 6 tags, séparés par des virgules)">
+  <meta name="book:tags" content="thème, lieu, motif (2 à 4 tags, séparés par des virgules)">
   <meta name="book:date" content="2026-08-13">
 
-  <!-- Traçabilité : recette et moteur (ignorées par le catalogue) -->
-  <meta name="book:workflow" content="roman-atelier v5">
-  <meta name="reader-engine" content="atelier-liseuse v1">
+  <!-- Metas qualitatives (vocabulaires fermés, voir ci-dessous) -->
+  <meta name="book:genre" content="anticipation">
+  <meta name="book:format" content="illustré">
+  <meta name="book:tonalite" content="douce-amère">
+  <meta name="book:exigence" content="intermédiaire">
+  <meta name="book:audience" content="ados et adultes">
+
+  <!-- Capacités interactives réellement offertes (vocabulaire fermé, liste) -->
+  <!-- « codex » toujours ; « carte » et « relations » si l'étape 3 bis a eu lieu -->
+  <meta name="book:capacites" content="codex">
+
+  <!-- Recette (lue par le générateur : elle en dérive la nature) et moteur -->
+  <meta name="book:workflow" content="roman-atelier v7">
+  <meta name="reader-engine" content="atelier-liseuse v3">
 
   <!-- Utilisé par l'onglet du navigateur et comme fallback de titre -->
   <title>Titre complet du livre</title>
@@ -316,10 +387,69 @@ recette et le moteur) :
   « , <son modèle> (images) » pendant sa passe.
 - `book:date` : `AAAA`, `AAAA-MM` ou `AAAA-MM-JJ`.
 
+### Les cinq metas qualitatives (vocabulaires fermés)
+
+Elles sont **obligatoires** et n'acceptent que les valeurs ci-dessous, à la
+graphie exacte (accents compris). Source de vérité :
+[`docs/bibliotheque/CATALOGUE.md`](../../docs/bibliotheque/CATALOGUE.md) — s'y
+reporter en cas de doute, et n'inventer aucune valeur : une valeur hors
+vocabulaire est un défaut bloquant du vérificateur. Un seul terme par meta, celui
+qui décrit le mieux le livre dans son ensemble.
+
+| Meta | Valeurs admises |
+|---|---|
+| `book:genre` | `science-fiction`, `fantasy`, `fantastique`, `anticipation`, `espionnage`, `policier`, `aventure`, `comédie dramatique`, `drame`, `histoire`, `société`, `sciences`, `portrait` |
+| `book:format` | `texte`, `illustré` |
+| `book:tonalite` | `lumineuse`, `douce-amère`, `contemplative`, `ironique`, `tendue`, `sombre` |
+| `book:exigence` | `accessible`, `intermédiaire`, `exigeante` |
+| `book:audience` | `tout public`, `ados et adultes`, `adultes` |
+| `book:capacites` | `codex`, `carte`, `relations`, `choix`, `audio` — **liste** séparée par des virgules |
+
+- Un livre de cet atelier naît illustré : `book:format` vaut normalement
+  `illustré` (`texte` seulement si le brief renonce explicitement aux images).
+- `book:capacites` déclare **ce que le livre fait** en plus de dérouler son texte.
+  Un livre de cet atelier a toujours un codex : `codex` au minimum, et le
+  vérificateur en fait un défaut bloquant si l'îlot porte un codex non déclaré.
+  Ajouter `carte`, `relations`, `choix` ou `audio` **seulement si le livre les
+  offre réellement** — une capacité annoncée et absente est pire qu'un badge
+  manquant. Les illustrations ne sont pas une capacité : `book:format` le dit
+  déjà.
+- Les `book:tags` restent **libres et complémentaires** (thème, lieu, motif) mais
+  gouvernés depuis le chantier 6 : **2 à 4 tags**, jamais une valeur de vocabulaire
+  fermé (`genre`, `format`, `tonalite`, `exigence`, `audience`) ni une nature
+  (`fiction`, `reportage`), jamais une étiquette de manière (`récit littéraire`,
+  `exploration documentaire`) ou d'édition (`édition illustrée`). Le vérificateur en
+  fait un défaut bloquant et le générateur écarte le tag fautif. Règle complète :
+  [`docs/bibliotheque/CATALOGUE.md`](../../docs/bibliotheque/CATALOGUE.md)
+  §Gouvernance des tags.
+- Rien à renseigner pour la longueur : `wordCount` et le temps de lecture sont
+  **calculés** par `scripts/build_catalog.py` à partir de l'îlot JSON.
+
+### La nature du livre : dérivée, jamais déclarée
+
+Le catalogue range les livres par `nature` (`fiction` ou `reportage`), mais
+**aucune meta ne la porte** : `scripts/build_catalog.py` la déduit du nom
+d'atelier lu dans `book:workflow` (le contenu sans son suffixe ` vN`) via sa
+table `ATELIER_NATURE`. Cet atelier y est enregistré comme producteur de
+**fictions** : renseigner `<meta name="book:workflow" content="roman-atelier v7">`
+suffit, et c'est aussi ce qui trace la version de recette utilisée. Une meta
+absente ou un atelier inconnu de la table retombent sur `fiction`.
+
+### `book:variant-of` (optionnelle, cas rare)
+
+Réservée aux **éditions dérivées** : un livre qui est une autre édition d'un
+livre déjà publié déclare le slug de ce livre source
+(`<meta name="book:variant-of" content="lequation-du-calme">`), ce qui permet au
+catalogue de les regrouper au lieu de les afficher en doublon. Le slug doit
+exister sous `livres/` (`<slug>.html` ou dossier `<slug>/`) et ne peut pas être
+celui du livre lui-même. **Ne pas l'utiliser pour créer un doublon** : le
+moratoire sur les éditions dérivées (§« Interdits spécifiques ») reste en
+vigueur. Un livre ordinaire n'a pas cette meta.
+
 ## Le moteur de liseuse
 
 - **Source unique** : [`livres/_template/index.html`](../../livres/_template/index.html)
-  (`atelier-liseuse v1`), copié tel quel. Les trois défauts historiques du
+  (`atelier-liseuse v3`), copié tel quel. Les trois défauts historiques du
   moteur (audit §B.4 : `close()` écrasé, `entry()` sans garde, recherche du
   codex) y sont corrigés — ne pas les réintroduire en copiant un ancien livre.
 - **Données** : le récit vit dans l'îlot
@@ -328,12 +458,20 @@ recette et le moteur) :
   [`livres/_template/DONNEES.md`](../../livres/_template/DONNEES.md).
 - **Persistance** : la clé localStorage `<slug>-state-v1` est dérivée de
   `meta.slug` par le moteur — renseigner `meta.slug` correctement suffit.
+- **Modules optionnels** (v3) : les blocs `map` et `relations` de l'îlot
+  ajoutent une carte des lieux et un graphe de relations, avec leur bouton de
+  barre, leur entrée de sommaire et leur équivalent textuel (étape 3 bis).
+  Absents de l'îlot, ils n'existent pas pour le lecteur : c'est le défaut.
+- **Impression** (v3) : la vue affichée s'imprime sans le mobilier de la liseuse
+  — rien à faire, mais ne pas casser la feuille `@media print` en adaptant la
+  palette.
 - **Fonctionnalités à ne pas régresser** : sommaire, `role="progressbar"` mis à
   jour, codex à déverrouillage robuste au rechargement, thème sombre, taille de
   police, piège de focus dans les dialogues, région `aria-live` pour les
   déblocages, `prefers-reduced-motion`, échappement HTML systématique des
   données de l'îlot, visionneuse d'images, dégradation propre des images
-  manquantes.
+  manquantes, impression propre, et — si le brief les demande — carte et graphe
+  de relations à révélation progressive.
 
 ## Images et couverture
 
@@ -384,10 +522,18 @@ recette et le moteur) :
 - [ ] le livre s'ouvre et se lit en `file://` de bout en bout, sans erreur
       JavaScript en console et **sans image cassée à l'écran** (les emplacements
       d'images se masquent) ;
-- [ ] les 5 meta `book:*` sont présentes et exactes (`book:author` =
-      « <modèle> (texte) » à ce stade) ;
-- [ ] `<meta name="book:workflow" content="roman-atelier v5">` et
-      `<meta name="reader-engine" content="atelier-liseuse v1">` présentes ;
+- [ ] les 11 meta `book:*` sont présentes et exactes (`book:author` =
+      « <modèle> (texte) » à ce stade ; les cinq metas qualitatives prennent
+      une valeur du vocabulaire fermé ; `book:capacites` liste les capacités
+      réellement offertes, `codex` compris) ;
+- [ ] `book:variant-of` **absente**, sauf édition dérivée assumée (slug d'un
+      livre existant) ;
+- [ ] `<meta name="book:workflow" content="roman-atelier v7">` et
+      `<meta name="reader-engine" content="atelier-liseuse v3">` présentes ;
+- [ ] si le brief demande des modules de lecture (étape 3 bis) : blocs `map`
+      et/ou `relations` remplis, capacités correspondantes déclarées, et rien
+      ne se révèle avant sa lecture ; sinon, blocs `map` et `relations` du
+      gabarit **supprimés** de l'îlot ;
 - [ ] `livres/<slug>/brief.md` et `livres/<slug>/illustrations.md` committés ;
 - [ ] si le brief demande l'ancrage réel : `livres/<slug>/recherche.md`
       committé (entrées sourcées et datées, plus de « Requêtes en attente »)
@@ -395,7 +541,7 @@ recette et le moteur) :
 - [ ] socle [`PREFERENCES.md`](../../docs/conception/PREFERENCES.md) et brief
       respectés (fond et forme — longueurs, densité de mentions) ;
 - [ ] protocole de session d'`AGENTS.md` : commits d'étapes poussés, PR ouverte
-      avec description structurée (Rôle : Production / roman-atelier v5),
+      avec description structurée (Rôle : Production / roman-atelier v7),
       divergences de moteur signalées, passe illustrateur annoncée.
 
 ## Vérifications avant merge (après la passe illustrateur)

@@ -15,9 +15,18 @@ vérifiées par `scripts/build_catalog.py` et la CI :
   toutes les ressources du livrable restent dans son dossier.
 - **Slug** : kebab-case ASCII `[a-z0-9]+(-[a-z0-9]+)*` — slug invalide = CI rouge.
   Le slug est l'identifiant public et stable (URL, couverture, localStorage).
-- **Les 5 métadonnées** `book:title`, `book:author`, `book:description`,
-  `book:tags`, `book:date` dans le `<head>` du point d'entrée. `book:author` = le
-  **modèle** qui écrit (règle d'or d'`AGENTS.md`).
+- **Les 11 métadonnées** du `<head>` du point d'entrée : `book:title`,
+  `book:author`, `book:description`, `book:tags`, `book:date`, plus les cinq
+  metas qualitatives à vocabulaire fermé du schéma v2 (`book:genre`,
+  `book:format`, `book:tonalite`, `book:exigence`, `book:audience`) et
+  `book:capacites` (schéma v3 : liste des capacités interactives réellement
+  offertes — valeurs admises dans
+  [`../bibliotheque/CATALOGUE.md`](../bibliotheque/CATALOGUE.md), comme les
+  précédentes). `book:tags` porte 2 à 4 thèmes libres et ne redit jamais un
+  champ structuré (§Gouvernance des tags du même document).
+  `book:author` = le **modèle** qui écrit (règle d'or d'`AGENTS.md`).
+  `book:variant-of` (slug d'un livre existant) est optionnelle et réservée aux
+  éditions dérivées.
 - **Couverture** : `couvertures/<slug>.jpg|png|webp`, ratio 2:3, nom = slug exact,
   **sans aucun texte dans l'image** (ni titre, sous-titre, nom, crédit, logo,
   signature, filigrane ou pseudo-texte). Le titre et les métadonnées sont
@@ -65,8 +74,9 @@ de façon indifférenciée). Concrètement :
   la racine du dépôt.
 - **Versionnée** : numéro de version en tête, changelog des évolutions avec leur
   pourquoi ; le livrable produit trace la version utilisée
-  (`<meta name="book:workflow" content="<atelier> vN">` — meta ignorée par le
-  catalogue, sans risque).
+  (`<meta name="book:workflow" content="<atelier> vN">` — meta **lue par le
+  générateur**, qui en tire la `nature` du livre : le nom d'atelier doit être
+  celui du dossier `ateliers/<nom-atelier>/`, au caractère près).
 
 Toute interprétation qu'un agent Production a dû faire pendant une exécution est un
 **défaut de la recette** : elle doit être remontée dans la PR et corrigée par une
@@ -90,6 +100,9 @@ version suivante (boucle d'amélioration de la [`VISION.md`](VISION.md)).
       sans erreur et s'affiche correctement dans `index.html`.
 - [ ] Les conventions internes du format (nommage des fichiers, structure des
       données, images) sont écrites dans le workflow, pas implicites.
+- [ ] La **nature** de l'atelier est enregistrée dans la table `ATELIER_NATURE`
+      de `scripts/build_catalog.py` (§6) — et, si cette nature est inédite, le
+      chantier Bibliothèque qui lui crée son onglet d'index est passé avant.
 - [ ] La couverture ne contient aucun texte incrusté ; cette vérification est
       visuelle et s'applique aussi aux lettres ou pseudo-lettres produites par
       un générateur d'images.
@@ -121,15 +134,31 @@ Pour **faire évoluer** un atelier existant : même protocole, la modification d
 Plusieurs ateliers produisent des livrables de formats différents, tous affichés
 dans le même catalogue. Trois règles suffisent pour qu'ils cohabitent :
 
-- **Déclaration du format au catalogue** : aujourd'hui, un livrable déclare son
-  format par ses `book:tags` ; demain, par le champ `format` du schéma de catalogue
-  v2 ([roadmap Bibliothèque](../bibliotheque/ROADMAP.md), chantier 5 — la
-  gouvernance des tags y est le chantier 6). Dans les deux cas, c'est le
-  `WORKFLOW.md` de l'atelier qui fixe la valeur exacte que ses livrables déclarent,
-  pour que deux livres du même format soient toujours étiquetés pareil.
+- **Déclaration au catalogue (schéma v2)** : un atelier déclare deux choses, et
+  ni l'une ni l'autre ne passe par les tags (dont la gouvernance est le chantier 6
+  de la [roadmap Bibliothèque](../bibliotheque/ROADMAP.md)) :
+  1. **sa nature** — en enregistrant `<nom-atelier> → nature` dans la table
+     `ATELIER_NATURE` de `scripts/build_catalog.py`. Le générateur lit le nom
+     d'atelier dans `<meta name="book:workflow">` (suffixe ` vN` retiré) et en
+     dérive la `nature` du livre ; un atelier absent de la table retombe sur
+     `fiction`. Aucune meta de nature n'est écrite par l'auteur. Si la nature du
+     nouvel atelier est **inédite** (ni `fiction` ni `reportage`), elle crée un
+     nouvel onglet à l'index : c'est un **chantier Bibliothèque préalable**, dans
+     une PR séparée (§1, dernier point), avant que l'atelier ne soit accepté ;
+  2. **les vocabulaires fermés que ses livrables renseignent dans le `<head>`** —
+     `book:genre`, `book:format`, `book:tonalite`, `book:exigence`,
+     `book:audience` et `book:capacites` (valeurs admises :
+     [`CATALOGUE.md`](../bibliotheque/CATALOGUE.md)).
+     Le `WORKFLOW.md` de l'atelier dit lesquelles conviennent à son format et avec
+     quel défaut, pour que deux livres du même format soient toujours étiquetés
+     pareil ; il ne redéfinit jamais le vocabulaire de son côté.
 - **Partage de briques** : le moteur de lecture commun vit dans `livres/_template/`
   ([`ROADMAP.md`](ROADMAP.md), chantier 2) et chaque livre déclare la version
-  embarquée par `<meta name="reader-engine">`. Chaque atelier annonce dans le
+  embarquée par `<meta name="reader-engine">`. Depuis `atelier-liseuse v3`, ce
+  moteur porte des **modules optionnels** (carte des lieux, graphe de relations)
+  qu'un atelier active en remplissant l'îlot correspondant et en déclarant la
+  capacité — une fonctionnalité de lecture partagée se construit là, jamais dans
+  un moteur propre à un atelier. Chaque atelier annonce dans le
   registre [`../../ateliers/README.md`](../../ateliers/README.md) le moteur qu'il
   utilise : le template (et sa version) ou un moteur propre. On sait ainsi d'un
   coup d'œil quels ateliers profitent d'une amélioration du template.
