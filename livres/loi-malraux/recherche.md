@@ -179,6 +179,14 @@ Le parcours distinguera constamment trois objets souvent confondus :
   <https://books.openedition.org/pul/54835> et
   <https://books.openedition.org/pul/54846>.
 
+- Dans le corpus étudié par Jean-Yves Authier, l’opérateur local SEMIRELY
+  acquiert une cinquantaine d’immeubles et en restaure environ trente, pour un
+  ensemble de 480 logements et 130 chambres meublées. Ces chiffres décrivent
+  une opération locale et ne valent pas bilan national. **Source :** Jean-Yves
+  Authier, *La Vie des lieux*, Presses universitaires de Lyon, 1993 ; version
+  OpenEdition consultée le 19/08/2026 :
+  <https://books.openedition.org/pul/54835>.
+
 - Dans le périmètre du PSMV du Marais, la population passe d’environ 40 000
   habitants en 1982 à 36 500 en 1999. La baisse est plus ancienne que le plan
   approuvé en 1996 : elle ne peut donc pas être attribuée à la seule protection
@@ -186,6 +194,19 @@ Le parcours distinguera constamment trois objets souvent confondus :
   centre parisien comptent aussi. **Source :** APUR, étude du PSMV du Marais,
   2009, consultée le 19/08/2026 :
   <https://www.apur.org/sites/default/files/documents/167.pdf>.
+
+- Le PSMV du Marais reçoit une première approbation en 1996, puis une révision
+  est approuvée en 2013. **Source :** Ville de Paris, « Secteurs sauvegardés —
+  PSMV », page mise à jour le 5/06/2026, consultée le 19/08/2026 :
+  <https://www.paris.fr/pages/secteurs-sauvegardes-psmv-2351/>.
+
+- Les travaux d’Isabelle Backouche, tels que les restitue une recension
+  académique de 2017, documentent dans le Marais des habitants refusant de
+  partir ou demandant un relogement dans le quartier, ainsi que la persistance
+  d’expulsions au sein des opérations de modernisation. **Source :** *Revue
+  d’histoire moderne & contemporaine*, compte rendu de *Paris transformé*,
+  2017, consulté le 19/08/2026 :
+  <https://shs.cairn.info/revue-d-histoire-moderne-et-contemporaine-2017-4-page-249?lang=fr>.
 
 - La patrimonialisation n’invente pas seule la gentrification, mais elle peut
   accroître la valeur symbolique et foncière, attirer des investisseurs et
@@ -238,6 +259,13 @@ Le parcours distinguera constamment trois objets souvent confondus :
   performance énergétique, confort d’été et usages contemporains. **Sources :**
   Sénat, rapport n° 780, 25/09/2024 ; Métropole de Lyon, étude d’extension du
   SPR du Vieux-Lyon, consultée le 19/08/2026 :
+  <https://www.grandlyon.com/fileadmin/user_upload/media/pdf/urbanisme/sites-patrimoniaux/spr_psmv_vieux_lyon_extension_etude.pdf>.
+
+- L’étude d’extension du SPR du Vieux-Lyon décrit le périmètre étudié comme
+  couvrant environ 31 hectares et comptant 532 immeubles, dont 106 monuments
+  historiques. Ces chiffres appartiennent à ce diagnostic daté, pas à la
+  délimitation originelle de 1964. **Source :** Métropole de Lyon, étude
+  d’extension du SPR du Vieux-Lyon, consultée le 19/08/2026 :
   <https://www.grandlyon.com/fileadmin/user_upload/media/pdf/urbanisme/sites-patrimoniaux/spr_psmv_vieux_lyon_extension_etude.pdf>.
 
 ## Chronologie de travail
@@ -334,4 +362,3 @@ recherche, pas comme actifs du livrable.
 - POP / Médiathèque du patrimoine, place de l’Ancienne-Douane photographiée par
   Lucien Bégule, notice AP51L01951 :
   <https://pop.culture.gouv.fr/notice/memoire/AP51L01951>.
-
