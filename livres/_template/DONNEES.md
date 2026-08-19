@@ -1,4 +1,4 @@
-# DONNEES.md — spécification de l'îlot `#book-data` (atelier-liseuse v2)
+# DONNEES.md — spécification de l'îlot `#book-data` (atelier-liseuse v3)
 
 Spécification **normative** des données embarquées dans un livre de la famille
 « Atelier » : le bloc `<script type="application/json" id="book-data">` du point
@@ -27,6 +27,8 @@ Tout le contenu est en français. Le JSON doit être valide (vérification :
 | `cover` | objet | obligatoire | moteur |
 | `chapters` | tableau | obligatoire | moteur |
 | `codex` | tableau | obligatoire | moteur |
+| `map` | objet | **optionnel** (module carte, v3) | moteur |
+| `relations` | objet | **optionnel** (module relations, v3) | moteur |
 
 ## `meta`
 
@@ -122,6 +124,72 @@ affiché, pas de `visualDescription` exigé, hors manifeste `illustrations.md` �
 sa traçabilité vit dans `recherche.md`) ; sans `source` = illustration générée
 (contrat de génération habituel : `visualDescription` + manifeste).
 
+
+## `map` — module carte (optionnel, v3)
+
+Présent, ce bloc ajoute une vue « Carte » (bouton de barre, entrée de sommaire,
+route `#map`) : un fond schématique en SVG et des **lieux reliés à une notice du
+codex**, qui se révèlent au rythme des déverrouillages — un lieu dont la notice
+est encore verrouillée s'affiche en cercle pointillé **sans son nom** (un nom de
+lieu peut divulgâcher). Absent, la vue et son bouton n'existent pas : le livre
+est rendu comme en v2.
+
+Un module carte impose deux choses : `<meta name="book:capacites">` liste
+`carte` (le vérificateur l'exige, et l'interdit sans module), et le fond de
+carte est **dessiné en chemins SVG dans l'îlot** — jamais une image (aucune
+ressource distante, et le fond doit vivre dans le même fichier que le récit).
+
+| Champ | Type | Statut | Nature | Contenu |
+|---|---|---|---|---|
+| `label` | chaîne | recommandé | [moteur] | Titre de la vue (ex. `"La côte de Kervel"`). Défaut : `"Carte"`. Le bouton de la barre reste libellé « Carte ». |
+| `eyebrow` | chaîne | optionnel | [moteur] | Sur-titre court. Défaut : `"Repères progressifs"`. |
+| `intro` | chaîne | recommandé | [moteur] | Une phrase qui explique la révélation progressive. Défaut : phrase générique du moteur. |
+| `viewBox` | chaîne | optionnel | [moteur] | `viewBox` SVG, quatre nombres séparés par des espaces. Défaut et recommandation : `"0 0 100 72"` — toutes les coordonnées des lieux sont alors exprimées dans ce repère (`x` de 0 à 100, `y` de 0 à 72). Valeur mal formée : le défaut s'applique. |
+| `shapes` | tableau d'objets | recommandé | [moteur] | Le fond de carte, dans l'ordre de dessin (arrière-plan d'abord). |
+| `shapes[].kind` | chaîne | obligatoire | [moteur] | `eau`, `terre`, `route` ou `limite` — ces quatre valeurs seulement (elles portent le style : remplissage, trait plein ou pointillé). Toute autre valeur : la forme est ignorée. |
+| `shapes[].d` | chaîne | obligatoire | [moteur] | Attribut `d` d'un `<path>` SVG. **Assaini** : uniquement chiffres, `.,-`, espaces et lettres de commandes (`MmLlHhVvCcSsQqTtAaZz`), 4 000 caractères au plus ; tout autre contenu fait ignorer la forme. |
+| `places` | tableau d'objets | obligatoire | [moteur] | Les lieux. Un module sans aucun lieu valide est traité comme absent. |
+| `places[].codexId` | chaîne | obligatoire | [moteur] | Id d'une notice de `codex[]`. C'est elle qui porte le nom, l'accroche et le déverrouillage du lieu : un lieu n'existe sur la carte que s'il a sa notice (id inconnu → lieu ignoré). |
+| `places[].x`, `places[].y` | nombres | obligatoires | [moteur] | Coordonnées dans le repère du `viewBox`. Non numériques → lieu ignoré. |
+| `places[].label` | chaîne | optionnel | [moteur] | Nom court affiché sur la carte quand le titre de la notice est trop long. Défaut : le `title` de la notice. |
+| `places[].labelAnchor` | chaîne | optionnel | [moteur] | `start`, `middle` ou `end` : côté où l'étiquette se déploie. Défaut : vers l'intérieur de la carte (`end` si `x > 50`). |
+
+Sous la carte, le moteur affiche le compte des lieux découverts et la **liste
+des lieux découverts** (nom + accroche de la notice) : c'est l'équivalent
+accessible du clic sur la carte, et le clic comme la touche Entrée y ouvrent la
+même fiche.
+
+## `relations` — module graphe de relations (optionnel, v3)
+
+Présent, ce bloc ajoute une vue « Relations » (bouton, entrée de sommaire, route
+`#relations`) : les **entités du codex** (personnages le plus souvent, mais
+aussi lieux, institutions, objets) et les liens qualifiés entre elles. Une
+entité apparaît quand sa notice est déverrouillée ; un lien n'apparaît que
+lorsque **ses deux extrémités** le sont — et, si le lien est lui-même un
+divulgâchage, pas avant le bloc déclaré par son `unlockBlock`.
+
+Comme pour la carte : `<meta name="book:capacites">` doit lister `relations`
+(exigé par le vérificateur, interdit sans module).
+
+| Champ | Type | Statut | Nature | Contenu |
+|---|---|---|---|---|
+| `label` | chaîne | recommandé | [moteur] | Titre de la vue (ex. `"Autour de la gardienne"`). Défaut : `"Relations"`. |
+| `eyebrow` | chaîne | optionnel | [moteur] | Sur-titre court. Défaut : `"Liens révélés"`. |
+| `intro` | chaîne | recommandé | [moteur] | Une phrase sur la révélation progressive. Défaut : phrase générique du moteur. |
+| `viewBox` | chaîne | optionnel | [moteur] | Comme pour `map`. Défaut : `"0 0 100 72"`. |
+| `nodes` | tableau d'objets | obligatoire | [moteur] | Les entités du graphe (2 au minimum pour que le graphe ait un sens). Aucun nœud valide → module traité comme absent. |
+| `nodes[].codexId` | chaîne | obligatoire | [moteur] | Id d'une notice de `codex[]` (id inconnu → nœud ignoré). |
+| `nodes[].label` | chaîne | optionnel | [moteur] | Nom court affiché sous le nœud. Défaut : le `title` de la notice. |
+| `nodes[].x`, `nodes[].y` | nombres | optionnels | [moteur] | Position dans le repère du `viewBox`. **Absentes, le moteur dispose les nœuds en cercle** dans l'ordre du tableau : un graphe lisible ne demande donc aucune coordonnée, et les renseigner permet de composer une disposition parlante (le protagoniste au centre, deux camps face à face…). |
+| `links` | tableau d'objets | obligatoire (peut être vide) | [moteur] | Les liens. |
+| `links[].from`, `links[].to` | chaînes | obligatoires | [moteur] | `codexId` de deux nœuds **différents** du tableau `nodes` (id inconnu ou identique → lien ignoré). Le graphe n'est pas orienté : l'ordre n'a pas de sens. |
+| `links[].nature` | chaîne | obligatoire | [moteur] | Ce que le lien **est**, en quelques mots, dans la voix du codex (`"Gardienne du phare depuis vingt ans"`). Affiché en infobulle du trait et dans la liste sous le graphe. |
+| `links[].unlockBlock` | chaîne | optionnel | [moteur] | Id d'un bloc : le lien reste invisible tant que ce bloc n'est pas lu, même si ses deux entités sont révélées. À renseigner dès que **l'existence du lien** est une révélation (une filiation cachée, une trahison). Défaut : le lien apparaît dès que ses deux extrémités sont révélées. |
+
+Sous le graphe, le moteur affiche le compte des entités révélées et des liens,
+puis la **liste des liens révélés** (les deux noms + la nature du lien) :
+équivalent accessible du graphe, où chaque nœud s'ouvre aussi au clavier.
+
 ## `codex[]` — les notices
 
 Champs lus par le moteur :
@@ -168,6 +236,18 @@ Règles de cohérence (vérifiées par
   mort) ;
 - `unlockChapter`/`unlockPosition` correspondent bien à la position réelle de
   `unlockBlock`.
+
+## Cohérence des modules avec le catalogue
+
+Le vérificateur (`ateliers/roman-atelier/outils/verifier.py`) contrôle, en plus
+de l'intégrité des ids :
+
+- `carte` déclarée dans `book:capacites` **si et seulement si** l'îlot porte un
+  module `map` exploitable ; idem `relations` avec le module `relations` — c'est
+  ce qui garantit que le badge de capacité affiché au catalogue dit vrai ;
+- chaque `codexId` de `places[]` et de `nodes[]` existe dans `codex[]` ;
+- chaque `from`/`to` de `links[]` désigne un nœud déclaré, et chaque
+  `unlockBlock` de lien un bloc existant.
 
 ## Ce que le moteur ignore
 
