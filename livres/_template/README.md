@@ -1,6 +1,6 @@
 # livres/_template/ — moteur de liseuse de référence « Atelier »
 
-- **Version du moteur** : `atelier-liseuse v2` (déclarée par
+- **Version du moteur** : `atelier-liseuse v3` (déclarée par
   `<meta name="reader-engine">` dans chaque livre qui l'embarque).
 - **Rôle** : c'est la brique commune annoncée par
   [`docs/conception/creer-un-atelier.md`](../../docs/conception/creer-un-atelier.md)
@@ -14,7 +14,7 @@
 
 | Fichier | Rôle |
 |---|---|
-| [`index.html`](index.html) | Le moteur complet, avec un `<head>` gabarit et un îlot JSON d'exemple minimal (2 chapitres, 3 notices) qui illustre chaque champ. |
+| [`index.html`](index.html) | Le moteur complet, avec un `<head>` gabarit (11 meta `book:*` et leurs vocabulaires fermés en commentaire) et un îlot JSON d'exemple minimal (2 chapitres, 4 notices, les deux modules optionnels) qui illustre chaque champ. |
 | [`DONNEES.md`](DONNEES.md) | Spécification normative de l'îlot `#book-data` : champs, types, obligatoire/optionnel, champs lus par le moteur vs champs éditoriaux, règles de cohérence. |
 
 ## Créer un livre à partir du template
@@ -25,10 +25,15 @@ En bref :
 
 1. `cp livres/_template/index.html livres/<slug>/index.html` (jamais de copie du
    `README.md` ni de `DONNEES.md` dans le dossier du livre) ;
-2. remplacer tout le `<head>` gabarit (5 meta `book:*`, `book:workflow`, titre) —
-   conserver `<meta name="reader-engine" content="atelier-liseuse v2">` telle
-   quelle ;
+2. remplacer tout le `<head>` gabarit (11 meta `book:*` — dont les cinq metas
+   qualitatives à vocabulaire fermé listées en commentaire et `book:capacites` —,
+   `book:workflow`,
+   titre) ; `book:variant-of` reste commentée sauf édition dérivée ; conserver
+   `<meta name="reader-engine" content="atelier-liseuse v3">` telle quelle ;
 3. remplacer intégralement l'îlot JSON d'exemple (spec : `DONNEES.md`) ;
+   **supprimer les blocs `map` et `relations`** si le livre n'a ni carte ni
+   graphe — leurs vues et leurs boutons disparaissent alors d'eux-mêmes, et
+   `book:capacites` ne doit pas les déclarer ;
 4. ne pas modifier le `<script>` du moteur. Toute divergence doit être signalée
    dans la PR (règle de `roman-atelier`) ; une amélioration durable se fait ici,
    dans le template, avec incrément de la version `atelier-liseuse`.
@@ -39,6 +44,33 @@ l'univers du livre ; le reste du CSS se conserve tel quel.
 
 ## Origine et changelog du moteur
 
+- **atelier-liseuse v3** (2026-08) — réintroduction des fonctionnalités
+  régressées par la standardisation (audit
+  [`docs/audits/2026-08-rapport-etonnement.md`](../../docs/audits/2026-08-rapport-etonnement.md)
+  §B.3, chantier 4 de la [roadmap Conception](../../docs/conception/ROADMAP.md)),
+  toutes **optionnelles et sans effet sur un livre qui ne les demande pas** :
+  - **module carte** : îlot `map` (fond en chemins SVG, lieux reliés à une
+    notice), vue `#map`, bouton de barre et entrée de sommaire n'apparaissant
+    que si le module est présent ; un lieu se révèle avec la notice de son
+    lieu — verrouillé, il reste un cercle pointillé **sans son nom** (un nom de
+    lieu divulgâche) ;
+  - **module relations** : îlot `relations` (entités du codex, liens qualifiés),
+    vue `#relations` ; disposition en cercle par défaut, coordonnées possibles
+    pour composer le graphe ; un lien n'apparaît qu'une fois ses deux extrémités
+    révélées, et pas avant son `unlockBlock` s'il en porte un ;
+  - **équivalents accessibles** : sous chaque visualisation, le compte des
+    éléments révélés et la liste textuelle correspondante (lieux découverts,
+    liens révélés) ; les points de la carte et les nœuds du graphe sont
+    `role="button"` focalisables et s'ouvrent aussi à la touche Entrée ;
+  - **mode impression** (`@media print`) : la vue affichée s'imprime sans le
+    mobilier de la liseuse (barre, sommaire, navigation, dialogues, boutons),
+    en noir sur blanc, figures et cartes non coupées, URL des sources
+    imprimée à la suite des liens ;
+  - garde-fous : `viewBox` et attributs `d` assainis (jeu de caractères et
+    longueur), formes à `kind` inconnu ignorées, lieu/nœud sans notice ou sans
+    coordonnées valides ignoré, module vide traité comme absent ;
+  - une fiche ouverte depuis la carte ou le graphe ne réécrit plus l'URL en
+    `#codex/<id>` : le retour se fait sur la vue d'où l'on vient.
 - **atelier-liseuse v2** (2026-08) — figures documentaires, pour le format
   reportage (session Conception du 2026-08-17) :
   - champ optionnel `figure` sur les blocs de chapitre : image affichée **entre
@@ -84,4 +116,6 @@ Fonctionnalités garanties (à ne jamais régresser, cf. `WORKFLOW.md` §« Le m
 de liseuse ») : sommaire, `role="progressbar"`, codex à déverrouillage robuste
 au rechargement, thème sombre, taille de police, piège de focus dans les
 dialogues, `aria-live`, `prefers-reduced-motion`, échappement HTML systématique,
-visionneuse d'images, reprise de lecture.
+visionneuse d'images, reprise de lecture, impression propre de la vue affichée,
+et — quand l'îlot les porte — carte et graphe de relations à révélation
+progressive avec leurs équivalents textuels.

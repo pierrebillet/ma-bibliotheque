@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="L’histoire du projet : des livres-web écrits par des agents IA, chaque livre crédite le modèle qui l’a écrit, et chaque contribution passe par une pull request.">
+  <meta name="color-scheme" content="light dark">
+  <title>À propos — Ma bibliothèque</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <!-- Métadonnées de partage : seule exception au « zéro domaine codé en dur »
+       (les scrapers sociaux exigent des URL absolues) — voir docs/bibliotheque/FRONTEND.md §Évolution. -->
+  <link rel="canonical" href="https://pierrebillet.github.io/ma-bibliotheque/a-propos.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ma bibliothèque">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="À propos — Ma bibliothèque">
+  <meta property="og:description" content="Des livres-web écrits par des agents IA : qui écrit quoi, comment les livres sont fabriqués, comment contribuer.">
+  <meta property="og:url" content="https://pierrebillet.github.io/ma-bibliotheque/a-propos.html">
+  <meta property="og:image" content="https://pierrebillet.github.io/ma-bibliotheque/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Ma bibliothèque — livres-web écrits par des agents IA">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="À propos — Ma bibliothèque">
+  <meta name="twitter:description" content="Des livres-web écrits par des agents IA : qui écrit quoi, comment les livres sont fabriqués, comment contribuer.">
+  <meta name="twitter:image" content="https://pierrebillet.github.io/ma-bibliotheque/og-image.png">
+  <style>
+    /* Palette alignée sur la direction « galerie » d'index.html. */
+    :root {
+      color-scheme: light dark;
+      --page: #f4f5f6;
+      --surface: #ffffff;
+      --text: #20242a;
+      --muted: #68717c;
+      --line: rgba(32, 36, 42, 0.16);
+      --line-strong: rgba(32, 36, 42, 0.34);
+      --accent: #1f5fbf;
+      --accent-strong: #174a94;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --page: #161b22;
+        --surface: #21262d;
+        --text: #f0f3f6;
+        --muted: #9da7b3;
+        --line: rgba(240, 243, 246, 0.16);
+        --line-strong: rgba(240, 243, 246, 0.34);
+        --accent: #1f6feb;
+        --accent-strong: #58a6ff;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--page);
+      font-family: var(--sans);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .page {
+      width: min(calc(100% - 3rem), 44rem);
+      margin: 0 auto;
+      padding: clamp(2rem, 4vw, 3.4rem) 0 4.5rem;
+    }
+
+    @media (max-width: 34rem) {
+      .page { width: min(calc(100% - 2rem), 44rem); }
+    }
+
+    a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+    a:hover, a:focus-visible { color: var(--accent-strong); }
+
+    .eyebrow {
+      margin: 0 0 1.4rem;
+      color: var(--accent);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow a { color: inherit; text-decoration: none; }
+    .eyebrow a:hover, .eyebrow a:focus-visible { text-decoration: underline; }
+
+    h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(2.6rem, 7vw, 4rem);
+      font-weight: 500;
+      letter-spacing: -0.045em;
+      line-height: 0.95;
+    }
+
+    .chapo {
+      max-width: 38rem;
+      margin: 1.6rem 0 0;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line-strong);
+      color: var(--muted);
+      font-size: clamp(0.98rem, 1.4vw, 1.12rem);
+    }
+
+    h2 {
+      margin: 3rem 0 0.9rem;
+      padding-top: 2.2rem;
+      border-top: 1px solid var(--line);
+      font-family: var(--serif);
+      font-size: clamp(1.45rem, 3vw, 1.8rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    p { margin: 0.85rem 0 0; }
+
+    ul, ol { margin: 0.85rem 0 0; padding-left: 1.35rem; }
+    li { margin-top: 0.45rem; }
+    li::marker { color: var(--accent); }
+
+    code {
+      padding: 0.08em 0.35em;
+      border: 1px solid var(--line);
+      border-radius: 0.25rem;
+      background: var(--surface);
+      font-size: 0.88em;
+    }
+
+    .retour {
+      display: inline-block;
+      margin-top: 3rem;
+      padding: 0.7rem 1.4rem;
+      border: 1px solid var(--line-strong);
+      border-radius: 0.3rem;
+      color: var(--text);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .retour:hover, .retour:focus-visible {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <p class="eyebrow"><a href="index.html">Ma bibliothèque</a></p>
+      <h1>À propos</h1>
+      <p class="chapo">Une bibliothèque de livres-web écrits par des agents
+        d’intelligence artificielle. Chaque livre est une page HTML autonome —
+        récit et liseuse réunis dans un même fichier — qui se lit en ligne,
+        se partage par une simple URL et se télécharge pour être lue hors ligne.</p>
+    </header>
+
+    <main>
+      <section aria-labelledby="quoi">
+        <h2 id="quoi">Le projet</h2>
+        <p>Ma bibliothèque est une expérience d’édition : des modèles d’IA
+          différents y écrivent des livres, seuls ou à plusieurs (l’un le texte,
+          l’autre les illustrations), et chaque contribution passe par une
+          relecture avant publication, comme dans un projet logiciel. Le site
+          lui-même est volontairement sobre : pas de compte, pas de traqueur,
+          aucune dépendance externe — des fichiers statiques publiés tels quels.</p>
+      </section>
+
+      <section aria-labelledby="qui">
+        <h2 id="qui">Quel modèle a écrit quoi ?</h2>
+        <p>La traçabilité est l’objet même du projet. Chaque livre porte dans ses
+          métadonnées le nom du <strong>modèle</strong> qui l’a écrit — Claude
+          Fable, GPT&nbsp;5.6, Gemini&nbsp;3.1&nbsp;pro… — jamais un pseudonyme
+          collectif. C’est ce nom qui s’affiche comme auteur sur chaque carte du
+          catalogue&nbsp;; quand un livre est illustré par un autre modèle que
+          celui qui a écrit le texte, les deux sont crédités. L’historique
+          public du dépôt conserve, commit par commit, la fabrication de chaque
+          livre.</p>
+      </section>
+
+      <section aria-labelledby="comment">
+        <h2 id="comment">Comment un livre est fabriqué</h2>
+        <p>Les livres ne sortent pas d’un prompt unique : ils sont produits dans
+          des <strong>ateliers</strong>, des recettes documentées et versionnées
+          que l’agent suit étape par étape — plan, chapitres, relecture, et selon
+          l’atelier&nbsp;: recherche documentaire sourcée, illustrations, codex à
+          déverrouiller au fil de la lecture. Concrètement&nbsp;:</p>
+        <ol>
+          <li>l’agent travaille sur une branche dédiée, avec un commit par étape
+            de fabrication&nbsp;;</li>
+          <li>il ouvre une pull request, qu’une vérification automatique
+            contrôle (identifiants, métadonnées, catalogue)&nbsp;;</li>
+          <li>après relecture humaine et merge, le catalogue du site est
+            régénéré automatiquement — le livre apparaît sur la page d’accueil
+            sans intervention manuelle.</li>
+        </ol>
+      </section>
+
+      <section aria-labelledby="contribuer">
+        <h2 id="contribuer">Contribuer</h2>
+        <p>Tout se passe dans le dépôt public
+          <a href="https://github.com/pierrebillet/ma-bibliotheque" rel="noopener noreferrer">pierrebillet/ma-bibliotheque</a>
+          sur GitHub. Deux façons d’y prendre part&nbsp;:</p>
+        <ul>
+          <li><strong>Proposer ici</strong> — signaler un problème ou ouvrir une
+            pull request&nbsp;; le point d’entrée des agents de code est le
+            fichier <code>AGENTS.md</code> à la racine, qui route vers la
+            documentation de chaque rôle.</li>
+          <li><strong>Forker le gabarit</strong> — le dépôt est pensé pour être
+            appropriable&nbsp;: le copier, y brancher son agent préféré et
+            écrire ses propres livres selon ses propres références.</li>
+        </ul>
+      </section>
+    </main>
+
+    <a class="retour" href="index.html">← Retourner au catalogue</a>
+  </div>
+</body>
+</html>

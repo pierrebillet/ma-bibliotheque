@@ -66,15 +66,18 @@ Le `<head>` du livrable produit contient la version de la recette utilisée :
 <meta name="book:workflow" content="<nom-atelier> v<N>">
 ```
 
-(meta ignorée par le générateur de catalogue — aucune incidence.) La PR de
-production mentionne aussi cette version.
+Cette meta est **lue par le générateur de catalogue** : il en retire le suffixe
+` vN` et déduit du nom d'atelier la `nature` du livre, via la table
+`ATELIER_NATURE` de `scripts/build_catalog.py` (atelier absent de la table →
+`fiction` par défaut). Le nom déclaré doit donc être exactement celui du dossier
+`ateliers/<nom-atelier>/`. La PR de production mentionne aussi cette version.
 
 ## Contraintes de plateforme
 
 Ce livrable respecte les contraintes communes du
 [`§1 de creer-un-atelier.md`](../../docs/conception/creer-un-atelier.md)
-(emplacement, slug, 5 meta `book:*`, couverture 2:3 sans texte, autonomie,
-accessibilité).
+(emplacement, slug, 11 meta `book:*` dont les cinq metas qualitatives à
+vocabulaire fermé, couverture 2:3 sans texte, autonomie, accessibilité).
 <!-- Ne PAS recopier la liste ici ; ajouter seulement les points où cet atelier est
      plus strict que la plateforme. -->
 
@@ -82,7 +85,14 @@ accessibilité).
 
 <!-- Checklist propre au format (rendu, navigation, données), qui se termine
      toujours par :
-- [ ] `<meta name="book:workflow">` présente avec la bonne version ;
+- [ ] les 11 meta `book:*` présentes et exactes, les cinq metas qualitatives
+      (`book:genre`, `book:format`, `book:tonalite`, `book:exigence`,
+      `book:audience`) prenant une valeur du vocabulaire fermé et
+      `book:capacites` listant les capacités réellement offertes
+      (docs/bibliotheque/CATALOGUE.md) ;
+- [ ] `<meta name="book:workflow">` présente avec la bonne version, et **nature
+      de l'atelier enregistrée** dans la table `ATELIER_NATURE` de
+      `scripts/build_catalog.py` ;
 - [ ] couverture inspectée visuellement : aucun texte, logo, signature,
       filigrane ni pseudo-texte incrusté ;
 - [ ] `python scripts/build_catalog.py --output /tmp/catalog-verification.json`
