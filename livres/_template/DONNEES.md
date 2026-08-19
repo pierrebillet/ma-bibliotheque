@@ -135,7 +135,9 @@ lieu peut divulgâcher). Absent, la vue et son bouton n'existent pas : le livre
 est rendu comme en v2.
 
 Un module carte impose deux choses : `<meta name="book:capacites">` liste
-`carte` (le vérificateur l'exige, et l'interdit sans module), et le fond de
+`carte` (le vérificateur l'exige ; déclarée sans module, elle vaut un
+avertissement — capacité fausse, ou module fait à la main donc divergence de
+moteur à signaler dans la PR), et le fond de
 carte est **dessiné en chemins SVG dans l'îlot** — jamais une image (aucune
 ressource distante, et le fond doit vivre dans le même fichier que le récit).
 
@@ -169,7 +171,7 @@ lorsque **ses deux extrémités** le sont — et, si le lien est lui-même un
 divulgâchage, pas avant le bloc déclaré par son `unlockBlock`.
 
 Comme pour la carte : `<meta name="book:capacites">` doit lister `relations`
-(exigé par le vérificateur, interdit sans module).
+(exigé par le vérificateur dès que le module est là).
 
 | Champ | Type | Statut | Nature | Contenu |
 |---|---|---|---|---|
@@ -242,9 +244,11 @@ Règles de cohérence (vérifiées par
 Le vérificateur (`ateliers/roman-atelier/outils/verifier.py`) contrôle, en plus
 de l'intégrité des ids :
 
-- `carte` déclarée dans `book:capacites` **si et seulement si** l'îlot porte un
-  module `map` exploitable ; idem `relations` avec le module `relations` — c'est
-  ce qui garantit que le badge de capacité affiché au catalogue dit vrai ;
+- `carte` déclarée dans `book:capacites` dès que l'îlot porte un module `map`
+  exploitable (défaut bloquant sinon : le badge manquerait au catalogue) ; idem
+  `relations`. L'inverse — capacité déclarée sans module — est un avertissement,
+  parce qu'un module fait à la main reste possible (divergence de moteur, à
+  signaler dans la PR) ;
 - chaque `codexId` de `places[]` et de `nodes[]` existe dans `codex[]` ;
 - chaque `from`/`to` de `links[]` désigne un nœud déclaré, et chaque
   `unlockBlock` de lien un bloc existant.
