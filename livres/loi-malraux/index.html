@@ -86,7 +86,40 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
     "thematicQuestion": "Sauver une ville, est-ce conserver ses pierres ou permettre à une population de continuer à les habiter ?"
   },
   "entityAudit": {
-    "excluded": []
+    "excluded": [
+      {
+        "label": "Michel Debré",
+        "reason": "Rôle de préparation mentionné ponctuellement ; le contexte interministériel est couvert par les notices Pierre Sudreau et Loi du 4 août 1962."
+      },
+      {
+        "label": "Avignon",
+        "reason": "La ville est citée comme contexte ; le cas utile au parcours est couvert par la notice La Balance."
+      },
+      {
+        "label": "Saint-Jean, Saint-Paul et Saint-Georges",
+        "reason": "Sous-quartiers traités ensemble dans la notice Vieux-Lyon."
+      },
+      {
+        "label": "Marcel Franchet et Henry de Ségogne",
+        "reason": "Acteurs cités dans le cas de Sarlat ; leur action est couverte par la notice Sarlat sans justifier deux fiches supplémentaires."
+      },
+      {
+        "label": "SEMIRELY",
+        "reason": "Opérateur local cité pour un chiffre de restauration ; couvert par la notice Vieux-Lyon."
+      },
+      {
+        "label": "ZPPAU, ZPPAUP et AVAP",
+        "reason": "Catégories juridiques de transition couvertes par les notices Site patrimonial remarquable et PVAP."
+      },
+      {
+        "label": "Article 199 tervicies du CGI",
+        "reason": "Référence fiscale couverte par la notice Dispositif fiscal Malraux."
+      },
+      {
+        "label": "Assemblée nationale, Sénat, Légifrance, ministère de la Culture et APUR",
+        "reason": "Institutions et producteurs documentaires, regroupés dans la notice Sources et méthode."
+      }
+    ]
   },
   "cover": {
     "image": "../../couvertures/loi-malraux.webp",
@@ -664,7 +697,448 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
       ]
     }
   ],
-  "codex": []
+  "codex": [
+    {
+      "id": "sources-et-methode",
+      "title": "Sources et méthode",
+      "category": "méthode",
+      "hook": "Un dossier qui sépare les textes originels, les effets ultérieurs et les réformes.",
+      "text": "Ce reportage distingue trois niveaux : la loi patrimoniale et urbaine du 4 août 1962, le régime fiscal apparu en 1977, puis les sites patrimoniaux remarquables créés en 2016. Les textes juridiques sont privilégiés pour les règles ; les discours et rapports parlementaires servent à comprendre les intentions et les bilans. Les chiffres locaux sont conservés lorsqu’un document institutionnel les donne, mais une date d’arrêté n’est pas assimilée à une date de chantier. La consultation des pages et documents a été effectuée le 19 août 2026. Sources : ministère de la Culture, chronologie : https://www.culture.gouv.fr/thematiques/monuments-sites/monuments-historiques-sites-patrimoniaux/un-peu-d-histoire/la-chronologie-des-sites-patrimoniaux-dates-cles ; Légifrance : https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000313970.",
+      "links": [
+        "avant-1962",
+        "loi-4-aout-1962",
+        "secteur-sauvegarde"
+      ],
+      "unlockBlock": "c1-b01",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b01",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b01",
+      "unlockChapter": 1,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner au lecteur la méthode de distinction entre droit originel, effets fiscaux et réformes patrimoniales."
+    },
+    {
+      "id": "avant-1962",
+      "title": "Avant 1962",
+      "category": "contexte urbain",
+      "hook": "Avant de protéger les quartiers, l’administration les juge vétustes, insalubres et modernisables.",
+      "text": "Après-guerre, la reconstruction, les besoins de logement et les objectifs d’hygiène placent les centres anciens sous la pression de la rénovation urbaine. La chronologie officielle du ministère de la Culture décrit des quartiers menacés de destructions menées au nom de la modernité. La loi de 1943 avait déjà élargi la protection des monuments à leurs abords, avec un périmètre automatique de cinq cents mètres, mais elle ne constituait pas encore une politique générale des tissus urbains. Les sources consultées ne permettent pas de quantifier ici toutes les démolitions antérieures à 1962. Source : ministère de la Culture, chronologie des sites patrimoniaux, consultée le 19 août 2026 : https://www.culture.gouv.fr/thematiques/monuments-sites/monuments-historiques-sites-patrimoniaux/un-peu-d-histoire/la-chronologie-des-sites-patrimoniaux-dates-cles.",
+      "links": [
+        "sources-et-methode",
+        "andre-malraux",
+        "loi-4-aout-1962"
+      ],
+      "unlockBlock": "c1-b01",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b01",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b01",
+      "unlockChapter": 1,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Installer le conflit initial entre modernisation du logement et conservation des formes urbaines anciennes."
+    },
+    {
+      "id": "andre-malraux",
+      "title": "André Malraux",
+      "category": "personnalité politique",
+      "hook": "Le ministre formule le passage du monument isolé à la présence du passé dans le quartier.",
+      "text": "Dans son discours du 23 juillet 1962, André Malraux oppose le chef-d’œuvre isolé à la présence du passé dans la ville. Des maisons ordinaires peuvent, selon son argumentation, avoir une valeur par l’ensemble qu’elles composent. Il ne défend pas une ville figée : les intérieurs, les réseaux et les conditions de logement doivent pouvoir être modernisés. Il présente aussi la restauration comme une décision publique, car le marché privé ne financerait pas spontanément certaines opérations. Ce discours est une source primaire sur l’intention politique, mais il ne remplace pas le texte de loi. Source : Assemblée nationale, discours du 23 juillet 1962, consulté le 19 août 2026 : https://www.assemblee-nationale.fr/histoire/andre-malraux/discours/malraux_23juil1962.asp.",
+      "links": [
+        "avant-1962",
+        "pierre-sudreau",
+        "la-balance"
+      ],
+      "unlockBlock": "c1-b05",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b05",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b05",
+      "unlockChapter": 1,
+      "unlockPosition": 5,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Faire entendre la doctrine politique qui accompagne la création des secteurs sauvegardés."
+    },
+    {
+      "id": "pierre-sudreau",
+      "title": "Pierre Sudreau",
+      "category": "ministre",
+      "hook": "Le ministère de la Construction inventorie les tissus anciens avant la loi Malraux.",
+      "text": "En mai 1959, Pierre Sudreau, ministre de la Construction, lance un inventaire des tissus urbains anciens. Cette initiative place la genèse du dispositif dans une politique interministérielle : la question concerne le logement et l’urbanisme avant de devenir un objet central du ministère des Affaires culturelles. Le rapport sénatorial qui donne cette information ne décrit pas ici le corpus complet de l’inventaire ni sa méthode détaillée. Il permet toutefois d’établir un fait préparatoire : l’administration chargée de construire et de rénover commence à identifier les formes urbaines que la modernisation pourrait altérer. Source : Sénat, rapport d’information de Vincent Éblé, déposé le 7 octobre 2015, consulté le 19 août 2026 : https://www.senat.fr/rap/r15-018/r15-0186.html.",
+      "links": [
+        "andre-malraux",
+        "avant-1962",
+        "loi-4-aout-1962"
+      ],
+      "unlockBlock": "c2-b01",
+      "firstMentionChapter": 2,
+      "firstMentionBlock": "c2-b01",
+      "earliestSafeChapter": 2,
+      "earliestSafeBlock": "c2-b01",
+      "unlockChapter": 2,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Corriger l’idée d’une invention exclusivement culturelle et replacer la loi dans l’action de la Construction."
+    },
+    {
+      "id": "loi-4-aout-1962",
+      "title": "La loi du 4 août 1962",
+      "category": "texte juridique",
+      "hook": "Le texte crée un périmètre urbain protégé et l’obligation d’un plan de sauvegarde.",
+      "text": "La loi n° 62-903 du 4 août 1962 crée les secteurs sauvegardés pour des ensembles présentant un caractère historique ou esthétique, ou justifiant conservation, restauration et mise en valeur. Elle prévoit un plan permanent de sauvegarde et de mise en valeur, des autorisations pour les travaux et la compatibilité des projets avec ce plan. La restauration immobilière peut comprendre réaménagement, modernisation et certaines démolitions nécessaires à l’habitabilité. Le texte originel ne crée pas encore la réduction d’impôt appelée plus tard Malraux : la fiscalité spécifique apparaît avec la loi de finances pour 1977. Sources : Légifrance, version initiale : https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000313970 ; Sénat, reproduction du texte originel : https://www.senat.fr/rap/1975-1976/i1975_1976_0298.pdf.",
+      "links": [
+        "secteur-sauvegarde",
+        "psmv",
+        "occupants-relogement"
+      ],
+      "unlockBlock": "c1-b04",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b04",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b04",
+      "unlockChapter": 1,
+      "unlockPosition": 4,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Fournir la référence juridique qui permet de distinguer le texte de 1962 de ses effets ultérieurs."
+    },
+    {
+      "id": "secteur-sauvegarde",
+      "title": "Le secteur sauvegardé",
+      "category": "dispositif territorial",
+      "hook": "Le quartier entier devient une unité de protection, d’autorisation et de transformation.",
+      "text": "Le secteur sauvegardé est le périmètre créé par la loi de 1962 pour un ensemble urbain dont la conservation, la restauration et la mise en valeur sont justifiées. La protection porte donc sur un tissu, et non sur une simple collection de monuments. Le secteur est créé par l’État selon une procédure associant les communes ; en cas de désaccord municipal, un décret en Conseil d’État peut intervenir. Les travaux qui modifient les immeubles sont soumis à autorisation et doivent respecter le plan applicable. Le dispositif est à la fois patrimonial, urbain et immobilier. Sources : Légifrance, loi n° 62-903 : https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000313970 ; ministère de la Culture, chronologie : https://www.culture.gouv.fr/thematiques/monuments-sites/monuments-historiques-sites-patrimoniaux/un-peu-d-histoire/la-chronologie-des-sites-patrimoniaux-dates-cles.",
+      "links": [
+        "loi-4-aout-1962",
+        "psmv",
+        "commission-nationale"
+      ],
+      "unlockBlock": "c1-b02",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b02",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b02",
+      "unlockChapter": 1,
+      "unlockPosition": 2,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner le vocabulaire et l’échelle juridique de la protection des quartiers historiques."
+    },
+    {
+      "id": "psmv",
+      "title": "Le PSMV",
+      "category": "document d’urbanisme",
+      "hook": "Le plan transforme l’idée de sauvegarde en prescriptions attachées aux immeubles et aux îlots.",
+      "text": "Le texte de 1962 parle d’un « plan permanent de sauvegarde et de mise en valeur », devenu PSMV dans l’usage. Le plan détermine les opérations de conservation, de restauration, de modernisation et certaines démolitions. Le discours de Malraux mentionne aussi les réseaux d’eau, d’assainissement, d’électricité et de gaz : la sauvegarde doit permettre au quartier de rester habitable. Le PSMV n’est donc pas un inventaire ni un label touristique. Il organise les autorisations et peut porter sur la profondeur des îlots, selon les prescriptions adoptées. Sources : Sénat, texte originel reproduit : https://www.senat.fr/rap/1975-1976/i1975_1976_0298.pdf ; Assemblée nationale, discours du 23 juillet 1962 : https://www.assemblee-nationale.fr/histoire/andre-malraux/discours/malraux_23juil1962.asp.",
+      "links": [
+        "secteur-sauvegarde",
+        "loi-4-aout-1962",
+        "occupants-relogement"
+      ],
+      "unlockBlock": "c1-b07",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b07",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b07",
+      "unlockChapter": 1,
+      "unlockPosition": 7,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Expliquer comment une intention patrimoniale devient un document de prescriptions urbaines et techniques."
+    },
+    {
+      "id": "occupants-relogement",
+      "title": "Occupants et relogement",
+      "category": "droit de l’habitat",
+      "hook": "La restauration immobilière déplace parfois les personnes autant qu’elle transforme les bâtiments.",
+      "text": "La loi de 1962 ne traite pas seulement des façades. Elle prévoit des dispositions pour les occupants : évacuation, préavis, relogement et indemnisation apparaissent dans le cadre des opérations de restauration immobilière. Les propriétaires peuvent conduire les travaux eux-mêmes, se regrouper dans une association syndicale ou recourir à un organisme d’opération. Les travaux peuvent comprendre réaménagement, modernisation et démolition affectant l’habitabilité. Il faut distinguer cette règle nationale des effets sociaux propres à chaque quartier : le texte établit des procédures, mais ne permet pas à lui seul de mesurer les déplacements effectivement produits. Source : Sénat, rapport reproduisant la loi originelle, consulté le 19 août 2026 : https://www.senat.fr/rap/1975-1976/i1975_1976_0298.pdf.",
+      "links": [
+        "loi-4-aout-1962",
+        "psmv",
+        "secteur-sauvegarde"
+      ],
+      "unlockBlock": "c3-b05",
+      "firstMentionChapter": 3,
+      "firstMentionBlock": "c3-b05",
+      "earliestSafeChapter": 3,
+      "earliestSafeBlock": "c3-b05",
+      "unlockChapter": 3,
+      "unlockPosition": 5,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Maintenir les habitants dans le champ du récit et empêcher une histoire réduite aux seuls bâtiments."
+    },
+    {
+      "id": "commission-nationale",
+      "title": "La Commission nationale",
+      "category": "institution",
+      "hook": "Une commission donne un cadre national à une politique appliquée ville par ville.",
+      "text": "Le décret n° 63-691 du 13 juillet 1963 précise la procédure des secteurs sauvegardés et le rôle de la Commission nationale des secteurs sauvegardés. La commission examine les propositions de secteurs ; le maire est consulté avant la proposition et les plans sont préparés avec les services de l’État et les autorités locales. Sa première réunion se tient le 15 novembre 1963. Cette institution ne remplace pas les communes ni les architectes chargés des plans, mais elle inscrit les premières opérations dans une doctrine nationale. Le dispositif n’est donc pas une succession de décisions isolées : il est organisé par une commission et des procédures communes. Source : Sénat, rapport de la session 1965-1966, consulté le 19 août 2026 : https://www.senat.fr/rap/1965-1966/i1965_1966_0032_03.pdf.",
+      "links": [
+        "secteur-sauvegarde",
+        "psmv",
+        "pierre-sudreau"
+      ],
+      "unlockBlock": "c3-b06",
+      "firstMentionChapter": 3,
+      "firstMentionBlock": "c3-b06",
+      "earliestSafeChapter": 3,
+      "earliestSafeBlock": "c3-b06",
+      "unlockChapter": 3,
+      "unlockPosition": 6,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Rendre visible l’appareil administratif qui transforme une loi nationale en plans locaux."
+    },
+    {
+      "id": "la-balance",
+      "title": "La Balance à Avignon",
+      "category": "exemple urbain",
+      "hook": "Un quartier sert à Malraux d’exemple pour opposer restauration, bulldozer et pastiche.",
+      "text": "Dans son discours du 23 juillet 1962, André Malraux présente le quartier de la Balance à Avignon comme un cas où l’investissement privé ne suffirait pas à financer une restauration. La ville devrait choisir entre la démolition-reconstruction et une intervention publique capable de maintenir le caractère ancien tout en améliorant l’habitat. Malraux distingue alors la restauration du pastiche : reconstruire du neuf dans un style ancien ne revient pas à conserver la substance historique. La Balance est un exemple politique dans le discours, pas une règle générale ni une preuve que toutes les opérations avignonnaises ont suivi le même modèle. Source : Assemblée nationale, discours du 23 juillet 1962, consulté le 19 août 2026 : https://www.assemblee-nationale.fr/histoire/andre-malraux/discours/malraux_23juil1962.asp.",
+      "links": [
+        "andre-malraux",
+        "avant-1962",
+        "secteur-sauvegarde"
+      ],
+      "unlockBlock": "c1-b06",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b06",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b06",
+      "unlockChapter": 1,
+      "unlockPosition": 6,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner un exemple concret de l’arbitrage politique entre destruction, restauration et intervention publique."
+    },
+    {
+      "id": "vieux-lyon",
+      "title": "Le Vieux-Lyon",
+      "category": "lieu",
+      "hook": "Un centre ancien où la protection a changé l'architecture et la trajectoire sociale du quartier.",
+      "text": "Le Vieux-Lyon est présenté par le rapport du Grand Lyon comme le premier secteur sauvegardé institué en France, le 12 mai 1964. Son périmètre couvre environ 30 hectares, près de 500 immeubles et quelque 4 000 logements. Entre 1964 et 1976, vingt immeubles et 280 logements ont été restaurés ; entre 1977 et 1982, dix immeubles et 138 logements locatifs supplémentaires. Le rapport relève alors le maintien de la population, avec 4 057 logements recensés en 1974. Cette chronologie ne résume pas les effets sociaux ultérieurs : les opérations, les loyers et les usages ont différé selon les secteurs. Sources : Grand Lyon, rapport du PSMV du Vieux-Lyon, https://www.grandlyon.com/fileadmin/user_upload/media/pdf/urbanisme/sites-patrimoniaux/spr_psmv_vieux_lyon_rapport.pdf ; consultation : 19 août 2026.",
+      "links": [
+        "renaissance-vieux-lyon",
+        "spr",
+        "gentrification"
+      ],
+      "unlockBlock": "c4-b01",
+      "firstMentionChapter": 4,
+      "firstMentionBlock": "c4-b01",
+      "earliestSafeChapter": 4,
+      "earliestSafeBlock": "c4-b01",
+      "unlockChapter": 4,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner un cas documenté pour mesurer concrètement ce que le secteur sauvegardé a transformé."
+    },
+    {
+      "id": "renaissance-vieux-lyon",
+      "title": "Renaissance du Vieux-Lyon",
+      "category": "association",
+      "hook": "Une mobilisation locale qui a contribué à faire du Vieux-Lyon un objet de sauvegarde publique.",
+      "text": "L'association Renaissance du Vieux-Lyon a été fondée en 1946, avant la loi Malraux. La mairie du 5e arrondissement lui attribue un rôle dans la sauvegarde du quartier et rappelle qu'elle a participé à la constitution du dossier présenté à l'UNESCO. Elle annonce aujourd'hui environ 600 membres. Cette histoire est importante parce que la protection n'est pas seulement venue d'un texte national : elle s'est aussi construite par une mobilisation locale, des alertes et une expertise associative sur les immeubles menacés. Le site de la mairie ne transforme pas cette implication en récit héroïque unique ; il la situe parmi les associations historiques du Vieux-Lyon. Source : Mairie du 5e arrondissement de Lyon, https://mairie5.lyon.fr/cadre-de-vie/decouvrir-le-5e/associations-historiques ; consultation : 19 août 2026.",
+      "links": [
+        "vieux-lyon",
+        "sarlat",
+        "abf"
+      ],
+      "unlockBlock": "c4-b01",
+      "firstMentionChapter": 4,
+      "firstMentionBlock": "c4-b01",
+      "earliestSafeChapter": 4,
+      "earliestSafeBlock": "c4-b01",
+      "unlockChapter": 4,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Rendre visible le rôle des habitants et des associations dans la genèse de la protection."
+    },
+    {
+      "id": "sarlat",
+      "title": "Sarlat",
+      "category": "lieu",
+      "hook": "Un laboratoire de restauration où l'objectif affiché était de rendre le centre ancien habitable.",
+      "text": "Sarlat figure parmi les dix premiers secteurs sauvegardés, avec un arrêté du 27 août 1964. La présentation historique de la ville distingue un centre historique d'environ 11 hectares et un premier îlot opérationnel d'environ 2 hectares. Les travaux, engagés sur plus de dix ans, sont décrits comme ayant produit dès 1975 des effets économiques, culturels et touristiques positifs. La ville rappelle aussi que l'hôtel Plamon, acheté en 1950, a été restauré en 1975 avant d'accueillir un musée. Ces éléments attestent une stratégie de restauration et de réemploi ; ils ne suffisent pas à mesurer seuls l'évolution sociale du centre ni à attribuer toute sa trajectoire au dispositif. Sources : Ville de Sarlat, https://sarlat.fr/decouvrir-sarlat/histoire-patrimoine/presentation-historique/ ; POP, https://pop.culture.gouv.fr/notice/joconde/M0060000412 ; consultation : 19 août 2026.",
+      "links": [
+        "vieux-lyon",
+        "loi-fiscale-malraux",
+        "spr"
+      ],
+      "unlockBlock": "c4-b02",
+      "firstMentionChapter": 4,
+      "firstMentionBlock": "c4-b02",
+      "earliestSafeChapter": 4,
+      "earliestSafeBlock": "c4-b02",
+      "unlockChapter": 4,
+      "unlockPosition": 2,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Comparer une petite ville pionnière au cas lyonnais sans réduire la restauration à une recette uniforme."
+    },
+    {
+      "id": "loi-fiscale-malraux",
+      "title": "Le régime fiscal Malraux",
+      "category": "dispositif fiscal",
+      "hook": "Un mécanisme fiscal né après la loi patrimoniale, dont l'histoire et le champ ne se confondent pas avec elle.",
+      "text": "La loi du 4 août 1962 a créé l'outil patrimonial des secteurs sauvegardés ; le régime fiscal dit Malraux est venu plus tard, dans la loi de finances pour 1977. Les réformes de 1993 et 1994 ont notamment raccourci la durée de location prise en compte et modifié les conditions du dispositif. Le rapport parlementaire de 2009 estimait qu'en 2005 le régime concernait 3 540 foyers et 6 160 locaux, dans 97 secteurs ou zones. Le site officiel des impôts indique, pour le régime actuel, une réduction de 30 % dans un SPR couvert par un PSMV approuvé et de 22 % dans les autres cas prévus. Ces taux décrivent le droit en vigueur, pas une recommandation d'investissement. Sources : https://www.assemblee-nationale.fr/13/rap-info/i0946.asp ; https://www.impots.gouv.fr/particulier/immeubles-speciaux-0 ; consultation : 19 août 2026.",
+      "links": [
+        "spr",
+        "pvap",
+        "gentrification"
+      ],
+      "unlockBlock": "c5-b01",
+      "firstMentionChapter": 5,
+      "firstMentionBlock": "c5-b01",
+      "earliestSafeChapter": 5,
+      "earliestSafeBlock": "c5-b01",
+      "unlockChapter": 5,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Séparer la loi de protection de 1962 de l'instrument fiscal et donner une chronologie vérifiable du second."
+    },
+    {
+      "id": "marais",
+      "title": "Le Marais",
+      "category": "lieu",
+      "hook": "Un secteur parisien où la protection du bâti accompagne une longue recomposition démographique.",
+      "text": "Le secteur sauvegardé du Marais a été créé en 1964. La Ville de Paris lui attribue aujourd'hui 126 hectares dans les 3e et 4e arrondissements, couverts par un plan de sauvegarde et de mise en valeur. Les données de l'APUR montrent que la population du périmètre PSMV est passée d'environ 40 000 habitants en 1982 à 36 500 en 1999, soit une baisse de 8,8 %. Cette évolution s'inscrit dans des mouvements plus larges du centre de Paris et ne permet pas d'isoler un effet unique de la protection. Les recherches sur l'îlot 16 documentent en outre des conflits de relogement et d'expulsion autour des opérations. Sources : Ville de Paris, https://www.paris.fr/pages/secteurs-sauvegardes-psmv-2351/ ; APUR, https://www.apur.org/sites/default/files/documents/167.pdf ; consultation : 19 août 2026.",
+      "links": [
+        "gentrification",
+        "loi-fiscale-malraux",
+        "spr"
+      ],
+      "unlockBlock": "c6-b06",
+      "firstMentionChapter": 6,
+      "firstMentionBlock": "c6-b06",
+      "earliestSafeChapter": 6,
+      "earliestSafeBlock": "c6-b06",
+      "unlockChapter": 6,
+      "unlockPosition": 6,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Ancrer la discussion sur les effets sociaux dans un périmètre parisien mesuré par des données démographiques."
+    },
+    {
+      "id": "gentrification",
+      "title": "Gentrification",
+      "category": "concept",
+      "hook": "Un mot utile pour décrire des recompositions, à condition de ne pas lui faire porter toute la causalité.",
+      "text": "La gentrification désigne ici une recomposition sociale associée à l'arrivée de ménages plus favorisés, à la hausse des valeurs ou des loyers et à la transformation des commerces et des usages. Les travaux sur le Marais la présentent comme une hypothèse de lecture de la mise en patrimoine, mais invitent à examiner les données démographiques et socio-économiques plutôt qu'à supposer une causalité automatique. À Lyon, les analyses d'Yves Grafmeyer et de Jean-Yves Authier décrivent des écarts entre quartiers restaurés : à Saint-Jean, les immeubles réhabilités ont attiré des habitants plus aisés et les loyers ont fortement augmenté, tandis que Saint-Georges a suivi une autre trajectoire. La protection peut donc contribuer à une revalorisation sans expliquer à elle seule chaque déplacement. Sources : https://revistas.usp.br/anaismp/en/article/view/198565 ; https://books.openedition.org/pul/54835 ; consultation : 19 août 2026.",
+      "links": [
+        "marais",
+        "vieux-lyon",
+        "loi-fiscale-malraux"
+      ],
+      "unlockBlock": "c6-b01",
+      "firstMentionChapter": 6,
+      "firstMentionBlock": "c6-b01",
+      "earliestSafeChapter": 6,
+      "earliestSafeBlock": "c6-b01",
+      "unlockChapter": 6,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Fournir une grille de lecture sociale nuancée pour relier restauration, marchés immobiliers et usages."
+    },
+    {
+      "id": "spr",
+      "title": "Site patrimonial remarquable",
+      "category": "dispositif patrimonial",
+      "hook": "Le cadre créé en 2016 a rassemblé plusieurs générations de protections sous une même appellation.",
+      "text": "La loi relative à la liberté de la création, à l'architecture et au patrimoine du 7 juillet 2016 a créé les sites patrimoniaux remarquables, ou SPR. Le ministère de la Culture précise que cette catégorie regroupe les anciens secteurs sauvegardés, les ZPPAUP et les AVAP. Son état des lieux, établi à partir des données de la DRAC au 23 septembre 2024, recense 1 012 SPR, 1 008 communes concernées et 110 anciens secteurs sauvegardés ; plus de 80 % des communes concernées comptent moins de 20 000 habitants. Environ 150 SPR ont été créés depuis 2016. Le chiffre de 1 012 ne désigne donc pas une simple addition de secteurs Malraux historiques. Sources : https://www.culture.gouv.fr/thematiques/monuments-sites/monuments-historiques-sites-patrimoniaux/les-sites-patrimoniaux-remarquables ; https://www.culture.gouv.fr/mc/content/download/365172/pdf_file/Sites_patrimoniaux_EtatDesLieux_2023_BL_20241220.pdf?inLanguage=fre-FR&version=1 ; consultation : 19 août 2026.",
+      "links": [
+        "pvap",
+        "abf",
+        "transition-energetique"
+      ],
+      "unlockBlock": "c5-b06",
+      "firstMentionChapter": 5,
+      "firstMentionBlock": "c5-b06",
+      "earliestSafeChapter": 5,
+      "earliestSafeBlock": "c5-b06",
+      "unlockChapter": 5,
+      "unlockPosition": 6,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Actualiser la carte institutionnelle et montrer l'extension du dispositif aux petites communes."
+    },
+    {
+      "id": "pvap",
+      "title": "Plan de valorisation de l'architecture et du patrimoine",
+      "category": "document d'urbanisme",
+      "hook": "Un document de protection qui n'a pas la même portée juridique qu'un PSMV.",
+      "text": "Dans un site patrimonial remarquable, le plan de valorisation de l'architecture et du patrimoine, ou PVAP, fixe des règles destinées à préserver et mettre en valeur les tissus bâtis et les espaces. Le ministère de la Culture le distingue du plan de sauvegarde et de mise en valeur : le PSMV est un document d'urbanisme, tandis que le PVAP constitue une servitude d'utilité publique annexée au document d'urbanisme. Cette différence organise la portée des prescriptions et leur articulation avec les autorisations de travaux. Le code du patrimoine encadre la procédure, le contenu et la commission compétente. Parler d'un SPR sans préciser son document de gestion peut donc masquer des régimes concrets différents. Sources : Ministère de la Culture, https://www.culture.gouv.fr/thematiques/monuments-sites/monuments-historiques-sites-patrimoniaux/les-sites-patrimoniaux-remarquables ; Légifrance, https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006074236/LEGISCTA000032858244/ ; consultation : 19 août 2026.",
+      "links": [
+        "spr",
+        "loi-fiscale-malraux",
+        "abf"
+      ],
+      "unlockBlock": "c7-b01",
+      "firstMentionChapter": 7,
+      "firstMentionBlock": "c7-b01",
+      "earliestSafeChapter": 7,
+      "earliestSafeBlock": "c7-b01",
+      "unlockChapter": 7,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner au lecteur le vocabulaire juridique nécessaire pour distinguer les outils de gestion des SPR."
+    },
+    {
+      "id": "abf",
+      "title": "Architecte des bâtiments de France",
+      "category": "institution",
+      "hook": "Un acteur du contrôle des travaux dont la présence révèle la complexité du patrimoine habité.",
+      "text": "Dans les périmètres patrimoniaux, l'architecte des bâtiments de France intervient au sein de la chaîne de contrôle des travaux et de l'expertise de l'État. À Lyon, la mairie rappelle que les interventions sur les bâtiments et les traboules soumis au PSMV nécessitent une autorisation spécifique ; la mairie du 5e précise que les travaux font l'objet d'une demande écrite et d'une surveillance de l'ABF. Un rapport du Sénat publié en 2024 souligne toutefois la lenteur et la complexité de nombreux PSMV : quatre seulement étaient achevés après quinze ans dans l'échantillon cité, et certains grands périmètres ont demandé vingt ans. L'ABF n'est donc pas un raccourci pour expliquer seul les arbitrages urbains. Sources : https://www.senat.fr/rap/r23-780-1/r23-780-10.html ; https://mairie5.lyon.fr/le-plan-de-sauvegarde-et-de-mise-en-valeur ; consultation : 19 août 2026.",
+      "links": [
+        "spr",
+        "pvap",
+        "transition-energetique"
+      ],
+      "unlockBlock": "c5-b09",
+      "firstMentionChapter": 5,
+      "firstMentionBlock": "c5-b09",
+      "earliestSafeChapter": 5,
+      "earliestSafeBlock": "c5-b09",
+      "unlockChapter": 5,
+      "unlockPosition": 9,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Décrire l'intermédiaire administratif qui traduit la protection en décisions de travaux et en délais."
+    },
+    {
+      "id": "transition-energetique",
+      "title": "Transition énergétique",
+      "category": "enjeu",
+      "hook": "Le défi contemporain consiste à adapter les bâtiments anciens sans effacer les raisons de leur protection.",
+      "text": "La transition énergétique oblige les politiques patrimoniales à traiter les bâtiments anciens comme des lieux habités, et non comme des façades isolées. Dans son rapport sur les architectes des bâtiments de France, le Sénat recommande d'adapter le diagnostic de performance énergétique et de soutenir des techniques compatibles avec les caractéristiques patrimoniales. Une étude du Grand Lyon sur l'extension du SPR du Vieux-Lyon décrit un périmètre d'environ 31 hectares, 532 bâtiments et 106 monuments historiques ; elle juge l'outil puissant mais incomplet face aux enjeux de transition écologique, de mobilités, de stationnement et d'habitabilité. La conservation ne disparaît pas : elle doit composer avec l'isolation, le confort d'été et les usages quotidiens, au cas par cas. Sources : https://www.senat.fr/rap/r23-780-1/r23-780-10.html ; https://www.grandlyon.com/fileadmin/user_upload/media/pdf/urbanisme/sites-patrimoniaux/spr_psmv_vieux_lyon_extension_etude.pdf ; consultation : 19 août 2026.",
+      "links": [
+        "abf",
+        "spr",
+        "vieux-lyon"
+      ],
+      "unlockBlock": "c7-b07",
+      "firstMentionChapter": 7,
+      "firstMentionBlock": "c7-b07",
+      "earliestSafeChapter": 7,
+      "earliestSafeBlock": "c7-b07",
+      "unlockChapter": 7,
+      "unlockPosition": 7,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Ouvrir la question actuelle de l'habitabilité et de l'adaptation climatique des centres protégés."
+    }
+  ]
 }
 </script>
 <script>
