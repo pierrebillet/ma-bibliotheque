@@ -154,7 +154,11 @@ dans le même catalogue. Trois règles suffisent pour qu'ils cohabitent :
      pareil ; il ne redéfinit jamais le vocabulaire de son côté.
 - **Partage de briques** : le moteur de lecture commun vit dans `livres/_template/`
   ([`ROADMAP.md`](ROADMAP.md), chantier 2) et chaque livre déclare la version
-  embarquée par `<meta name="reader-engine">`. Chaque atelier annonce dans le
+  embarquée par `<meta name="reader-engine">`. Depuis `atelier-liseuse v3`, ce
+  moteur porte des **modules optionnels** (carte des lieux, graphe de relations)
+  qu'un atelier active en remplissant l'îlot correspondant et en déclarant la
+  capacité — une fonctionnalité de lecture partagée se construit là, jamais dans
+  un moteur propre à un atelier. Chaque atelier annonce dans le
   registre [`../../ateliers/README.md`](../../ateliers/README.md) le moteur qu'il
   utilise : le template (et sa version) ou un moteur propre. On sait ainsi d'un
   coup d'œil quels ateliers profitent d'une amélioration du template.
