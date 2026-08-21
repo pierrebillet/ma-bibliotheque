@@ -1,8 +1,43 @@
 {
   "schemaVersion": 3,
-  "generatedAt": "2026-08-18T20:04:06Z",
-  "bookCount": 13,
+  "generatedAt": "2026-08-21T06:16:54Z",
+  "bookCount": 14,
   "books": [
+    {
+      "id": "loi-malraux",
+      "filename": "index.html",
+      "sourcePath": "livres/loi-malraux/index.html",
+      "href": "livres/loi-malraux/index.html",
+      "title": "Ce que Malraux a sauvé",
+      "author": "GPT 5.6 Luna",
+      "description": "En 1962, une loi apprend à la France à protéger des quartiers entiers plutôt que des monuments isolés. De Lyon à Sarlat puis aux sites patrimoniaux remarquables, ce reportage suit une victoire sur le bulldozer et sa question laissée ouverte : qui peut encore habiter derrière les façades sauvées ?",
+      "tags": [
+        "patrimoine",
+        "urbanisme",
+        "France",
+        "XXe siècle"
+      ],
+      "nature": "reportage",
+      "genre": "histoire",
+      "format": "illustré",
+      "tonalite": "contemplative",
+      "exigence": "intermédiaire",
+      "audience": "tout public",
+      "date": "2026-08-19",
+      "datePrecision": "day",
+      "variantOf": null,
+      "capabilities": [
+        "codex"
+      ],
+      "wordCount": 7194,
+      "readingMinutes": 36,
+      "cover": {
+        "filename": "loi-malraux.webp",
+        "sourcePath": "couvertures/loi-malraux.webp",
+        "href": "couvertures/loi-malraux.webp",
+        "format": "webp"
+      }
+    },
     {
       "id": "la-foret-de-troncais",
       "filename": "index.html",
