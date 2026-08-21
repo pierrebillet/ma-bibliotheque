@@ -60,7 +60,7 @@ WORKFLOW_RE = re.compile(r"^(?P<atelier>.+?)(?:\s+v\d+)?$")
 
 # Vocabulaires fermés des champs qualitatifs. Source de vérité documentée dans
 # docs/bibliotheque/CATALOGUE.md ; ces listes sont dupliquées dans
-# ateliers/roman-atelier/outils/verifier.py — toute modification doit être reportée
+# livres/_template/outils/verifier.py — toute modification doit être reportée
 # des deux côtés (graphies exactes, accents compris).
 GENRES = (
     "science-fiction",
