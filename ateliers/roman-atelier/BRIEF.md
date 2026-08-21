@@ -1,4 +1,4 @@
-# BRIEF.md — gabarit du brief de lancement (roman-atelier v8)
+# BRIEF.md — gabarit du brief de lancement (roman-atelier v9)
 
 C'est le **seul document d'entrée** d'une fabrication : Pierre le remplit et le
 colle dans le message de lancement de la session Production. Tout champ optionnel
@@ -23,11 +23,13 @@ Copier le bloc ci-dessous et remplacer les valeurs :
   l'auteur, dans le terrain du socle>
 - **Ton** : <ex. contemplatif, haletant, ironique… — défaut : registre
   littéraire soigné, tension retenue>
-- **Longueur** : <nombre de chapitres et de mots — défaut : 8 à 12 chapitres,
-  2 000 à 3 000 mots par chapitre>
+- **Longueur** : <nombre de chapitres et de mots — défaut : libre, l'auteur
+  dimensionne à la pertinence, sans remplissage (socle §« Quantités » ;
+  repère : `lequation-du-calme`, 10 chapitres d'environ 2 500 mots)>
 - **Public** : <défaut : tout public, pas de contenus sensibles>
 - **Codex** : <nombre de notices, voix souhaitée pour le codex — défaut :
-  15 à 30 notices, voix au choix de l'auteur, ≥ 40 % des blocs avec mention>
+  nombre libre (chaque notice mérite sa place), voix au choix de l'auteur,
+  exploration dense (repère : ≥ 40 % des blocs avec mention)>
 
 ## Ancrage réel (optionnel — déclenche l'étape 0 de recherche documentaire)
 - **Éléments réels à ancrer** : <personnage historique, lieux réels, métier et
