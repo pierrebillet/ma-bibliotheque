@@ -87,7 +87,8 @@
   au lieu d'être « observable dans les livres de référence » ; nouvelle étape 4
   « Illustrations » avec manifeste committé (`livres/<slug>/illustrations.md`)
   et relai vers un agent illustrateur ; vérifications outillées
-  ([`outils/verifier.py`](outils/verifier.py)) ; images en WebP. Motif : les
+  ([`verifier.py`](../../livres/_template/outils/verifier.py), alors dans
+  `roman-atelier/outils/`) ; images en WebP. Motif : les
   éditions illustrées d'août ont été produites hors processus et sans
   traçabilité (audit §B.7) ; la v3 fait de l'illustration une étape de la
   recette au lieu d'une dérive.
@@ -240,7 +241,7 @@ Sans section « Ancrage réel » au brief, passer directement à l'étape 1.
 - **Sortie** : le `codex[]` de l'îlot rempli, `mentions` posées, `entityAudit`
   complet.
 - **Critère de fin** :
-  `python ateliers/roman-atelier/outils/verifier.py livres/<slug>` ne signale
+  `python livres/_template/outils/verifier.py livres/<slug>` ne signale
   aucun défaut d'intégrité (0 notice orpheline, 0 lien mort, déverrouillages
   cohérents) — les manques d'images sont encore tolérés à ce stade (`--sans-images`).
 - **Commit** : « Codex de <titre> : personnages, lieux, concepts »
@@ -276,7 +277,7 @@ d'exemple du template.
 - **Sortie** : les blocs `map` et/ou `relations` de l'îlot, `book:capacites` à
   jour.
 - **Critère de fin** :
-  `python ateliers/roman-atelier/outils/verifier.py livres/<slug> --sans-images`
+  `python livres/_template/outils/verifier.py livres/<slug> --sans-images`
   ne signale aucun défaut ; à l'ouverture en `file://`, les boutons « Carte » et
   « Relations » apparaissent, un lecteur qui n'a rien lu ne voit **aucun nom de
   lieu ni d'entité**, et les éléments se révèlent bien au fil de la lecture.
@@ -300,7 +301,7 @@ d'exemple du template.
      alt), contraintes techniques et consignes de session pour l'illustrateur.
 - **Sortie** : l'îlot avec tous les champs d'images remplis +
   `livres/<slug>/illustrations.md`.
-- **Critère de fin** : `python ateliers/roman-atelier/outils/verifier.py
+- **Critère de fin** : `python livres/_template/outils/verifier.py
   livres/<slug> --sans-images` passe (il vérifie notamment que chaque image de
   l'îlot a son entrée au manifeste et réciproquement) ; le livre reste
   entièrement lisible en `file://` alors qu'aucun fichier d'image n'existe
@@ -328,7 +329,7 @@ travail perdu.
   éléments.
 - **Critère de fin** : plus aucune correction structurelle en attente ; si
   l'étape 0 a eu lieu, aucune affirmation ancrée introuvable au dossier ;
-  `python ateliers/roman-atelier/outils/verifier.py livres/<slug>
+  `python livres/_template/outils/verifier.py livres/<slug>
   --sans-images` passe toujours sans défaut.
 - **Commit** : « Révision de <titre> : structure et rythme »
 
@@ -572,7 +573,7 @@ vigueur. Un livre ordinaire n'a pas cette meta.
 
 - [ ] `python scripts/build_catalog.py --output /tmp/catalog-verification.json`
       passe sans erreur et le livre apparaît dans le JSON généré ;
-- [ ] `python ateliers/roman-atelier/outils/verifier.py livres/<slug> --sans-images`
+- [ ] `python livres/_template/outils/verifier.py livres/<slug> --sans-images`
       passe sans défaut ;
 - [ ] le livre s'ouvre et se lit en `file://` de bout en bout, sans erreur
       JavaScript en console et **sans image cassée à l'écran** (les emplacements
@@ -607,7 +608,7 @@ vigueur. Un livre ordinaire n'a pas cette meta.
 
 ## Vérifications avant merge (après la passe illustrateur)
 
-- [ ] `python ateliers/roman-atelier/outils/verifier.py livres/<slug>`
+- [ ] `python livres/_template/outils/verifier.py livres/<slug>`
       passe sans défaut **sans** `--sans-images` (toutes les images du manifeste
       existent, formats, dimensions et poids conformes) ;
 - [ ] couverture en place (`couvertures/<slug>.webp`, ratio 2:3, nom = slug

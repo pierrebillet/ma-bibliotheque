@@ -55,7 +55,7 @@ entrée) :
   une entrée le demande explicitement pour une raison narrative.
 - Vérification finale (depuis la racine du dépôt) :
   ```bash
-  python ateliers/roman-atelier/outils/verifier.py livres/<slug>
+  python livres/_template/outils/verifier.py livres/<slug>
   ```
 
 ## Bible visuelle commune

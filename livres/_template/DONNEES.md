@@ -11,7 +11,7 @@ Deux natures de champs :
 - **[éditorial]** : jamais lu par le moteur ; documente la méthode (anti-
   divulgâchage, audit d'entités, briefs d'illustration). Ces champs sont
   **obligatoires quand même** là où indiqué : ils sont le contrat de qualité que
-  `ateliers/roman-atelier/outils/verifier.py` contrôle, et la matière première du
+  `livres/_template/outils/verifier.py` contrôle, et la matière première du
   manifeste d'illustrations.
 
 Tout le contenu est en français. Le JSON doit être valide (vérification :
@@ -228,7 +228,7 @@ et leur cohérence) :
 | `editorialFunction` | chaîne | Ce que la notice apporte au lecteur, en une phrase (son rôle dans l'économie du récit). |
 
 Règles de cohérence (vérifiées par
-`python ateliers/roman-atelier/outils/verifier.py livres/<slug>`) :
+`python livres/_template/outils/verifier.py livres/<slug>`) :
 
 - `unlockBlock` ≥ `earliestSafeBlock` ≥ `firstMentionBlock` dans l'ordre de
   lecture ;
@@ -241,7 +241,7 @@ Règles de cohérence (vérifiées par
 
 ## Cohérence des modules avec le catalogue
 
-Le vérificateur (`ateliers/roman-atelier/outils/verifier.py`) contrôle, en plus
+Le vérificateur (`livres/_template/outils/verifier.py`) contrôle, en plus
 de l'intégrité des ids :
 
 - `carte` déclarée dans `book:capacites` dès que l'îlot porte un module `map`

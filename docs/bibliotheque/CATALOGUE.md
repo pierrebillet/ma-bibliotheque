@@ -140,7 +140,7 @@ le même commit aux trois endroits ci-dessous.
 - `scripts/build_catalog.py` (constantes `GENRES`, `FORMATS`, `TONALITES`,
   `EXIGENCES`, `AUDIENCES`, `CAPACITES`) — ce qui est réellement écrit dans le
   catalogue ;
-- `ateliers/roman-atelier/outils/verifier.py` — ce qui est refusé à l'écriture,
+- `livres/_template/outils/verifier.py` — ce qui est refusé à l'écriture,
   avant même d'atteindre le catalogue.
 
 Toute modification d'une liste se fait **dans le même commit aux trois endroits**.
@@ -175,7 +175,7 @@ d'écrire, jamais l'édition.
 - `scripts/build_catalog.py` (`RESERVED_TAG_VALUES`, `MAX_TAGS`) **écarte** du
   catalogue tout tag qui reprend une valeur structurée, avec un avertissement, et
   avertit au-delà de 4 tags. Non bloquant : le livre reste publié.
-- `ateliers/roman-atelier/outils/verifier.py` (`TAGS_RESERVES`, `TAGS_MIN`,
+- `livres/_template/outils/verifier.py` (`TAGS_RESERVES`, `TAGS_MIN`,
   `TAGS_MAX`) en fait un **défaut bloquant** avant même l'écriture du livre.
 
 L'assainissement des 13 livres publiés a été fait dans le même chantier : 39 tags
