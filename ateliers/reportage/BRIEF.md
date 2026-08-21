@@ -1,4 +1,4 @@
-# BRIEF.md — gabarit du brief de lancement (reportage v6)
+# BRIEF.md — gabarit du brief de lancement (reportage v7)
 
 C'est le **seul document d'entrée** d'une fabrication : Pierre le remplit et le
 colle dans le message de lancement de la session Production. Tout champ
@@ -46,12 +46,15 @@ Copier le bloc ci-dessous et remplacer les valeurs :
 
 ## Cadrage éditorial (optionnel)
 - **Public** : <défaut : tout public curieux, aucun prérequis sur le sujet>
-- **Longueur** : <nombre de chapitres et de mots — défaut : 6 à 10 chapitres,
-  1 000 à 2 000 mots par chapitre>
+- **Longueur** : <nombre de chapitres et de mots — défaut : libre, l'auteur
+  dimensionne à la pertinence, sans remplissage (socle §« Quantités » ;
+  repère de l'atelier : des chapitres plus courts qu'un roman, la densité
+  documentaire fatigue plus vite)>
 - **Parcours** : <chronologique, thématique, du général au particulier… —
   défaut : au choix de l'auteur, au service du sujet>
-- **Codex** : <nombre de notices, voix qui guide le lecteur — défaut : 15 à 30
-  notices, ≥ 40 % des blocs avec mention, voix proposée par l'auteur>
+- **Codex** : <nombre de notices, voix qui guide le lecteur — défaut : nombre
+  libre (chaque notice mérite sa place), exploration dense (repère : ≥ 40 %
+  des blocs avec mention), voix proposée par l'auteur>
 
 ## Illustrations générées (optionnel)
 - **Volume** : <défaut : aucune illustration générée — l'étape 6 ne s'applique

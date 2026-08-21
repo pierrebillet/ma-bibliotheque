@@ -1,9 +1,8 @@
 # Atelier reportage — composer un reportage explorable
 
-- **Version** : 6
-- **Statut** : expérimental (deux livrables publiés, produits avec la v2 puis
-  la v5 ; le passage à stable est une décision de Pierre — roadmap Conception,
-  chantier 8)
+- **Version** : 7
+- **Statut** : **stable** (décision de Pierre, 2026-08-21 — deux livrables
+  publiés, produits avec la v2 puis la v5 ; roadmap Conception, chantier 8)
 - **Livrable** : un **reportage** — un livre-web HTML autonome **non romancé**
   qui fait découvrir un sujet réel demandé par le brief (un lieu, un
   personnage historique, un métier, un événement, un environnement),
@@ -17,6 +16,9 @@
   depuis un livre publié. Sur demande du brief, deux **modules de lecture**
   s'ajoutent au codex : carte des lieux et graphe de relations entre les
   entités du sujet (étape 4 bis).
+- **Tronc commun** : [`ateliers/TRONC-COMMUN.md`](../TRONC-COMMUN.md) — les
+  conventions communes des ateliers du moteur « Atelier » ; il fait partie de
+  la recette.
 - **Exemples publiés** :
   [`livres/la-foret-de-troncais/`](../../livres/la-foret-de-troncais) (v2) et
   [`livres/loi-malraux/`](../../livres/loi-malraux) (v5).
@@ -27,6 +29,18 @@
 
 ## Changelog
 
+- **v7** (2026-08) — **dédoublonnage et quantités libres** : les conventions
+  communes aux ateliers du moteur « Atelier » sont extraites vers
+  [`TRONC-COMMUN.md`](../TRONC-COMMUN.md), que cette recette référence au lieu
+  de les recopier ; le vérificateur déménage en
+  [`livres/_template/outils/`](../../livres/_template/outils/verifier.py), à
+  côté du moteur qu'il contrôle (la dépendance vers `roman-atelier/outils/`
+  disparaît). Application du socle validé (chantier 3) : les **quantités sont
+  libres** par défaut — chapitres et notices se dimensionnent à la pertinence,
+  le brief peut les fixer. L'atelier passe **stable** (deux livrables publiés,
+  v2 puis v5). Motif : chantiers actés par Pierre (session Conception du
+  2026-08-21), audit
+  [`2026-08-regard-auteur.md`](../../docs/audits/2026-08-regard-auteur.md).
 - **v6** (2026-08) — **regard d'auteur** sur la recette (audit
   [`docs/audits/2026-08-regard-auteur.md`](../../docs/audits/2026-08-regard-auteur.md)) :
   l'étape 5 se scinde en **5a — vérification factuelle et parcours** puis
@@ -97,7 +111,8 @@
 ## Avant de commencer
 
 Prérequis de lecture : [`/AGENTS.md`](../../AGENTS.md) (règles d'or + protocole
-de session), ce workflow,
+de session), ce workflow, le tronc commun des ateliers
+([`TRONC-COMMUN.md`](../TRONC-COMMUN.md)),
 [`PREFERENCES.md`](../../docs/conception/PREFERENCES.md) et
 [`livres/_template/DONNEES.md`](../../livres/_template/DONNEES.md).
 Rien d'autre n'est supposé connu.
@@ -108,18 +123,10 @@ Rien d'autre n'est supposé connu.
    En mode « recherche par l'agent » (le défaut), l'étape 1 exige un accès de
    recherche web : s'il manque, le signaler avant de commencer et convenir du
    mode délégué.
-2. **Choisir le slug** : celui du brief, ou à défaut le proposer — kebab-case
-   ASCII (`le-canal-du-midi`), définitif : URL, couverture et clé localStorage
-   en dépendent.
-3. **Copier le moteur** :
-   ```bash
-   mkdir -p livres/<slug>/images
-   cp livres/_template/index.html livres/<slug>/index.html
-   ```
-   Ne copier ni `README.md` ni `DONNEES.md`. Le `<script>` du moteur ne se
-   modifie pas (toute divergence est signalée dans la PR) ; la palette CSS
-   (variables de `:root` et `[data-theme="dark"]`) peut être adaptée au sujet.
-4. **Créer la branche** : `atelier/reportage-<slug>` (protocole de session).
+2. **Mise en place** : suivre le §« Mise en place » du
+   [tronc commun](../TRONC-COMMUN.md) — slug, copie du moteur depuis
+   `livres/_template/`, branche `atelier/reportage-<slug>` (la palette CSS
+   peut être adaptée au sujet).
 
 ## Étapes de fabrication
 
@@ -182,8 +189,8 @@ La signature du format : elle s'exécute **toujours**, avant toute écriture.
   compris et ressenti en refermant le livre), puis la liste des chapitres avec
   le rôle de chacun dans le parcours (chronologique, thématique, du général au
   particulier…).
-- **Sortie** : `livres/<slug>/index.html` avec le `<head>` complet (§« Le
-  `<head>` obligatoire ») et l'îlot JSON amorcé — blocs `meta`, `world` et
+- **Sortie** : `livres/<slug>/index.html` avec le `<head>` complet (tronc
+  commun §« Le `<head>` obligatoire ») et l'îlot JSON amorcé — blocs `meta`, `world` et
   `cover` remplis, chapitres en squelette (ids, numéros, titres).
 - **Critère de fin** : `python scripts/build_catalog.py --output
   /tmp/catalog-verification.json` passe et le slug apparaît dans le JSON
@@ -213,9 +220,10 @@ La signature du format : elle s'exécute **toujours**, avant toute écriture.
   insertion ; l'entrée correspondante de « Documents visuels » est mise à
   jour avec le nom de fichier définitif.
 
-  Longueurs : celles du brief, sinon les défauts de l'atelier (6 à 10
-  chapitres, 1 000 à 2 000 mots chacun — plus courts que le roman : la
-  densité documentaire fatigue plus vite que la fiction).
+  Longueurs : celles du brief s'il en fixe ; sinon **libres** — dimensionner
+  à la pertinence (socle §« Quantités »), sans jamais écrire pour remplir.
+  Repère de l'atelier : des chapitres plus courts que le roman — la densité
+  documentaire fatigue plus vite que la fiction.
 - **Sortie** : les `chapters[].blocks[]` de l'îlot remplis, figures posées
   (les champs `image` de bandeau de chapitre attendront l'étape 6, si le
   brief demande des illustrations générées).
@@ -240,8 +248,10 @@ La signature du format : elle s'exécute **toujours**, avant toute écriture.
   « Documents visuels »). Ajouter une notice **« Sources et méthode »**,
   déverrouillée dès le premier chapitre, qui liste les principales sources du
   dossier — documents visuels compris — et dit comment le livre a été
-  documenté. Densité cible : celle du brief, sinon les défauts du socle (15 à
-  30 notices, ≥ 40 % des blocs porteurs d'au moins une mention).
+  documenté. Nombre de notices : celui du brief s'il en fixe ; sinon **libre**
+  — chaque notice mérite sa place (socle §« Quantités »). Viser l'exploration
+  dense du socle (repère : ≥ 40 % des blocs porteurs d'au moins une mention —
+  un plancher indicatif, pas un quota).
 - **Sortie** : le `codex[]` de l'îlot rempli (notice « Sources et méthode »
   comprise), `mentions` posées, `entityAudit` complet.
 - **Critère de fin** :
@@ -330,7 +340,7 @@ retirer est du travail perdu.
 - **Commit** : « Relecture de <titre> : corrections »
 
 Puis : push et **pull request** (protocole de session — description structurée
-Rôle : Production / reportage v6 ; si le brief demande des illustrations
+Rôle : Production / reportage v7 ; si le brief demande des illustrations
 générées, la mention explicite : « En attente de la passe illustrateur —
 `livres/<slug>/illustrations.md` »).
 
@@ -385,133 +395,40 @@ La spécificité du format : illustrer le réel par le réel.
   de consultation, information apportée) — c'est l'équivalent, pour les
   images, du « aucun fait sans source » du texte.
 
-## Structure de fichiers
+## Tronc commun et spécificités de l'atelier
 
-Un reportage est **toujours un dossier** :
+Les conventions communes à tous les ateliers du moteur « Atelier » —
+mise en place, structure de fichiers, `<head>` obligatoire, metas qualitatives
+et capacités (vocabulaires fermés), gouvernance des tags, nature dérivée de
+`book:workflow`, `book:variant-of`, moteur de liseuse, images générées et
+couverture, vérification outillée, interdits communs — sont dans
+[`TRONC-COMMUN.md`](../TRONC-COMMUN.md). **Ne pas les recopier ici : s'y
+reporter.** Cet atelier précise seulement :
 
-```text
-livres/<slug>/
-  index.html          ← point d'entrée (obligatoirement index.html)
-  brief.md            ← le brief d'entrée, recopié tel quel (étape 1)
-  recherche.md        ← le dossier documentaire sourcé, avec sa section
-                        « Documents visuels » (étape 1)
-  images/             ← les documents du web (étapes 1 et 3) et, si l'étape 6
-                        s'applique, les illustrations générées
-  illustrations.md    ← le manifeste pour l'illustrateur (étape 6, si demandé)
-```
-
-- Profondeur maximale : **un seul niveau** de dossier sous `livres/`.
-- Toutes les ressources du livre restent **dans son dossier** ; la couverture,
-  elle, vit dans `couvertures/<slug>.webp` (ratio 2:3, < 300 Ko) et ne contient
-  aucun texte, logo, signature, filigrane ou pseudo-texte. Si elle reprend un
-  document du web, son crédit reste dans `recherche.md` et dans le livre, jamais
-  incrusté dans l'image.
-
-## Le `<head>` obligatoire
-
-Le template en contient un gabarit prêt à remplacer. Pour référence :
-
-```html
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Métadonnées utilisées par Ma Bibliothèque -->
-  <meta name="book:title" content="Titre complet du reportage">
-  <meta name="book:author" content="Claude Fable">
-  <meta
-    name="book:description"
-    content="Ce que le lecteur va découvrir, en une ou deux phrases (≤ 600 caractères)."
-  >
-  <meta name="book:tags" content="<lieu>, <thème>, <période> (2 à 4 tags)">
-  <meta name="book:date" content="2026-08-17">
-
-  <!-- Metas qualitatives (vocabulaires fermés, voir ci-dessous) -->
-  <meta name="book:genre" content="histoire">
-  <meta name="book:format" content="illustré">
-  <meta name="book:tonalite" content="contemplative">
-  <meta name="book:exigence" content="accessible">
-  <meta name="book:audience" content="tout public">
-
-  <!-- Capacités interactives réellement offertes (vocabulaire fermé, liste) -->
-  <!-- « codex » toujours ; « carte » et « relations » si l'étape 4 bis a eu lieu -->
-  <meta name="book:capacites" content="codex">
-
-  <!-- Recette (lue par le générateur : elle en dérive la nature) et moteur -->
-  <meta name="book:workflow" content="reportage v6">
-  <meta name="reader-engine" content="atelier-liseuse v3">
-
-  <title>Titre complet du reportage</title>
-</head>
-```
-
-- **`book:author` = le nom du ou des modèles** (règle d'or d'`AGENTS.md`) ; si
-  le reportage reçoit des illustrations générées, l'illustrateur ajoute
-  « , <son modèle> (images) » pendant sa passe.
-
-### La nature du livre : dérivée de `book:workflow`
-
-Le catalogue sépare les reportages des fictions par le champ `nature`, mais
-**aucune meta ne le porte** : `scripts/build_catalog.py` le déduit du nom
-d'atelier lu dans `book:workflow` (le contenu sans son suffixe ` vN`) via sa
-table `ATELIER_NATURE`, où cet atelier est enregistré comme producteur de
-**reportages**. Renseigner `<meta name="book:workflow" content="reportage v6">`
-suffit donc à ranger le livre du bon côté — et trace au passage la version de
-recette utilisée. Une meta absente ou un atelier inconnu de la table retombent
-sur `fiction`.
-
-En conséquence, **le tag `reportage` est interdit** : c'était la solution
-d'attente de la v2, avant que le schéma v2 du catalogue n'existe, et le chantier 6
-l'a retiré du seul reportage publié. Les `book:tags` d'un reportage sont
-**libres et documentaires** (lieu, thème, période, matière du sujet), au nombre
-de **2 à 4**, et ne répètent ni la nature, ni le genre, ni le format : ces
-champs ont leur propre filtre à l'index. Règle complète :
-[`docs/bibliotheque/CATALOGUE.md`](../../docs/bibliotheque/CATALOGUE.md)
-§Gouvernance des tags.
-
-### Les metas qualitatives et les capacités (vocabulaires fermés)
-
-Elles sont **obligatoires** et n'acceptent que les valeurs ci-dessous, à la
-graphie exacte (accents compris). Source de vérité :
-[`docs/bibliotheque/CATALOGUE.md`](../../docs/bibliotheque/CATALOGUE.md) —
-n'inventer aucune valeur : une valeur hors vocabulaire est un défaut bloquant du
-vérificateur. Un seul terme par meta, celui qui décrit le mieux le reportage
-dans son ensemble.
-
-| Meta | Valeurs admises |
-|---|---|
-| `book:genre` | `science-fiction`, `fantasy`, `fantastique`, `anticipation`, `espionnage`, `policier`, `aventure`, `comédie dramatique`, `drame`, `histoire`, `société`, `sciences`, `portrait` |
-| `book:format` | `texte`, `illustré` |
-| `book:tonalite` | `lumineuse`, `douce-amère`, `contemplative`, `ironique`, `tendue`, `sombre` |
-| `book:exigence` | `accessible`, `intermédiaire`, `exigeante` |
-| `book:audience` | `tout public`, `ados et adultes`, `adultes` |
-| `book:capacites` | `codex`, `carte`, `relations`, `choix`, `audio` — **liste** séparée par des virgules |
-
-- `book:capacites` déclare **ce que le reportage fait** en plus de dérouler son
-  texte. Le moteur embarque toujours un codex : `codex` au minimum. Ajouter
-  `carte` et/ou `relations` si l'étape 4 bis a eu lieu (le vérificateur l'exige
-  dès que l'îlot porte le module), `choix` ou `audio` **seulement si le livre les
-  offre réellement** — une capacité annoncée et absente est pire qu'un badge
-  manquant.
-  Les documents et illustrations ne sont pas une capacité : `book:format` le dit
-  déjà.
-- Pour un reportage, `book:genre` est le registre du sujet — le plus souvent
-  `histoire`, `sciences`, `société` ou `portrait` (un reportage sur une personne
-  réelle) ; les genres de fiction n'ont pas lieu d'être ici.
-- `book:format` vaut `illustré` dès qu'un document du web ou une illustration
-  générée est posé dans le livre, `texte` sinon (un reportage sans aucun
-  document est conforme, §« Les documents du web »).
-- Rien à renseigner pour la longueur : `wordCount` et le temps de lecture sont
-  **calculés** par `scripts/build_catalog.py` à partir de l'îlot JSON.
-
-### `book:variant-of` (optionnelle, cas rare)
-
-Réservée aux **éditions dérivées** : un livre qui est une autre édition d'un
-livre déjà publié déclare le slug de ce livre source
-(`<meta name="book:variant-of" content="la-foret-de-troncais">`), ce qui permet
-au catalogue de les regrouper au lieu de les afficher en doublon. Le slug doit
-exister sous `livres/` (`<slug>.html` ou dossier `<slug>/`) et ne peut pas être
-celui du livre lui-même. Un reportage ordinaire n'a pas cette meta.
+- **Recette et nature** :
+  `<meta name="book:workflow" content="reportage v7">` — l'atelier est
+  enregistré dans la table `ATELIER_NATURE` comme producteur de
+  **reportages**. En conséquence, **le tag `reportage` est interdit**
+  (c'était la solution d'attente de la v2 ; la nature a son propre filtre à
+  l'index) : les `book:tags` d'un reportage sont libres et documentaires
+  (lieu, thème, période, matière du sujet).
+- **Genre** : `book:genre` est le registre du sujet — le plus souvent
+  `histoire`, `sciences`, `société` ou `portrait` (un reportage sur une
+  personne réelle) ; les genres de fiction n'ont pas lieu d'être ici.
+- **Format** : `book:format` vaut `illustré` dès qu'un document du web ou une
+  illustration générée est posé dans le livre, `texte` sinon (un reportage
+  sans aucun document est conforme, §« Les documents du web »).
+- **Structure de fichiers** : celle du tronc commun, avec `recherche.md`
+  **toujours** (étape 1, avec sa section « Documents visuels »), `images/`
+  accueillant les documents du web (étapes 1 et 3) et, si l'étape 6
+  s'applique, les illustrations générées ; `illustrations.md` seulement si
+  l'étape 6 s'applique.
+- **Couverture** : celle du tronc commun (2:3, < 300 Ko, aucun texte) ; si
+  elle reprend un document du web, son crédit reste dans `recherche.md` et
+  dans le livre, jamais incrusté dans l'image.
+- **Documents du web** : leurs règles propres (pertinence, crédit, formats)
+  sont au §« Les documents du web » ci-dessus — elles complètent le tronc
+  commun, qui ne couvre que les images générées.
 
 ## Conventions spécifiques de l'atelier
 
@@ -522,8 +439,9 @@ celui du livre lui-même. Un reportage ordinaire n'a pas cette meta.
   « Documents visuels » (§« Les documents du web »).
 - **Notice « Sources et méthode » obligatoire**, déverrouillée dès le premier
   chapitre.
-- **Défauts de longueur du format** : 6 à 10 chapitres de 1 000 à 2 000 mots
-  (le brief peut surcharger) ; densité de notices : défauts du socle.
+- **Quantités** : libres, dimensionnées à la pertinence (socle
+  §« Quantités » ; le brief peut les fixer) — avec pour repère d'atelier des
+  chapitres plus courts que le roman.
 - **Persistance** : clé localStorage `<slug>-state-v1`, dérivée de `meta.slug`
   par le moteur — renseigner `meta.slug` correctement suffit.
 - **Îlot JSON** : structure spécifiée par
@@ -536,7 +454,7 @@ celui du livre lui-même. Un reportage ordinaire n'a pas cette meta.
 Le `<head>` du livrable produit contient la version de la recette utilisée :
 
 ```html
-<meta name="book:workflow" content="reportage v6">
+<meta name="book:workflow" content="reportage v7">
 ```
 
 Cette meta est **lue par le générateur de catalogue** : son nom d'atelier
@@ -573,7 +491,7 @@ Points où cet atelier est plus strict :
       liste les capacités réellement offertes, `codex` compris) ;
 - [ ] `book:variant-of` **absente**, sauf édition dérivée assumée (slug d'un
       livre existant) ;
-- [ ] `<meta name="book:workflow" content="reportage v6">` et
+- [ ] `<meta name="book:workflow" content="reportage v7">` et
       `<meta name="reader-engine" content="atelier-liseuse v3">` présentes ;
 - [ ] si le brief demande des modules de lecture (étape 4 bis) : blocs `map`
       et/ou `relations` remplis, capacités déclarées, géographie et liens
@@ -598,6 +516,6 @@ Points où cet atelier est plus strict :
       respectés (fond et forme — longueurs et densité de mentions lues comme
       des repères planchers, pas des cibles à maximiser) ;
 - [ ] protocole de session d'`AGENTS.md` : commits d'étapes poussés, PR
-      ouverte avec description structurée (Rôle : Production / reportage v6),
+      ouverte avec description structurée (Rôle : Production / reportage v7),
       divergences de moteur signalées, passe illustrateur annoncée si
       l'étape 6 s'applique.
