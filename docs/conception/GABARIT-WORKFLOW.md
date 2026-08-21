@@ -79,7 +79,10 @@ Ce livrable respecte les contraintes communes du
 (emplacement, slug, 11 meta `book:*` dont les cinq metas qualitatives à
 vocabulaire fermé, couverture 2:3 sans texte, autonomie, accessibilité).
 <!-- Ne PAS recopier la liste ici ; ajouter seulement les points où cet atelier est
-     plus strict que la plateforme. -->
+     plus strict que la plateforme. Si l'atelier produit ses livres avec le
+     moteur « Atelier » (livres/_template/), référencer aussi le tronc commun
+     ateliers/TRONC-COMMUN.md (mise en place, <head>, vocabulaires, images,
+     vérification, interdits) au lieu d'en recopier quoi que ce soit. -->
 
 ## Vérifications avant PR
 
