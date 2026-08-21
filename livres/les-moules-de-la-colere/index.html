@@ -1,48 +1,22 @@
 <!doctype html>
 <html lang="fr" data-theme="light"><head>
 <meta charset="utf-8">
-<!-- ============================================================
-     GABARIT — remplacer chaque valeur AVANT le premier commit.
-     Les 11 meta book:* alimentent le catalogue (voir
-     ateliers/roman-atelier/WORKFLOW.md §« Le <head> obligatoire »).
-     Vocabulaires fermés (docs/bibliotheque/CATALOGUE.md) :
-       genre    : science-fiction | fantasy | fantastique | anticipation |
-                  espionnage | policier | aventure | comédie dramatique |
-                  drame | histoire | société | sciences | portrait
-       format   : texte | illustré
-       tonalite : lumineuse | douce-amère | contemplative | ironique |
-                  tendue | sombre
-       exigence : accessible | intermédiaire | exigeante
-       audience : tout public | ados et adultes | adultes
-       capacites: codex | carte | relations | choix | audio (liste séparée par
-                  des virgules — ne déclarer que ce que le livre offre vraiment ;
-                  `carte` et `relations` sont exigées dès que l'îlot porte le
-                  module correspondant, et interdites sinon)
-     tags : 2 à 4 thèmes libres (thème, lieu, motif) qui ne redisent jamais un
-     champ ci-dessus ni la nature.
-     La nature (fiction/reportage) ne se déclare pas : elle est dérivée de
-     book:workflow par scripts/build_catalog.py.
-     ============================================================ -->
-<meta name="book:title" content="Titre complet du livre">
-<meta name="book:author" content="Nom du modèle qui écrit">
-<meta name="book:description" content="Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue.">
-<meta name="book:tags" content="thème, lieu, motif">
-<meta name="book:date" content="AAAA-MM-JJ">
-<meta name="book:genre" content="science-fiction">
+<meta name="book:title" content="Les Moules de la colère">
+<meta name="book:author" content="Claude Fable (texte)">
+<meta name="book:description" content="À Pénestin, capitale bretonne de la moule de bouchot, Gwenn revient enterrer son oncle mytiliculteur — et hérite de ses bouchots, de sa chienne et de comptes qui ne tombent pas juste. Entre l’estuaire de la Vilaine et la falaise de la Mine d’Or, les condoléances ressemblent à des offres de rachat. Un suspense iodé, à l’humour de vives-eaux.">
+<meta name="book:tags" content="mytiliculture, Pénestin, estuaire de la Vilaine">
+<meta name="book:date" content="2026-08-21">
+<meta name="book:genre" content="policier">
 <meta name="book:format" content="illustré">
-<meta name="book:tonalite" content="contemplative">
-<meta name="book:exigence" content="intermédiaire">
-<meta name="book:audience" content="tout public">
-<!-- Cas rare — autre édition d'un livre déjà publié : décommenter et renseigner
-     le slug du livre source (moratoire sur les doublons : voir le WORKFLOW).
-<meta name="book:variant-of" content="slug-du-livre-source">
--->
-<meta name="book:workflow" content="roman-atelier v7">
-<meta name="book:capacites" content="codex, carte, relations">
+<meta name="book:tonalite" content="ironique">
+<meta name="book:exigence" content="accessible">
+<meta name="book:audience" content="ados et adultes">
+<meta name="book:workflow" content="roman-atelier v9">
+<meta name="book:capacites" content="codex">
 <meta name="reader-engine" content="atelier-liseuse v3">
-<title>Titre complet du livre</title>
+<title>Les Moules de la colère</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue.">
+<meta name="description" content="À Pénestin, capitale bretonne de la moule de bouchot, Gwenn revient enterrer son oncle mytiliculteur — et hérite de ses bouchots, de sa chienne et de comptes qui ne tombent pas juste. Entre l’estuaire de la Vilaine et la falaise de la Mine d’Or, les condoléances ressemblent à des offres de rachat. Un suspense iodé, à l’humour de vives-eaux.">
 <meta name="theme-color" content="#14181a">
 <style>
 :root{--ivory:#eef0ec;--paper:#f9faf7;--ink:#14181a;--muted:#5b6663;--blue:#135e63;--yellow:#d9a13b;--red:#a83c2e;--pink:#8fa9b4;--line:#c3cbc4;--panel:#f4f6f1;--scale:1;color-scheme:light}
@@ -82,209 +56,55 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
 <dialog id="entry-dialog" aria-labelledby="entry-title"><button class="close" id="entry-close" aria-label="Fermer">×</button><div id="entry-content"></div></dialog>
 <dialog class="image-dialog" id="image-dialog" aria-label="Illustration agrandie"><button class="close" id="image-close" aria-label="Fermer l’image">×</button><img id="large-image" alt=""></dialog>
 <div class="toast" id="toast" hidden></div><div class="sr" id="announcer" aria-live="polite" aria-atomic="true"></div>
-<!-- ============================================================
-     ÎLOT DE DONNÉES — tout le récit vit ici.
-     Spécification normative des champs : livres/_template/DONNEES.md
-     L'exemple ci-dessous est minimal (2 chapitres, 4 notices, les deux
-     modules optionnels) et illustre chaque champ ; le remplacer
-     intégralement — un livre sans carte ni graphe supprime les blocs
-     « map » et « relations » (les vues disparaissent d'elles-mêmes).
-     ============================================================ -->
+<!-- ÎLOT DE DONNÉES — tout le récit vit ici (spec : livres/_template/DONNEES.md). -->
 <script type="application/json" id="book-data">
 {
   "meta": {
-    "slug": "_template",
-    "title": "Titre complet du livre",
-    "author": "Nom du modèle qui écrit",
-    "description": "Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue.",
-    "tags": ["genre", "thème", "lieu"],
-    "date": "AAAA-MM-JJ",
+    "slug": "les-moules-de-la-colere",
+    "title": "Les Moules de la colère",
+    "author": "Claude Fable (texte)",
+    "description": "À Pénestin, capitale bretonne de la moule de bouchot, Gwenn revient enterrer son oncle mytiliculteur — et hérite de ses bouchots, de sa chienne et de comptes qui ne tombent pas juste. Entre l’estuaire de la Vilaine et la falaise de la Mine d’Or, les condoléances ressemblent à des offres de rachat. Un suspense iodé, à l’humour de vives-eaux.",
+    "tags": ["mytiliculture", "Pénestin", "estuaire de la Vilaine"],
+    "date": "2026-08-21",
     "language": "fr",
-    "edition": "Roman explorable",
-    "codexLabel": "Carnet d’exemple",
-    "codexVoice": "Qui tient le codex, sur quel ton, à partir de quelles sources — cette voix située donne sa couleur à toutes les notices."
+    "edition": "Polar de l’estran",
+    "codexLabel": "L’inventaire de Gwenn",
+    "codexVoice": "Fiches tenues par Gwenn Le Dantec, auditrice de métier : constats numérotés, écarts relevés, provisions pour risques. L’inventaire commence carré comme un tableur et se fissure à mesure que Pénestin lui rentre sous la peau."
   },
   "world": {
-    "emotionalPromise": "Ce que le lecteur doit éprouver en refermant le livre (une phrase).",
-    "centralIdea": "L’idée centrale du récit, en une phrase affirmative.",
+    "emotionalPromise": "Un suspense qui serre doucement la gorge en faisant sourire à chaque page — et une tendresse grandissante pour un bout de côte et ses têtus.",
+    "centralIdea": "Une origine — celle d’une moule comme celle d’une personne — ne se décrète pas sur une étiquette : elle se prouve par ce qu’on est prêt à défendre.",
     "satellites": [
-      "Une idée secondaire qui orbite autour de l’idée centrale.",
-      "Une autre idée secondaire (2 à 5 satellites)."
+      "La loi du silence des petites communautés protège d’abord ceux qui l’exploitent.",
+      "Un terroir est une économie avant d’être une carte postale : étiquettes, labels et gré à gré s’y négocient comme ailleurs le pétrole.",
+      "La mer commande les horaires, les corps et les alibis : sur l’estran, tout se fait — et tout se cache — dans les trois heures de la basse mer.",
+      "L’humour est la politesse du courage : on tient tête plus longtemps quand on rit."
     ],
-    "thematicQuestion": "La question que le récit pose sans y répondre à la place du lecteur ?"
+    "thematicQuestion": "Que vaut une origine, et que consent-on à payer pour qu’elle reste vraie ?"
   },
   "entityAudit": {
-    "excluded": [
-      {"label": "Entité citée dans le texte mais sans notice", "reason": "Pourquoi elle n’a pas de notice (couverte par une autre, purement fonctionnelle…)."}
-    ]
+    "excluded": []
   },
   "cover": {
-    "image": "../../couvertures/_template.webp",
-    "catalogImage": "couvertures/_template.webp",
-    "alt": "Description de la couverture pour les lecteurs d’écran."
-  },
-  "map": {
-    "label": "La côte de Kervel",
-    "eyebrow": "Repères progressifs",
-    "intro": "Les lieux rencontrés dans le récit ouvrent leur notice ; les autres restent en pointillé.",
-    "viewBox": "0 0 100 72",
-    "shapes": [
-      {"kind": "eau", "d": "M0,0 H100 V72 H0 Z"},
-      {"kind": "terre", "d": "M0,50 Q20,42 38,47 T70,43 Q88,47 100,58 L100,72 L0,72 Z"},
-      {"kind": "route", "d": "M18,66 C34,60 48,57 63,53"}
-    ],
-    "places": [
-      {"codexId": "phare-de-kervel", "x": 74, "y": 26, "label": "Le phare"},
-      {"codexId": "kervel", "x": 30, "y": 60, "label": "Kervel"}
-    ]
-  },
-  "relations": {
-    "label": "Autour de la gardienne",
-    "eyebrow": "Liens révélés",
-    "intro": "Les entités du codex et leurs liens apparaissent au rythme de leur révélation dans le récit.",
-    "nodes": [
-      {"codexId": "maren", "x": 50, "y": 16},
-      {"codexId": "phare-de-kervel", "x": 22, "y": 46},
-      {"codexId": "kervel", "x": 50, "y": 62},
-      {"codexId": "le-registre-des-passages", "x": 78, "y": 46}
-    ],
-    "links": [
-      {"from": "maren", "to": "phare-de-kervel", "nature": "Gardienne du phare depuis vingt ans, douze ans après son extinction"},
-      {"from": "maren", "to": "kervel", "nature": "Du village sans en être : on lui laisse son feu inutile"},
-      {"from": "maren", "to": "le-registre-des-passages", "nature": "Tient le registre chaque nuit de tempête", "unlockBlock": "c2-b01"},
-      {"from": "phare-de-kervel", "to": "kervel", "nature": "Phare rattaché au village, éteint par décision administrative"}
-    ]
+    "image": "../../couvertures/les-moules-de-la-colere.webp",
+    "catalogImage": "couvertures/les-moules-de-la-colere.webp",
+    "alt": "Alignements de pieux de bouchots découverts à marée basse dans l’estuaire de la Vilaine, sous un ciel d’orage doré ; une silhouette de femme et un chien avancent sur la vasière."
   },
   "chapters": [
-    {
-      "id": "chapitre-1",
-      "number": 1,
-      "title": "Le seuil",
-      "image": "images/chapter-01.webp",
-      "alt": "La gardienne du phare regarde la mer d’hiver depuis la coursive, une lampe-tempête à la main.",
-      "visualDescription": "Plan large depuis la coursive d’un phare, fin de journée d’hiver ; une femme d’une cinquantaine d’années, manteau de laine, tient une lampe-tempête ; mer grise agitée, lumière rasante dorée sur les embruns.",
-      "blocks": [
-        {
-          "id": "c1-b01",
-          "text": "Maren monta les cent quarante marches sans compter, comme on récite une prière apprise avant les mots. Le phare de Kervel n’éclairait plus les navires depuis douze ans ; il n’éclairait plus qu’elle.",
-          "mentions": ["maren", "phare-de-kervel"]
-        },
-        {
-          "id": "c1-b02",
-          "text": "En bas, le village avait cessé de poser des questions. On laissait à la gardienne son feu inutile, ses registres, ses silences — et cette pièce fermée au sommet, dont personne n’avait vu la clé.",
-          "mentions": ["kervel"]
-        }
-      ]
-    },
-    {
-      "id": "chapitre-2",
-      "number": 2,
-      "title": "Le registre",
-      "blocks": [
-        {
-          "id": "c2-b01",
-          "text": "Le registre des passages ne mentait pas : chaque nuit de tempête depuis douze ans, une ligne de plus, une lumière aperçue au large là où aucune carte ne plaçait de feu. Maren notait, datait, refermait le cahier.",
-          "mentions": ["le-registre-des-passages"],
-          "figure": {
-            "image": "images/figure-c2-b01.webp",
-            "alt": "Double page manuscrite d’un registre maritime : colonnes de dates et d’observations, une ligne soulignée signale une lumière au large.",
-            "caption": "Un registre de veille du XIXᵉ siècle, semblable à celui que tient la gardienne : chaque observation est datée et signée.",
-            "source": {"label": "Archives nationales — fonds des Phares et Balises", "url": "https://exemple.org/archives/registres-de-veille"},
-            "imageWidth": 1200,
-            "imageHeight": 1600,
-            "origin": "Champ libre [éditorial] : licence, page consultée, date de récupération — voir DONNEES.md."
-          }
-        },
-        {
-          "id": "c2-b02",
-          "text": "Elle savait ce que le village ignorait : la pièce fermée n’était pas vide. Elle répondait.",
-          "mentions": []
-        }
-      ]
-    }
+    { "id": "chapitre-1", "number": 1, "title": "Fils unique", "blocks": [] },
+    { "id": "chapitre-2", "number": 2, "title": "L’inventaire", "blocks": [] },
+    { "id": "chapitre-3", "number": 3, "title": "Basse mer", "blocks": [] },
+    { "id": "chapitre-4", "number": 4, "title": "Les moules parlent espagnol", "blocks": [] },
+    { "id": "chapitre-5", "number": 5, "title": "La part du crabe", "blocks": [] },
+    { "id": "chapitre-6", "number": 6, "title": "Le phare qui ne dit rien", "blocks": [] },
+    { "id": "chapitre-7", "number": 7, "title": "Byssus et coutumes", "blocks": [] },
+    { "id": "chapitre-8", "number": 8, "title": "Gré à gré", "blocks": [] },
+    { "id": "chapitre-9", "number": 9, "title": "La visite", "blocks": [] },
+    { "id": "chapitre-10", "number": 10, "title": "Coefficient 108", "blocks": [] },
+    { "id": "chapitre-11", "number": 11, "title": "L’addition", "blocks": [] },
+    { "id": "chapitre-12", "number": 12, "title": "La saison", "blocks": [] }
   ],
-  "codex": [
-    {
-      "id": "maren",
-      "title": "Maren Solvay",
-      "category": "personnage",
-      "hook": "La gardienne d’un phare éteint, qui tient un registre que personne ne lui demande.",
-      "text": "Gardienne du phare de Kervel depuis vingt ans, restée en poste douze ans après l’extinction officielle du feu.\n\nLe carnet la décrit méthodique, peu liante, exacte — de cette exactitude qui sert autant à consigner qu’à ne pas dire.",
-      "links": ["phare-de-kervel"],
-      "firstMentionChapter": 1,
-      "firstMentionBlock": "c1-b01",
-      "earliestSafeChapter": 1,
-      "earliestSafeBlock": "c1-b01",
-      "unlockChapter": 1,
-      "unlockBlock": "c1-b01",
-      "unlockPosition": 1,
-      "spoilerRisk": "aucun",
-      "delayReason": "",
-      "editorialFunction": "Ancrer la protagoniste et le mystère du poste maintenu après l’extinction."
-    },
-    {
-      "id": "phare-de-kervel",
-      "title": "Le phare de Kervel",
-      "category": "lieu",
-      "hook": "Un feu éteint depuis douze ans, toujours gardé.",
-      "text": "Phare de haute mer rattaché au village de Kervel, éteint par décision administrative il y a douze ans, jamais désarmé.\n\nLa pièce du sommet, fermée à clé, n’apparaît sur aucun plan de l’administration des feux.",
-      "links": ["maren", "le-registre-des-passages"],
-      "image": "images/codex-phare-de-kervel.webp",
-      "alt": "Le phare de Kervel dressé sur son îlot, fenêtre du sommet éclairée alors que la lanterne est éteinte.",
-      "visualDescription": "Vue en contre-plongée d’un phare de granit sur un îlot battu par la houle, crépuscule ; la lanterne principale est éteinte mais une petite fenêtre sous la coursive est éclairée d’une lumière chaude.",
-      "firstMentionChapter": 1,
-      "firstMentionBlock": "c1-b01",
-      "earliestSafeChapter": 1,
-      "earliestSafeBlock": "c1-b01",
-      "unlockChapter": 1,
-      "unlockBlock": "c1-b01",
-      "unlockPosition": 1,
-      "spoilerRisk": "aucun",
-      "delayReason": "",
-      "editorialFunction": "Poser le décor unique du récit et sa contradiction fondatrice (éteint mais gardé)."
-    },
-    {
-      "id": "kervel",
-      "title": "Kervel",
-      "category": "lieu",
-      "hook": "Un village qui a cessé de poser des questions.",
-      "text": "Port de quelques centaines d’habitants, relié au phare par une digue submersible à chaque grande marée.\n\nLe carnet note que le village a arrêté de discuter le poste maintenu de la gardienne l’hiver qui a suivi l’extinction du feu — ni hostilité, ni curiosité : un arrangement.",
-      "links": ["maren", "phare-de-kervel"],
-      "firstMentionChapter": 1,
-      "firstMentionBlock": "c1-b02",
-      "earliestSafeChapter": 1,
-      "earliestSafeBlock": "c1-b02",
-      "unlockChapter": 1,
-      "unlockBlock": "c1-b02",
-      "unlockPosition": 2,
-      "spoilerRisk": "aucun",
-      "delayReason": "",
-      "editorialFunction": "Donner un second repère à la carte et poser le silence du village comme décor social du récit."
-    },
-    {
-      "id": "le-registre-des-passages",
-      "title": "Le registre des passages",
-      "category": "objet",
-      "hook": "Douze ans de lignes datées pour une lumière qui n’existe pas.",
-      "text": "Cahier d’administration détourné de son usage : Maren y consigne, nuit de tempête après nuit de tempête, une lumière observée au large hors de toute position cartographiée.\n\nLa régularité des entrées exclut l’erreur d’observation ; reste à choisir entre l’explication et la réponse.",
-      "links": ["maren"],
-      "image": "images/codex-le-registre-des-passages.webp",
-      "alt": "Reproduction d’une page de registre maritime ancien, colonnes datées à l’encre brune.",
-      "source": {"label": "Musée national de la Marine", "url": "https://exemple.org/collections/registre-maritime"},
-      "imageWidth": 1400,
-      "imageHeight": 1050,
-      "firstMentionChapter": 2,
-      "firstMentionBlock": "c2-b01",
-      "earliestSafeChapter": 2,
-      "earliestSafeBlock": "c2-b01",
-      "unlockChapter": 2,
-      "unlockBlock": "c2-b01",
-      "unlockPosition": 1,
-      "spoilerRisk": "modéré",
-      "delayReason": "Révèle que le mystère est documenté et récurrent ; n’a de sens qu’une fois le poste de Maren établi au chapitre 1.",
-      "editorialFunction": "Basculer le récit du portrait vers l’enquête ; récompenser le lecteur qui atteint le chapitre 2."
-    }
-  ]
+  "codex": []
 }
 </script>
 <script>
