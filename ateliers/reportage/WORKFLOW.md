@@ -1,8 +1,9 @@
 # Atelier reportage — composer un reportage explorable
 
-- **Version** : 5
-- **Statut** : expérimental (en attente de son exécution pilote à froid —
-  roadmap Conception, chantier 8)
+- **Version** : 6
+- **Statut** : expérimental (deux livrables publiés, produits avec la v2 puis
+  la v5 ; le passage à stable est une décision de Pierre — roadmap Conception,
+  chantier 8)
 - **Livrable** : un **reportage** — un livre-web HTML autonome **non romancé**
   qui fait découvrir un sujet réel demandé par le brief (un lieu, un
   personnage historique, un métier, un événement, un environnement),
@@ -16,7 +17,9 @@
   depuis un livre publié. Sur demande du brief, deux **modules de lecture**
   s'ajoutent au codex : carte des lieux et graphe de relations entre les
   entités du sujet (étape 4 bis).
-- **Exemples publiés** : aucun encore.
+- **Exemples publiés** :
+  [`livres/la-foret-de-troncais/`](../../livres/la-foret-de-troncais) (v2) et
+  [`livres/loi-malraux/`](../../livres/loi-malraux) (v5).
 - **Préférences** : ce workflow décline le socle éditorial
   [`docs/conception/PREFERENCES.md`](../../docs/conception/PREFERENCES.md) — le
   lire avant l'étape 1, il fait partie de la recette.
@@ -24,6 +27,16 @@
 
 ## Changelog
 
+- **v6** (2026-08) — **regard d'auteur** sur la recette (audit
+  [`docs/audits/2026-08-regard-auteur.md`](../../docs/audits/2026-08-regard-auteur.md)) :
+  l'étape 5 se scinde en **5a — vérification factuelle et parcours** puis
+  **5b — passe ligne à ligne**, chacune avec son commit ; la recette applique
+  la nouvelle entrée « Style et voix » du socle (typographie française
+  uniforme, incipit, titres de chapitres). Mises à jour de cohérence :
+  exemples publiés (`la-foret-de-troncais` v2 et `loi-malraux` v5 existaient
+  sans être enregistrés ici), en-tête du gabarit de brief. Motif : demande de
+  Pierre (session Conception du 2026-08-21) — critique des workflows
+  d'écriture dans l'esprit d'un auteur expérimenté.
 - **v5** (2026-08) — **modules de lecture optionnels** (moteur
   `atelier-liseuse v3`) : carte des lieux et graphe de relations à révélation
   progressive, nouvelle section « Modules de lecture » du [`BRIEF.md`](BRIEF.md)
@@ -277,7 +290,11 @@ template.
   traçable au dossier.
 - **Commit** : « Modules de lecture de <titre> : carte et relations »
 
-### Étape 5 — Vérification factuelle et relecture
+### Étape 5a — Vérification factuelle et parcours
+
+La révision se fait en deux passes séparées : d'abord les faits et le parcours
+(ici), puis la phrase (étape 5b). Polir une phrase d'un passage qu'on va
+retirer est du travail perdu.
 
 - **Entrée** : le livre complet (chapitres + documents + codex), le dossier
   documentaire.
@@ -291,15 +308,31 @@ template.
   de pertinence — un document qui ne l'a jamais vraiment passée se retire.
   **Vérification des modules** (si l'étape 4 bis a eu lieu) : chaque position
   de la carte et chaque `nature` de lien est traçable à une entrée du dossier ;
-  ce qui ne l'est pas se corrige ou se retire. Puis relecture intégrale (clarté du parcours, orthographe, respect de
-  `PREFERENCES.md` et du brief) et passage de la checklist « Vérifications
-  avant PR ».
+  ce qui ne l'est pas se corrige ou se retire. Puis relecture intégrale **en
+  éditeur**, côté transmission : chaque chapitre fait progresser la
+  compréhension du sujet (un chapitre qui n'apprend rien se fusionne ou se
+  retire) ; le parcours reste clair ; l'incipit donne envie d'entrer dans le
+  sujet ; la fin laisse au lecteur la réponse — ou l'état honnête du débat —
+  sur la question posée par l'angle du brief.
+- **Sortie** : le livre vérifié et révisé (faits, documents, parcours).
+- **Critère de fin** : plus aucune affirmation introuvable au dossier, plus
+  aucune correction de parcours en attente.
+- **Commit** : « Révision de <titre> : vérification factuelle et parcours »
+
+### Étape 5b — Passe ligne à ligne et finitions
+
+- **Entrée** : le livre vérifié (étape 5a).
+- **Travail** : passe ligne à ligne — prose (répétitions, tics de langage),
+  orthographe ; typographie française **uniforme** (apostrophe « ’ »,
+  guillemets à chevrons, espaces insécables) ; légendes et crédits relus tels
+  qu'affichés ; respect de `PREFERENCES.md` (dont §« Style et voix ») et du
+  brief ; passage de la checklist « Vérifications avant PR ».
 - **Sortie** : le livre corrigé.
 - **Critère de fin** : toutes les cases de la checklist cochées.
-- **Commit** : « Relecture de <titre> : vérification factuelle et corrections »
+- **Commit** : « Relecture de <titre> : corrections »
 
 Puis : push et **pull request** (protocole de session — description structurée
-Rôle : Production / reportage v5 ; si le brief demande des illustrations
+Rôle : Production / reportage v6 ; si le brief demande des illustrations
 générées, la mention explicite : « En attente de la passe illustrateur —
 `livres/<slug>/illustrations.md` »).
 
@@ -407,7 +440,7 @@ Le template en contient un gabarit prêt à remplacer. Pour référence :
   <meta name="book:capacites" content="codex">
 
   <!-- Recette (lue par le générateur : elle en dérive la nature) et moteur -->
-  <meta name="book:workflow" content="reportage v5">
+  <meta name="book:workflow" content="reportage v6">
   <meta name="reader-engine" content="atelier-liseuse v3">
 
   <title>Titre complet du reportage</title>
@@ -424,7 +457,7 @@ Le catalogue sépare les reportages des fictions par le champ `nature`, mais
 **aucune meta ne le porte** : `scripts/build_catalog.py` le déduit du nom
 d'atelier lu dans `book:workflow` (le contenu sans son suffixe ` vN`) via sa
 table `ATELIER_NATURE`, où cet atelier est enregistré comme producteur de
-**reportages**. Renseigner `<meta name="book:workflow" content="reportage v5">`
+**reportages**. Renseigner `<meta name="book:workflow" content="reportage v6">`
 suffit donc à ranger le livre du bon côté — et trace au passage la version de
 recette utilisée. Une meta absente ou un atelier inconnu de la table retombent
 sur `fiction`.
@@ -505,7 +538,7 @@ celui du livre lui-même. Un reportage ordinaire n'a pas cette meta.
 Le `<head>` du livrable produit contient la version de la recette utilisée :
 
 ```html
-<meta name="book:workflow" content="reportage v5">
+<meta name="book:workflow" content="reportage v6">
 ```
 
 Cette meta est **lue par le générateur de catalogue** : son nom d'atelier
@@ -542,7 +575,7 @@ Points où cet atelier est plus strict :
       liste les capacités réellement offertes, `codex` compris) ;
 - [ ] `book:variant-of` **absente**, sauf édition dérivée assumée (slug d'un
       livre existant) ;
-- [ ] `<meta name="book:workflow" content="reportage v5">` et
+- [ ] `<meta name="book:workflow" content="reportage v6">` et
       `<meta name="reader-engine" content="atelier-liseuse v3">` présentes ;
 - [ ] si le brief demande des modules de lecture (étape 4 bis) : blocs `map`
       et/ou `relations` remplis, capacités déclarées, géographie et liens
@@ -557,12 +590,16 @@ Points où cet atelier est plus strict :
 - [ ] couverture inspectée visuellement : aucun texte, crédit, logo, signature,
       filigrane ni pseudo-texte incrusté ; son éventuelle source documentaire
       est créditée hors image ;
-- [ ] vérification factuelle livre ↔ dossier passée (étape 5) ; notice
+- [ ] vérification factuelle livre ↔ dossier passée (étape 5a) ; notice
       « Sources et méthode » présente et déverrouillée dès le premier
       chapitre ;
+- [ ] révision en deux passes faite et committée séparément (étape 5a faits
+      et parcours, étape 5b ligne à ligne) : typographie française uniforme,
+      légendes et crédits relus ;
 - [ ] socle [`PREFERENCES.md`](../../docs/conception/PREFERENCES.md) et brief
-      respectés (fond et forme — longueurs, densité de mentions) ;
+      respectés (fond et forme — longueurs et densité de mentions lues comme
+      des repères planchers, pas des cibles à maximiser) ;
 - [ ] protocole de session d'`AGENTS.md` : commits d'étapes poussés, PR
-      ouverte avec description structurée (Rôle : Production / reportage v5),
+      ouverte avec description structurée (Rôle : Production / reportage v6),
       divergences de moteur signalées, passe illustrateur annoncée si
       l'étape 6 s'applique.

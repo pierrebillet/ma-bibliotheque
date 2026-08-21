@@ -1,4 +1,4 @@
-# BRIEF.md — gabarit du brief de lancement (roman-atelier v6)
+# BRIEF.md — gabarit du brief de lancement (roman-atelier v8)
 
 C'est le **seul document d'entrée** d'une fabrication : Pierre le remplit et le
 colle dans le message de lancement de la session Production. Tout champ optionnel
@@ -57,6 +57,11 @@ Copier le bloc ci-dessous et remplacer les valeurs :
   les liens dont l'existence est elle-même une révélation>
 
 ## Divers (optionnel)
+- **Effet recherché sur le lecteur** : <ce que le lecteur doit ressentir ou
+  emporter en refermant le livre, en une ou deux contraintes — ex. « qu'on
+  admire les deux protagonistes », « qu'il rie souvent, finement, sans que
+  cela abîme le point précédent » — défaut : délégué à l'auteur, qui le
+  formule dans la promesse émotionnelle du bloc `world`>
 - **Fonctionnalités hors socle** : <ce que le moteur ne sait pas encore faire
   (choix et branches, lecture audio, gestes tactiles…) — défaut : aucune ;
   une telle demande est une divergence de moteur, signalée dans la PR. La
