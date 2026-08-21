@@ -92,7 +92,11 @@ version suivante (boucle d'amélioration de la [`VISION.md`](VISION.md)).
       que Pierre remplit pour lancer une production — identité obligatoire,
       champs optionnels avec leurs défauts, exemple rempli.
 - [ ] Il décline le socle éditorial [`PREFERENCES.md`](PREFERENCES.md) sans le
-      contredire ni le recopier.
+      contredire ni le recopier ; s'il produit ses livres avec le moteur
+      « Atelier » (`livres/_template/`), il référence de même le tronc commun
+      [`ateliers/TRONC-COMMUN.md`](../../ateliers/TRONC-COMMUN.md) au lieu de
+      recopier la mise en place, le `<head>`, les vocabulaires, les règles
+      d'images ou les interdits communs.
 - [ ] Les étapes de fabrication correspondent à des **commits** identifiables
       (protocole de session d'`AGENTS.md`).
 - [ ] Un prototype (ou premier livrable) passe
@@ -154,7 +158,14 @@ dans le même catalogue. Trois règles suffisent pour qu'ils cohabitent :
      pareil ; il ne redéfinit jamais le vocabulaire de son côté.
 - **Partage de briques** : le moteur de lecture commun vit dans `livres/_template/`
   ([`ROADMAP.md`](ROADMAP.md), chantier 2) et chaque livre déclare la version
-  embarquée par `<meta name="reader-engine">`. Depuis `atelier-liseuse v3`, ce
+  embarquée par `<meta name="reader-engine">` ; son vérificateur vit à côté de
+  lui ([`livres/_template/outils/verifier.py`](../../livres/_template/outils/verifier.py))
+  et s'applique aux livrables de tous les ateliers qui l'utilisent. Les
+  conventions partagées de ces ateliers (mise en place, `<head>`,
+  vocabulaires, images, interdits) vivent dans
+  [`ateliers/TRONC-COMMUN.md`](../../ateliers/TRONC-COMMUN.md) — un
+  `WORKFLOW.md` les référence, ne les recopie pas : le coût documentaire d'un
+  nouvel atelier doit être sa seule spécificité. Depuis `atelier-liseuse v3`, ce
   moteur porte des **modules optionnels** (carte des lieux, graphe de relations)
   qu'un atelier active en remplissant l'îlot correspondant et en déclarant la
   capacité — une fonctionnalité de lecture partagée se construit là, jamais dans
