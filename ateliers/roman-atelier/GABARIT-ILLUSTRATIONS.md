@@ -13,7 +13,8 @@ Copier à partir d'ici :
 
 # Illustrations de « <Titre du livre> »
 
-Manifeste pour l'agent illustrateur — atelier `roman-atelier v3`.
+Manifeste pour l'agent illustrateur — atelier `roman-atelier v<N>`
+(reporter la version du WORKFLOW exécuté — celle de la meta `book:workflow`).
 
 ## Ta mission
 

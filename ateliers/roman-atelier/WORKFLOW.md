@@ -1,9 +1,10 @@
 # Atelier roman-atelier — écrire un roman-web illustré avec la liseuse « Atelier »
 
-- **Version** : 7
-- **Statut** : stable (l'étape illustrations et le relai illustrateur, nouveaux
-  en v3, et l'étape de recherche documentaire, nouvelle en v4, attendent leur
-  exécution pilote à froid — roadmap Conception, session S2)
+- **Version** : 8
+- **Statut** : stable (l'étape illustrations et le relai illustrateur ont eu
+  leur pilote — `livres/la-clause-du-meilleur-ennemi/`, v3, deux passes
+  tracées ; l'étape de recherche documentaire, nouvelle en v4, et les modules
+  de lecture, nouveaux en v7, attendent encore le leur — roadmap Conception)
 - **Livrable** : un roman-web HTML autonome **illustré nativement** (récit +
   liseuse intégrée : sommaire, barre de progression, codex à déverrouillage,
   illustrations de chapitres et de notices, thème sombre, réglage de taille de
@@ -19,13 +20,27 @@
   depuis le dernier livre publié.
 - **Exemples publiés** : [`livres/lequation-du-calme/`](../../livres/lequation-du-calme)
   et [`livres/la-doublure.html`](../../livres/la-doublure.html) (v2, non
-  illustrés) ; aucun livre v3 encore.
+  illustrés) ;
+  [`livres/la-clause-du-meilleur-ennemi/`](../../livres/la-clause-du-meilleur-ennemi)
+  (v3, illustré en deux passes).
 - **Préférences** : ce workflow décline le socle éditorial
   [`docs/conception/PREFERENCES.md`](../../docs/conception/PREFERENCES.md) — le lire
   avant l'étape 1, il fait partie de la recette.
 
 ## Changelog
 
+- **v8** (2026-08) — **regard d'auteur** sur la recette (audit
+  [`docs/audits/2026-08-regard-auteur.md`](../../docs/audits/2026-08-regard-auteur.md)) :
+  l'étape 1 gagne l'**épreuve du plan** (une bascule par chapitre, synopsis
+  relu en éditeur sceptique, point de vue et temps du récit fixés) ; l'étape 2
+  autorise l'**écart au plan** à condition de le resynchroniser dans le même
+  commit ; l'étape 5 se scinde en **5a — révision structurelle** puis **5b —
+  passe ligne à ligne**, chacune avec son commit. La recette applique la
+  nouvelle entrée « Style et voix » du socle. Mises à jour de cohérence :
+  exemples publiés (le pilote v3 `la-clause-du-meilleur-ennemi` existait sans
+  être enregistré), mentions « v6 » résiduelles, version du gabarit de
+  manifeste. Motif : demande de Pierre (session Conception du 2026-08-21) —
+  critique des workflows d'écriture dans l'esprit d'un auteur expérimenté.
 - **v7** (2026-08) — **modules de lecture optionnels** : le moteur
   (`atelier-liseuse v3`) sait afficher une carte des lieux et un graphe de
   relations à révélation progressive, ainsi qu'imprimer proprement la vue
@@ -85,9 +100,9 @@
 
 ## Les deux rôles de la fabrication
 
-Un livre v6 se fabrique en **deux passes, sur la même branche** :
+Un livre de cet atelier se fabrique en **deux passes, sur la même branche** :
 
-1. **L'auteur** (étapes 0 à 5 ; l'étape 0 seulement si le brief demande
+1. **L'auteur** (étapes 0 à 5b ; l'étape 0 seulement si le brief demande
    l'ancrage réel) écrit le livre complet — texte, codex, champs
    d'images déjà renseignés dans l'îlot JSON — et committe le **manifeste
    d'illustrations** `livres/<slug>/illustrations.md`. À la fin de sa session,
@@ -168,11 +183,19 @@ Sans section « Ancrage réel » au brief, passer directement à l'étape 1.
 - **Entrée** : le brief rempli, le socle `PREFERENCES.md` (§Fond) ; si l'étape
   0 a eu lieu, le dossier `livres/<slug>/recherche.md`.
 - **Travail** : poser l'univers avant d'écrire — synopsis, promesse émotionnelle,
-  idée centrale, question thématique, liste des chapitres avec leur rôle narratif,
-  personnages et lieux principaux. Pour un livre ancré dans le réel, l'univers
+  idée centrale, question thématique, liste des chapitres avec leur rôle
+  narratif **et leur bascule** (ce qui a changé entre le début et la fin du
+  chapitre), personnages et lieux principaux. Fixer le **point de vue** et le
+  **temps du récit** (socle §« Style et voix ») — ils se tiennent ensuite sur
+  tout le livre. Pour un livre ancré dans le réel, l'univers
   s'appuie sur le dossier documentaire (perspective du personnage historique,
   lieux réels, époque) ; ce que le récit invente par-dessus est un choix
   d'auteur, pas une erreur — mais il ne contredit pas un fait établi du dossier.
+  Puis **éprouver le plan** avant d'écrire, en éditeur sceptique : un chapitre
+  sans bascule se fusionne ou se supprime ; la promesse émotionnelle doit être
+  tenable dans la longueur prévue ; la question thématique doit avoir une vraie
+  réponse — même oblique — en fin de parcours. Corriger le plan maintenant
+  coûte dix lignes ; le corriger à l'étape 5a coûte des chapitres.
 - **Sortie** : `livres/<slug>/index.html` avec le `<head>` complet (§« Le
   `<head>` obligatoire ») et l'îlot JSON amorcé — blocs `meta`, `world` et
   `cover` remplis, chapitres en squelette (ids, numéros, titres) ; le brief
@@ -190,6 +213,11 @@ Sans section « Ancrage réel » au brief, passer directement à l'étape 1.
   Pour un livre ancré dans le réel : jargon du métier, lieux, dates et gestes
   techniques viennent du dossier documentaire — toute affirmation ancrée doit
   y être traçable.
+  Si le récit exige de **s'écarter du plan** (un personnage prend de la place,
+  une bascule se déplace), l'écart est un choix d'auteur, pas une faute — à une
+  condition : resynchroniser le plan (rôles et bascules des chapitres) et le
+  bloc `world` **dans le même commit** que les chapitres concernés. Un écart
+  non tracé est un défaut.
 - **Sortie** : les `chapters[].blocks[]` de l'îlot remplis (les champs `image`
   attendront l'étape 4).
 - **Critère de fin** : le livre s'ouvre en `file://`, chaque chapitre écrit
@@ -279,20 +307,47 @@ d'exemple du template.
   encore (les emplacements se masquent, aucune image cassée à l'écran).
 - **Commit** : « Illustrations de <titre> : champs d'images et manifeste »
 
-### Étape 5 — Relecture et finitions
+### Étape 5a — Révision structurelle
+
+La révision se fait en deux passes séparées : d'abord la structure (ici), puis
+la phrase (étape 5b). Polir une phrase d'un passage qu'on va couper est du
+travail perdu.
 
 - **Entrée** : le livre complet (texte + champs d'images + manifeste).
-- **Travail** : relecture intégrale (cohérence narrative, orthographe, respect de
-  `PREFERENCES.md` et du brief), corrections ; si l'étape 0 a eu lieu, passe de
-  **vérification factuelle** livre ↔ dossier (chaque référence au réel du texte
-  et du codex est traçable à une entrée sourcée de `recherche.md`) ; passage de
-  la checklist « Vérifications avant PR (auteur) ».
+- **Travail** : relecture intégrale **en éditeur**, au niveau du récit — pas
+  encore de polissage de phrases : chaque chapitre a bien sa bascule (ce qui a
+  changé entre son début et sa fin) ; le rythme alterne scènes et
+  respirations ; l'incipit fait sa promesse dès la première page ; la chute
+  paie la promesse émotionnelle et répond, même obliquement, à la question
+  thématique du bloc `world`. Corriger par coupes, déplacements et réécritures
+  de passages. Si l'étape 0 a eu lieu, passe de **vérification factuelle**
+  livre ↔ dossier (chaque référence au réel du texte et du codex est traçable
+  à une entrée sourcée de `recherche.md`).
+- **Sortie** : le récit révisé (structure, rythme, fins de chapitres) ; le
+  bloc `world` et le codex resynchronisés si la révision a déplacé des
+  éléments.
+- **Critère de fin** : plus aucune correction structurelle en attente ; si
+  l'étape 0 a eu lieu, aucune affirmation ancrée introuvable au dossier ;
+  `python ateliers/roman-atelier/outils/verifier.py livres/<slug>
+  --sans-images` passe toujours sans défaut.
+- **Commit** : « Révision de <titre> : structure et rythme »
+
+### Étape 5b — Passe ligne à ligne et finitions
+
+- **Entrée** : le récit révisé (étape 5a).
+- **Travail** : passe ligne à ligne — prose (répétitions, tics de langage,
+  adverbes superflus), dialogues, orthographe ; typographie française
+  **uniforme** (apostrophe « ’ », guillemets à chevrons, tirets de dialogue —
+  la convention choisie à l'étape 1, tenue partout) ; cohérence du point de
+  vue et du temps du récit ; respect de `PREFERENCES.md` (dont §« Style et
+  voix ») et du brief ; passage de la checklist « Vérifications avant PR
+  (auteur) ».
 - **Sortie** : le livre corrigé.
 - **Critère de fin** : toutes les cases de la checklist auteur cochées.
 - **Commit** : « Relecture de <titre> : corrections »
 
 Puis : push et **pull request** (protocole de session — description structurée
-Rôle : Production / roman-atelier v7, divergences de moteur signalées, et la
+Rôle : Production / roman-atelier v8, divergences de moteur signalées, et la
 mention explicite : « En attente de la passe illustrateur —
 `livres/<slug>/illustrations.md` »).
 
@@ -321,7 +376,7 @@ C'est le seul point de passage entre les deux rôles, et il tient en un message.
 
 ## Structure de fichiers
 
-Un livre v6 est **toujours un dossier** (il porte des images) :
+Un livre de cet atelier est **toujours un dossier** (il porte des images) :
 
 ```text
 livres/<slug>/
@@ -371,7 +426,7 @@ Le template en contient un gabarit prêt à remplacer. Pour référence (les 11 
   <meta name="book:capacites" content="codex">
 
   <!-- Recette (lue par le générateur : elle en dérive la nature) et moteur -->
-  <meta name="book:workflow" content="roman-atelier v7">
+  <meta name="book:workflow" content="roman-atelier v8">
   <meta name="reader-engine" content="atelier-liseuse v3">
 
   <!-- Utilisé par l'onglet du navigateur et comme fallback de titre -->
@@ -431,7 +486,7 @@ Le catalogue range les livres par `nature` (`fiction` ou `reportage`), mais
 **aucune meta ne la porte** : `scripts/build_catalog.py` la déduit du nom
 d'atelier lu dans `book:workflow` (le contenu sans son suffixe ` vN`) via sa
 table `ATELIER_NATURE`. Cet atelier y est enregistré comme producteur de
-**fictions** : renseigner `<meta name="book:workflow" content="roman-atelier v7">`
+**fictions** : renseigner `<meta name="book:workflow" content="roman-atelier v8">`
 suffit, et c'est aussi ce qui trace la version de recette utilisée. Une meta
 absente ou un atelier inconnu de la table retombent sur `fiction`.
 
@@ -513,7 +568,7 @@ vigueur. Un livre ordinaire n'a pas cette meta.
 - Aucune ressource distante (CDN, fonts, images externes).
 - L'illustrateur ne modifie que les fichiers d'images et la meta `book:author`.
 
-## Vérifications avant PR (auteur, fin d'étape 5)
+## Vérifications avant PR (auteur, fin d'étape 5b)
 
 - [ ] `python scripts/build_catalog.py --output /tmp/catalog-verification.json`
       passe sans erreur et le livre apparaît dans le JSON généré ;
@@ -528,7 +583,7 @@ vigueur. Un livre ordinaire n'a pas cette meta.
       réellement offertes, `codex` compris) ;
 - [ ] `book:variant-of` **absente**, sauf édition dérivée assumée (slug d'un
       livre existant) ;
-- [ ] `<meta name="book:workflow" content="roman-atelier v7">` et
+- [ ] `<meta name="book:workflow" content="roman-atelier v8">` et
       `<meta name="reader-engine" content="atelier-liseuse v3">` présentes ;
 - [ ] si le brief demande des modules de lecture (étape 3 bis) : blocs `map`
       et/ou `relations` remplis, capacités correspondantes déclarées, et rien
@@ -537,11 +592,17 @@ vigueur. Un livre ordinaire n'a pas cette meta.
 - [ ] `livres/<slug>/brief.md` et `livres/<slug>/illustrations.md` committés ;
 - [ ] si le brief demande l'ancrage réel : `livres/<slug>/recherche.md`
       committé (entrées sourcées et datées, plus de « Requêtes en attente »)
-      et vérification factuelle livre ↔ dossier passée (étape 5) ;
+      et vérification factuelle livre ↔ dossier passée (étape 5a) ;
+- [ ] révision en deux passes faite et committée séparément (étape 5a
+      structure et rythme, étape 5b ligne à ligne) : une bascule par chapitre,
+      chute qui paie la promesse émotionnelle et répond à la question
+      thématique, point de vue et temps du récit tenus, typographie française
+      uniforme ;
 - [ ] socle [`PREFERENCES.md`](../../docs/conception/PREFERENCES.md) et brief
-      respectés (fond et forme — longueurs, densité de mentions) ;
+      respectés (fond et forme — longueurs et densité de mentions lues comme
+      des repères planchers, pas des cibles à maximiser) ;
 - [ ] protocole de session d'`AGENTS.md` : commits d'étapes poussés, PR ouverte
-      avec description structurée (Rôle : Production / roman-atelier v7),
+      avec description structurée (Rôle : Production / roman-atelier v8),
       divergences de moteur signalées, passe illustrateur annoncée.
 
 ## Vérifications avant merge (après la passe illustrateur)
