@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
-"""Vérificateur de livre pour l'atelier roman-atelier (v4).
+"""Vérificateur des livres du moteur « Atelier » (v4).
+
+Il vit à côté du moteur qu'il vérifie (livres/_template/) et s'applique aux
+livrables de tous les ateliers qui l'utilisent (roman-atelier, reportage…).
 
 Usage :
-    python ateliers/roman-atelier/outils/verifier.py livres/<slug> [--sans-images]
+    python livres/_template/outils/verifier.py livres/<slug> [--sans-images]
 
-Contrôle un livre de la famille « Atelier » contre la recette
-ateliers/roman-atelier/WORKFLOW.md et la spécification de l'îlot
+Contrôle un livre de la famille « Atelier » contre le tronc commun des
+ateliers (ateliers/TRONC-COMMUN.md), la recette de son atelier et la
+spécification de l'îlot
 livres/_template/DONNEES.md : métadonnées du <head>, intégrité du codex
 (notices orphelines, liens morts, déverrouillages), densité des mentions,
 clé localStorage, correspondance îlot <-> manifeste d'illustrations, et

@@ -245,11 +245,9 @@ La signature du format : elle s'exécute **toujours**, avant toute écriture.
 - **Sortie** : le `codex[]` de l'îlot rempli (notice « Sources et méthode »
   comprise), `mentions` posées, `entityAudit` complet.
 - **Critère de fin** :
-  `python ateliers/roman-atelier/outils/verifier.py livres/<slug> --sans-images`
+  `python livres/_template/outils/verifier.py livres/<slug> --sans-images`
   ne signale aucun défaut d'intégrité (0 notice orpheline, 0 lien mort,
-  déverrouillages cohérents, crédits de source complets) — l'outil vit dans
-  `roman-atelier` mais vérifie l'îlot du moteur commun, il s'applique tel
-  quel.
+  déverrouillages cohérents, crédits de source complets).
 - **Commit** : « Codex de <titre> : notices documentaires et sources »
 
 ### Étape 4 bis (optionnelle) — Modules de lecture : carte et graphe de relations
@@ -284,7 +282,7 @@ template.
   jour, et les entrées de `recherche.md` qui justifient la géographie et les
   liens.
 - **Critère de fin** :
-  `python ateliers/roman-atelier/outils/verifier.py livres/<slug> --sans-images`
+  `python livres/_template/outils/verifier.py livres/<slug> --sans-images`
   ne signale aucun défaut ; en `file://`, les boutons apparaissent, rien ne se
   révèle avant sa lecture, et chaque affirmation du module (position, lien) est
   traçable au dossier.
@@ -564,7 +562,7 @@ Points où cet atelier est plus strict :
 
 - [ ] `python scripts/build_catalog.py --output /tmp/catalog-verification.json`
       passe sans erreur et le reportage apparaît dans le JSON généré ;
-- [ ] `python ateliers/roman-atelier/outils/verifier.py livres/<slug>`
+- [ ] `python livres/_template/outils/verifier.py livres/<slug>`
       passe sans défaut (avec `--sans-images` tant que l'étape 6 est en
       attente d'illustrateur : les contrôles de champs des documents — alt,
       légende, crédit — s'exécutent quand même) ;
