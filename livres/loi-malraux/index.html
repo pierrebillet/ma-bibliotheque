@@ -1,0 +1,1251 @@
+<!doctype html>
+<html lang="fr" data-theme="light"><head>
+<meta charset="utf-8">
+<!-- ============================================================
+     GABARIT — remplacer chaque valeur AVANT le premier commit.
+     Les 11 meta book:* alimentent le catalogue (voir
+     ateliers/roman-atelier/WORKFLOW.md §« Le <head> obligatoire »).
+     Vocabulaires fermés (docs/bibliotheque/CATALOGUE.md) :
+       genre    : science-fiction | fantasy | fantastique | anticipation |
+                  espionnage | policier | aventure | comédie dramatique |
+                  drame | histoire | société | sciences | portrait
+       format   : texte | illustré
+       tonalite : lumineuse | douce-amère | contemplative | ironique |
+                  tendue | sombre
+       exigence : accessible | intermédiaire | exigeante
+       audience : tout public | ados et adultes | adultes
+       capacites: codex | carte | relations | choix | audio (liste séparée par
+                  des virgules — ne déclarer que ce que le livre offre vraiment ;
+                  `carte` et `relations` sont exigées dès que l'îlot porte le
+                  module correspondant, et interdites sinon)
+     tags : 2 à 4 thèmes libres (thème, lieu, motif) qui ne redisent jamais un
+     champ ci-dessus ni la nature.
+     La nature (fiction/reportage) ne se déclare pas : elle est dérivée de
+     book:workflow par scripts/build_catalog.py.
+     ============================================================ -->
+<meta name="book:title" content="Ce que Malraux a sauvé">
+<meta name="book:author" content="GPT 5.6 Luna">
+<meta name="book:description" content="En 1962, une loi apprend à la France à protéger des quartiers entiers plutôt que des monuments isolés. De Lyon à Sarlat puis aux sites patrimoniaux remarquables, ce reportage suit une victoire sur le bulldozer et sa question laissée ouverte : qui peut encore habiter derrière les façades sauvées ?">
+<meta name="book:tags" content="patrimoine, urbanisme, France, XXe siècle">
+<meta name="book:date" content="2026-08-19">
+<meta name="book:genre" content="histoire">
+<meta name="book:format" content="illustré">
+<meta name="book:tonalite" content="contemplative">
+<meta name="book:exigence" content="intermédiaire">
+<meta name="book:audience" content="tout public">
+<!-- Cas rare — autre édition d'un livre déjà publié : décommenter et renseigner
+     le slug du livre source (moratoire sur les doublons : voir le WORKFLOW).
+<meta name="book:variant-of" content="slug-du-livre-source">
+-->
+<meta name="book:workflow" content="reportage v5">
+<meta name="book:capacites" content="codex">
+<meta name="reader-engine" content="atelier-liseuse v3">
+<title>Ce que Malraux a sauvé</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="En 1962, une loi apprend à la France à protéger des quartiers entiers plutôt que des monuments isolés. De Lyon à Sarlat puis aux sites patrimoniaux remarquables, ce reportage suit une victoire sur le bulldozer et sa question laissée ouverte : qui peut encore habiter derrière les façades sauvées ?">
+<meta name="theme-color" content="#14181a">
+<style>
+:root{--ivory:#eef0ec;--paper:#f9faf7;--ink:#14181a;--muted:#5b6663;--blue:#135e63;--yellow:#d9a13b;--red:#a83c2e;--pink:#8fa9b4;--line:#c3cbc4;--panel:#f4f6f1;--scale:1;color-scheme:light}
+[data-theme="dark"]{--ivory:#131619;--paper:#1b2023;--ink:#e9ece6;--muted:#a9b3ac;--blue:#6fc4c9;--yellow:#e5b34f;--red:#ff8a75;--pink:#9fb8c2;--line:#4a5352;--panel:#21272a;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--ivory)}body{margin:0;color:var(--ink);background:var(--ivory);font:calc(18px * var(--scale))/1.72 Georgia,"Times New Roman",serif}button,input{font:inherit;color:inherit}button{cursor:pointer}img{max-width:100%}[hidden]{display:none!important}
+.skip{position:fixed;z-index:200;left:.75rem;top:.75rem;transform:translateY(-180%);padding:.55rem .8rem;background:var(--yellow);color:#14181a}.skip:focus{transform:none}:focus-visible{outline:3px solid var(--yellow);outline-offset:4px}
+.top{position:sticky;z-index:60;top:0;display:flex;align-items:center;gap:.55rem;min-height:3.2rem;padding:.5rem max(1rem,env(safe-area-inset-left));border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--ivory) 92%,transparent);backdrop-filter:blur(12px)}.brand{margin-right:auto;font:800 .83rem/1.1 system-ui,sans-serif;letter-spacing:.02em}.control,.pill,.toc button,.entry-link{border:1px solid var(--line);background:var(--panel);padding:.38rem .68rem}.control,.pill{border-radius:999px}.control{min-width:2.5rem}
+.progress{position:fixed;z-index:90;inset:0 0 auto;height:4px}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--yellow));transition:width .2s}
+.home{min-height:calc(100vh - 3.2rem);display:grid;grid-template-columns:minmax(19rem,.9fr) minmax(20rem,1.1fr);background:#0d1416}.cover{position:relative;min-height:44rem;overflow:hidden}.cover img{display:block;width:100%;height:100%;object-fit:cover}.cover:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 55%,#0d1416 100%);pointer-events:none}.home-copy{position:relative;display:flex;justify-content:center;flex-direction:column;padding:clamp(2rem,7vw,7rem);color:#eef0e8;background:#0d1416}.home-copy:before{content:"";position:absolute;width:clamp(7rem,17vw,15rem);aspect-ratio:1;border-radius:50%;border:3px solid #d9a13b;right:6%;top:7%;opacity:.85}.home-copy:after{content:"";position:absolute;width:clamp(4rem,9vw,8rem);aspect-ratio:1;border-radius:50%;border:1px solid #d9a13b;right:16%;top:22%;opacity:.5}.eyebrow{position:relative;font:750 .72rem/1.2 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.17em;color:#d9a13b}.home h1{position:relative;max-width:10ch;margin:.5rem 0 1.2rem;font-size:clamp(3.2rem,8vw,7.2rem);font-weight:500;line-height:.82;letter-spacing:-.045em}.deck{position:relative;max-width:36rem;font-size:1.08rem}.primary{position:relative;align-self:flex-start;margin-top:1.2rem;padding:.85rem 1.1rem;border:0;background:#d9a13b;color:#14181a;font:800 .9rem/1 system-ui,sans-serif}
+.reader-shell{display:grid;grid-template-columns:17rem minmax(0,1fr);max-width:96rem;margin:auto}.toc{position:sticky;top:3.2rem;height:calc(100vh - 3.2rem);overflow:auto;padding:2rem 1rem;border-right:1px solid var(--line);font-family:system-ui,sans-serif}.toc h2{margin:.2rem .5rem 1rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.16em;color:var(--muted)}.toc button{display:block;width:100%;margin:.3rem 0;text-align:left;border-width:0 0 0 3px;background:transparent;border-radius:0;padding:.65rem}.toc button[aria-current="page"]{border-left-color:var(--blue);color:var(--blue);font-weight:750}.toc .codex-nav{margin-top:1.2rem;border:1px solid var(--line);background:var(--panel)}
+.reader{min-width:0}.chapter-art{position:relative;margin:0;background:#0d1416;overflow:hidden}.chapter-art button{display:block;width:100%;padding:0;border:0;background:#0d1416}.chapter-art img{display:block;width:100%;height:min(62vh,45rem);object-fit:cover}.chapter-art figcaption{position:absolute;inset:auto 0 0;padding:3rem max(1.25rem,calc((100% - 43rem)/2)) 1rem;color:#fff;background:linear-gradient(transparent,#0d1416ee);font:600 .75rem/1.35 system-ui,sans-serif;pointer-events:none}.chapter{padding:clamp(2.2rem,6vw,6rem) 1.25rem 5rem}.chapter-head,.prose,.chapter-nav{max-width:43rem;margin-inline:auto}.chapter-num{font:800 .7rem/1 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.15em;color:var(--blue)}.chapter h1{margin:.5rem 0 2rem;font-size:clamp(2.7rem,7vw,5.2rem);line-height:.9;font-weight:500;letter-spacing:-.04em}.prose p{margin:0 0 1.3em;text-wrap:pretty}.prose p:first-child:first-letter{float:left;margin:.08em .15em 0 0;font-size:4.5rem;line-height:.72;color:var(--blue)}.references{display:flex;gap:.35rem;flex-wrap:wrap;margin:.35rem 0 1.3rem;padding-left:1rem;border-left:3px solid var(--yellow)}.ref{border:0;border-bottom:1px solid var(--blue);background:transparent;color:var(--blue);padding:.1rem;font:750 .73rem/1.2 system-ui,sans-serif}.locked-ref{color:var(--muted);font:650 .7rem/1.2 system-ui,sans-serif}.chapter-nav{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+.doc-figure{margin:2rem 0;border:1px solid var(--line);background:var(--panel)}.doc-figure button{display:block;width:100%;padding:0;border:0;background:#0d1416}.doc-figure img{display:block;width:100%;height:auto;max-height:70vh;object-fit:contain}.doc-figure figcaption{padding:.7rem .9rem;font:600 .78rem/1.45 system-ui,sans-serif;color:var(--muted)}.doc-figure .doc-caption{display:block;color:var(--ink)}.doc-figure .doc-source{display:block;margin-top:.25rem}.doc-source a{color:var(--blue)}
+.entry-figure{display:flex;flex-direction:column;margin:0;min-height:100%;background:#0d1416}.entry-figure .entry-image{flex:1;min-height:0}.entry-figure.doc img{object-fit:contain}.entry-figure figcaption{padding:.6rem .9rem;font:600 .73rem/1.4 system-ui,sans-serif;color:#c9d2cc}.entry-figure figcaption a{color:#8fd0d5}
+.codex{max-width:82rem;margin:auto;padding:clamp(2rem,6vw,6rem) 1.25rem 6rem}.codex-head{display:grid;grid-template-columns:1fr minmax(16rem,28rem);align-items:end;gap:2rem;margin-bottom:2rem}.codex h1{margin:.3rem 0;font-size:clamp(3rem,8vw,6rem);line-height:.86;font-weight:500}.codex-intro{max-width:42rem}.search{display:block;width:100%;margin-top:.4rem;padding:.75rem 1rem;border:1px solid var(--line);border-radius:0;background:var(--panel)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.card{display:flex;flex-direction:column;min-height:18rem;padding:1rem;border:1px solid var(--line);background:var(--panel)}.card:nth-child(4n+1){border-top:6px solid var(--blue)}.card:nth-child(4n+2){border-top:6px solid var(--yellow)}.card:nth-child(4n+3){border-top:6px solid var(--red)}.card:nth-child(4n){border-top:6px solid var(--pink)}.card.locked{background:transparent;color:var(--muted);border-top-color:var(--line)}.cat{font:800 .66rem/1.2 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.14em;color:var(--blue)}.card h2{margin:.5rem 0;font-size:1.5rem;line-height:1.1}.card p{margin:.2rem 0 1rem}.card button{align-self:flex-start;margin-top:auto}.empty{grid-column:1/-1;color:var(--muted)}
+dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px solid var(--line);background:var(--panel);color:var(--ink);box-shadow:0 1rem 5rem #0008}dialog::backdrop{background:#080b12d9}.close{position:sticky;z-index:4;top:.65rem;float:right;width:2.7rem;height:2.7rem;margin:.65rem;border:1px solid var(--line);border-radius:50%;background:var(--panel)}.entry{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(18rem,.95fr)}.entry.no-image{grid-template-columns:1fr}.entry-image{padding:0;border:0;background:#0d1416;min-height:100%}.entry-image img{display:block;width:100%;height:100%;max-height:88vh;object-fit:cover}.entry-copy{padding:clamp(1.4rem,5vw,4rem);overflow:auto}.entry-copy h2{margin:.45rem 0 1rem;font-size:clamp(2rem,5vw,4rem);line-height:.9}.entry-copy .body p{margin:0 0 1.1em}.hook{font-style:italic;color:var(--muted)}.voice{font:800 .66rem/1.4 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.13em;color:var(--blue)}.related{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:1.5rem}.image-dialog{width:min(94vw,86rem);background:#0d0f13}.image-dialog img{display:block;max-width:100%;max-height:85vh;margin:auto}.toast{position:fixed;z-index:100;left:50%;bottom:1rem;transform:translateX(-50%);max-width:calc(100% - 2rem);padding:.7rem 1rem;border:1px solid #d9a13b;background:#14181a;color:#fff;border-radius:999px;font:750 .78rem/1.2 system-ui,sans-serif}
+.sr{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home{grid-template-columns:1fr}.cover{min-height:68vh}.cover:after{background:linear-gradient(transparent 55%,#0d1416)}.home-copy{padding:2.4rem 1.25rem 4rem}.reader-shell{display:block}.toc{display:none}}
+@media(max-width:620px){body{line-height:1.65}.brand{display:none}.top{gap:.35rem}.grid,.codex-head,.entry{grid-template-columns:1fr}.chapter-art img{height:42vh}.card{min-height:13rem}.entry-image img{max-height:45vh}.home h1{font-size:clamp(2.9rem,15vw,5rem)}}
+/* Modules optionnels (v3) : carte et graphe de relations */
+.module{max-width:58rem;margin:auto;padding:clamp(2rem,6vw,6rem) 1.25rem 6rem}.module-head{max-width:46rem;margin-bottom:1.6rem}.module h1{margin:.3rem 0;font-size:clamp(2.6rem,7vw,5rem);line-height:.88;font-weight:500}.module-intro{color:var(--muted)}.viz{border:1px solid var(--line);background:var(--panel)}.viz svg{display:block;width:100%;height:auto}.viz text{font-family:system-ui,sans-serif;font-size:1.5px;font-weight:650;fill:var(--ink);paint-order:stroke;stroke:var(--panel);stroke-width:.5;stroke-linejoin:round}.viz-count{margin:.7rem 0 .2rem;font:750 .72rem/1.3 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.viz-list{margin:.4rem 0 0;padding:0;list-style:none;font-family:system-ui,sans-serif;font-size:.92rem}.viz-list li{padding:.55rem 0;border-top:1px solid var(--line)}.viz-list .viz-hook,.viz-list .viz-nature{color:var(--muted)}.shape-eau{fill:color-mix(in srgb,var(--pink) 34%,var(--panel));stroke:none}.shape-terre{fill:color-mix(in srgb,var(--yellow) 18%,var(--panel));stroke:var(--line);stroke-width:.2}.shape-route{fill:none;stroke:var(--yellow);stroke-width:.35;stroke-dasharray:1.4 1}.shape-limite{fill:none;stroke:var(--line);stroke-width:.3;stroke-dasharray:.6 .9}.spot circle,.node circle{fill:var(--blue);stroke:var(--paper);stroke-width:.3}.spot[role="button"],.node[role="button"]{cursor:pointer}.spot.locked circle,.node.locked circle{fill:none;stroke:var(--line);stroke-width:.3;stroke-dasharray:.7 .7}.spot:focus-visible,.node:focus-visible{outline:none}.spot:focus-visible circle,.node:focus-visible circle,.spot[role="button"]:hover circle,.node[role="button"]:hover circle{fill:var(--yellow);stroke:var(--ink);stroke-width:.35}.edge{stroke:var(--muted);stroke-width:.25}
+@media(max-width:900px){.viz text{font-size:2.2px}}
+@media(max-width:620px){.viz text{font-size:3px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+/* Mode impression (v3) : la vue affichée s'imprime sans le mobilier de la liseuse */
+@media print{@page{margin:18mm}html,body{background:#fff;color:#000;font-size:11pt;line-height:1.5}.skip,.progress,.toc,.chapter-nav,.references,.toast,dialog,.primary,.cover,.search,.card.locked,.viz-count,.top button{display:none!important}.top{position:static;min-height:0;padding:0 0 .5rem;border-bottom:1px solid #999;background:none;backdrop-filter:none}.brand{display:block;font:750 10pt/1.3 system-ui,sans-serif}.home{display:block;min-height:0;background:#fff}.home-copy{display:block;padding:0;color:#000;background:#fff}.home-copy:before,.home-copy:after{display:none}.home h1{max-width:none;font-size:28pt;letter-spacing:-.02em}.eyebrow{color:#000}.reader-shell,.grid{display:block}.chapter,.codex,.module{padding:0}.chapter h1,.codex h1,.module h1{font-size:22pt;margin:.2rem 0 1rem}.prose p{orphans:3;widows:3}.prose p:first-child:first-letter{color:#000}.chapter-art,.doc-figure,.card,.viz,.viz-list li{break-inside:avoid}.chapter-art,.doc-figure{border:0;background:none}.chapter-art img{height:auto;max-height:9cm;object-fit:contain}.chapter-art figcaption{position:static;padding:.3rem 0;color:#000;background:none}.card{min-height:0;padding:.5rem 0;border:0;border-top:1px solid #999}.card button{display:none}a{color:#000;text-decoration:underline}.doc-source a:after{content:" (" attr(href) ")";font-size:8pt}}
+</style></head><body>
+<a class="skip" href="#main">Aller au contenu</a>
+<div class="progress" id="progress" role="progressbar" aria-label="Progression de lecture" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="bar"></span></div>
+<header class="top"><button class="control" id="home-btn" aria-label="Accueil">⌂</button><span class="brand" id="brand"></span><button class="pill" id="codex-btn">Codex</button><button class="pill" id="map-btn" hidden>Carte</button><button class="pill" id="relations-btn" hidden>Relations</button><button class="control" id="font-down" aria-label="Réduire la taille du texte">A−</button><button class="control" id="font-up" aria-label="Augmenter la taille du texte">A+</button><button class="control" id="theme" aria-label="Changer de thème" aria-pressed="false">◐</button></header>
+<main id="main">
+<section class="view home" id="home"><div class="cover"><img id="cover-img" alt=""></div><div class="home-copy"><span class="eyebrow" id="home-eyebrow"></span><h1 id="home-title"></h1><p class="deck" id="home-deck"></p><button class="primary" id="start">Commencer ou reprendre</button></div></section>
+<section class="view reader-shell" id="reader" hidden><aside class="toc" aria-label="Sommaire"><h2>Sommaire</h2><nav id="toc-list"></nav><button class="codex-nav" id="codex-nav">Explorer le codex</button><button class="codex-nav" id="map-nav" hidden>Voir la carte</button><button class="codex-nav" id="relations-nav" hidden>Voir les relations</button></aside><article class="reader"><figure class="chapter-art" id="chapter-art" hidden></figure><div class="chapter" id="chapter-body"></div></article></section>
+<section class="view codex" id="codex" hidden><header class="codex-head"><div><span class="eyebrow" id="codex-eyebrow"></span><h1>Codex</h1><p class="codex-intro" id="codex-intro"></p></div><label>Rechercher dans les notices débloquées<input class="search" id="search" type="search" autocomplete="off" placeholder="Nom, lieu, concept…"></label></header><div class="grid" id="codex-grid"></div></section>
+<section class="view module" id="map" hidden><header class="module-head"><span class="eyebrow" id="map-eyebrow"></span><h1 id="map-title">Carte</h1><p class="module-intro" id="map-intro"></p></header><div class="viz"><svg id="map-svg" viewBox="0 0 100 72" role="group" aria-label="Carte des lieux du récit"></svg></div><p class="viz-count" id="map-count"></p><ul class="viz-list" id="map-list"></ul></section>
+<section class="view module" id="relations" hidden><header class="module-head"><span class="eyebrow" id="relations-eyebrow"></span><h1 id="relations-title">Relations</h1><p class="module-intro" id="relations-intro"></p></header><div class="viz"><svg id="relations-svg" viewBox="0 0 100 72" role="group" aria-label="Graphe des relations entre les entités du récit"></svg></div><p class="viz-count" id="relations-count"></p><ul class="viz-list" id="relations-list"></ul></section>
+</main>
+<dialog id="entry-dialog" aria-labelledby="entry-title"><button class="close" id="entry-close" aria-label="Fermer">×</button><div id="entry-content"></div></dialog>
+<dialog class="image-dialog" id="image-dialog" aria-label="Illustration agrandie"><button class="close" id="image-close" aria-label="Fermer l’image">×</button><img id="large-image" alt=""></dialog>
+<div class="toast" id="toast" hidden></div><div class="sr" id="announcer" aria-live="polite" aria-atomic="true"></div>
+<!-- ============================================================
+     ÎLOT DE DONNÉES — tout le récit vit ici.
+     Spécification normative des champs : livres/_template/DONNEES.md
+     L'exemple ci-dessous est minimal (2 chapitres, 4 notices, les deux
+     modules optionnels) et illustre chaque champ ; le remplacer
+     intégralement — un livre sans carte ni graphe supprime les blocs
+     « map » et « relations » (les vues disparaissent d'elles-mêmes).
+     ============================================================ -->
+<script type="application/json" id="book-data">
+{
+  "meta": {
+    "slug": "loi-malraux",
+    "title": "Ce que Malraux a sauvé",
+    "author": "GPT 5.6 Luna",
+    "description": "En 1962, une loi apprend à la France à protéger des quartiers entiers plutôt que des monuments isolés. De Lyon à Sarlat puis aux sites patrimoniaux remarquables, ce reportage suit une victoire sur le bulldozer et sa question laissée ouverte : qui peut encore habiter derrière les façades sauvées ?",
+    "tags": [
+      "patrimoine",
+      "urbanisme",
+      "France",
+      "XXe siècle"
+    ],
+    "date": "2026-08-19",
+    "language": "fr",
+    "edition": "Reportage explorable",
+    "codexLabel": "Dossier des secteurs sauvegardés",
+    "codexVoice": "Un urbaniste des centres anciens ouvre ses dossiers de travail : précis sur le droit, attentif aux habitants, il distingue les faits, les bilans et les controverses, et cite les sources consultées."
+  },
+  "world": {
+    "emotionalPromise": "Voir dans une rue ancienne non un décor immobile, mais le résultat fragile d’un choix politique entre destruction, restauration et vie quotidienne.",
+    "centralIdea": "La loi Malraux a sauvé les centres anciens en faisant du quartier un patrimoine, sans résoudre à elle seule la question de ceux qui peuvent l’habiter.",
+    "satellites": [
+      "La protection des ensembles urbains est née d’une politique de logement et de construction autant que d’une politique culturelle.",
+      "La loi patrimoniale de 1962 et le régime fiscal apparu en 1977 sont deux histoires distinctes.",
+      "Lyon et Sarlat montrent qu’un même outil produit des temporalités et des effets sociaux différents.",
+      "L’héritage contemporain se joue dans plus d’un millier de sites, souvent situés dans de petites communes.",
+      "La sauvegarde reste vivante seulement si les bâtiments protégés demeurent habitables, adaptables et socialement accessibles."
+    ],
+    "thematicQuestion": "Sauver une ville, est-ce conserver ses pierres ou permettre à une population de continuer à les habiter ?"
+  },
+  "entityAudit": {
+    "excluded": [
+      {
+        "label": "Michel Debré",
+        "reason": "Rôle de préparation mentionné ponctuellement ; le contexte interministériel est couvert par les notices Pierre Sudreau et Loi du 4 août 1962."
+      },
+      {
+        "label": "Avignon",
+        "reason": "La ville est citée comme contexte ; le cas utile au parcours est couvert par la notice La Balance."
+      },
+      {
+        "label": "Saint-Jean, Saint-Paul et Saint-Georges",
+        "reason": "Sous-quartiers traités ensemble dans la notice Vieux-Lyon."
+      },
+      {
+        "label": "Marcel Franchet et Henry de Ségogne",
+        "reason": "Acteurs cités dans le cas de Sarlat ; leur action est couverte par la notice Sarlat sans justifier deux fiches supplémentaires."
+      },
+      {
+        "label": "SEMIRELY",
+        "reason": "Opérateur local cité pour un chiffre de restauration ; couvert par la notice Vieux-Lyon."
+      },
+      {
+        "label": "ZPPAU, ZPPAUP et AVAP",
+        "reason": "Catégories juridiques de transition couvertes par les notices Site patrimonial remarquable et PVAP."
+      },
+      {
+        "label": "Article 199 tervicies du CGI",
+        "reason": "Référence fiscale couverte par la notice Dispositif fiscal Malraux."
+      },
+      {
+        "label": "Assemblée nationale, Sénat, Légifrance, ministère de la Culture et APUR",
+        "reason": "Institutions et producteurs documentaires, regroupés dans la notice Sources et méthode."
+      }
+    ]
+  },
+  "cover": {
+    "image": "../../couvertures/loi-malraux.webp",
+    "catalogImage": "couvertures/loi-malraux.webp",
+    "alt": "Vue en noir et blanc de l’hôpital de la Charité à Lyon en cours de démolition, avec des murs éventrés au premier plan et les bâtiments anciens au-delà du Rhône."
+  },
+  "chapters": [
+    {
+      "id": "chapitre-1",
+      "number": 1,
+      "title": "Avant le sauvetage",
+      "blocks": [
+        {
+          "id": "c1-b01",
+          "text": "Après la guerre, les centres anciens sont pris entre deux urgences : reconstruire et loger. Les politiques publiques les décrivent souvent comme vétustes, dégradés ou insalubres. La rénovation urbaine vise alors l’hygiène, la circulation, les réseaux et l’adaptation du parc de logements aux besoins d’une population urbaine en croissance. La question patrimoniale n’est pas absente, mais elle n’est pas encore l’échelle principale de l’action. La loi Malraux naît dans cette tension entre modernisation rapide et prise de conscience de la valeur historique des tissus urbains. Le régime est conçu dans le contexte de l’urbanisation d’après-guerre et des besoins de reconstruction, non comme une simple politique de conservation monumentale. Les centres anciens sont à la fois des lieux de mémoire et des espaces d’habitat que les administrations veulent rendre plus sains et plus fonctionnels.",
+          "mentions": [
+            "avant-1962",
+            "sources-et-methode"
+          ]
+        },
+        {
+          "id": "c1-b02",
+          "text": "Le problème n’est pas seulement celui d’un monument isolé. Dans un centre ancien, la valeur peut tenir à la continuité des rues, aux alignements, aux volumes, aux parcelles et aux relations entre des bâtiments ordinaires. Une politique de rénovation qui traite chaque immeuble séparément risque de perdre cette cohérence. À l’inverse, une conservation intégrale pourrait empêcher la mise aux normes, l’amélioration du confort et la transformation des logements. Avant 1962, le droit doit encore trouver une manière de tenir ensemble ces exigences contradictoires. La difficulté est aussi administrative : un monument relève d’un classement identifiable, tandis qu’un quartier demande un périmètre, une doctrine commune et des règles applicables à de nombreux propriétaires. Le futur secteur sauvegardé répondra précisément à cette différence d’échelle.",
+          "mentions": [
+            "avant-1962",
+            "secteur-sauvegarde"
+          ]
+        },
+        {
+          "id": "c1-b03",
+          "text": "La protection des abords de monuments, renforcée par la loi de 1943 et son périmètre automatique de cinq cents mètres, élargit déjà le regard au-delà de l’édifice classé. Elle ne constitue cependant pas une politique générale des quartiers anciens. Un centre historique peut avoir une valeur d’ensemble sans être organisé autour d’un monument unique. Le changement qui se prépare consiste à reconnaître le quartier pour ses qualités propres, historiques, architecturales ou urbaines. Le patrimoine commence alors à désigner une structure collective plutôt qu’une collection d’objets remarquables. La loi du 21 juillet 1962 sur les abords et celle du 4 août sur les secteurs sauvegardés appartiennent à la même séquence de protection, mais elles ne doivent pas être confondues : l’une concerne l’environnement des monuments, l’autre crée un outil pour les ensembles urbains.",
+          "mentions": [
+            "avant-1962",
+            "secteur-sauvegarde"
+          ]
+        },
+        {
+          "id": "c1-b04",
+          "text": "La modernisation d’après-guerre ne se résume pas à une volonté abstraite de détruire. Elle répond à des contraintes matérielles : assainir, raccorder, circuler, densifier et produire des logements. Mais dans les centres anciens, ces objectifs peuvent conduire à des opérations de rénovation radicales, où la rue historique devient un obstacle à supprimer. La loi de 1962 sera conçue pour empêcher que cette solution soit appliquée indistinctement aux quartiers dont la disparition ferait perdre une partie de l’histoire urbaine. Le ministère de la Culture décrit explicitement les centres anciens comme menacés par des destructions menées au nom de l’hygiène et de la modernité. Cette description établit le cadre politique de la loi, sans permettre de quantifier ici toutes les démolitions réalisées avant elle.",
+          "mentions": [
+            "avant-1962",
+            "loi-4-aout-1962"
+          ]
+        },
+        {
+          "id": "c1-b05",
+          "text": "Dans son discours du 23 juillet 1962, André Malraux décrit une double disparition : celle des formes anciennes de la vie rurale et celle du visage ancien des villes. Il oppose le chef-d’œuvre isolé à la présence du passé dans un quartier. Cette formule est politique, non statistique : elle sert à justifier une nouvelle intervention publique. Elle affirme cependant une idée décisive, reprise par la loi : des maisons ordinaires peuvent acquérir une valeur patrimoniale par l’ensemble urbain qu’elles composent. Le monument n’est plus le seul point d’entrée du passé. Une rue, une succession de façades, un volume urbain et la relation entre plusieurs bâtiments peuvent porter une mémoire qui ne se laisse pas enfermer dans une notice d’édifice.",
+          "mentions": [
+            "andre-malraux",
+            "avant-1962"
+          ]
+        },
+        {
+          "id": "c1-b06",
+          "text": "Malraux distingue les démolitions qui peuvent répondre à l’état d’un bâtiment et celles qui détruiraient un quartier ancien. Il juge possible de remplacer des constructions très dégradées du XIXe siècle, mais refuse d’appliquer la même logique à des rues de la Renaissance ou du XVIIe siècle. Cette distinction n’est pas une règle juridique générale ; elle expose une méthode de jugement. La modernisation peut continuer, mais elle doit tenir compte de la période, de la cohérence et de la valeur urbaine des bâtiments concernés. L’exemple du quartier de la Balance à Avignon lui permet d’opposer deux risques : le bulldozer, qui peut produire une reconstruction neuve, et le pastiche, qui reproduit artificiellement un ancien sans en conserver la substance. La restauration devient une troisième voie, plus coûteuse et plus exigeante.",
+          "mentions": [
+            "andre-malraux",
+            "la-balance"
+          ]
+        },
+        {
+          "id": "c1-b07",
+          "text": "La restauration défendue en 1962 ne consiste pas à figer les intérieurs. Malraux propose de conserver le caractère extérieur et urbain des quartiers tout en modernisant les distributions, les équipements et les conditions de logement. Le confort contemporain devient une condition de la sauvegarde, pas son contraire. Cette conception écarte deux caricatures : le quartier ancien transformé en décor immobile et le quartier ancien rasé pour être rendu habitable. Le futur plan devra organiser la transformation de l’un sans sacrifier l’autre. Le ministre évoque des opérations où l’État, la ville, les propriétaires et des organismes spécialisés peuvent intervenir ensemble. La sauvegarde est donc déjà pensée comme une politique d’habitat et de travaux, pas seulement comme une interdiction de démolir.",
+          "mentions": [
+            "andre-malraux",
+            "psmv"
+          ]
+        },
+        {
+          "id": "c1-b08",
+          "text": "La démolition de l’hôpital de la Charité à Lyon, en 1934-1935, matérialise une logique de modernisation antérieure à la loi de 1962. La photographie documente cette démolition ; elle ne représente pas une opération conduite sous la loi Malraux. La date du document diverge selon les sources : Wikimedia Commons indique 1935, tandis que la série des Archives municipales est décrite comme un reportage de 1934. Cette réserve doit accompagner l’image et empêcher d’en faire une preuve plus précise que les archives disponibles. L’image ne démontre pas que toute modernisation suivait le même modèle, ni que la loi de 1962 aurait empêché chaque destruction ultérieure. Elle donne seulement une forme visible au problème historique auquel le nouveau dispositif tente de répondre. Elle sert donc de document de contexte, non de preuve directe de la politique créée en 1962.",
+          "mentions": [
+            "avant-1962",
+            "sources-et-methode"
+          ],
+          "figure": {
+            "image": "images/figure-c1-b08.webp",
+            "alt": "Hôpital de la Charité à Lyon en cours de démolition, avec des murs éventrés et les bâtiments anciens visibles au-delà du Rhône.",
+            "caption": "La démolition de l’hôpital de la Charité en 1934-1935 matérialise la logique de modernisation antérieure à la loi Malraux ; l’image ne montre pas une opération conduite sous la loi de 1962.",
+            "source": {
+              "label": "Archives municipales de Lyon, via Wikimedia Commons",
+              "url": "https://commons.wikimedia.org/wiki/File:Destruction_de_l%27H%C3%B4pital_de_la_Charit%C3%A9.jpg"
+            },
+            "imageWidth": 1600,
+            "imageHeight": 1131,
+            "origin": "Document du web consulté le 19 août 2026 ; photographie attribuée à 1935 selon Wikimedia Commons, série des Archives municipales décrite comme un reportage de 1934 ; auteur inconnu ; Public Domain Mark indiqué par Wikimedia Commons ; fichier local prévu dans images/figure-c1-b08.webp."
+          }
+        }
+      ]
+    },
+    {
+      "id": "chapitre-2",
+      "number": 2,
+      "title": "Le quartier devient patrimoine",
+      "blocks": [
+        {
+          "id": "c2-b01",
+          "text": "Le déplacement vers l’ensemble urbain commence avant la loi. En mai 1959, le ministère de la Construction dirigé par Pierre Sudreau lance un inventaire des tissus urbains anciens. La genèse n’appartient donc pas au seul ministère des Affaires culturelles. Un service chargé de construire et de rénover commence à identifier les formes urbaines que la modernisation pourrait altérer. Cet inventaire fournit un arrière-plan administratif à la loi de 1962, même si les documents consultés ne permettent pas ici de reconstituer son corpus complet ni sa méthode détaillée. La date est sûre dans le rapport sénatorial ; le contenu précis des dossiers et leur usage opérationnel restent à documenter. Il faut donc parler d’un travail préparatoire attesté, sans lui attribuer un programme exhaustif que les sources disponibles ne décrivent pas.",
+          "mentions": [
+            "pierre-sudreau",
+            "sources-et-methode"
+          ]
+        },
+        {
+          "id": "c2-b02",
+          "text": "Le discours d’André Malraux du 23 juillet 1962 donne une formulation politique à cette évolution. Le ministre ne parle pas seulement de monuments remarquables, mais de la présence du passé dans la ville. Un édifice peut perdre une part de sa signification si le quartier qui l’entoure disparaît. La valeur patrimoniale ne réside donc pas seulement dans l’exception ; elle peut tenir à la continuité d’un tissu, à la relation entre les maisons, aux rues et aux espaces qui les organisent. Le quartier devient une unité de lecture du passé. Cette idée ne transforme pas chaque construction ancienne en monument historique. Elle affirme qu’un ensemble peut justifier une protection propre, parce que la cohérence des éléments compte autant que leur singularité.",
+          "mentions": [
+            "andre-malraux",
+            "secteur-sauvegarde"
+          ]
+        },
+        {
+          "id": "c2-b03",
+          "text": "Malraux refuse de confondre sauvegarde et immobilité. Il défend des logements modernes derrière des façades et des structures urbaines conservées. L’eau, l’assainissement, l’électricité et le gaz appartiennent à la réflexion sur le plan. Le patrimoine n’est pas séparé des infrastructures ; il doit rester habitable. La restauration peut modifier les distributions intérieures, améliorer le confort et adapter les usages, à condition de préserver le caractère du quartier. La loi va donner à cette tension entre mémoire et usage une procédure plutôt qu’une simple déclaration de principe. Cette position explique pourquoi le dispositif relève aussi de la construction et de l’urbanisme : préserver un centre ancien suppose de savoir comment ses immeubles continueront à être occupés, desservis et transformés.",
+          "mentions": [
+            "andre-malraux",
+            "psmv"
+          ]
+        },
+        {
+          "id": "c2-b04",
+          "text": "La loi n° 62-903 du 4 août 1962 crée les secteurs sauvegardés. Elle vise les ensembles urbains présentant un caractère historique ou esthétique, ou dont la conservation, la restauration et la mise en valeur sont justifiées. Le texte ne protège donc pas seulement une collection de monuments. Il permet de délimiter tout ou partie d’un ensemble de bâtiments et d’appliquer à ce territoire des règles particulières. Le quartier devient patrimoine au moment où il reçoit un périmètre juridique et une procédure d’intervention. Le choix des termes est important : conservation, restauration et mise en valeur associent le maintien de l’existant, la réparation des bâtiments et leur adaptation à une vie contemporaine. La loi ne promet pas une ville sous cloche.",
+          "mentions": [
+            "loi-4-aout-1962",
+            "secteur-sauvegarde"
+          ]
+        },
+        {
+          "id": "c2-b05",
+          "text": "La création d’un secteur repose sur une articulation entre l’État et la commune. Un arrêté conjoint des ministres compétents intervient après l’avis favorable de la ou des communes concernées ; en cas de désaccord municipal, un décret en Conseil d’État peut créer le secteur. La loi reconnaît ainsi le rôle national de la protection tout en inscrivant les collectivités dans la procédure. Le patrimoine urbain n’est plus seulement une affaire de classement d’édifice : il devient une décision territoriale, prise à l’échelle d’un quartier mais soumise à une compétence d’État. Cette procédure prévoit donc un accord local lorsque la commune accepte le périmètre, mais elle n’abandonne pas à la seule décision municipale la possibilité de reconnaître un ensemble d’intérêt national.",
+          "mentions": [
+            "loi-4-aout-1962",
+            "secteur-sauvegarde"
+          ]
+        },
+        {
+          "id": "c2-b06",
+          "text": "Le secteur sauvegardé est associé à un « plan permanent de sauvegarde et de mise en valeur », devenu PSMV dans l’usage. Le plan programme la conservation, la restauration, la modernisation et certaines démolitions. Il peut traiter les immeubles, les îlots, les réseaux et les conditions de l’habitat. Cette exigence de planification distingue le nouveau régime d’un simple label patrimonial. La protection doit être traduite en prescriptions capables d’orienter les travaux et de déterminer ce qui peut être conservé, transformé ou supprimé. Le texte originel prévoit que le plan est établi par décret en Conseil d’État. Le vocabulaire a ensuite été raccourci, mais l’idée demeure : le secteur n’est pleinement opérant qu’une fois son document de règles élaboré et approuvé.",
+          "mentions": [
+            "psmv",
+            "secteur-sauvegarde"
+          ]
+        },
+        {
+          "id": "c2-b07",
+          "text": "La loi s’inscrit dans une séquence politique resserrée. André Malraux est nommé ministre des Affaires culturelles en avril 1962 ; son discours du 23 juillet précède l’adoption puis la promulgation, le 4 août, de la loi n° 62-903. Cette chronologie ne permet pas d’attribuer la conception du dispositif à un seul homme. Elle montre que la sauvegarde des ensembles urbains devient rapidement une priorité législative, portée par des administrations de la Culture, de la Construction et des collectivités locales. Le discours insiste lui-même sur la collaboration avec Michel Debré, les services de la Construction et les municipalités. L’étiquette « loi Malraux » désigne donc un texte associé à un ministre, mais produit par une politique interministérielle. La loi est une signature politique, pas le récit d’une invention solitaire. Sa fabrique administrative importe donc autant que son incarnation publique.",
+          "mentions": [
+            "andre-malraux",
+            "loi-4-aout-1962",
+            "pierre-sudreau"
+          ]
+        },
+        {
+          "id": "c2-b08",
+          "text": "Le changement d’échelle ne supprime pas la protection des monuments isolés ; il l’inscrit dans une politique plus large. Après 1962, les zones de protection du patrimoine architectural et urbain (ZPPAU) de 1983, devenues zones de protection du patrimoine architectural, urbain et paysager (ZPPAUP) en 1993, puis les aires de mise en valeur de l’architecture et du patrimoine (AVAP) de 2010 prolongent la recherche d’un outil adapté aux ensembles. Le quartier ancien n’est plus seulement l’environnement d’un monument. Il devient un territoire historique, urbain et habité, auquel des règles propres peuvent être attachées. En 2016, les anciens secteurs sauvegardés, les ZPPAUP et les AVAP sont intégrés de plein droit aux sites patrimoniaux remarquables. Cette filiation prolonge l’intuition de 1962 sans rendre juridiquement identiques des outils conçus à des dates et selon des procédures différentes.",
+          "mentions": [
+            "avant-1962",
+            "secteur-sauvegarde",
+            "sources-et-methode"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chapitre-3",
+      "number": 3,
+      "title": "Un plan jusque derrière les façades",
+      "blocks": [
+        {
+          "id": "c3-b01",
+          "text": "Le secteur sauvegardé est d’abord un périmètre, mais il ne fonctionne pas sans son plan. Le texte de 1962 prévoit un plan permanent de sauvegarde et de mise en valeur, devenu PSMV. Ce document ne se limite pas à inventorier les bâtiments remarquables. Il détermine les opérations possibles, les conditions de transformation et, dans certains cas, les démolitions nécessaires à la restauration ou à l’habitabilité. La protection prend ainsi la forme d’un document prescriptif qui engage l’urbanisme autant que le patrimoine. Le mot permanent appartient au texte originel ; l’usage administratif a retenu PSMV. Dans les deux cas, l’idée est la même : la sauvegarde doit être décrite parcelle par parcelle et traduite en décisions opposables aux projets.",
+          "mentions": [
+            "secteur-sauvegarde",
+            "psmv"
+          ]
+        },
+        {
+          "id": "c3-b02",
+          "text": "La loi organise la création du secteur par une procédure étatique associée aux communes. L’arrêté conjoint des ministres de la Culture et de la Construction intervient après l’avis favorable de la commune ou des communes concernées. En cas de désaccord municipal, un décret en Conseil d’État peut intervenir. Cette procédure reconnaît une compétence nationale pour identifier et délimiter l’ensemble patrimonial, mais elle ne laisse pas les collectivités hors du processus. La tension entre décision de l’État et connaissance locale est inscrite dans le mécanisme dès son origine. Le maire est consulté lors de la procédure et les propriétaires doivent ensuite composer avec un document qui concerne l’ensemble du quartier. La sauvegarde devient ainsi une négociation institutionnelle encadrée par le droit.",
+          "mentions": [
+            "loi-4-aout-1962",
+            "secteur-sauvegarde"
+          ]
+        },
+        {
+          "id": "c3-b03",
+          "text": "Dès que le secteur est délimité, les travaux qui modifient les immeubles sont soumis à autorisation. Ils doivent être compatibles avec le PSMV. Avant l’approbation du plan, les travaux peuvent être temporairement interdits, pour une durée maximale de deux ans. Cette mesure vise à éviter les transformations irréversibles pendant la préparation du document. Le droit de 1962 ne se contente donc pas de sanctionner après coup une démolition ou une modification ; il cherche à maintenir l’état du quartier pendant le temps administratif nécessaire à l’élaboration des règles. Les prescriptions sont attachées à l’autorisation et peuvent préciser ce que le propriétaire devra exécuter. La sauvegarde intervient ainsi avant le chantier, au moment où le projet est encore modifiable.",
+          "mentions": [
+            "loi-4-aout-1962",
+            "psmv"
+          ]
+        },
+        {
+          "id": "c3-b04",
+          "text": "Le plan peut descendre derrière les façades. Le discours de Malraux mentionne les distributions intérieures, l’eau, l’assainissement, l’électricité et le gaz. La loi permet aussi que la restauration immobilière comprenne le réaménagement, la modernisation et certaines démolitions affectant l’habitabilité. Cela ne signifie pas que tous les intérieurs sont automatiquement protégés. Le degré de contrainte dépend du plan et de ses prescriptions. Le PSMV rend possible une intervention sur la profondeur de l’îlot et sur certains éléments intérieurs, sans transformer chaque pièce ancienne en objet intouchable. Le texte rattache donc explicitement l’esthétique du quartier aux conditions techniques de son fonctionnement : un réseau ou une distribution intérieure peut devenir une question patrimoniale lorsqu’il modifie l’ensemble sauvegardé.",
+          "mentions": [
+            "psmv",
+            "secteur-sauvegarde"
+          ]
+        },
+        {
+          "id": "c3-b05",
+          "text": "La restauration est conçue comme une opération immobilière. Les propriétaires peuvent conduire les travaux eux-mêmes, se regrouper ou constituer une association syndicale ; des organismes d’opération et des procédures de rénovation urbaine peuvent aussi être mobilisés. Le texte prévoit en parallèle des dispositions pour les occupants, notamment le relogement, l’évacuation temporaire, le préavis et l’indemnisation. La sauvegarde patrimoniale encadre donc une transformation de l’habitat. Elle ne traite pas seulement de pierres et de façades, mais aussi des personnes qui vivent dans les immeubles concernés. La loi prévoit même que les occupants ne puissent pas s’opposer à certaines opérations décidées dans le cadre légal, ce qui rappelle le pouvoir réel de la restauration immobilière sur les vies quotidiennes.",
+          "mentions": [
+            "occupants-relogement",
+            "loi-4-aout-1962"
+          ]
+        },
+        {
+          "id": "c3-b06",
+          "text": "Le décret du 13 juillet 1963 précise la procédure et le rôle de la Commission nationale des secteurs sauvegardés. La commission examine les propositions de secteurs et participe à l’organisation du dispositif. Les communes sont consultées avant la proposition ; le plan est préparé selon une procédure qui associe les services de l’État et les autorités locales. Le discours de Malraux évoque également l’architecte chargé de dresser le plan et de consulter les parties concernées. La coopération est donc prévue, mais l’approbation finale reste liée aux procédures de l’État. La première réunion de la commission a lieu le 15 novembre 1963. L’institution donne un cadre national à une politique dont les applications se déroulent ensuite dans des villes très différentes.",
+          "mentions": [
+            "commission-nationale",
+            "secteur-sauvegarde"
+          ]
+        },
+        {
+          "id": "c3-b07",
+          "text": "Le secteur sauvegardé met en relation plusieurs échelles : la rue, l’îlot, le quartier, la commune et l’État. Une façade peut relever d’une prescription architecturale, tandis que l’îlot appelle une décision sur les circulations, les réseaux ou les démolitions. Un propriétaire agit sur son immeuble, mais son projet doit être compatible avec un document qui concerne un ensemble. La force du dispositif vient de cette cohérence d’échelle ; sa difficulté aussi. Plus le plan est détaillé et collectif, plus son élaboration exige de diagnostics, de consultations et d’arbitrages. Le mécanisme rend visible une contradiction durable : l’autorisation porte sur un projet particulier, mais le motif de la décision appartient à l’histoire et à la forme du quartier entier. C’est cette contradiction qui donne au PSMV sa portée urbaine et sa complexité pratique.",
+          "mentions": [
+            "psmv",
+            "secteur-sauvegarde",
+            "commission-nationale"
+          ]
+        },
+        {
+          "id": "c3-b08",
+          "text": "La lenteur est l’un des effets documentés du système. Selon un bilan rétrospectif du Sénat, quinze ans après la loi, seuls quatre PSMV étaient approuvés ; certains plans ont demandé environ vingt ans entre leur lancement et leur approbation. En 2016, 105 secteurs avaient été créés sur environ 400 envisagés. Cette durée ne signifie pas que rien ne se passait entre-temps. Elle montre que la planification détaillée d’un centre ancien est un travail administratif lourd, dont la protection juridique complète dépend de l’achèvement. Le plan est l’instrument de la cohérence, mais son temps n’est pas celui d’un chantier ordinaire. La lenteur est donc à la fois une faiblesse opérationnelle et le prix d’une règle qui prétend organiser tout un quartier. Les réformes ultérieures ont cherché à simplifier et à rapprocher les procédures de l’urbanisme local, sans supprimer la nécessité d’un document détaillé ni celle d’une autorisation préalable des travaux. Le bilan de 2016 mesure une politique encore incomplète, non l’abandon de son principe.",
+          "mentions": [
+            "psmv",
+            "sources-et-methode"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chapitre-4",
+      "number": 4,
+      "title": "Lyon et Sarlat, deux commencements",
+      "blocks": [
+        {
+          "id": "c4-b01",
+          "text": "Le Vieux-Lyon est délimité comme secteur sauvegardé le 12 mai 1964. Cette date administrative est antérieure à celle de Sarlat, fixée au 27 août 1964 dans le tableau sénatorial des secteurs. Elle établit un repère sûr dans la chronologie, mais ne dit pas quand les études ont commencé, quand les travaux ont été engagés ni quand les habitants ont commencé à vivre sous les nouvelles règles. Lyon peut être présenté comme l’un des premiers territoires d’application du dispositif, sans lui attribuer, à partir de cette seule date, toute l’histoire de son sauvetage. Le périmètre sera ensuite associé à un PSMV et à une politique de restauration d’une ampleur qui dépasse la seule décision de délimitation. Il faut séparer l’acte juridique initial, les opérations successives et la mémoire locale du sauvetage.",
+          "mentions": [
+            "vieux-lyon",
+            "renaissance-vieux-lyon",
+            "sources-et-methode"
+          ]
+        },
+        {
+          "id": "c4-b02",
+          "text": "Sarlat est délimitée comme secteur sauvegardé le 27 août 1964. Une page historique du Sénat la présente pourtant comme le premier secteur sauvegardé. Ces deux informations ne répondent pas nécessairement au même critère. Le mot premier peut désigner le premier arrêté, le premier secteur opérationnel, un premier chantier ou un modèle devenu emblématique. Les sources réunies ne permettent pas de trancher définitivement entre ces significations. Le récit conservera donc l’ambiguïté au lieu de choisir artificiellement un vainqueur entre Lyon et Sarlat. La date du 27 août est le repère juridique disponible ; l’expression de premier secteur appartient à une mémoire historique qui doit être qualifiée. Une chronologie administrative ne suffit pas à mesurer la rapidité ou l’efficacité d’une restauration.",
+          "mentions": [
+            "sarlat",
+            "sources-et-methode"
+          ]
+        },
+        {
+          "id": "c4-b03",
+          "text": "Le Vieux-Lyon couvre environ 30 hectares, quelque 500 immeubles et environ 4 000 logements. Ces chiffres donnent la mesure du changement d’échelle : le secteur ne correspond pas à un monument, mais à un quartier composé de propriétés, de rues, d’usages et d’habitants. Les restaurations documentées par les dossiers locaux sont elles-mêmes comptées en immeubles et en logements. Le patrimoine urbain apparaît ainsi comme une opération de grande ampleur, dont l’objet n’est pas seulement la façade remarquable, mais l’ensemble habité qui la porte. Cette dimension explique la place prise par les associations et par les outils d’urbanisme : défendre une rue revient aussi à discuter le statut des immeubles, les travaux, les logements et les usages qui les maintiennent en vie.",
+          "mentions": [
+            "vieux-lyon",
+            "psmv"
+          ]
+        },
+        {
+          "id": "c4-b04",
+          "text": "Sarlat représente une autre échelle. Le centre historique compte environ 11 hectares, tandis que l’îlot opérationnel initial en couvre environ 2. Cette différence entre le périmètre historique et l’espace effectivement traité montre que la reconnaissance d’un ensemble ne signifie pas que tous les travaux sont conduits au même moment. Les restaurations s’étalent sur plus de dix ans et associent des dimensions patrimoniales, culturelles, économiques et touristiques. Le cas sarladais illustre donc une sauvegarde progressive, et non la transformation instantanée d’un centre entier. Le chiffre de l’îlot rappelle aussi que l’action publique sélectionne des opérations concrètes à l’intérieur d’un périmètre plus vaste, selon un rythme qui ne se confond pas avec la date du classement.",
+          "mentions": [
+            "sarlat",
+            "secteur-sauvegarde"
+          ]
+        },
+        {
+          "id": "c4-b05",
+          "text": "Les premiers secteurs sont examinés dans une séquence collective. Le décret du 13 juillet 1963 crée la Commission nationale des secteurs sauvegardés ; sa première réunion a lieu le 15 novembre 1963. Les rapports sénatoriaux des premières années recensent plusieurs villes proposées ou créées en 1964, dont Lyon, Chartres, Saumur, Montferrand, Sarlat, Rouen, Troyes et Avignon. Il n’y a donc pas un seul berceau géographique de la politique. Lyon et Sarlat appartiennent à une première série de territoires où l’instrument est mis à l’épreuve. La liste rappelle que le secteur sauvegardé est une politique nationale appliquée dans des villes de formes différentes, avec des calendriers d’arrêté et de plan qui ne sont pas identiques.",
+          "mentions": [
+            "commission-nationale",
+            "vieux-lyon",
+            "sarlat"
+          ]
+        },
+        {
+          "id": "c4-b06",
+          "text": "Le secteur du Vieux-Lyon n’est pas seulement un label : son plan réglementaire attache des prescriptions aux bâtiments et aux parcelles. Entre 1964 et 1976, 20 immeubles représentant 280 logements sont restaurés ; entre 1977 et 1982, 10 immeubles et 138 logements locatifs supplémentaires le sont. Ces chiffres décrivent une progression par opérations successives, et non une restauration achevée en une seule campagne. La carte rend visible la traduction spatiale du PSMV : un document de prescriptions, et non une simple image touristique du quartier. Elle rappelle que la sauvegarde se lit dans des limites, des parcelles et des règles qui encadrent les interventions.",
+          "mentions": [
+            "vieux-lyon",
+            "psmv"
+          ],
+          "figure": {
+            "image": "images/figure-c4-b06.webp",
+            "alt": "Plan réglementaire du secteur sauvegardé du Vieux-Lyon montrant les parcelles et les prescriptions du PSMV.",
+            "caption": "Le plan réglementaire du Vieux-Lyon montre comment le PSMV attache des prescriptions aux bâtiments et aux parcelles ; il ne s’agit pas d’un simple label touristique.",
+            "source": {
+              "label": "Métropole de Lyon — Géoportail de l’Urbanisme",
+              "url": "https://www.geoportail-urbanisme.gouv.fr/document/by-id/86f58a89300f7a2ce7ea26d0bac934f9"
+            },
+            "imageWidth": 1600,
+            "imageHeight": 1130,
+            "origin": "Document du web consulté le 19 août 2026 ; fiche hôte du Géoportail de l’Urbanisme diffusant le règlement graphique révisé le 27 novembre 1998 ; fichier local prévu dans images/figure-c4-b06.webp ; document public selon la fiche consultée."
+          }
+        },
+        {
+          "id": "c4-b07",
+          "text": "L’association Renaissance du Vieux-Lyon, fondée en 1946, appartient à l’histoire locale du sauvetage. Son existence rappelle que la protection ne descend pas seulement d’un texte national : elle rencontre des associations, des élus, des propriétaires et des habitants qui identifient un quartier comme un ensemble à défendre. Les documents disponibles permettent d’établir son rôle historique dans la mobilisation pour le Vieux-Lyon, mais ne suffisent pas ici à raconter chaque conflit ou chaque décision municipale. La mobilisation locale doit donc être mentionnée sans être transformée en scène non documentée. L’association précède la délimitation de 1964 : elle montre que la défense du quartier ne commence pas avec l’arrêté, même si le lien exact entre chaque action associative et chaque décision administrative demanderait des sources supplémentaires. Cette antériorité est un indice de mobilisation, pas la preuve d’une causalité unique sur toute la procédure.",
+          "mentions": [
+            "renaissance-vieux-lyon",
+            "vieux-lyon",
+            "sources-et-methode"
+          ]
+        },
+        {
+          "id": "c4-b08",
+          "text": "Lyon et Sarlat ne sont pas des expériences identiques. Le Vieux-Lyon est un vaste quartier de 30 hectares et plusieurs milliers de logements ; Sarlat associe un centre historique de 11 hectares à un premier îlot opérationnel d’environ 2 hectares. Les dates les placent dans la même vague, mais les échelles, les formes urbaines et les rythmes de restauration diffèrent. Ce sont deux commencements parce qu’ils montrent une même invention juridique confrontée à des territoires différents. Le premier secteur, lui, reste une question de définition et de source. La conclusion la plus solide n’est pas de choisir un vainqueur, mais de distinguer le premier arrêté, le premier chantier, le premier plan et le premier modèle devenu célèbre. Les chiffres du Vieux-Lyon et de Sarlat ne mesurent pas seulement une réussite patrimoniale ; ils rappellent que la sauvegarde s’évalue aussi par des immeubles restaurés, des logements traités et des opérations réellement conduites. Deux dates sûres peuvent donc raconter plusieurs commencements.",
+          "mentions": [
+            "vieux-lyon",
+            "sarlat",
+            "secteur-sauvegarde",
+            "sources-et-methode"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chapter-5",
+      "number": 5,
+      "title": "Le fisc entre dans le quartier",
+      "blocks": [
+        {
+          "id": "c5-b01",
+          "text": "Le nom de Malraux recouvre deux histoires juridiques distinctes. La loi du 4 août 1962 organise la protection du patrimoine urbain et crée les secteurs sauvegardés. Le régime fiscal appelé loi Malraux apparaît plus tard et rend certaines restaurations moins difficiles à financer. Ces mécanismes sont liés par leur objet, mais ils ne sont ni contemporains ni de même nature. Le premier relève du droit de l’urbanisme et de la conservation ; le second relève de l’impôt sur le revenu et de la restauration d’immeubles. Les confondre donne l’impression que la loi de 1962 aurait directement créé les taux de réduction actuels, ce que la chronologie dément.",
+          "mentions": [
+            "sources-et-methode",
+            "loi-4-aout-1962",
+            "loi-fiscale-malraux"
+          ]
+        },
+        {
+          "id": "c5-b02",
+          "text": "En 1962, l’enjeu est de changer l’échelle de la protection. La loi permet de protéger un quartier, un tissu de rues et un ensemble d’immeubles, plutôt qu’un monument isolé. Le Plan de sauvegarde et de mise en valeur devient un document d’urbanisme spécifique, capable de fixer les règles de conservation, de restauration et de transformation. L’objectif est de maintenir un centre historique avec des usages contemporains. Cette innovation répond à la menace des rénovations urbaines radicales : les centres anciens, alors jugés insalubres, pouvaient être remplacés par des constructions neuves. La loi cherche donc à préserver une structure urbaine complète, sans réduire le patrimoine à quelques façades remarquables.",
+          "mentions": [
+            "loi-4-aout-1962",
+            "psmv"
+          ]
+        },
+        {
+          "id": "c5-b03",
+          "text": "Le régime fiscal apparaît avec la loi de finances pour 1977, et non avec le texte patrimonial de 1962. Il traite le problème des opérations groupées de restauration, qui produisent des déficits fonciers importants. Une dérogation permet alors de prendre en compte certaines charges liées aux travaux dans les secteurs sauvegardés. Le quartier protégé devient le support d’une opération immobilière dont la fiscalité contribue à l’équilibre financier. Le dispositif repose alors sur la déduction de charges et l’imputation de déficits, plutôt que sur le taux de réduction d’impôt aujourd’hui associé au nom Malraux. La première finalité fiscale est donc de rendre supportables des travaux complexes, souvent beaucoup plus coûteux qu’une rénovation ordinaire.",
+          "mentions": [
+            "loi-fiscale-malraux",
+            "psmv"
+          ]
+        },
+        {
+          "id": "c5-b04",
+          "text": "La loi de finances rectificative du 22 juin 1993 réduit l’avantage relatif accordé aux opérations de restauration. La durée de location est alors ramenée de neuf à six ans et les conditions liées aux ressources du locataire et au niveau du loyer sont supprimées. Cette évolution fait craindre un ralentissement de l’investissement privé dans les centres urbains dégradés et un transfert accru du coût vers les communes. Une réforme intervient dans la loi de finances rectificative pour 1994. Le régime fiscal est ainsi révisé selon ses effets sur l’investissement et la restauration, mais aussi selon les arbitrages entre aide privée et charge publique.",
+          "mentions": [
+            "loi-fiscale-malraux"
+          ]
+        },
+        {
+          "id": "c5-b05",
+          "text": "La réforme de 2009 modifie la présentation et le fonctionnement du dispositif. Le régime n’est plus seulement construit autour de l’imputation de déficits fonciers sur le revenu global : il devient une réduction d’impôt attachée à des dépenses de restauration. Le propriétaire doit respecter des conditions concernant la localisation, la nature complète de l’opération et la mise en location. Le nom historique demeure, mais son contenu fiscal a changé depuis 1977. Cette transformation rend l’avantage plus lisible comme réduction, tout en maintenant une sélection stricte des immeubles et des travaux. Le régime ne vise donc pas l’ensemble de l’entretien courant du parc ancien : il concerne une restauration complète inscrite dans un cadre patrimonial.",
+          "mentions": [
+            "loi-fiscale-malraux"
+          ]
+        },
+        {
+          "id": "c5-b06",
+          "text": "À la date des sources administratives consultées, une restauration complète dans un site patrimonial remarquable couvert par un PSMV approuvé ouvre droit à une réduction de 30 % des dépenses éligibles. Le taux indiqué est de 22 % dans un site patrimonial remarquable non couvert par un PSMV approuvé. Ces taux s’inscrivent dans un régime soumis à des conditions de localisation, de travaux et de mise en location. L’administration distingue aussi les opérations situées dans un site couvert par un PVAP et celles qui exigent une déclaration d’utilité publique. Les dépenses effectivement payées, les travaux imposés ou autorisés et certaines charges liées à la restauration sont traités selon les règles du Code général des impôts.",
+          "mentions": [
+            "loi-fiscale-malraux",
+            "spr",
+            "psmv"
+          ]
+        },
+        {
+          "id": "c5-b07",
+          "text": "Pour les revenus de 2005, 3 540 foyers avaient déclaré des revenus ou charges au titre de 6 160 locaux situés dans l’un des 97 secteurs sauvegardés ou dans l’une des 550 ZPPAUP alors recensés. La dépense fiscale correspondante était estimée à 50 millions d’euros pour 2008. Ces chiffres sont historiques et montrent que le régime concernait une partie du parc ancien, principalement dans des opérations lourdes de restauration. Le rapport parlementaire souligne toutefois que l’évaluation complète restait difficile : il était compliqué d’isoler l’effet propre de la fiscalité de celui des outils d’urbanisme, des subventions et de l’évolution du marché immobilier. Le succès d’un quartier ne pouvait donc pas être attribué automatiquement à la réduction fiscale.",
+          "mentions": [
+            "loi-fiscale-malraux",
+            "sources-et-methode"
+          ]
+        },
+        {
+          "id": "c5-b08",
+          "text": "Le rapport parlementaire de 2019 indique que le dispositif était ouvert à plus de 800 communes, mais que les opérations aidées se concentraient dans 30 communes, soit moins de 4 % des communes éligibles. Il estime que la contribution du Malraux à l’augmentation de l’offre locative est négligeable, tandis que son effet sur la conservation du bâti est significatif. La fiscalité soutient donc plus sûrement la préservation architecturale que la production de logements abordables. Le rapport identifie une zone d’efficacité liée à la rentabilité de l’opération et au prix du foncier. Les projets les plus rentables ne sont pas nécessairement ceux des centres les plus dégradés, ce qui limite la portée sociale du dispositif.",
+          "mentions": [
+            "loi-fiscale-malraux",
+            "spr"
+          ]
+        },
+        {
+          "id": "c5-b09",
+          "text": "Le fisc ne devient pas l’architecte du quartier. Le PSMV fixe les règles de transformation, l’Architecte des bâtiments de France intervient dans l’instruction des travaux et le dispositif fiscal rend certaines opérations moins difficiles à financer. La réduction d’impôt ne détermine ni le prix du foncier, ni la composition sociale du quartier, ni l’usage des commerces. Elle sélectionne surtout les opérations capables de réunir une exigence patrimoniale élevée et une équation financière viable. Cette sélection explique le décalage entre l’ambition nationale du régime et sa concentration réelle. Elle explique aussi pourquoi la défiscalisation peut contribuer à conserver un bâtiment sans garantir le maintien des habitants, l’accessibilité des loyers ou la diversité des activités.",
+          "mentions": [
+            "loi-fiscale-malraux",
+            "psmv",
+            "abf"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chapter-6",
+      "number": 6,
+      "title": "Sauver les pierres, déplacer les vies ?",
+      "blocks": [
+        {
+          "id": "c6-b01",
+          "text": "Une réussite patrimoniale se mesure à un immeuble restauré, une façade conservée ou une rue soustraite à la démolition. Une réussite sociale dépend aussi du maintien des habitants, des loyers, du relogement après travaux et des commerces de proximité. Le Vieux-Lyon et le Marais montrent que la restauration peut produire une ville plus attractive et plus visitée tout en modifiant les populations et les usages. Ces changements ne peuvent pas être attribués mécaniquement à la loi Malraux seule. Dans les deux cas, les transformations résultent d’une combinaison de protection, de modernisation du logement, d’investissement privé, de tourisme et de centralité urbaine. Les sources disponibles permettent de documenter ces évolutions, mais elles ne fournissent pas une mesure unique de la part causale de chaque facteur.",
+          "mentions": [
+            "sources-et-methode",
+            "occupants-relogement",
+            "gentrification"
+          ]
+        },
+        {
+          "id": "c6-b02",
+          "text": "Le Vieux-Lyon est délimité comme secteur sauvegardé par arrêté interministériel le 12 mai 1964. Le Grand Lyon le présente comme le premier, tandis que d’autres sources donnent ce titre à Sarlat selon un autre critère ; la date lyonnaise reste le repère administratif le plus ancien dans le tableau sénatorial consulté. Le quartier était menacé par des projets de transformation urbaine et routière, et l’association Renaissance du Vieux-Lyon joue un rôle important dans la mobilisation. Choisir la restauration ne signifie pourtant pas conserver chaque élément sans modification. Le dispositif de 1962 autorise aussi des transformations et certaines démolitions : protéger un ensemble consiste déjà à arbitrer entre ce qui doit rester, ce qui peut changer et les conditions nécessaires pour continuer à habiter.",
+          "mentions": [
+            "vieux-lyon",
+            "loi-4-aout-1962",
+            "psmv"
+          ]
+        },
+        {
+          "id": "c6-b03",
+          "text": "Le rapport de présentation du PSMV indique que, de 1964 à 1976, vingt immeubles sont restaurés, représentant 280 logements. Les premiers immeubles commencent à être restaurés à partir de 1968. En octobre 1974, le secteur compte 4 057 logements. Entre 1977 et 1982, dix immeubles supplémentaires sont concernés, soit 138 logements locatifs dans le quartier Saint-Jean. Le document souligne alors que la population a pu être maintenue. Il décrit des restaurations exemplaires sur le plan architectural, avec des prestations supérieures à celles habituellement proposées dans le logement social. Ces données montrent que la restauration peut associer exigence architecturale et logement locatif, mais seulement lorsque le programme et les financements le prévoient explicitement.",
+          "mentions": [
+            "vieux-lyon",
+            "psmv",
+            "occupants-relogement"
+          ]
+        },
+        {
+          "id": "c6-b04",
+          "text": "L’étude sociologique de Jean-Yves Authier décrit une autre dimension des opérations lyonnaises. L’opérateur local désigné par l’acronyme SEMIRELY acquiert une cinquantaine d’immeubles et en restaure environ trente, pour un ensemble de 480 logements et 130 chambres meublées. Certains immeubles sont revendus avant travaux afin d’absorber les surcoûts de restauration. Les immeubles réhabilités de Saint-Jean attirent ensuite une population plus fortunée. Authier rapporte que les loyers y sont multipliés par cinq ou six en moyenne dans le corpus étudié. Le changement ne porte donc pas seulement sur l’aspect des façades : il transforme la valeur d’usage et la valeur locative des logements. Ce résultat local documente une trajectoire ; il ne constitue pas une mesure nationale des effets de la loi.",
+          "mentions": [
+            "vieux-lyon",
+            "gentrification"
+          ]
+        },
+        {
+          "id": "c6-b05",
+          "text": "Saint-Georges ne connaît pas la même trajectoire que Saint-Jean. L’étude d’Authier le décrit comme un quartier situé à la marge du secteur restauré, où se concentrent des habitants modestes, des personnes âgées et des familles étrangères. La restauration inégale accentue la divergence entre les secteurs : Saint-Georges conserve une forte présence de ménages modestes tandis que Saint-Jean attire des habitants plus aisés. Saint-Georges devient ensuite un lieu requalifié, touristique et nocturne, avec des restaurants, des bars et des commerces destinés aussi à des personnes venues d’autres secteurs de l’agglomération. Cette réinsertion dans l’image lyonnaise reste socialement inégale : le quartier gagne en visibilité depuis l’extérieur, mais ses usages intérieurs se fragmentent.",
+          "mentions": [
+            "vieux-lyon",
+            "gentrification",
+            "occupants-relogement"
+          ]
+        },
+        {
+          "id": "c6-b06",
+          "text": "À Paris, le secteur sauvegardé du Marais est créé en 1964 et couvre 126 hectares dans les 3e et 4e arrondissements. Le site est alors très vétuste et densément peuplé. Son PSMV reçoit une première approbation en 1996, puis une révision est approuvée en 2013. Le plan encadre la restauration et la transformation d’un quartier composé d’hôtels particuliers, d’immeubles d’habitation, d’ateliers et d’activités économiques. Le périmètre protège à la fois le Paris aristocratique des XVIIe et XVIIIe siècles et des traces d’activités industrielles des XIXe et XXe siècles. La protection doit conserver ce patrimoine composite tout en permettant l’évolution du quartier.",
+          "mentions": [
+            "marais",
+            "psmv",
+            "loi-4-aout-1962"
+          ]
+        },
+        {
+          "id": "c6-b07",
+          "text": "Selon l’APUR, le périmètre du PSMV passe d’environ 40 000 habitants en 1982 à 36 500 en 1999, soit une baisse de 8,8 %. Dans les 3e et 4e arrondissements, la perte entre 1962 et 1999 atteint respectivement 45,4 % et 50,3 %. La baisse commence toutefois avant la mise en œuvre complète du plan : entre 1962 et 1968, la population du Marais diminue déjà d’environ 14 %. Les deux arrondissements ne se confondent pas exactement avec le PSMV, ce qui interdit d’utiliser leurs chiffres comme une mesure directe de l’effet du plan. La modernisation des logements et les évolutions du centre de Paris doivent être prises en compte.",
+          "mentions": [
+            "marais",
+            "sources-et-methode"
+          ]
+        },
+        {
+          "id": "c6-b08",
+          "text": "Les habitants du Marais ne sont pas absents de cette histoire. Les travaux d’Isabelle Backouche, tels que les restitue une recension académique, documentent des refus de partir et des demandes de relogement dans le quartier. La loi Malraux met un coup d’arrêt aux démolitions de certains îlots, mais elle ne fait pas disparaître les expulsions ni les opérations de modernisation. L’administration doit alors gérer une tension entre des immeubles qu’il faut libérer pour engager les travaux et des habitants qui veulent conserver leur place. La sauvegarde peut ainsi désigner plusieurs choses qui ne coïncident pas toujours : conserver un bâti, maintenir une population, rendre un logement salubre ou restituer une image historique. C’est dans cet écart que le succès patrimonial devient une question sociale.",
+          "mentions": [
+            "marais",
+            "occupants-relogement",
+            "loi-4-aout-1962"
+          ]
+        },
+        {
+          "id": "c6-b09",
+          "text": "Les travaux universitaires sur le Marais utilisent le terme de gentrification, mais invitent à ne pas en faire une cause unique. La protection patrimoniale donne une valeur symbolique et réglementaire à un quartier déjà central ; elle s’articule avec les investissements, le tourisme et la transformation commerciale. À Lyon comme à Paris, elle agit moins comme une cause isolée que comme un accélérateur et un révélateur de mécanismes immobiliers plus larges. La baisse démographique du Marais commence avant le plan, tandis que les transformations lyonnaises diffèrent selon les quartiers. Authier décrit ainsi Saint-Georges comme plus visible et plus attractif, mais aussi plus morcelé. La causalité doit rester située : un dispositif national produit des effets différents selon le marché local, les choix municipaux et les opérations de logement. Les exemples ne justifient ni une condamnation générale de la restauration ni un récit de réussite sans perdants.",
+          "mentions": [
+            "marais",
+            "vieux-lyon",
+            "gentrification"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chapter-7",
+      "number": 7,
+      "title": "La ville héritée",
+      "blocks": [
+        {
+          "id": "c7-b01",
+          "text": "En 2016, la loi relative à la liberté de la création, à l’architecture et au patrimoine crée les sites patrimoniaux remarquables. Les anciens secteurs sauvegardés, les ZPPAUP et les AVAP sont réunis sous ce régime. Un SPR peut être géré par un plan de sauvegarde et de mise en valeur, document d’urbanisme, ou par un plan de valorisation de l’architecture et du patrimoine, servitude d’utilité publique. Le changement requalifie les protections antérieures dans un cadre commun. Le SPR est défini comme une ville, un village, un quartier ou un paysage dont la conservation, la restauration, la réhabilitation ou la mise en valeur présente un intérêt public historique, architectural, archéologique, artistique ou paysager. Des espaces ruraux et des paysages cohérents peuvent aussi être classés lorsqu’ils contribuent à cet intérêt.",
+          "mentions": [
+            "spr",
+            "psmv",
+            "pvap",
+            "loi-4-aout-1962"
+          ]
+        },
+        {
+          "id": "c7-b02",
+          "text": "Le bilan du ministère de la Culture recense 1 012 sites patrimoniaux remarquables au 23 septembre 2024. Parmi eux, 110 proviennent d’anciens secteurs sauvegardés : l’héritage direct de la loi de 1962 n’explique donc qu’une partie de cette géographie, également composée des anciennes ZPPAUP et AVAP ainsi que de classements plus récents. Plus de 80 % des 1 008 communes disposant d’au moins un SPR comptent moins de 20 000 habitants. La politique née pour protéger des quartiers anciens de grandes villes concerne désormais majoritairement de petites communes. Ce changement d’échelle importe autant que la croissance du nombre : il place le patrimoine dans des territoires aux capacités d’ingénierie, aux marchés immobiliers et aux besoins de revitalisation très différents.",
+          "mentions": [
+            "spr",
+            "sources-et-methode"
+          ]
+        },
+        {
+          "id": "c7-b03",
+          "text": "Cette extension territoriale transforme la question patrimoniale. Dans une petite commune, un SPR peut concerner le centre ancien, des paysages, des alignements bâtis ou des espaces ruraux cohérents. Selon les enjeux retenus, sa gestion repose sur un PSMV ou sur un PVAP, deux instruments de portée différente. Le classement ne produit pas automatiquement une restauration. Les collectivités doivent mobiliser des moyens pour les études, l’accompagnement des travaux et les politiques qui traitent la vacance, le coût des logements ou la faiblesse des commerces. Le recensement national ne signifie pas que les sites disposent des mêmes ressources. Il ne mesure pas non plus la fréquentation touristique, le nombre de logements restaurés ou la part des habitants bénéficiant d’opérations publiques. Le classement est un cadre de gestion, pas un bilan de revitalisation.",
+          "mentions": [
+            "spr",
+            "sources-et-methode"
+          ]
+        },
+        {
+          "id": "c7-b04",
+          "text": "L’histoire administrative des secteurs sauvegardés explique pourquoi le classement d’un SPR ne garantit ni un plan immédiatement opérationnel ni des travaux rapides. Délimiter le site n’est qu’un commencement : il faut étudier les bâtiments, choisir le document de gestion, concerter la collectivité, conduire l’enquête publique puis approuver les prescriptions. Pendant ce temps, la protection doit empêcher les transformations irréversibles sans paralyser les adaptations nécessaires. La lenteur ne se réduit donc pas à une file d’attente administrative. Elle traduit la difficulté d’écrire une règle parcelle par parcelle, de la rendre intelligible aux propriétaires et de l’accorder avec le projet urbain. Entre le classement annoncé, le plan opposable et le chantier visible, plusieurs temporalités continuent de coexister.",
+          "mentions": [
+            "spr",
+            "psmv",
+            "sources-et-methode"
+          ]
+        },
+        {
+          "id": "c7-b05",
+          "text": "L’extension de la protection ne résout pas davantage la question du financement. Le rapport parlementaire de 2019 montre un écart entre la géographie très large de l’éligibilité fiscale et la concentration réelle des opérations. L’outil contribue davantage à conserver le bâti qu’à accroître l’offre locative, et son efficacité dépend notamment du prix du foncier et de la capacité d’une restauration lourde à trouver son équilibre. Deux communes classées ne disposent donc pas du même déclencheur privé. L’une peut attirer rapidement des investisseurs ; l’autre doit combiner aides publiques, ingénierie locale et action sur les commerces ou la vacance. Le statut patrimonial ouvre un cadre et des possibilités : il ne distribue pas automatiquement les capitaux nécessaires à sa mise en œuvre.",
+          "mentions": [
+            "spr",
+            "loi-fiscale-malraux"
+          ]
+        },
+        {
+          "id": "c7-b06",
+          "text": "La vie quotidienne se déroule à l’intérieur de règles patrimoniales concrètes. Dans le Vieux-Lyon, le PSMV s’applique aux espaces privés et publics. Les travaux affectant l’aspect extérieur, les espaces non bâtis ou les éléments intérieurs que le plan protège doivent faire l’objet d’une autorisation. Les façades, toitures, matériaux et couleurs peuvent être encadrés. L’accord de l’architecte des Bâtiments de France intervient dans cette autorisation et peut être assorti de prescriptions. Une adaptation domestique ne relève donc plus seulement d’une décision individuelle : elle doit composer avec l’intérêt collectif reconnu par le SPR. Cette contrainte protège la cohérence du quartier, mais elle exige aussi un dialogue technique compréhensible pour l’habitant.",
+          "mentions": [
+            "spr",
+            "psmv",
+            "abf",
+            "vieux-lyon"
+          ]
+        },
+        {
+          "id": "c7-b07",
+          "text": "Le diagnostic consacré à l’extension du SPR du Vieux-Lyon qualifie l’outil de juridiquement fort, mais incomplet et décalé par rapport aux modes de vie, à la transition écologique et à certaines prescriptions du plan local d’urbanisme et de l’habitat (PLU-H). Le site couvre environ 31 hectares et compte 532 immeubles, dont 106 monuments historiques selon l’étude. Les enjeux contemporains ne se limitent plus à empêcher une démolition. Ils comprennent aussi le confort d’été, la performance énergétique, le stationnement et l’évolution des usages dans les bâtiments anciens. La protection doit donc être réinterrogée sans perdre sa fonction de sauvegarde : adapter le plan devient une manière de prolonger, plutôt que de renier, l’ambition de 1962.",
+          "mentions": [
+            "spr",
+            "vieux-lyon",
+            "transition-energetique"
+          ]
+        },
+        {
+          "id": "c7-b08",
+          "text": "Le rapport du Sénat sur les architectes des Bâtiments de France considère l’adaptation du bâti ancien au réchauffement climatique comme un défi majeur. Il recommande d’adapter le diagnostic de performance énergétique aux constructions anciennes et de soutenir des techniques de rénovation compatibles avec leurs matériaux et leurs façades. Le rapport propose aussi de renforcer l’accompagnement des collectivités et les compétences des services patrimoniaux. L’absence de travaux peut maintenir des logements inconfortables et énergivores ; une intervention doit en même temps respecter les caractéristiques qui justifient la protection. La transition crée ainsi une obligation de dialogue technique entre patrimoine, énergie et logement. Elle oblige le système à juger les solutions selon le bâtiment réel, pas selon une opposition abstraite entre conservation et performance.",
+          "mentions": [
+            "abf",
+            "transition-energetique",
+            "spr"
+          ]
+        },
+        {
+          "id": "c7-b09",
+          "text": "La ville héritée n’est ni une ville figée ni une ville automatiquement revitalisée. Depuis 2016, le régime des SPR étend la protection à plus d’un millier de sites, dont une majorité se trouve dans de petites communes. Les plans doivent rester lisibles pour les porteurs de projets et les habitants, tout en maintenant la cohérence historique, architecturale et paysagère des lieux. Le défi est de faire du patrimoine un cadre de vie plutôt qu’un décor. Le test se joue dans des actes concrets : pouvoir isoler un logement sans enfermer l’humidité, adapter une fenêtre sans banaliser une façade, maintenir un commerce et un loyer accessibles, préparer un été plus chaud. Sauver les pierres fut le premier combat. Les garder habitables, utiles et partagées est celui qui décide aujourd’hui si les centres anciens resteront des villes plutôt que des images de villes.",
+          "mentions": [
+            "spr",
+            "pvap",
+            "transition-energetique"
+          ]
+        }
+      ]
+    }
+  ],
+  "codex": [
+    {
+      "id": "sources-et-methode",
+      "title": "Sources et méthode",
+      "category": "méthode",
+      "hook": "Un dossier qui sépare les textes originels, les effets ultérieurs et les réformes.",
+      "text": "Ce reportage distingue trois niveaux : la loi patrimoniale et urbaine du 4 août 1962, le régime fiscal apparu en 1977, puis les sites patrimoniaux remarquables créés en 2016. Les textes juridiques sont privilégiés pour les règles ; les discours et rapports parlementaires servent à comprendre les intentions et les bilans. Les chiffres locaux sont conservés lorsqu’un document institutionnel les donne, mais une date d’arrêté n’est pas assimilée à une date de chantier. La consultation des pages et documents a été effectuée le 19 août 2026. Sources : ministère de la Culture, chronologie : https://www.culture.gouv.fr/thematiques/monuments-sites/monuments-historiques-sites-patrimoniaux/un-peu-d-histoire/la-chronologie-des-sites-patrimoniaux-dates-cles ; Légifrance : https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000313970.",
+      "links": [
+        "avant-1962",
+        "loi-4-aout-1962",
+        "secteur-sauvegarde"
+      ],
+      "unlockBlock": "c1-b01",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b01",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b01",
+      "unlockChapter": 1,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner au lecteur la méthode de distinction entre droit originel, effets fiscaux et réformes patrimoniales."
+    },
+    {
+      "id": "avant-1962",
+      "title": "Avant 1962",
+      "category": "contexte urbain",
+      "hook": "Avant de protéger les quartiers, l’administration les juge vétustes, insalubres et modernisables.",
+      "text": "Après-guerre, la reconstruction, les besoins de logement et les objectifs d’hygiène placent les centres anciens sous la pression de la rénovation urbaine. La chronologie officielle du ministère de la Culture décrit des quartiers menacés de destructions menées au nom de la modernité. La loi de 1943 avait déjà élargi la protection des monuments à leurs abords, avec un périmètre automatique de cinq cents mètres, mais elle ne constituait pas encore une politique générale des tissus urbains. Les sources consultées ne permettent pas de quantifier ici toutes les démolitions antérieures à 1962. Source : ministère de la Culture, chronologie des sites patrimoniaux, consultée le 19 août 2026 : https://www.culture.gouv.fr/thematiques/monuments-sites/monuments-historiques-sites-patrimoniaux/un-peu-d-histoire/la-chronologie-des-sites-patrimoniaux-dates-cles.",
+      "links": [
+        "sources-et-methode",
+        "andre-malraux",
+        "loi-4-aout-1962"
+      ],
+      "unlockBlock": "c1-b01",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b01",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b01",
+      "unlockChapter": 1,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Installer le conflit initial entre modernisation du logement et conservation des formes urbaines anciennes."
+    },
+    {
+      "id": "andre-malraux",
+      "title": "André Malraux",
+      "category": "personnalité politique",
+      "hook": "Le ministre formule le passage du monument isolé à la présence du passé dans le quartier.",
+      "text": "Dans son discours du 23 juillet 1962, André Malraux oppose le chef-d’œuvre isolé à la présence du passé dans la ville. Des maisons ordinaires peuvent, selon son argumentation, avoir une valeur par l’ensemble qu’elles composent. Il ne défend pas une ville figée : les intérieurs, les réseaux et les conditions de logement doivent pouvoir être modernisés. Il présente aussi la restauration comme une décision publique, car le marché privé ne financerait pas spontanément certaines opérations. Ce discours est une source primaire sur l’intention politique, mais il ne remplace pas le texte de loi. Source : Assemblée nationale, discours du 23 juillet 1962, consulté le 19 août 2026 : https://www.assemblee-nationale.fr/histoire/andre-malraux/discours/malraux_23juil1962.asp.",
+      "links": [
+        "avant-1962",
+        "pierre-sudreau",
+        "la-balance"
+      ],
+      "unlockBlock": "c1-b05",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b05",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b05",
+      "unlockChapter": 1,
+      "unlockPosition": 5,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Faire entendre la doctrine politique qui accompagne la création des secteurs sauvegardés."
+    },
+    {
+      "id": "pierre-sudreau",
+      "title": "Pierre Sudreau",
+      "category": "ministre",
+      "hook": "Le ministère de la Construction inventorie les tissus anciens avant la loi Malraux.",
+      "text": "En mai 1959, Pierre Sudreau, ministre de la Construction, lance un inventaire des tissus urbains anciens. Cette initiative place la genèse du dispositif dans une politique interministérielle : la question concerne le logement et l’urbanisme avant de devenir un objet central du ministère des Affaires culturelles. Le rapport sénatorial qui donne cette information ne décrit pas ici le corpus complet de l’inventaire ni sa méthode détaillée. Il permet toutefois d’établir un fait préparatoire : l’administration chargée de construire et de rénover commence à identifier les formes urbaines que la modernisation pourrait altérer. Source : Sénat, rapport d’information de Vincent Éblé, déposé le 7 octobre 2015, consulté le 19 août 2026 : https://www.senat.fr/rap/r15-018/r15-0186.html.",
+      "links": [
+        "andre-malraux",
+        "avant-1962",
+        "loi-4-aout-1962"
+      ],
+      "unlockBlock": "c2-b01",
+      "firstMentionChapter": 2,
+      "firstMentionBlock": "c2-b01",
+      "earliestSafeChapter": 2,
+      "earliestSafeBlock": "c2-b01",
+      "unlockChapter": 2,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Corriger l’idée d’une invention exclusivement culturelle et replacer la loi dans l’action de la Construction."
+    },
+    {
+      "id": "loi-4-aout-1962",
+      "title": "La loi du 4 août 1962",
+      "category": "texte juridique",
+      "hook": "Le texte crée un périmètre urbain protégé et l’obligation d’un plan de sauvegarde.",
+      "text": "La loi n° 62-903 du 4 août 1962 crée les secteurs sauvegardés pour des ensembles présentant un caractère historique ou esthétique, ou justifiant conservation, restauration et mise en valeur. Elle prévoit un plan permanent de sauvegarde et de mise en valeur, des autorisations pour les travaux et la compatibilité des projets avec ce plan. La restauration immobilière peut comprendre réaménagement, modernisation et certaines démolitions nécessaires à l’habitabilité. Le texte originel ne crée pas encore la réduction d’impôt appelée plus tard Malraux : la fiscalité spécifique apparaît avec la loi de finances pour 1977. Sources : Légifrance, version initiale : https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000313970 ; Sénat, reproduction du texte originel : https://www.senat.fr/rap/1975-1976/i1975_1976_0298.pdf.",
+      "links": [
+        "secteur-sauvegarde",
+        "psmv",
+        "occupants-relogement"
+      ],
+      "unlockBlock": "c1-b04",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b04",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b04",
+      "unlockChapter": 1,
+      "unlockPosition": 4,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Fournir la référence juridique qui permet de distinguer le texte de 1962 de ses effets ultérieurs."
+    },
+    {
+      "id": "secteur-sauvegarde",
+      "title": "Le secteur sauvegardé",
+      "category": "dispositif territorial",
+      "hook": "Le quartier entier devient une unité de protection, d’autorisation et de transformation.",
+      "text": "Le secteur sauvegardé est le périmètre créé par la loi de 1962 pour un ensemble urbain dont la conservation, la restauration et la mise en valeur sont justifiées. La protection porte donc sur un tissu, et non sur une simple collection de monuments. Le secteur est créé par l’État selon une procédure associant les communes ; en cas de désaccord municipal, un décret en Conseil d’État peut intervenir. Les travaux qui modifient les immeubles sont soumis à autorisation et doivent respecter le plan applicable. Le dispositif est à la fois patrimonial, urbain et immobilier. Sources : Légifrance, loi n° 62-903 : https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000313970 ; ministère de la Culture, chronologie : https://www.culture.gouv.fr/thematiques/monuments-sites/monuments-historiques-sites-patrimoniaux/un-peu-d-histoire/la-chronologie-des-sites-patrimoniaux-dates-cles.",
+      "links": [
+        "loi-4-aout-1962",
+        "psmv",
+        "commission-nationale"
+      ],
+      "unlockBlock": "c1-b02",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b02",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b02",
+      "unlockChapter": 1,
+      "unlockPosition": 2,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner le vocabulaire et l’échelle juridique de la protection des quartiers historiques."
+    },
+    {
+      "id": "psmv",
+      "title": "Le PSMV",
+      "category": "document d’urbanisme",
+      "hook": "Le plan transforme l’idée de sauvegarde en prescriptions attachées aux immeubles et aux îlots.",
+      "text": "Le texte de 1962 parle d’un « plan permanent de sauvegarde et de mise en valeur », devenu PSMV dans l’usage. Le plan détermine les opérations de conservation, de restauration, de modernisation et certaines démolitions. Le discours de Malraux mentionne aussi les réseaux d’eau, d’assainissement, d’électricité et de gaz : la sauvegarde doit permettre au quartier de rester habitable. Le PSMV n’est donc pas un inventaire ni un label touristique. Il organise les autorisations et peut porter sur la profondeur des îlots, selon les prescriptions adoptées. Sources : Sénat, texte originel reproduit : https://www.senat.fr/rap/1975-1976/i1975_1976_0298.pdf ; Assemblée nationale, discours du 23 juillet 1962 : https://www.assemblee-nationale.fr/histoire/andre-malraux/discours/malraux_23juil1962.asp.",
+      "links": [
+        "secteur-sauvegarde",
+        "loi-4-aout-1962",
+        "occupants-relogement"
+      ],
+      "unlockBlock": "c1-b07",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b07",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b07",
+      "unlockChapter": 1,
+      "unlockPosition": 7,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Expliquer comment une intention patrimoniale devient un document de prescriptions urbaines et techniques."
+    },
+    {
+      "id": "occupants-relogement",
+      "title": "Occupants et relogement",
+      "category": "droit de l’habitat",
+      "hook": "La restauration immobilière déplace parfois les personnes autant qu’elle transforme les bâtiments.",
+      "text": "La loi de 1962 ne traite pas seulement des façades. Elle prévoit des dispositions pour les occupants : évacuation, préavis, relogement et indemnisation apparaissent dans le cadre des opérations de restauration immobilière. Les propriétaires peuvent conduire les travaux eux-mêmes, se regrouper dans une association syndicale ou recourir à un organisme d’opération. Les travaux peuvent comprendre réaménagement, modernisation et démolition affectant l’habitabilité. Il faut distinguer cette règle nationale des effets sociaux propres à chaque quartier : le texte établit des procédures, mais ne permet pas à lui seul de mesurer les déplacements effectivement produits. Source : Sénat, rapport reproduisant la loi originelle, consulté le 19 août 2026 : https://www.senat.fr/rap/1975-1976/i1975_1976_0298.pdf.",
+      "links": [
+        "loi-4-aout-1962",
+        "psmv",
+        "secteur-sauvegarde"
+      ],
+      "unlockBlock": "c3-b05",
+      "firstMentionChapter": 3,
+      "firstMentionBlock": "c3-b05",
+      "earliestSafeChapter": 3,
+      "earliestSafeBlock": "c3-b05",
+      "unlockChapter": 3,
+      "unlockPosition": 5,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Maintenir les habitants dans le champ du récit et empêcher une histoire réduite aux seuls bâtiments."
+    },
+    {
+      "id": "commission-nationale",
+      "title": "La Commission nationale",
+      "category": "institution",
+      "hook": "Une commission donne un cadre national à une politique appliquée ville par ville.",
+      "text": "Le décret n° 63-691 du 13 juillet 1963 précise la procédure des secteurs sauvegardés et le rôle de la Commission nationale des secteurs sauvegardés. La commission examine les propositions de secteurs ; le maire est consulté avant la proposition et les plans sont préparés avec les services de l’État et les autorités locales. Sa première réunion se tient le 15 novembre 1963. Cette institution ne remplace pas les communes ni les architectes chargés des plans, mais elle inscrit les premières opérations dans une doctrine nationale. Le dispositif n’est donc pas une succession de décisions isolées : il est organisé par une commission et des procédures communes. Source : Sénat, rapport de la session 1965-1966, consulté le 19 août 2026 : https://www.senat.fr/rap/1965-1966/i1965_1966_0032_03.pdf.",
+      "links": [
+        "secteur-sauvegarde",
+        "psmv",
+        "pierre-sudreau"
+      ],
+      "unlockBlock": "c3-b06",
+      "firstMentionChapter": 3,
+      "firstMentionBlock": "c3-b06",
+      "earliestSafeChapter": 3,
+      "earliestSafeBlock": "c3-b06",
+      "unlockChapter": 3,
+      "unlockPosition": 6,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Rendre visible l’appareil administratif qui transforme une loi nationale en plans locaux."
+    },
+    {
+      "id": "la-balance",
+      "title": "La Balance à Avignon",
+      "category": "exemple urbain",
+      "hook": "Un quartier sert à Malraux d’exemple pour opposer restauration, bulldozer et pastiche.",
+      "text": "Dans son discours du 23 juillet 1962, André Malraux présente le quartier de la Balance à Avignon comme un cas où l’investissement privé ne suffirait pas à financer une restauration. La ville devrait choisir entre la démolition-reconstruction et une intervention publique capable de maintenir le caractère ancien tout en améliorant l’habitat. Malraux distingue alors la restauration du pastiche : reconstruire du neuf dans un style ancien ne revient pas à conserver la substance historique. La Balance est un exemple politique dans le discours, pas une règle générale ni une preuve que toutes les opérations avignonnaises ont suivi le même modèle. Source : Assemblée nationale, discours du 23 juillet 1962, consulté le 19 août 2026 : https://www.assemblee-nationale.fr/histoire/andre-malraux/discours/malraux_23juil1962.asp.",
+      "links": [
+        "andre-malraux",
+        "avant-1962",
+        "secteur-sauvegarde"
+      ],
+      "unlockBlock": "c1-b06",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b06",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b06",
+      "unlockChapter": 1,
+      "unlockPosition": 6,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner un exemple concret de l’arbitrage politique entre destruction, restauration et intervention publique."
+    },
+    {
+      "id": "vieux-lyon",
+      "title": "Le Vieux-Lyon",
+      "category": "lieu",
+      "hook": "Un centre ancien où la protection a changé l'architecture et la trajectoire sociale du quartier.",
+      "text": "Le Vieux-Lyon est délimité comme secteur sauvegardé le 12 mai 1964. Le rapport du Grand Lyon le présente comme le premier institué en France, tandis que d’autres sources réservent ce titre à Sarlat selon un autre critère. Son périmètre couvre environ 30 hectares, près de 500 immeubles et quelque 4 000 logements. Entre 1964 et 1976, vingt immeubles et 280 logements ont été restaurés ; entre 1977 et 1982, dix immeubles et 138 logements locatifs supplémentaires. Cette chronologie ne résume pas les effets sociaux ultérieurs : opérations, loyers et usages ont différé selon les secteurs. Sources : Grand Lyon, https://www.grandlyon.com/fileadmin/user_upload/media/pdf/urbanisme/sites-patrimoniaux/spr_psmv_vieux_lyon_rapport.pdf ; Sénat, https://www.senat.fr/rap/1973-1974/i1973_1974_0040_03.pdf ; consultation : 19 août 2026.",
+      "links": [
+        "renaissance-vieux-lyon",
+        "spr",
+        "gentrification"
+      ],
+      "unlockBlock": "c4-b01",
+      "firstMentionChapter": 4,
+      "firstMentionBlock": "c4-b01",
+      "earliestSafeChapter": 4,
+      "earliestSafeBlock": "c4-b01",
+      "unlockChapter": 4,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner un cas documenté pour mesurer concrètement ce que le secteur sauvegardé a transformé."
+    },
+    {
+      "id": "renaissance-vieux-lyon",
+      "title": "Renaissance du Vieux-Lyon",
+      "category": "association",
+      "hook": "Une mobilisation locale qui a contribué à faire du Vieux-Lyon un objet de sauvegarde publique.",
+      "text": "L'association Renaissance du Vieux-Lyon a été fondée en 1946, avant la loi Malraux. La mairie du 5e arrondissement lui attribue un rôle dans la sauvegarde du quartier et rappelle qu'elle a participé à la constitution du dossier présenté à l'UNESCO. Elle annonce aujourd'hui environ 600 membres. Cette histoire est importante parce que la protection n'est pas seulement venue d'un texte national : elle s'est aussi construite par une mobilisation locale, des alertes et une expertise associative sur les immeubles menacés. Le site de la mairie ne transforme pas cette implication en récit héroïque unique ; il la situe parmi les associations historiques du Vieux-Lyon. Source : Mairie du 5e arrondissement de Lyon, https://mairie5.lyon.fr/cadre-de-vie/decouvrir-le-5e/associations-historiques ; consultation : 19 août 2026.",
+      "links": [
+        "vieux-lyon",
+        "sarlat",
+        "abf"
+      ],
+      "unlockBlock": "c4-b01",
+      "firstMentionChapter": 4,
+      "firstMentionBlock": "c4-b01",
+      "earliestSafeChapter": 4,
+      "earliestSafeBlock": "c4-b01",
+      "unlockChapter": 4,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Rendre visible le rôle des habitants et des associations dans la genèse de la protection."
+    },
+    {
+      "id": "sarlat",
+      "title": "Sarlat",
+      "category": "lieu",
+      "hook": "Un laboratoire de restauration où l'objectif affiché était de rendre le centre ancien habitable.",
+      "text": "Sarlat figure parmi les dix premiers secteurs sauvegardés, avec un arrêté du 27 août 1964. La présentation historique de la ville distingue un centre historique d'environ 11 hectares et un premier îlot opérationnel d'environ 2 hectares. Les travaux, engagés sur plus de dix ans, sont décrits comme ayant produit dès 1975 des effets économiques, culturels et touristiques positifs. La ville rappelle aussi que l'hôtel Plamon, acheté en 1950, a été restauré en 1975 avant d'accueillir un musée. Ces éléments attestent une stratégie de restauration et de réemploi ; ils ne suffisent pas à mesurer seuls l'évolution sociale du centre ni à attribuer toute sa trajectoire au dispositif. Sources : Ville de Sarlat, https://sarlat.fr/decouvrir-sarlat/histoire-patrimoine/presentation-historique/ ; POP, https://pop.culture.gouv.fr/notice/joconde/M0060000412 ; consultation : 19 août 2026.",
+      "links": [
+        "vieux-lyon",
+        "loi-fiscale-malraux",
+        "spr"
+      ],
+      "unlockBlock": "c4-b02",
+      "firstMentionChapter": 4,
+      "firstMentionBlock": "c4-b02",
+      "earliestSafeChapter": 4,
+      "earliestSafeBlock": "c4-b02",
+      "unlockChapter": 4,
+      "unlockPosition": 2,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Comparer une petite ville pionnière au cas lyonnais sans réduire la restauration à une recette uniforme."
+    },
+    {
+      "id": "loi-fiscale-malraux",
+      "title": "Le régime fiscal Malraux",
+      "category": "dispositif fiscal",
+      "hook": "Un mécanisme fiscal né après la loi patrimoniale, dont l'histoire et le champ ne se confondent pas avec elle.",
+      "text": "La loi du 4 août 1962 a créé l'outil patrimonial des secteurs sauvegardés ; le régime fiscal dit Malraux est venu plus tard, dans la loi de finances pour 1977. Les réformes de 1993 et 1994 ont notamment raccourci la durée de location prise en compte et modifié les conditions du dispositif. Le rapport parlementaire de 2009 estimait qu'en 2005 le régime concernait 3 540 foyers et 6 160 locaux, dans 97 secteurs ou zones. Le site officiel des impôts indique, pour le régime actuel, une réduction de 30 % dans un SPR couvert par un PSMV approuvé et de 22 % dans les autres cas prévus. Ces taux décrivent le droit en vigueur, pas une recommandation d'investissement. Sources : https://www.assemblee-nationale.fr/13/rap-info/i0946.asp ; https://www.impots.gouv.fr/particulier/immeubles-speciaux-0 ; consultation : 19 août 2026.",
+      "links": [
+        "spr",
+        "pvap",
+        "gentrification"
+      ],
+      "unlockBlock": "c5-b01",
+      "firstMentionChapter": 5,
+      "firstMentionBlock": "c5-b01",
+      "earliestSafeChapter": 5,
+      "earliestSafeBlock": "c5-b01",
+      "unlockChapter": 5,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Séparer la loi de protection de 1962 de l'instrument fiscal et donner une chronologie vérifiable du second."
+    },
+    {
+      "id": "marais",
+      "title": "Le Marais",
+      "category": "lieu",
+      "hook": "Un secteur parisien où la protection du bâti accompagne une longue recomposition démographique.",
+      "text": "Le secteur sauvegardé du Marais est créé en 1964 et couvre aujourd’hui 126 hectares dans les 3e et 4e arrondissements. Son PSMV reçoit une première approbation en 1996, puis une révision est approuvée en 2013. Les données de l’APUR montrent que la population du périmètre passe d’environ 40 000 habitants en 1982 à 36 500 en 1999, soit une baisse de 8,8 %. Cette évolution s’inscrit dans des mouvements plus larges du centre de Paris et ne permet pas d’isoler un effet unique de la protection. Les recherches historiques documentent aussi des conflits de relogement autour des opérations. Sources : Ville de Paris, https://www.paris.fr/pages/secteurs-sauvegardes-psmv-2351/ ; APUR, https://www.apur.org/sites/default/files/documents/167.pdf ; consultation : 19 août 2026.",
+      "links": [
+        "gentrification",
+        "loi-fiscale-malraux",
+        "spr"
+      ],
+      "unlockBlock": "c6-b06",
+      "firstMentionChapter": 6,
+      "firstMentionBlock": "c6-b06",
+      "earliestSafeChapter": 6,
+      "earliestSafeBlock": "c6-b06",
+      "unlockChapter": 6,
+      "unlockPosition": 6,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Ancrer la discussion sur les effets sociaux dans un périmètre parisien mesuré par des données démographiques."
+    },
+    {
+      "id": "gentrification",
+      "title": "Gentrification",
+      "category": "concept",
+      "hook": "Un mot utile pour décrire des recompositions, à condition de ne pas lui faire porter toute la causalité.",
+      "text": "La gentrification désigne ici une recomposition sociale associée à l'arrivée de ménages plus favorisés, à la hausse des valeurs ou des loyers et à la transformation des commerces et des usages. Les travaux sur le Marais la présentent comme une hypothèse de lecture de la mise en patrimoine, mais invitent à examiner les données démographiques et socio-économiques plutôt qu'à supposer une causalité automatique. À Lyon, les analyses d'Yves Grafmeyer et de Jean-Yves Authier décrivent des écarts entre quartiers restaurés : à Saint-Jean, les immeubles réhabilités ont attiré des habitants plus aisés et les loyers ont fortement augmenté, tandis que Saint-Georges a suivi une autre trajectoire. La protection peut donc contribuer à une revalorisation sans expliquer à elle seule chaque déplacement. Sources : https://revistas.usp.br/anaismp/en/article/view/198565 ; https://books.openedition.org/pul/54835 ; consultation : 19 août 2026.",
+      "links": [
+        "marais",
+        "vieux-lyon",
+        "loi-fiscale-malraux"
+      ],
+      "unlockBlock": "c6-b01",
+      "firstMentionChapter": 6,
+      "firstMentionBlock": "c6-b01",
+      "earliestSafeChapter": 6,
+      "earliestSafeBlock": "c6-b01",
+      "unlockChapter": 6,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Fournir une grille de lecture sociale nuancée pour relier restauration, marchés immobiliers et usages."
+    },
+    {
+      "id": "spr",
+      "title": "Site patrimonial remarquable",
+      "category": "dispositif patrimonial",
+      "hook": "Le cadre créé en 2016 a rassemblé plusieurs générations de protections sous une même appellation.",
+      "text": "La loi relative à la liberté de la création, à l'architecture et au patrimoine du 7 juillet 2016 a créé les sites patrimoniaux remarquables, ou SPR. Le ministère de la Culture précise que cette catégorie regroupe les anciens secteurs sauvegardés, les ZPPAUP et les AVAP. Son état des lieux, établi à partir des données de la DRAC au 23 septembre 2024, recense 1 012 SPR, 1 008 communes concernées et 110 anciens secteurs sauvegardés ; plus de 80 % des communes concernées comptent moins de 20 000 habitants. Environ 150 SPR ont été créés depuis 2016. Le chiffre de 1 012 ne désigne donc pas une simple addition de secteurs Malraux historiques. Sources : https://www.culture.gouv.fr/thematiques/monuments-sites/monuments-historiques-sites-patrimoniaux/les-sites-patrimoniaux-remarquables ; https://www.culture.gouv.fr/mc/content/download/365172/pdf_file/Sites_patrimoniaux_EtatDesLieux_2023_BL_20241220.pdf?inLanguage=fre-FR&version=1 ; consultation : 19 août 2026.",
+      "links": [
+        "pvap",
+        "abf",
+        "transition-energetique"
+      ],
+      "unlockBlock": "c5-b06",
+      "firstMentionChapter": 5,
+      "firstMentionBlock": "c5-b06",
+      "earliestSafeChapter": 5,
+      "earliestSafeBlock": "c5-b06",
+      "unlockChapter": 5,
+      "unlockPosition": 6,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Actualiser la carte institutionnelle et montrer l'extension du dispositif aux petites communes."
+    },
+    {
+      "id": "pvap",
+      "title": "Plan de valorisation de l'architecture et du patrimoine",
+      "category": "document d'urbanisme",
+      "hook": "Un document de protection qui n'a pas la même portée juridique qu'un PSMV.",
+      "text": "Dans un site patrimonial remarquable, le plan de valorisation de l'architecture et du patrimoine, ou PVAP, fixe des règles destinées à préserver et mettre en valeur les tissus bâtis et les espaces. Le ministère de la Culture le distingue du plan de sauvegarde et de mise en valeur : le PSMV est un document d'urbanisme, tandis que le PVAP constitue une servitude d'utilité publique annexée au document d'urbanisme. Cette différence organise la portée des prescriptions et leur articulation avec les autorisations de travaux. Le code du patrimoine encadre la procédure, le contenu et la commission compétente. Parler d'un SPR sans préciser son document de gestion peut donc masquer des régimes concrets différents. Sources : Ministère de la Culture, https://www.culture.gouv.fr/thematiques/monuments-sites/monuments-historiques-sites-patrimoniaux/les-sites-patrimoniaux-remarquables ; Légifrance, https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006074236/LEGISCTA000032858244/ ; consultation : 19 août 2026.",
+      "links": [
+        "spr",
+        "loi-fiscale-malraux",
+        "abf"
+      ],
+      "unlockBlock": "c7-b01",
+      "firstMentionChapter": 7,
+      "firstMentionBlock": "c7-b01",
+      "earliestSafeChapter": 7,
+      "earliestSafeBlock": "c7-b01",
+      "unlockChapter": 7,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner au lecteur le vocabulaire juridique nécessaire pour distinguer les outils de gestion des SPR."
+    },
+    {
+      "id": "abf",
+      "title": "Architecte des bâtiments de France",
+      "category": "institution",
+      "hook": "Un acteur du contrôle des travaux dont la présence révèle la complexité du patrimoine habité.",
+      "text": "Dans un site patrimonial remarquable, l’accord de l’architecte des Bâtiments de France intervient pour les travaux affectant l’aspect extérieur, les espaces non bâtis et les éléments intérieurs que le PSMV protège. Cet accord peut être assorti de prescriptions. L’ABF n’est donc ni le propriétaire du plan ni un simple gardien de façade : il inscrit l’expertise patrimoniale de l’État dans la chaîne des autorisations. Le rapport sénatorial de 2024 souligne la nécessité d’un dialogue plus lisible avec élus et porteurs de projets, notamment pour la transition énergétique. Sources : Code du patrimoine, https://www.legifrance.gouv.fr/codes/id/LEGISCTA000032860487 ; Sénat, https://www.senat.fr/rap/r23-780-1/r23-780-10.html ; consultation : 19 août 2026.",
+      "links": [
+        "spr",
+        "pvap",
+        "transition-energetique"
+      ],
+      "unlockBlock": "c5-b09",
+      "firstMentionChapter": 5,
+      "firstMentionBlock": "c5-b09",
+      "earliestSafeChapter": 5,
+      "earliestSafeBlock": "c5-b09",
+      "unlockChapter": 5,
+      "unlockPosition": 9,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Décrire l'intermédiaire administratif qui traduit la protection en décisions de travaux et en délais."
+    },
+    {
+      "id": "transition-energetique",
+      "title": "Transition énergétique",
+      "category": "enjeu",
+      "hook": "Le défi contemporain consiste à adapter les bâtiments anciens sans effacer les raisons de leur protection.",
+      "text": "La transition énergétique oblige les politiques patrimoniales à traiter les bâtiments anciens comme des lieux habités, et non comme des façades isolées. Dans son rapport sur les architectes des bâtiments de France, le Sénat recommande d'adapter le diagnostic de performance énergétique et de soutenir des techniques compatibles avec les caractéristiques patrimoniales. Une étude du Grand Lyon sur l'extension du SPR du Vieux-Lyon décrit un périmètre d'environ 31 hectares, 532 bâtiments et 106 monuments historiques ; elle juge l'outil puissant mais incomplet face aux enjeux de transition écologique, de mobilités, de stationnement et d'habitabilité. La conservation ne disparaît pas : elle doit composer avec l'isolation, le confort d'été et les usages quotidiens, au cas par cas. Sources : https://www.senat.fr/rap/r23-780-1/r23-780-10.html ; https://www.grandlyon.com/fileadmin/user_upload/media/pdf/urbanisme/sites-patrimoniaux/spr_psmv_vieux_lyon_extension_etude.pdf ; consultation : 19 août 2026.",
+      "links": [
+        "abf",
+        "spr",
+        "vieux-lyon"
+      ],
+      "unlockBlock": "c7-b07",
+      "firstMentionChapter": 7,
+      "firstMentionBlock": "c7-b07",
+      "earliestSafeChapter": 7,
+      "earliestSafeBlock": "c7-b07",
+      "unlockChapter": 7,
+      "unlockPosition": 7,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Ouvrir la question actuelle de l'habitabilité et de l'adaptation climatique des centres protégés."
+    }
+  ]
+}
+</script>
+<script>
+const book=JSON.parse(document.getElementById("book-data").textContent);
+const SLUG=book.meta.slug;
+const KEY=SLUG+"-state-v1";
+const saved=(()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch{return {}}})();
+const state={theme:saved.theme||((matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light"),scale:saved.scale||1,chapter:saved.chapter||book.chapters[0].id,seen:saved.seen||{},unlocked:new Set(saved.unlocked||[])};
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>{const d=document.createElement("div");d.textContent=s??"";return d.innerHTML};
+const escA=s=>esc(s).replace(/"/g,"&quot;");
+const safeHttpUrl=u=>{try{const x=new URL(u);return(x.protocol==="http:"||x.protocol==="https:")?x.href:null}catch{return null}};
+const localImagePath=p=>typeof p==="string"&&p&&!p.includes("://")&&!p.startsWith("/")&&!p.includes("..");
+const num=v=>(typeof v==="number"&&isFinite(v))?v:null;
+const svgViewBox=v=>(typeof v==="string"&&/^-?\d+(?:\.\d+)?(?:\s+-?\d+(?:\.\d+)?){3}$/.test(v.trim()))?v.trim():"0 0 100 72";
+const SHAPE_KINDS=["eau","terre","route","limite"];
+const pathD=v=>(typeof v==="string"&&v.length<=4000&&/^[-0-9.,\sMmLlHhVvCcSsQqTtAaZz]+$/.test(v))?v.trim():null;
+const sourceHtml=s=>{if(!s||!s.label)return"";const u=safeHttpUrl(s.url);return "Source : "+(u?'<a href="'+escA(u)+'" target="_blank" rel="noopener noreferrer">'+esc(s.label)+"</a>":esc(s.label))};
+const persist=()=>localStorage.setItem(KEY,JSON.stringify({theme:state.theme,scale:state.scale,chapter:state.chapter,seen:state.seen,unlocked:[...state.unlocked]}));
+const entry=id=>book.codex.find(x=>x.id===id);
+let lastFocus=null,observer=null;
+function blockLocation(id){for(const c of book.chapters){const i=c.blocks.findIndex(b=>b.id===id);if(i>=0)return{chapter:c,position:i+1}}return null}
+function blockReached(id){const loc=blockLocation(id);return !!loc&&((state.seen[loc.chapter.number]||0)>=loc.position)}
+function reached(x){return blockReached(x.unlockBlock)}
+const mapPlaces=()=>((book.map&&book.map.places)||[]).filter(p=>entry(p.codexId)&&num(p.x)!==null&&num(p.y)!==null);
+const relNodes=()=>((book.relations&&book.relations.nodes)||[]).filter(n=>entry(n.codexId));
+const hasMap=()=>mapPlaces().length>0,hasRelations=()=>relNodes().length>0;
+const nodeTitle=(holder,id)=>holder&&holder.label?holder.label:(entry(id)?entry(id).title:id);
+function wireOpeners(root){$$("[data-open-entry]",root).forEach(el=>{const id=el.dataset.openEntry;el.onclick=()=>openEntry(id);el.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openEntry(id)}}})}
+function refreshRefs(){$$("[data-entry]").forEach(b=>{const x=entry(b.dataset.entry);if(!x){b.remove();return}const open=state.unlocked.has(x.id);b.disabled=!open;b.className=open?"ref":"ref locked-ref";b.textContent=open?x.title:"Notice à venir"})}
+function syncUnlocks(announce=false){for(const x of book.codex){if(reached(x)&&!state.unlocked.has(x.id)){state.unlocked.add(x.id);if(announce){$("#announcer").textContent="Nouvelle notice débloquée : "+x.title;const t=$("#toast");t.textContent="Codex débloqué · "+x.title;t.hidden=false;clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.hidden=true,3000)}}}refreshRefs();persist()}
+function applyPrefs(){document.documentElement.dataset.theme=state.theme;document.documentElement.style.setProperty("--scale",state.scale);$("#theme").setAttribute("aria-pressed",state.theme==="dark");$("#theme").textContent=state.theme==="dark"?"☀":"◐"}
+function show(id){$$(".view").forEach(v=>v.hidden=v.id!==id);scrollTo(0,0)}
+function go(hash){if(location.hash===hash)route();else location.hash=hash}
+function route(){const raw=decodeURIComponent(location.hash.slice(1));if(!raw){show("home");return}const [kind,id,block]=raw.split("/");if(kind==="chapter"&&book.chapters.some(c=>c.id===id)){renderChapter(id,block);return}if(kind==="codex"){renderCodex($("#search").value);show("codex");if(id)requestAnimationFrame(()=>openEntry(id));return}if(kind==="map"&&hasMap()){renderMap();show("map");return}if(kind==="relations"&&hasRelations()){renderRelations();show("relations");return}show("home")}
+function renderHome(){$("#brand").textContent=book.meta.title;$("#home-title").textContent=book.meta.title;$("#home-deck").textContent=book.meta.description;$("#home-eyebrow").textContent=(book.meta.edition?book.meta.edition+" · ":"")+book.chapters.length+" chapitres";$("#codex-eyebrow").textContent=book.meta.codexLabel||"Codex";$("#codex-intro").textContent=book.meta.codexVoice||"";const ci=$("#cover-img");if(book.cover?.image){ci.src=book.cover.image;ci.alt=book.cover.alt||"";ci.onerror=()=>{ci.hidden=true}}else{ci.hidden=true}}
+function renderToc(){const n=$("#toc-list");n.innerHTML=book.chapters.map(c=>'<button data-go="'+c.id+'">Chapitre '+c.number+'<br><strong>'+esc(c.title)+'</strong></button>').join("");$$("[data-go]",n).forEach(b=>b.onclick=()=>go("#chapter/"+b.dataset.go))}
+function setSeen(chapter,position){state.seen[chapter.number]=Math.max(state.seen[chapter.number]||0,position);state.chapter=chapter.id;syncUnlocks(true);updateProgress()}
+function updateProgress(){const total=book.chapters.reduce((n,c)=>n+c.blocks.length,0);let done=0;for(const c of book.chapters)done+=Math.min(c.blocks.length,state.seen[c.number]||0);const pct=Math.round(done/total*100);$("#bar").style.width=pct+"%";$("#progress").setAttribute("aria-valuenow",pct)}
+function refs(block){const ids=(block.mentions||[]).filter(id=>entry(id));if(!ids.length)return"";return '<div class="references" aria-label="Références contextuelles">'+ids.map(id=>{const open=state.unlocked.has(id);return '<button class="'+(open?'ref':'ref locked-ref')+'" data-entry="'+id+'"'+(open?'':' disabled')+'>'+(open?esc(entry(id).title):'Notice à venir')+'</button>'}).join("")+'</div>'}
+function figureHtml(block){const f=block.figure;if(!f||!localImagePath(f.image)||!f.alt||!f.caption)return"";const dims=(f.imageWidth&&f.imageHeight)?' width="'+(+f.imageWidth)+'" height="'+(+f.imageHeight)+'"':"";const src=sourceHtml(f.source);return '<figure class="doc-figure"><button data-zoom="'+escA(f.image)+'" aria-label="Agrandir le document"><img src="'+escA(f.image)+'" alt="'+escA(f.alt)+'"'+dims+' loading="lazy"></button><figcaption><span class="doc-caption">'+esc(f.caption)+'</span>'+(src?'<span class="doc-source">'+src+'</span>':'')+'</figcaption></figure>'}
+function renderChapter(id,deep){observer?.disconnect();const c=book.chapters.find(x=>x.id===id),idx=book.chapters.indexOf(c),last=book.chapters.length-1;state.chapter=id;persist();const art=$("#chapter-art");if(c.image){art.hidden=false;art.innerHTML='<button data-zoom="'+c.image+'" aria-label="Agrandir l’illustration"><img src="'+c.image+'" alt="'+esc(c.alt)+'" width="'+(c.imageWidth||1600)+'" height="'+(c.imageHeight||900)+'"'+(idx?' loading="lazy"':'')+'></button><figcaption>'+esc(c.alt)+'</figcaption>';$("img",art).onerror=()=>{art.hidden=true;art.innerHTML=""}}else{art.hidden=true;art.innerHTML=""}$("#chapter-body").innerHTML='<header class="chapter-head"><div class="chapter-num">Chapitre '+c.number+' sur '+book.chapters.length+'</div><h1>'+esc(c.title)+'</h1></header><div class="prose">'+c.blocks.map((b,i)=>'<p id="'+b.id+'" data-pos="'+(i+1)+'">'+esc(b.text)+'</p>'+refs(b)+figureHtml(b)).join("")+'</div><nav class="chapter-nav" aria-label="Navigation des chapitres">'+(idx?'<button class="pill" data-chapter="'+book.chapters[idx-1].id+'">← Précédent</button>':'<span></span>')+(idx<last?'<button class="pill" data-chapter="'+book.chapters[idx+1].id+'">Suivant →</button>':'<button class="pill" data-codex>Explorer le codex →</button>')+'</nav>';show("reader");$$("[data-go]").forEach(b=>b.setAttribute("aria-current",b.dataset.go===id?"page":"false"));$$("[data-entry]").forEach(b=>b.onclick=()=>openEntry(b.dataset.entry));$$("[data-chapter]").forEach(b=>b.onclick=()=>go("#chapter/"+b.dataset.chapter));$("[data-codex]")?.addEventListener("click",()=>go("#codex"));const zb=$("[data-zoom]",art);if(zb)zb.onclick=e=>openImage(e.currentTarget.dataset.zoom,c.alt);$$(".doc-figure",$("#chapter-body")).forEach(fig=>{$("img",fig).onerror=()=>{fig.hidden=true};$("[data-zoom]",fig).onclick=e=>openImage(e.currentTarget.dataset.zoom,$("img",fig).alt)});observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)setSeen(c,+e.target.dataset.pos)}),{threshold:.55});$$(".prose p").forEach(p=>observer.observe(p));setSeen(c,Math.max(1,state.seen[c.number]||0));if(deep)setTimeout(()=>document.getElementById(deep)?.scrollIntoView(),50)}
+function renderMap(){const m=book.map||{},places=mapPlaces();
+$("#map-eyebrow").textContent=m.eyebrow||"Repères progressifs";$("#map-title").textContent=m.label||"Carte";$("#map-intro").textContent=m.intro||"Les lieux rencontrés dans le récit ouvrent leur notice ; les autres restent en pointillé.";
+const svg=$("#map-svg");svg.setAttribute("viewBox",svgViewBox(m.viewBox));
+const shapes=(m.shapes||[]).map(s=>{const d=pathD(s.d);return (d&&SHAPE_KINDS.includes(s.kind))?'<path class="shape-'+s.kind+'" d="'+escA(d)+'"/>':""}).join("");
+const spots=places.map(p=>{const x=+p.x,y=+p.y,open=state.unlocked.has(p.codexId),label=nodeTitle(p,p.codexId),anchor=["start","middle","end"].includes(p.labelAnchor)?p.labelAnchor:(x>50?"end":"start"),dx=anchor==="end"?-2.5:anchor==="middle"?0:2.5,dy=anchor==="middle"?-2.8:.9;
+return '<g class="spot'+(open?"":" locked")+'"'+(open?' data-open-entry="'+escA(p.codexId)+'" role="button" tabindex="0" aria-label="'+escA(label+" — ouvrir la notice")+'"':' role="img" aria-label="Lieu non découvert"')+'><circle cx="'+x+'" cy="'+y+'" r="1.7"/>'+(open?'<text x="'+(x+dx)+'" y="'+(y+dy)+'" text-anchor="'+anchor+'">'+esc(label)+'</text>':"")+'</g>'}).join("");
+svg.innerHTML=shapes+spots;
+const found=places.filter(p=>state.unlocked.has(p.codexId));
+$("#map-count").textContent=found.length+" lieu"+(found.length>1?"x":"")+" découvert"+(found.length>1?"s":"")+" sur "+places.length;
+$("#map-list").innerHTML=found.length?found.map(p=>'<li><button class="entry-link" data-open-entry="'+escA(p.codexId)+'">'+esc(nodeTitle(p,p.codexId))+'</button> <span class="viz-hook">'+esc(entry(p.codexId).hook||"")+'</span></li>').join(""):'<li class="empty">Aucun lieu n\u2019est encore découvert.</li>';
+wireOpeners($("#map"))}
+function renderRelations(){const r=book.relations||{},nodes=relNodes(),pos={};
+$("#relations-eyebrow").textContent=r.eyebrow||"Liens révélés";$("#relations-title").textContent=r.label||"Relations";$("#relations-intro").textContent=r.intro||"Les entités du codex et leurs liens apparaissent au rythme de leur révélation dans le récit.";
+nodes.forEach((n,i)=>{const a=-Math.PI/2+2*Math.PI*i/nodes.length;pos[n.codexId]=[num(n.x)??+(50+34*Math.cos(a)).toFixed(2),num(n.y)??+(36+26*Math.sin(a)).toFixed(2)]});
+const open=id=>!!pos[id]&&state.unlocked.has(id);
+const links=(r.links||[]).filter(l=>open(l.from)&&open(l.to)&&l.from!==l.to&&(!l.unlockBlock||blockReached(l.unlockBlock)));
+const svg=$("#relations-svg");svg.setAttribute("viewBox",svgViewBox(r.viewBox));
+svg.innerHTML=links.map(l=>{const a=pos[l.from],b=pos[l.to];return '<line class="edge" x1="'+a[0]+'" y1="'+a[1]+'" x2="'+b[0]+'" y2="'+b[1]+'"><title>'+esc(l.nature||"")+'</title></line>'}).join("")
++nodes.map(n=>{const p=pos[n.codexId],shown=open(n.codexId),label=nodeTitle(n,n.codexId);
+return '<g class="node'+(shown?"":" locked")+'"'+(shown?' data-open-entry="'+escA(n.codexId)+'" role="button" tabindex="0" aria-label="'+escA(label+" — ouvrir la notice")+'"':' role="img" aria-label="Entité non révélée"')+'><circle cx="'+p[0]+'" cy="'+p[1]+'" r="2.4"/>'+(shown?'<text x="'+p[0]+'" y="'+(p[1]+6)+'" text-anchor="middle">'+esc(label)+'</text>':"")+'</g>'}).join("");
+const revealed=nodes.filter(n=>open(n.codexId)).length;
+$("#relations-count").textContent=revealed+" entité"+(revealed>1?"s":"")+" révélée"+(revealed>1?"s":"")+" sur "+nodes.length+" · "+links.length+" lien"+(links.length>1?"s":"");
+$("#relations-list").innerHTML=links.length?links.map(l=>'<li><strong>'+esc(nodeTitle(nodes.find(n=>n.codexId===l.from),l.from))+' — '+esc(nodeTitle(nodes.find(n=>n.codexId===l.to),l.to))+'</strong><br><span class="viz-nature">'+esc(l.nature||"Lien non qualifié")+'</span></li>').join(""):'<li class="empty">Aucun lien n\u2019est encore révélé.</li>';
+wireOpeners($("#relations"))}
+function renderCodex(q=""){syncUnlocks();q=q.trim().toLowerCase();const list=book.codex.filter(x=>!q||!state.unlocked.has(x.id)||[x.title,x.category,x.hook,x.text].join(" ").toLowerCase().includes(q));$("#codex-grid").innerHTML=list.length?list.map(x=>state.unlocked.has(x.id)?'<article class="card"><span class="cat">'+esc(x.category)+'</span><h2>'+esc(x.title)+'</h2><p>'+esc(x.hook)+'</p><button class="entry-link" data-open="'+x.id+'">Consulter</button></article>':'<article class="card locked" aria-label="Notice verrouillée"><span class="cat">'+esc(x.category)+'</span><h2>Notice verrouillée</h2><p>Se révèle au fil du récit.</p></article>').join(""):'<p class="empty">Aucune notice débloquée ne correspond.</p>';$$("[data-open]").forEach(b=>b.onclick=()=>openEntry(b.dataset.open))}
+function openEntry(id){const x=entry(id);if(!x||!state.unlocked.has(id))return;lastFocus=document.activeElement;const hasImg=localImagePath(x.image);const credit=hasImg?sourceHtml(x.source):"";$("#entry-content").innerHTML='<div class="entry'+(hasImg?'':' no-image')+'">'+(hasImg?'<figure class="entry-figure'+(credit?' doc':'')+'"><button class="entry-image" data-zoom="'+escA(x.image)+'" aria-label="Agrandir l’illustration"><img src="'+escA(x.image)+'" alt="'+escA(x.alt||"")+'" width="'+(x.imageWidth||1600)+'" height="'+(x.imageHeight||900)+'" loading="lazy"></button>'+(credit?'<figcaption class="doc-source">'+credit+'</figcaption>':'')+'</figure>':'')+'<div class="entry-copy"><div class="voice">'+esc(book.meta.codexLabel||"Codex")+' · '+esc(x.category)+'</div><h2 id="entry-title">'+esc(x.title)+'</h2><p class="hook">'+esc(x.hook)+'</p><div class="body">'+x.text.split(/\n\n+/).map(t=>'<p>'+esc(t)+'</p>').join("")+'</div><div class="related">'+x.links.filter(id=>state.unlocked.has(id)&&entry(id)).map(id=>'<button class="entry-link" data-related="'+id+'">'+esc(entry(id).title)+'</button>').join("")+'</div></div></div>';const d=$("#entry-dialog");d.showModal();const zb=$("[data-zoom]",d);if(zb){const im=$("img",zb);im.onerror=()=>{$(".entry-figure",d)?.remove();$(".entry",d)?.classList.add("no-image")};zb.onclick=e=>openImage(e.currentTarget.dataset.zoom,x.alt||"")}$$("[data-related]",d).forEach(b=>b.onclick=()=>{d.close();setTimeout(()=>openEntry(b.dataset.related),0)});if(!$("#codex").hidden)history.replaceState(null,"","#codex/"+id)}
+function openImage(src,alt){lastFocus=document.activeElement;$("#large-image").src=src;$("#large-image").alt=alt;$("#image-dialog").showModal()}
+function closeDialog(d){d.close();lastFocus?.focus()}
+function trap(e,d){if(e.key!=="Tab")return;const f=$$("button,[href],input,[tabindex]:not([tabindex='-1'])",d).filter(x=>!x.disabled);if(!f.length)return;const a=f[0],z=f.at(-1);if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}
+$("#start").onclick=()=>go("#chapter/"+(saved.chapter||book.chapters[0].id));$("#home-btn").onclick=()=>go("");$("#codex-btn").onclick=()=>go("#codex");$("#codex-nav").onclick=()=>go("#codex");$("#map-btn").onclick=$("#map-nav").onclick=()=>go("#map");$("#relations-btn").onclick=$("#relations-nav").onclick=()=>go("#relations");$("#theme").onclick=()=>{state.theme=state.theme==="dark"?"light":"dark";applyPrefs();persist()};$("#font-down").onclick=()=>{state.scale=Math.max(.85,+(state.scale-.1).toFixed(2));applyPrefs();persist()};$("#font-up").onclick=()=>{state.scale=Math.min(1.4,+(state.scale+.1).toFixed(2));applyPrefs();persist()};$("#search").oninput=e=>renderCodex(e.target.value);$("#entry-close").onclick=()=>closeDialog($("#entry-dialog"));$("#image-close").onclick=()=>closeDialog($("#image-dialog"));$$("dialog").forEach(d=>{d.addEventListener("keydown",e=>{if(e.key==="Escape"){e.preventDefault();closeDialog(d)}else trap(e,d)});d.addEventListener("click",e=>{if(e.target===d)closeDialog(d)})});document.addEventListener("keydown",e=>{if($("dialog[open]"))return;const i=book.chapters.findIndex(c=>c.id===state.chapter);if(e.key==="ArrowRight"&&!$("#reader").hidden&&i<book.chapters.length-1)go("#chapter/"+book.chapters[i+1].id);if(e.key==="ArrowLeft"&&!$("#reader").hidden&&i>0)go("#chapter/"+book.chapters[i-1].id)});function showModuleNav(){const m=hasMap(),r=hasRelations();$("#map-btn").hidden=$("#map-nav").hidden=!m;$("#relations-btn").hidden=$("#relations-nav").hidden=!r}
+addEventListener("hashchange",route);applyPrefs();renderHome();renderToc();showModuleNav();syncUnlocks();updateProgress();route();
+</script></body></html>
