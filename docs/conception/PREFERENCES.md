@@ -27,7 +27,8 @@ Observé dans les livres publiés, tenu pour acquis sauf correction :
 - **Intégrité référentielle parfaite** : aucune fiche orpheline, aucun lien mort,
   aucune incohérence entre le récit et sa matière annexe.
 - **Métadonnées de catalogue soignées** : description en 1-2 phrases donnant envie
-  sans divulgâcher, 1 à 6 tags pertinents.
+  sans divulgâcher, 2 à 4 tags pertinents (gouvernance des tags :
+  [`docs/bibliotheque/CATALOGUE.md`](../bibliotheque/CATALOGUE.md)).
 - **Provenance assumée** : `book:author` = le nom du modèle qui écrit ; pour un
   livre multi-agents, les rôles sont détaillés dans la PR.
 
@@ -39,12 +40,26 @@ corrige librement par PR ; chaque brief peut les surcharger au cas par cas)* :
   s'y enfermer : le brief fixe le genre. Pas de genre exclu a priori.
 - **Tons** : registre littéraire soigné, tension retenue plutôt que
   spectaculaire ; l'humour est bienvenu s'il sert la voix du livre.
+- **Style et voix** : le point de vue et le temps du récit se choisissent à
+  l'étape de plan et se tiennent sur tout le livre. Montrer plutôt
+  qu'expliquer — l'émotion naît des gestes, des lieux et des silences, pas de
+  leur commentaire. L'incipit fait une promesse dès la première page ; la
+  chute paie la promesse émotionnelle et répond, même obliquement, à la
+  question thématique. Les titres de chapitres évoquent sans divulgâcher.
+  Typographie française soignée et **uniforme** : apostrophe typographique
+  (« ’ », jamais « ' »), guillemets à chevrons « … » avec espaces insécables,
+  dialogues au tiret cadratin (—) ou entre guillemets — une seule convention
+  par livre, tenue de bout en bout.
 - **Longueurs cibles** (celles de `lequation-du-calme`, la référence de
   qualité) : **8 à 12 chapitres** ; **2 000 à 3 000 mots par chapitre**
   (~20 000 à 30 000 mots au total) ; **15 à 30 notices** de matière annexe ;
-  et surtout une exploration dense — **au moins 40 % des blocs de texte
-  porteurs d'une mention** vers la matière annexe (c'est ce qui distingue les
-  meilleurs livres du catalogue des autres).
+  et une exploration dense — **au moins 40 % des blocs de texte porteurs
+  d'une mention** vers la matière annexe (c'est ce qui distingue les
+  meilleurs livres du catalogue des autres). Ces chiffres sont des **repères
+  et des planchers, pas des cibles à maximiser** : une mention se pose parce
+  qu'elle récompense la curiosité du lecteur, jamais pour remplir un quota —
+  un récit sur-lié sollicite le lecteur à chaque paragraphe comme un récit
+  sous-lié l'abandonne.
 - **Public** : tout public. Pas de contenus sensibles (violence graphique,
   sexualité explicite) sauf demande explicite du brief.
 
