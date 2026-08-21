@@ -15,7 +15,6 @@ from __future__ import annotations
 
 import argparse
 import codecs
-import hashlib
 import html
 import json
 import os
@@ -227,6 +226,21 @@ def comparison_key(value: str) -> str:
     return without_marks.casefold()
 
 
+def vocabulary_keys(vocabulary: Sequence[str]) -> dict[str, str]:
+    """Table clé normalisée → graphie canonique d'un vocabulaire fermé."""
+    return {comparison_key(allowed): allowed for allowed in vocabulary}
+
+
+# Tables précalculées une fois pour toutes : les vocabulaires sont constants,
+# inutile de renormaliser leurs graphies à chaque livre.
+VOCABULARY_KEYS = {
+    vocabulary: vocabulary_keys(vocabulary)
+    for vocabulary in (GENRES, FORMATS, TONALITES, EXIGENCES, AUDIENCES, CAPACITES)
+}
+RESERVED_TAG_KEYS = {comparison_key(value): value for value in RESERVED_TAG_VALUES}
+ATELIER_NATURE_KEYS = {comparison_key(atelier): nature for atelier, nature in ATELIER_NATURE.items()}
+
+
 def humanize_slug(slug: str) -> str:
     value = WHITESPACE_RE.sub(" ", slug.replace("-", " ")).strip()
     if not value:
@@ -286,11 +300,14 @@ def detect_declared_encoding(prefix: bytes) -> str | None:
 
 
 def choose_encoding(path: Path, relative_path: str) -> tuple[str, str, bool]:
-    try:
-        with path.open("rb") as stream:
-            prefix = stream.read(ENCODING_PROBE_BYTES)
-    except OSError:
-        raise
+    """Sonde l'encodage d'un fichier : (encodage, politique d'erreurs, repli cp1252 ?).
+
+    Appelée une seule fois par livre : le résultat est partagé entre le scan des
+    métadonnées et le comptage des mots (build_book), qui relisaient chacun la
+    même sonde de 16 Kio.
+    """
+    with path.open("rb") as stream:
+        prefix = stream.read(ENCODING_PROBE_BYTES)
 
     if prefix.startswith(codecs.BOM_UTF8):
         return "utf-8-sig", "strict", False
@@ -314,8 +331,10 @@ def choose_encoding(path: Path, relative_path: str) -> tuple[str, str, bool]:
         return "cp1252", "replace", True
 
 
-def scan_metadata(path: Path, relative_path: str) -> MetadataParser:
-    encoding, errors, used_fallback = choose_encoding(path, relative_path)
+def scan_metadata(
+    path: Path, relative_path: str, encoding_choice: tuple[str, str, bool]
+) -> MetadataParser:
+    encoding, errors, used_fallback = encoding_choice
     if used_fallback:
         warn("Décodage Windows-1252 de secours utilisé.", relative_path)
 
@@ -388,10 +407,9 @@ def sanitize_tags(tags: Sequence[str], relative_path: str) -> list[str]:
     redondant. Le contrôle en amont (refus à l'écriture) est l'affaire du
     vérificateur d'atelier.
     """
-    reserved = {comparison_key(value): value for value in RESERVED_TAG_VALUES}
     kept: list[str] = []
     for tag in tags:
-        canonical = reserved.get(comparison_key(tag))
+        canonical = RESERVED_TAG_KEYS.get(comparison_key(tag))
         if canonical is not None:
             warn(
                 f"Tag « {tag} » écarté : il reprend la valeur structurée "
@@ -469,10 +487,9 @@ def resolve_nature(workflow_value: str | None, relative_path: str) -> str:
 
     match = WORKFLOW_RE.fullmatch(normalized)
     atelier = normalize_text(match.group("atelier")) if match else normalized
-    key = comparison_key(atelier)
-    for known, nature in ATELIER_NATURE.items():
-        if comparison_key(known) == key:
-            return nature
+    nature = ATELIER_NATURE_KEYS.get(comparison_key(atelier))
+    if nature is not None:
+        return nature
 
     warn(
         f"Atelier « {atelier} » absent de la table ATELIER_NATURE : "
@@ -493,10 +510,10 @@ def closed_vocab(
     if not normalized:
         return None
 
-    key = comparison_key(normalized)
-    for allowed in vocabulary:
-        if comparison_key(allowed) == key:
-            return allowed
+    keys = VOCABULARY_KEYS.get(vocabulary) or vocabulary_keys(vocabulary)
+    canonical = keys.get(comparison_key(normalized))
+    if canonical is not None:
+        return canonical
 
     warn(
         f"Valeur {field_name} hors vocabulaire ignorée : « {normalized} » "
@@ -522,11 +539,9 @@ def resolve_capabilities(values: Sequence[str], relative_path: str) -> list[str]
             capacite = normalize_text(candidate)
             if not capacite:
                 continue
-            key = comparison_key(capacite)
-            for allowed in CAPACITES:
-                if comparison_key(allowed) == key:
-                    declared.add(allowed)
-                    break
+            allowed = VOCABULARY_KEYS[CAPACITES].get(comparison_key(capacite))
+            if allowed is not None:
+                declared.add(allowed)
             else:
                 warn(
                     f"Capacité « {capacite} » hors vocabulaire ignorée "
@@ -599,9 +614,9 @@ class VisibleTextParser(HTMLParser):
         return " ".join(self._parts)
 
 
-def read_source(path: Path, relative_path: str, limit: int) -> str:
+def read_source(path: Path, limit: int, encoding_choice: tuple[str, str, bool]) -> str:
     """Relit le fichier en entier (borné) avec la détection d'encodage du head."""
-    encoding, errors, _ = choose_encoding(path, relative_path)
+    encoding, errors, _ = encoding_choice
     with path.open("rb") as stream:
         raw = stream.read(limit)
 
@@ -636,7 +651,9 @@ def count_chapter_words(chapters: object) -> int:
     return total
 
 
-def extract_word_count(path: Path, relative_path: str) -> int | None:
+def extract_word_count(
+    path: Path, relative_path: str, encoding_choice: tuple[str, str, bool]
+) -> int | None:
     """Compte les mots du livre en trois étages ; None si aucun n'aboutit.
 
     1. Îlots <script type="application/json"> : seuls les chapitres sont comptés,
@@ -648,7 +665,7 @@ def extract_word_count(path: Path, relative_path: str) -> int | None:
        sont pas mesurables sans exécuter la page.
     """
     try:
-        source = read_source(path, relative_path, MAX_BODY_SCAN_BYTES)
+        source = read_source(path, MAX_BODY_SCAN_BYTES, encoding_choice)
     except OSError as read_error:
         warn(f"Nombre de mots indéterminable (lecture impossible : {read_error}).", relative_path)
         return None
@@ -781,33 +798,78 @@ def repository_has_git_history(root: Path) -> bool:
     return result.returncode == 0 and result.stdout.strip() == "true"
 
 
-def addition_date(root: Path, path: Path, git_available: bool) -> AdditionDate:
-    if git_available:
-        relative = path.relative_to(root).as_posix()
-        try:
-            result = subprocess.run(
-                # --diff-filter=A (sans --follow) : seule la date d'ajout du fichier
-                # lui-même compte. --follow reliait les éditions dérivées à leur
-                # livre source par similarité de contenu et leur faisait hériter
-                # d'une date d'ajout étrangère.
-                ["git", "-C", str(root), "log", "--diff-filter=A", "--format=%aI", "--", relative],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.DEVNULL,
-                text=True,
-                encoding="utf-8",
-                errors="replace",
-                timeout=15,
-                check=False,
-            )
-            lines = [line.strip() for line in result.stdout.splitlines() if line.strip()]
-            if result.returncode == 0 and lines:
-                # git log est antéchronologique : la dernière ligne correspond au premier commit.
-                parsed = datetime.fromisoformat(lines[-1].replace("Z", "+00:00"))
-                if parsed.tzinfo is None:
-                    parsed = parsed.replace(tzinfo=timezone.utc)
-                return AdditionDate(parsed.astimezone(timezone.utc), "git")
-        except (OSError, ValueError, subprocess.TimeoutExpired):
-            pass
+# Marqueur de début de commit dans la sortie git : un octet de contrôle qui ne
+# peut pas apparaître dans un chemin de fichier.
+GIT_DATE_MARKER = "\x01"
+
+
+def git_addition_dates(root: Path) -> dict[str, datetime]:
+    """Date de premier ajout de chaque fichier, en une seule passe `git log`.
+
+    Équivaut à un `git log --diff-filter=A --format=%aI -- <fichier>` par livre
+    (le commit le plus ancien gagne, l'historique étant antéchronologique), sans
+    lancer un sous-processus par livre. --diff-filter=A sans --follow : seule la
+    date d'ajout du fichier lui-même compte. --follow reliait les éditions
+    dérivées à leur livre source par similarité de contenu et leur faisait
+    hériter d'une date d'ajout étrangère.
+    """
+    try:
+        result = subprocess.run(
+            [
+                "git",
+                "-C",
+                str(root),
+                # quotepath=false : chemins UTF-8 littéraux, pas d'échappement C.
+                "-c",
+                "core.quotepath=false",
+                "log",
+                # Sans --no-renames, un fichier renommé serait compté R (et non A)
+                # et perdrait sa date — l'appel par fichier, limité à un seul
+                # chemin, ne peut pas apparier un renommage et voit toujours un A.
+                "--no-renames",
+                "--diff-filter=A",
+                f"--format={GIT_DATE_MARKER}%aI",
+                "--name-only",
+            ],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=60,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return {}
+    if result.returncode != 0:
+        return {}
+
+    dates: dict[str, datetime] = {}
+    current: datetime | None = None
+    for line in result.stdout.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        if line.startswith(GIT_DATE_MARKER):
+            try:
+                parsed = datetime.fromisoformat(line[1:].replace("Z", "+00:00"))
+            except ValueError:
+                current = None
+                continue
+            if parsed.tzinfo is None:
+                parsed = parsed.replace(tzinfo=timezone.utc)
+            current = parsed.astimezone(timezone.utc)
+        elif current is not None:
+            # Parcours antéchronologique : la dernière occurrence rencontrée est
+            # le premier ajout, elle écrase les ré-ajouts plus récents.
+            dates[line] = current
+    return dates
+
+
+def addition_date(root: Path, path: Path, git_dates: dict[str, datetime]) -> AdditionDate:
+    instant = git_dates.get(path.relative_to(root).as_posix())
+    if instant is not None:
+        return AdditionDate(instant, "git")
 
     try:
         modified = datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc)
@@ -816,36 +878,91 @@ def addition_date(root: Path, path: Path, git_available: bool) -> AdditionDate:
     return AdditionDate(modified, "mtime")
 
 
-def fallback_entry(root: Path, path: Path, slug: str) -> dict[str, object]:
-    relative = path.relative_to(root).as_posix()
+# Champs qualitatifs à vocabulaire fermé : meta → (clé JSON, vocabulaire).
+# L'ordre de la table est l'ordre de lecture, donc l'ordre des avertissements.
+QUALITATIVE_FIELDS = (
+    ("book:genre", "genre", GENRES),
+    ("book:format", "format", FORMATS),
+    ("book:tonalite", "tonalite", TONALITES),
+    ("book:exigence", "exigence", EXIGENCES),
+    ("book:audience", "audience", AUDIENCES),
+)
+
+
+def catalog_entry(
+    path: Path,
+    relative: str,
+    slug: str,
+    *,
+    title: str,
+    author: str | None,
+    description: str | None,
+    tags: list[str],
+    nature: str,
+    qualitative: dict[str, str | None],
+    book_date: str | None,
+    date_precision: str | None,
+    variant_of: str | None,
+    capabilities: list[str],
+    word_count: int | None,
+    cover: dict[str, str] | None,
+) -> dict[str, object]:
+    """Assemble une entrée du catalogue.
+
+    Seul endroit qui fixe l'ordre des clés JSON (contrat du schéma, voir
+    docs/bibliotheque/CATALOGUE.md) : l'entrée complète et l'entrée de repli
+    passent toutes deux par ici, l'ordre ne peut pas diverger.
+    """
     return {
         "id": slug,
         "filename": path.name,
         "sourcePath": relative,
         "href": relative,
-        "title": humanize_slug(slug),
-        "author": None,
-        "description": None,
-        "tags": [],
-        "nature": DEFAULT_NATURE,
-        "genre": None,
-        "format": None,
-        "tonalite": None,
-        "exigence": None,
-        "audience": None,
-        "date": None,
-        "datePrecision": None,
-        "variantOf": None,
-        "capabilities": [],
-        "wordCount": None,
-        "readingMinutes": None,
-        "cover": resolve_cover(root, slug, path),
+        "title": title,
+        "author": author,
+        "description": description,
+        "tags": tags,
+        "nature": nature,
+        "genre": qualitative["genre"],
+        "format": qualitative["format"],
+        "tonalite": qualitative["tonalite"],
+        "exigence": qualitative["exigence"],
+        "audience": qualitative["audience"],
+        "date": book_date,
+        "datePrecision": date_precision,
+        "variantOf": variant_of,
+        "capabilities": capabilities,
+        "wordCount": word_count,
+        "readingMinutes": reading_minutes(word_count),
+        "cover": cover,
     }
+
+
+def fallback_entry(root: Path, path: Path, slug: str) -> dict[str, object]:
+    relative = path.relative_to(root).as_posix()
+    return catalog_entry(
+        path,
+        relative,
+        slug,
+        title=humanize_slug(slug),
+        author=None,
+        description=None,
+        tags=[],
+        nature=DEFAULT_NATURE,
+        qualitative={json_key: None for _, json_key, _ in QUALITATIVE_FIELDS},
+        book_date=None,
+        date_precision=None,
+        variant_of=None,
+        capabilities=[],
+        word_count=None,
+        cover=resolve_cover(root, slug, path),
+    )
 
 
 def build_book(root: Path, path: Path, slug: str, known_slugs: set[str]) -> dict[str, object]:
     relative = path.relative_to(root).as_posix()
-    parser = scan_metadata(path, relative)
+    encoding_choice = choose_encoding(path, relative)
+    parser = scan_metadata(path, relative, encoding_choice)
 
     meta_title = first_scalar(parser.values["book:title"], "book:title", relative)
     author = first_scalar(parser.values["book:author"], "book:author", relative)
@@ -857,33 +974,12 @@ def build_book(root: Path, path: Path, slug: str, known_slugs: set[str]) -> dict
     nature = resolve_nature(
         first_scalar(parser.values["book:workflow"], "book:workflow", relative), relative
     )
-    genre = closed_vocab(
-        first_scalar(parser.values["book:genre"], "book:genre", relative), GENRES, "book:genre", relative
-    )
-    book_format = closed_vocab(
-        first_scalar(parser.values["book:format"], "book:format", relative),
-        FORMATS,
-        "book:format",
-        relative,
-    )
-    tonalite = closed_vocab(
-        first_scalar(parser.values["book:tonalite"], "book:tonalite", relative),
-        TONALITES,
-        "book:tonalite",
-        relative,
-    )
-    exigence = closed_vocab(
-        first_scalar(parser.values["book:exigence"], "book:exigence", relative),
-        EXIGENCES,
-        "book:exigence",
-        relative,
-    )
-    audience = closed_vocab(
-        first_scalar(parser.values["book:audience"], "book:audience", relative),
-        AUDIENCES,
-        "book:audience",
-        relative,
-    )
+    qualitative = {
+        json_key: closed_vocab(
+            first_scalar(parser.values[meta], meta, relative), vocabulary, meta, relative
+        )
+        for meta, json_key, vocabulary in QUALITATIVE_FIELDS
+    }
     variant_of = resolve_variant_of(
         first_scalar(parser.values["book:variant-of"], "book:variant-of", relative),
         known_slugs,
@@ -891,33 +987,27 @@ def build_book(root: Path, path: Path, slug: str, known_slugs: set[str]) -> dict
         relative,
     )
     capabilities = resolve_capabilities(parser.values["book:capacites"], relative)
-    word_count = extract_word_count(path, relative)
+    word_count = extract_word_count(path, relative, encoding_choice)
 
     warn_long_values(title, author, description, tags, relative)
 
-    return {
-        "id": slug,
-        "filename": path.name,
-        "sourcePath": relative,
-        "href": relative,
-        "title": title,
-        "author": author,
-        "description": description,
-        "tags": tags,
-        "nature": nature,
-        "genre": genre,
-        "format": book_format,
-        "tonalite": tonalite,
-        "exigence": exigence,
-        "audience": audience,
-        "date": book_date,
-        "datePrecision": date_precision,
-        "variantOf": variant_of,
-        "capabilities": capabilities,
-        "wordCount": word_count,
-        "readingMinutes": reading_minutes(word_count),
-        "cover": resolve_cover(root, slug, path),
-    }
+    return catalog_entry(
+        path,
+        relative,
+        slug,
+        title=title,
+        author=author,
+        description=description,
+        tags=tags,
+        nature=nature,
+        qualitative=qualitative,
+        book_date=book_date,
+        date_precision=date_precision,
+        variant_of=variant_of,
+        capabilities=capabilities,
+        word_count=word_count,
+        cover=resolve_cover(root, slug, path),
+    )
 
 
 def discover_books(books_dir: Path) -> list[tuple[Path, str]]:
@@ -1087,7 +1177,7 @@ def generate(root: Path, output_path: Path) -> dict[str, object]:
             f"{len(invalid_slugs)} identifiant(s) de livre hors convention ; catalogue non généré."
         )
 
-    git_available = repository_has_git_history(root)
+    git_dates = git_addition_dates(root) if repository_has_git_history(root) else {}
     # Connu avant la boucle : book:variant-of ne peut désigner qu'un livre du catalogue,
     # y compris un livre découvert après celui qui le référence.
     known_slugs = {slug for _, slug in sources}
@@ -1095,7 +1185,7 @@ def generate(root: Path, output_path: Path) -> dict[str, object]:
 
     for path, slug in sources:
         relative = path.relative_to(root).as_posix()
-        added = addition_date(root, path, git_available)
+        added = addition_date(root, path, git_dates)
         try:
             entry = build_book(root, path, slug, known_slugs)
         except Exception as extraction_error:  # Tolérance volontaire au niveau de chaque livre.
@@ -1189,8 +1279,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             sitemap_xml = render_sitemap(payload, args.base_url)
             sitemap_url_count = sitemap_xml.count("<url>")
             write_text_atomic(sitemap_path, sitemap_xml)
-    except Exception as error:
-        print(f"::error::{annotation_escape(type(error).__name__ + ': ' + str(error))}", file=sys.stderr)
+    except Exception as exc:  # `exc`, pas `error` : ne pas masquer la fonction error().
+        print(f"::error::{annotation_escape(type(exc).__name__ + ': ' + str(exc))}", file=sys.stderr)
         return 1
 
     count = int(payload["bookCount"])
