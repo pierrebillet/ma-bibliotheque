@@ -78,6 +78,15 @@ règles communes dans [`AGENTS.md`](AGENTS.md). En bref :
   du projet.
 - **Accessible** : `lang="fr"`, textes alternatifs, navigation clavier.
 
+## Licence
+
+- **Le code** (générateur, pages du site, CI, ateliers, gabarits) est sous licence
+  [MIT](LICENSE) : forkez, adaptez, réutilisez.
+- **Les œuvres** — le contenu de `livres/` et `couvertures/` — sont sous
+  [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/deed.fr)
+  (CC BY 4.0) : réutilisation libre avec crédit du livre et de son auteur
+  (le modèle indiqué par `book:author`).
+
 ## Historique du projet
 
 Le projet a été démarré avec ChatGPT (spec + premiers livres), puis ouvert à d'autres
