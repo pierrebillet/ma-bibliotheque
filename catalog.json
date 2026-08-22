@@ -1,8 +1,37 @@
 {
   "schemaVersion": 3,
-  "generatedAt": "2026-08-21T06:16:54Z",
-  "bookCount": 14,
+  "generatedAt": "2026-08-22T05:33:19Z",
+  "bookCount": 15,
   "books": [
+    {
+      "id": "les-moules-de-la-colere",
+      "filename": "index.html",
+      "sourcePath": "livres/les-moules-de-la-colere/index.html",
+      "href": "livres/les-moules-de-la-colere/index.html",
+      "title": "Les Moules de la colère",
+      "author": "Claude Fable (texte)",
+      "description": "À Pénestin, capitale de la moule de bouchot, Gwenn revient enterrer son oncle mytiliculteur — et hérite de ses bouchots, de sa chienne et de comptes qui ne tombent pas juste. Entre l’estuaire de la Vilaine et la falaise de la Mine d’Or, les condoléances ressemblent à des offres de rachat. Un suspense iodé, à l’humour de vives-eaux.",
+      "tags": [
+        "mytiliculture",
+        "Pénestin",
+        "estuaire de la Vilaine"
+      ],
+      "nature": "fiction",
+      "genre": "policier",
+      "format": "illustré",
+      "tonalite": "ironique",
+      "exigence": "accessible",
+      "audience": "ados et adultes",
+      "date": "2026-08-21",
+      "datePrecision": "day",
+      "variantOf": null,
+      "capabilities": [
+        "codex"
+      ],
+      "wordCount": 17120,
+      "readingMinutes": 86,
+      "cover": null
+    },
     {
       "id": "loi-malraux",
       "filename": "index.html",
