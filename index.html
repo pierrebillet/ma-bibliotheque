@@ -47,6 +47,7 @@
       --radius-md: 0.3rem;
       --radius-sm: 0.25rem;
       --content: 92rem;
+      --content-narrow: 78rem;
       --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
       --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
@@ -128,7 +129,7 @@
       grid-template-columns: minmax(18rem, 0.9fr) minmax(22rem, 1fr);
       gap: clamp(2rem, 7vw, 8rem);
       align-items: center;
-      width: min(calc(100% - 3rem), 78rem);
+      width: min(calc(100% - 3rem), var(--content-narrow));
       padding: clamp(2rem, 4vw, 3.4rem) 0 clamp(1.8rem, 3.5vw, 3rem);
     }
 
@@ -154,7 +155,7 @@
 
     main { padding: 0 0 clamp(6rem, 10vw, 10rem); }
 
-    .main-inner { width: min(calc(100% - 3rem), 78rem); }
+    .main-inner { width: min(calc(100% - 3rem), var(--content-narrow)); }
 
     /* Onglets de nature (schéma de catalogue v2) : segmented control posé
        au-dessus de la grille de filtres. Les radios natifs portent l'état et
@@ -928,14 +929,14 @@
     @media (max-width: 48rem) {
       .header-inner {
         grid-template-columns: 1fr;
-        width: min(calc(100% - 2rem), 78rem);
+        width: min(calc(100% - 2rem), var(--content-narrow));
         gap: 1.5rem;
         padding: 2.2rem 0 2rem;
       }
 
       h1 { font-size: clamp(3rem, 13vw, 4.8rem); }
       .intro { padding-top: 0.9rem; }
-      .main-inner { width: min(calc(100% - 2rem), 78rem); }
+      .main-inner { width: min(calc(100% - 2rem), var(--content-narrow)); }
       /* Deux colonnes : la recherche prend la première rangée entière, genre et
          tag se partagent la deuxième, le tri occupe la troisième plutôt que de
          laisser une cellule orpheline. Seul le tag garde une bordure gauche. */
@@ -1656,6 +1657,7 @@
       // vocabulaire fermé du générateur en compte cinq.
       const MAX_CAPABILITIES = 8;
       const collator = new Intl.Collator("fr", { sensitivity: "base", numeric: true });
+      const textEncoder = new TextEncoder();
       const dateFormatter = new Intl.DateTimeFormat("fr-FR", { dateStyle: "long", timeZone: "UTC" });
       const monthFormatter = new Intl.DateTimeFormat("fr-FR", { month: "long", year: "numeric", timeZone: "UTC" });
 
@@ -1694,6 +1696,21 @@
       // Index id → livre, alimenté après chargement : sert à résoudre le titre
       // d'origine d'une variante (champ variantOf).
       const booksById = new Map();
+      // Cache des cartes : le DOM d'une carte ne dépend que du livre validé, on
+      // ne la construit qu'une fois — render() réordonne des nœuds existants au
+      // lieu de recréer toutes les cartes (et re-décoder chaque couverture) à
+      // chaque frappe. Clé = l'objet livre lui-même, pas son id : deux entrées
+      // qui partageraient un id resteraient deux cartes distinctes, comme avant.
+      const cardCache = new WeakMap();
+
+      // Fermeture au clic extérieur : un seul écouteur document pour toutes les
+      // listes déroulantes, au lieu d'un par liste. Sans effet tant que la Map
+      // est vide ; close() est idempotent sur une liste déjà fermée.
+      document.addEventListener("pointerdown", (event) => {
+        for (const { control, close } of customSelects.values()) {
+          if (!control.contains(event.target)) close();
+        }
+      });
 
       function setupCustomSelect(select) {
         if (customSelects.has(select)) return customSelects.get(select);
@@ -1806,11 +1823,7 @@
           }
         });
 
-        document.addEventListener("pointerdown", (event) => {
-          if (!control.contains(event.target)) close();
-        });
-
-        const api = { close, sync };
+        const api = { close, sync, control };
         customSelects.set(select, api);
         sync();
         return api;
@@ -1890,6 +1903,12 @@
         const wordCount = positiveInteger(raw.wordCount);
         const readingMinutes = positiveInteger(raw.readingMinutes);
 
+        // Clés normalisées précalculées une fois par livre : le filtrage et le
+        // tri les comparent à chaque frappe sans renormaliser genre, tags ni date.
+        const genreKey = genre ? normalizeSearch(genre) : "";
+        const tagKeys = tags.map((tag) => normalizeSearch(tag));
+        const dateKey = !date ? "" : datePrecision === "year" ? `${date}-00-00` : datePrecision === "month" ? `${date}-00` : date;
+
         const searchText = normalizeSearch([
           raw.id,
           raw.title,
@@ -1909,11 +1928,14 @@
           author,
           description,
           tags,
+          tagKeys,
           date,
           datePrecision,
+          dateKey,
           cover,
           nature,
           genre,
+          genreKey,
           format,
           tonalite,
           exigence,
@@ -1998,7 +2020,12 @@
         state.genre ? params.set("genre", state.genre) : params.delete("genre");
         state.tag ? params.set("tag", state.tag) : params.delete("tag");
         state.sort !== DEFAULT_SORT ? params.set("sort", state.sort) : params.delete("sort");
-        history.replaceState(null, "", `${url.pathname}${params.toString() ? `?${params}` : ""}${url.hash}`);
+        const next = `${url.pathname}${params.toString() ? `?${params}` : ""}${url.hash}`;
+        // replaceState seulement si l'URL change réellement : inutile de
+        // solliciter l'History API à chaque rendu quand rien ne bouge.
+        if (`${url.origin}${next}` !== location.href) {
+          history.replaceState(null, "", next);
+        }
       }
 
       function natureLabel(nature) {
@@ -2063,8 +2090,7 @@
         const byNormalized = new Map();
         for (const book of state.books) {
           if (!book.genre) continue;
-          const key = normalizeSearch(book.genre);
-          if (!byNormalized.has(key)) byNormalized.set(key, book.genre);
+          if (!byNormalized.has(book.genreKey)) byNormalized.set(book.genreKey, book.genre);
         }
 
         const genres = [...byNormalized.values()].sort(collator.compare);
@@ -2077,7 +2103,7 @@
         }
         elements.genre.append(fragment);
 
-        const matchedGenre = genres.find((genre) => normalizeSearch(genre) === normalizeSearch(state.genre));
+        const matchedGenre = byNormalized.get(normalizeSearch(state.genre));
         state.genre = matchedGenre ?? "";
         elements.genre.value = state.genre;
       }
@@ -2085,10 +2111,10 @@
       function buildTagOptions() {
         const byNormalized = new Map();
         for (const book of state.books) {
-          for (const tag of book.tags) {
-            const key = normalizeSearch(tag);
+          book.tags.forEach((tag, index) => {
+            const key = book.tagKeys[index];
             if (!byNormalized.has(key)) byNormalized.set(key, tag);
-          }
+          });
         }
 
         const tags = [...byNormalized.values()].sort(collator.compare);
@@ -2101,7 +2127,7 @@
         }
         elements.tag.append(fragment);
 
-        const matchedTag = tags.find((tag) => normalizeSearch(tag) === normalizeSearch(state.tag));
+        const matchedTag = byNormalized.get(normalizeSearch(state.tag));
         state.tag = matchedTag ?? "";
         elements.tag.value = state.tag;
       }
@@ -2117,19 +2143,12 @@
         return dateFormatter.format(new Date(Date.UTC(year, month - 1, day)));
       }
 
-      function dateSortKey(book) {
-        if (!book.date) return "";
-        if (book.datePrecision === "year") return `${book.date}-00-00`;
-        if (book.datePrecision === "month") return `${book.date}-00`;
-        return book.date;
-      }
-
       function sortBooks(books) {
         return [...books].sort((a, b) => {
           if (state.sort === "date-desc") {
             if (a.date && !b.date) return -1;
             if (!a.date && b.date) return 1;
-            const byDate = dateSortKey(b).localeCompare(dateSortKey(a));
+            const byDate = b.dateKey.localeCompare(a.dateKey);
             return byDate || collator.compare(a.title, b.title) || collator.compare(a.id, b.id);
           }
 
@@ -2152,8 +2171,8 @@
         return sortBooks(state.books.filter((book) => {
           const queryMatches = terms.every((term) => book.searchText.includes(term));
           const natureMatches = !state.nature || book.nature === state.nature;
-          const genreMatches = !selectedGenre || (Boolean(book.genre) && normalizeSearch(book.genre) === selectedGenre);
-          const tagMatches = !selectedTag || book.tags.some((tag) => normalizeSearch(tag) === selectedTag);
+          const genreMatches = !selectedGenre || book.genreKey === selectedGenre;
+          const tagMatches = !selectedTag || book.tagKeys.includes(selectedTag);
           return queryMatches && natureMatches && genreMatches && tagMatches;
         }));
       }
@@ -2179,7 +2198,7 @@
       }
 
       function fnv1a(value) {
-        const bytes = new TextEncoder().encode(value);
+        const bytes = textEncoder.encode(value);
         let hash = 0x811c9dc5;
         for (const byte of bytes) {
           hash ^= byte;
@@ -2347,6 +2366,7 @@
           tags.remove();
         }
 
+        let copyResetTimer = 0;
         copyButton.setAttribute("aria-label", `Copier le lien de « ${book.title} »`);
         copyButton.addEventListener("click", async () => {
           const absoluteUrl = new URL(book.href, document.baseURI).href;
@@ -2354,7 +2374,7 @@
             await copyText(absoluteUrl);
             copyButton.dataset.copied = "true";
             copyButton.setAttribute("aria-label", `Lien de « ${book.title} » copié`);
-            window.setTimeout(() => {
+            copyResetTimer = window.setTimeout(() => {
               copyButton.dataset.copied = "false";
               copyButton.setAttribute("aria-label", `Copier le lien de « ${book.title} »`);
             }, 1800);
@@ -2363,7 +2383,26 @@
           }
         });
 
-        return item;
+        // Une carte resservie par le cache repart de l'état neutre du bouton de
+        // copie — exactement l'état qu'une reconstruction complète produisait.
+        function resetCopyFeedback() {
+          window.clearTimeout(copyResetTimer);
+          copyButton.removeAttribute("data-copied");
+          copyButton.setAttribute("aria-label", `Copier le lien de « ${book.title} »`);
+        }
+
+        return { item, resetCopyFeedback };
+      }
+
+      function cardFor(book) {
+        const cached = cardCache.get(book);
+        if (cached) {
+          cached.resetCopyFeedback();
+          return cached.item;
+        }
+        const entry = createCard(book);
+        cardCache.set(book, entry);
+        return entry.item;
       }
 
       function setOnlyVisible(target) {
@@ -2394,7 +2433,7 @@
         }
 
         const fragment = document.createDocumentFragment();
-        books.forEach((book) => fragment.append(createCard(book)));
+        books.forEach((book) => fragment.append(cardFor(book)));
         elements.grid.append(fragment);
         const total = state.books.length;
         elements.count.textContent = books.length === total
