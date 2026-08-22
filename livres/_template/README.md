@@ -14,7 +14,7 @@
 
 | Fichier | Rôle |
 |---|---|
-| [`index.html`](index.html) | Le moteur complet, avec un `<head>` gabarit (11 meta `book:*` et leurs vocabulaires fermés en commentaire) et un îlot JSON d'exemple minimal (2 chapitres, 4 notices, les deux modules optionnels) qui illustre chaque champ. |
+| [`index.html`](index.html) | Le moteur complet, avec un `<head>` gabarit (13 meta `book:*` et leurs vocabulaires fermés en commentaire) et un îlot JSON d'exemple minimal (2 chapitres, 4 notices, les deux modules optionnels) qui illustre chaque champ. |
 | [`DONNEES.md`](DONNEES.md) | Spécification normative de l'îlot `#book-data` : champs, types, obligatoire/optionnel, champs lus par le moteur vs champs éditoriaux, règles de cohérence. |
 
 ## Créer un livre à partir du template
@@ -25,7 +25,7 @@ En bref :
 
 1. `cp livres/_template/index.html livres/<slug>/index.html` (jamais de copie du
    `README.md` ni de `DONNEES.md` dans le dossier du livre) ;
-2. remplacer tout le `<head>` gabarit (11 meta `book:*` — dont les cinq metas
+2. remplacer tout le `<head>` gabarit (13 meta `book:*` — dont les cinq metas
    qualitatives à vocabulaire fermé listées en commentaire et `book:capacites` —,
    `book:workflow`,
    titre) ; `book:variant-of` reste commentée sauf édition dérivée ; conserver

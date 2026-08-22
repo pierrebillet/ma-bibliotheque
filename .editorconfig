@@ -1,0 +1,21 @@
+# Conventions d'édition du dépôt — https://editorconfig.org
+# N'affecte que les éditeurs : aucun fichier existant n'est reformaté.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.py]
+indent_style = space
+indent_size = 4
+
+[*.{html,css,js,yml,yaml,json,svg,xml}]
+indent_style = space
+indent_size = 2
+
+[*.md]
+# Deux espaces en fin de ligne sont significatifs en Markdown.
+trim_trailing_whitespace = false

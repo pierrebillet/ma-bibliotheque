@@ -53,6 +53,7 @@ import re
 import struct
 import sys
 import unicodedata
+from collections import Counter
 from pathlib import Path
 
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -151,8 +152,16 @@ def cle(valeur: str) -> str:
 # ---------------------------------------------------------------- images
 
 def image_dimensions(path: Path) -> tuple[str, int, int] | None:
-    """(format, largeur, hauteur) d'après la signature binaire, ou None."""
-    data = path.read_bytes()
+    """(format, largeur, hauteur) d'après la signature binaire, ou None.
+
+    PNG et WebP portent leurs dimensions dans les 30 premiers octets : inutile
+    de charger le fichier entier. Seul le JPEG exige de parcourir ses segments
+    (le SOF peut suivre de gros blocs EXIF), on ne lit la suite que pour lui.
+    """
+    with path.open("rb") as stream:
+        data = stream.read(30)
+        if data[:3] == b"\xff\xd8\xff":
+            data += stream.read()
     if data[:8] == b"\x89PNG\r\n\x1a\n" and len(data) >= 24:
         wd, ht = struct.unpack(">II", data[16:24])
         return ("png", wd, ht)
@@ -240,12 +249,26 @@ def main() -> int:
         return 1
 
     template = slug == "_template"
-    root = entry.resolve()
-    for parent in root.parents:
-        if (parent / "couvertures").is_dir() or (parent / "scripts" / "build_catalog.py").is_file():
-            root = parent
-            break
-    html = entry.read_text(encoding="utf-8")
+    root = next(
+        (
+            parent
+            for parent in entry.resolve().parents
+            if (parent / "couvertures").is_dir() or (parent / "scripts" / "build_catalog.py").is_file()
+        ),
+        None,
+    )
+    if root is None:
+        print(
+            f"Racine du dépôt introuvable au-dessus de {entry} (ni couvertures/ ni "
+            "scripts/build_catalog.py) : lancer le vérificateur depuis un clone du dépôt.",
+            file=sys.stderr,
+        )
+        return 1
+    try:
+        html = entry.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as exc:
+        print(f"Lecture impossible de {entry} : {exc}", file=sys.stderr)
+        return 1
 
     if not template and not SLUG_RE.match(slug):
         d(f"slug « {slug} » hors convention (kebab-case ASCII)")
@@ -266,8 +289,9 @@ def main() -> int:
             d(f"meta {name} « {valeur} » hors vocabulaire — valeurs admises : "
               f"{', '.join(vocabulaire)} (docs/bibliotheque/CATALOGUE.md)")
     capacites = [c.strip() for c in metas.get("book:capacites", "").split(",") if c.strip()]
+    capacites_admises = {cle(v) for v in CAPACITES}
     for capacite in capacites:
-        if cle(capacite) not in {cle(v) for v in CAPACITES}:
+        if cle(capacite) not in capacites_admises:
             d(f"book:capacites : « {capacite} » hors vocabulaire — valeurs admises : "
               f"{', '.join(CAPACITES)} (docs/bibliotheque/CATALOGUE.md)")
     tags = [t.strip() for t in metas.get("book:tags", "").split(",") if t.strip()]
@@ -365,7 +389,7 @@ def main() -> int:
     if codex and not any(cle(c) == "codex" for c in capacites):
         d("book:capacites : le livre a un codex mais ne le déclare pas")
     ids = [x.get("id", "") for x in codex]
-    dup = {i for i in ids if ids.count(i) > 1}
+    dup = {i for i, occurrences in Counter(ids).items() if occurrences > 1}
     for i in sorted(dup):
         d(f"id de notice en double : {i}")
     idset = set(ids)
@@ -407,7 +431,6 @@ def main() -> int:
         known = [order[b] for b in seq if b in order]
         if len(known) == 3 and not (known[0] <= known[1] <= known[2]):
             d(f"notice {xid} : ordre firstMention ≤ earliestSafe ≤ unlock non respecté")
-
 
     # --- modules optionnels du moteur (atelier-liseuse v3) : carte et relations
     declarees = {cle(c) for c in capacites}
@@ -599,9 +622,14 @@ def main() -> int:
     manifest = book_dir / "illustrations.md"
     if not template:
         if manifest.is_file():
+            try:
+                manifest_text = manifest.read_text(encoding="utf-8")
+            except (OSError, UnicodeError) as exc:
+                manifest_text = ""
+                d(f"manifeste illustrations.md illisible ({exc}) : UTF-8 attendu")
             listed = set(re.findall(r"(?:images/[\w.-]+\.(?:webp|jpe?g|png)"
                                     r"|couvertures/[\w.-]+\.(?:webp|jpe?g|png))",
-                                    manifest.read_text(encoding="utf-8")))
+                                    manifest_text))
             island_set = {p for p, _, _ in island_images}
             if cover.get("catalogImage"):
                 island_set.add(cover["catalogImage"])
@@ -656,4 +684,4 @@ def report() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    raise SystemExit(main())

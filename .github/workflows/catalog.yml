@@ -14,18 +14,22 @@ on:
       - "livres/**"
       - "couvertures/**"
       - "scripts/**"
+      - "tests/**"
       - "catalog.json"
       - "index.html"
       - "sitemap.xml"
   workflow_dispatch:
 
+# Moindre privilège : lecture seule par défaut, le job `catalogue` (le seul qui
+# committe et déclenche Pages) élève ses permissions localement.
 permissions:
-  contents: write
-  pages: write
+  contents: read
 
 concurrency:
   group: catalogue-${{ github.ref }}
-  cancel-in-progress: false
+  # Sur une pull request, un nouveau push rend les runs précédents obsolètes :
+  # on les annule. Jamais d'annulation sur main (le run committe le catalogue).
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   # Vérification sans commit pour les pull requests : donne un retour CI aux
@@ -34,19 +38,24 @@ jobs:
   verification:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
+    timeout-minutes: 10
 
     steps:
       - name: Récupérer la branche de la pull request
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
+          # fetch-depth: 0 est porteur : l'ordre du catalogue dérive des dates
+          # d'ajout git (git log --diff-filter=A). Un clone shallow tronquerait
+          # ces dates et réordonnerait silencieusement toute la page d'accueil.
           fetch-depth: 0
 
       - name: Installer Python 3.12
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
+
+      - name: Tests unitaires du générateur
+        run: python -m unittest discover -s tests -v
 
       - name: Vérifier la génération du catalogue, du bloc demo et du sitemap
         run: |
@@ -57,43 +66,27 @@ jobs:
             --sitemap /tmp/sitemap-verification.xml \
             --base-url "https://${GITHUB_REPOSITORY%%/*}.github.io/${GITHUB_REPOSITORY#*/}/"
 
-      - name: Vérifier que catalog.json n'a pas été édité à la main
+      - name: Vérifier que les fichiers générés n'ont pas été édités à la main
         shell: bash
         env:
           BASE_REF: ${{ github.base_ref }}
         run: |
-          # catalog.json appartient au bot : il est régénéré automatiquement
-          # après le merge sur main. Une pull request ne doit pas le modifier.
-          git fetch origin "$BASE_REF"
-          if ! git diff --quiet "origin/$BASE_REF"...HEAD -- catalog.json; then
-            echo "::error file=catalog.json::Cette pull request modifie catalog.json. Ne pas l'éditer à la main : il est régénéré automatiquement après le merge sur main."
-            exit 1
-          fi
-          echo "catalog.json n'est pas modifié par cette pull request."
+          # catalog.json, sitemap.xml et le bloc #demo-catalog appartiennent au
+          # bot : ils sont régénérés automatiquement après chaque merge sur
+          # main. Une pull request ne doit pas les modifier (le reste
+          # d'index.html reste librement modifiable). origin/$BASE_REF est déjà
+          # présent grâce au checkout fetch-depth: 0.
+          statut=0
 
-      - name: Vérifier que sitemap.xml n'a pas été édité à la main
-        shell: bash
-        env:
-          BASE_REF: ${{ github.base_ref }}
-        run: |
-          # sitemap.xml appartient au bot : il est régénéré automatiquement
-          # après le merge sur main. Une pull request ne doit pas le modifier.
-          git fetch origin "$BASE_REF"
-          if ! git diff --quiet "origin/$BASE_REF"...HEAD -- sitemap.xml; then
-            echo "::error file=sitemap.xml::Cette pull request modifie sitemap.xml. Ne pas l'éditer à la main : il est régénéré automatiquement après le merge sur main."
-            exit 1
-          fi
-          echo "sitemap.xml n'est pas modifié par cette pull request."
+          for fichier in catalog.json sitemap.xml; do
+            if ! git diff --quiet "origin/$BASE_REF"...HEAD -- "$fichier"; then
+              echo "::error file=${fichier}::Cette pull request modifie ${fichier}. Ne pas l'éditer à la main : il est régénéré automatiquement après le merge sur main."
+              statut=1
+            else
+              echo "${fichier} n'est pas modifié par cette pull request."
+            fi
+          done
 
-      - name: Vérifier que le bloc demo-catalog n'a pas été édité à la main
-        shell: bash
-        env:
-          BASE_REF: ${{ github.base_ref }}
-        run: |
-          # Le bloc #demo-catalog appartient au bot : il est resynchronisé
-          # automatiquement après le merge sur main. Le reste d'index.html
-          # reste librement modifiable.
-          git fetch origin "$BASE_REF"
           extract_demo_block() {
             git show "$1:index.html" | python3 -c '
           import re, sys
@@ -103,23 +96,33 @@ jobs:
           }
           if ! diff <(extract_demo_block "origin/$BASE_REF") <(extract_demo_block HEAD) > /dev/null; then
             echo "::error file=index.html::Cette pull request modifie le bloc #demo-catalog. Ne pas l'éditer à la main : il est resynchronisé automatiquement après le merge sur main."
-            exit 1
+            statut=1
+          else
+            echo "Le bloc #demo-catalog n'est pas modifié par cette pull request."
           fi
-          echo "Le bloc #demo-catalog n'est pas modifié par cette pull request."
+
+          exit "$statut"
 
   catalogue:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pages: write
 
     steps:
       - name: Récupérer la version la plus récente de main
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           ref: main
+          # fetch-depth: 0 est porteur : l'ordre du catalogue dérive des dates
+          # d'ajout git (git log --diff-filter=A). Un clone shallow tronquerait
+          # ces dates et réordonnerait silencieusement toute la page d'accueil.
           fetch-depth: 0
 
       - name: Installer Python 3.12
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
 

@@ -39,8 +39,9 @@ format relève du rôle Conception ([`docs/conception/`](../conception/README.md
   `--sync-demo-catalog`, `--index`, `--sitemap`, `--base-url` sont utilisées par
   la CI — ne pas les casser.
 - **Déclencheurs de `catalog.yml`** : les chemins surveillés (`livres/**`,
-  `couvertures/**`, `scripts/**`, `index.html`, `catalog.json`) conditionnent tout
-  le fonctionnement automatique.
+  `couvertures/**`, `scripts/**`, `index.html`, `catalog.json`, plus `tests/**`
+  et `sitemap.xml` côté pull request) conditionnent tout le fonctionnement
+  automatique.
 
 ## Interdits spécifiques
 
@@ -53,7 +54,14 @@ format relève du rôle Conception ([`docs/conception/`](../conception/README.md
 
 ## Comment tester
 
-1. **Génération à blanc** (obligatoire avant PR) :
+Prérequis : Python ≥ 3.10 (syntaxe du script), 3.12 en CI. Aucune dépendance
+externe — bibliothèque standard uniquement, pour les scripts comme pour les tests.
+
+1. **Tests unitaires du générateur** (la CI les exécute sur chaque pull request) :
+   ```bash
+   python -m unittest discover -s tests
+   ```
+2. **Génération à blanc** (obligatoire avant PR) :
    ```bash
    python scripts/build_catalog.py --output /tmp/catalog-verification.json
    ```
@@ -66,10 +74,10 @@ format relève du rôle Conception ([`docs/conception/`](../conception/README.md
      --sitemap /tmp/sitemap-verification.xml \
      --base-url "https://pierrebillet.github.io/ma-bibliotheque/"
    ```
-2. **Prévisualisation** : ouvrir `index.html` en `file://` (utilise le bloc
+3. **Prévisualisation** : ouvrir `index.html` en `file://` (utilise le bloc
    `#demo-catalog`) puis via un serveur HTTP local (`python -m http.server`, utilise
    `catalog.json`) — les deux chemins de chargement doivent fonctionner.
-3. **CI** : sur la PR, relire les annotations du job `verification`.
+4. **CI** : sur la PR, relire les annotations du job `verification`.
 
 ## Sommaire du dossier
 
