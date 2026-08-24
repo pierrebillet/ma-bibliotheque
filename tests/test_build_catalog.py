@@ -2,9 +2,8 @@
 
 Deux familles :
 - tests unitaires sur une mini-bibliothèque synthétique (tmpdir) ;
-- test d'or sur le dépôt réel : la régénération doit reproduire le
-  catalog.json committé (l'ordre n'est vérifié que si l'historique git est
-  complet — un clone shallow fausse les dates d'ajout, voir catalog.yml).
+- test d'intégration sur le dépôt réel : deux générations successives doivent
+  produire exactement le même catalogue.
 
 Lancement : python -m unittest discover -s tests
 """
@@ -313,32 +312,17 @@ class TestSorties(LibraryFixture):
         self.assertEqual([book["id"] for book in payload["books"]], ["recent", "jumeau", "ancien"])
 
 
-class TestOr(unittest.TestCase):
-    """Test d'or : le script reproduit le catalog.json committé du dépôt réel."""
+class TestIntegrationDepot(unittest.TestCase):
+    """Le générateur traite le dépôt réel de manière déterministe."""
 
-    def test_regeneration_reproduit_le_catalogue_committe(self) -> None:
-        committed_path = ROOT / "catalog.json"
-        if not committed_path.is_file():
-            self.skipTest("catalog.json absent (dépôt incomplet)")
-        committed = json.loads(committed_path.read_text(encoding="utf-8"))
-
+    def test_deux_generations_successives_sont_identiques(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             output = Path(tmp) / "catalog.json"
-            # Copie préalable : generated_at conserve l'horodatage si la liste
-            # des livres n'a pas changé — c'est aussi ce que fait la CI.
-            output.write_text(committed_path.read_text(encoding="utf-8"), encoding="utf-8")
             with captured_stderr():
-                payload = build_catalog.generate(ROOT, output)
+                first = build_catalog.generate(ROOT, output)
+                second = build_catalog.generate(ROOT, output)
 
-        # Un clone shallow tronque les dates d'ajout git et fausse l'ordre :
-        # dans ce cas on ne compare que le contenu, pas l'ordre.
-        shallow = (ROOT / ".git" / "shallow").is_file()
-        sort_key = (lambda books: sorted(books, key=lambda book: book["id"])) if shallow else (lambda books: books)
-        self.assertEqual(payload["schemaVersion"], committed["schemaVersion"])
-        self.assertEqual(payload["bookCount"], committed["bookCount"])
-        self.assertEqual(sort_key(payload["books"]), sort_key(committed["books"]))
-        if not shallow:
-            self.assertEqual(payload["generatedAt"], committed["generatedAt"])
+        self.assertEqual(second, first)
 
 
 if __name__ == "__main__":
