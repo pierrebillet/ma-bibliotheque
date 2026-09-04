@@ -1,52 +1,26 @@
 <!doctype html>
 <html lang="fr" data-theme="light"><head>
 <meta charset="utf-8">
-<!-- ============================================================
-     GABARIT — remplacer chaque valeur AVANT le premier commit.
-     Les 11 meta book:* alimentent le catalogue (voir
-     ateliers/roman-atelier/WORKFLOW.md §« Le <head> obligatoire »).
-     Vocabulaires fermés (docs/bibliotheque/CATALOGUE.md) :
-       genre    : science-fiction | fantasy | fantastique | anticipation |
-                  espionnage | policier | aventure | comédie dramatique |
-                  drame | histoire | société | sciences | portrait
-       format   : texte | illustré
-       tonalite : lumineuse | douce-amère | contemplative | ironique |
-                  tendue | sombre
-       exigence : accessible | intermédiaire | exigeante
-       audience : tout public | ados et adultes | adultes
-       capacites: codex | carte | relations | choix | audio (liste séparée par
-                  des virgules — ne déclarer que ce que le livre offre vraiment ;
-                  `carte` et `relations` sont exigées dès que l'îlot porte le
-                  module correspondant, et interdites sinon)
-     tags : 2 à 4 thèmes libres (thème, lieu, motif) qui ne redisent jamais un
-     champ ci-dessus ni la nature.
-     La nature (fiction/reportage) ne se déclare pas : elle est dérivée de
-     book:workflow par scripts/build_catalog.py.
-     ============================================================ -->
-<meta name="book:title" content="Titre complet du livre">
-<meta name="book:author" content="Nom du modèle qui écrit">
-<meta name="book:description" content="Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue.">
-<meta name="book:tags" content="thème, lieu, motif">
-<meta name="book:date" content="AAAA-MM-JJ">
-<meta name="book:genre" content="science-fiction">
-<meta name="book:format" content="illustré">
-<meta name="book:tonalite" content="contemplative">
+<meta name="book:title" content="L’Eau qui porte">
+<meta name="book:author" content="Claude Fable">
+<meta name="book:description" content="Sur l’Aubrance, le bac à traille de Ferréol relie depuis 1902 le bourg à la rive des Vergnes. Un pont s’achève en aval : il ouvrira le 20 septembre. Inès, venue livrer l’ouvrage et fermer le bac, traverse chaque jour avec Aimé, passeur depuis quarante ans — jusqu’à ce qu’elle ouvre le dossier du pont et y trouve trente-neuf lettres de la même main.">
+<meta name="book:tags" content="rivière, passeur, village, fin d’été">
+<meta name="book:date" content="2026-09-04">
+<meta name="book:genre" content="drame">
+<meta name="book:format" content="texte">
+<meta name="book:tonalite" content="lumineuse">
 <meta name="book:exigence" content="intermédiaire">
 <meta name="book:audience" content="tout public">
-<!-- Cas rare — autre édition d'un livre déjà publié : décommenter et renseigner
-     le slug du livre source (moratoire sur les doublons : voir le WORKFLOW).
-<meta name="book:variant-of" content="slug-du-livre-source">
--->
-<meta name="book:workflow" content="roman-atelier v7">
-<meta name="book:capacites" content="codex, carte, relations">
+<meta name="book:workflow" content="roman-atelier v9">
+<meta name="book:capacites" content="codex">
 <meta name="reader-engine" content="atelier-liseuse v3">
-<title>Titre complet du livre</title>
+<title>L’Eau qui porte</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue.">
-<meta name="theme-color" content="#14181a">
+<meta name="description" content="Sur l’Aubrance, le bac à traille de Ferréol relie depuis 1902 le bourg à la rive des Vergnes. Un pont s’achève en aval : il ouvrira le 20 septembre. Inès, venue livrer l’ouvrage et fermer le bac, traverse chaque jour avec Aimé, passeur depuis quarante ans — jusqu’à ce qu’elle ouvre le dossier du pont et y trouve trente-neuf lettres de la même main.">
+<meta name="theme-color" content="#141a1c">
 <style>
-:root{--ivory:#eef0ec;--paper:#f9faf7;--ink:#14181a;--muted:#5b6663;--blue:#135e63;--yellow:#d9a13b;--red:#a83c2e;--pink:#8fa9b4;--line:#c3cbc4;--panel:#f4f6f1;--scale:1;color-scheme:light}
-[data-theme="dark"]{--ivory:#131619;--paper:#1b2023;--ink:#e9ece6;--muted:#a9b3ac;--blue:#6fc4c9;--yellow:#e5b34f;--red:#ff8a75;--pink:#9fb8c2;--line:#4a5352;--panel:#21272a;color-scheme:dark}
+:root{--ivory:#f1efe6;--paper:#faf8f0;--ink:#1c2226;--muted:#5f6a66;--blue:#2b6b74;--yellow:#c8933a;--red:#a4472f;--pink:#9bb5b9;--line:#c9c9ba;--panel:#f5f3e9;--scale:1;color-scheme:light}
+[data-theme="dark"]{--ivory:#141a1c;--paper:#1c2427;--ink:#e8e6dc;--muted:#a7b0aa;--blue:#79c3c9;--yellow:#e0ad52;--red:#ff8e70;--pink:#a6c0c4;--line:#465250;--panel:#222b2e;color-scheme:dark}
 *{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--ivory)}body{margin:0;color:var(--ink);background:var(--ivory);font:calc(18px * var(--scale))/1.72 Georgia,"Times New Roman",serif}button,input{font:inherit;color:inherit}button{cursor:pointer}img{max-width:100%}[hidden]{display:none!important}
 .skip{position:fixed;z-index:200;left:.75rem;top:.75rem;transform:translateY(-180%);padding:.55rem .8rem;background:var(--yellow);color:#14181a}.skip:focus{transform:none}:focus-visible{outline:3px solid var(--yellow);outline-offset:4px}
 .top{position:sticky;z-index:60;top:0;display:flex;align-items:center;gap:.55rem;min-height:3.2rem;padding:.5rem max(1rem,env(safe-area-inset-left));border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--ivory) 92%,transparent);backdrop-filter:blur(12px)}.brand{margin-right:auto;font:800 .83rem/1.1 system-ui,sans-serif;letter-spacing:.02em}.control,.pill,.toc button,.entry-link{border:1px solid var(--line);background:var(--panel);padding:.38rem .68rem}.control,.pill{border-radius:999px}.control{min-width:2.5rem}
@@ -82,209 +56,107 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
 <dialog id="entry-dialog" aria-labelledby="entry-title"><button class="close" id="entry-close" aria-label="Fermer">×</button><div id="entry-content"></div></dialog>
 <dialog class="image-dialog" id="image-dialog" aria-label="Illustration agrandie"><button class="close" id="image-close" aria-label="Fermer l’image">×</button><img id="large-image" alt=""></dialog>
 <div class="toast" id="toast" hidden></div><div class="sr" id="announcer" aria-live="polite" aria-atomic="true"></div>
-<!-- ============================================================
-     ÎLOT DE DONNÉES — tout le récit vit ici.
-     Spécification normative des champs : livres/_template/DONNEES.md
-     L'exemple ci-dessous est minimal (2 chapitres, 4 notices, les deux
-     modules optionnels) et illustre chaque champ ; le remplacer
-     intégralement — un livre sans carte ni graphe supprime les blocs
-     « map » et « relations » (les vues disparaissent d'elles-mêmes).
-     ============================================================ -->
 <script type="application/json" id="book-data">
 {
   "meta": {
-    "slug": "_template",
-    "title": "Titre complet du livre",
-    "author": "Nom du modèle qui écrit",
-    "description": "Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue.",
-    "tags": ["genre", "thème", "lieu"],
-    "date": "AAAA-MM-JJ",
+    "slug": "leau-qui-porte",
+    "title": "L’Eau qui porte",
+    "author": "Claude Fable",
+    "description": "Sur l’Aubrance, le bac à traille de Ferréol relie depuis 1902 le bourg à la rive des Vergnes. Un pont s’achève en aval : il ouvrira le 20 septembre. Inès, venue livrer l’ouvrage et fermer le bac, traverse chaque jour avec Aimé, passeur depuis quarante ans — jusqu’à ce qu’elle ouvre le dossier du pont et y trouve trente-neuf lettres de la même main.",
+    "tags": [
+      "rivière",
+      "passeur",
+      "village",
+      "fin d’été"
+    ],
+    "date": "2026-09-04",
     "language": "fr",
     "edition": "Roman explorable",
-    "codexLabel": "Carnet d’exemple",
-    "codexVoice": "Qui tient le codex, sur quel ton, à partir de quelles sources — cette voix située donne sa couleur à toutes les notices."
+    "codexLabel": "Monographie de Ferréol",
+    "codexVoice": "Notes pour une Monographie de la commune de Ferréol, tenues par Lucien Astier, instituteur du bourg de 1971 à 2008. Il écrit au crayon, date tout, corrige peu, avoue ce qu’il ignore et se laisse aller, parfois, à dire ce qu’il pense."
   },
   "world": {
-    "emotionalPromise": "Ce que le lecteur doit éprouver en refermant le livre (une phrase).",
-    "centralIdea": "L’idée centrale du récit, en une phrase affirmative.",
+    "emotionalPromise": "Que le lecteur referme le livre avec la douceur d’une fin qui n’est pas une défaite, et l’envie de traverser lentement.",
+    "centralIdea": "Un passage n’est pas un ouvrage mais une attention : ce qui porte n’est jamais la structure seule.",
     "satellites": [
-      "Une idée secondaire qui orbite autour de l’idée centrale.",
-      "Une autre idée secondaire (2 à 5 satellites)."
+      "Demander le progrès qui vous supprime est la forme la plus haute de la fidélité à un lieu.",
+      "On n’apprend pas un geste pour qu’il serve ; on l’apprend pour qu’il ait été transmis.",
+      "Les morts d’un village disent mieux que les vivants ce qu’un chemin veut dire.",
+      "Livrer un ouvrage et le quitter est aussi un métier — et il a ses propres deuils."
     ],
-    "thematicQuestion": "La question que le récit pose sans y répondre à la place du lecteur ?"
+    "thematicQuestion": "Que doit-on aux choses que l’on remplace — et à ceux qui les tenaient ?"
   },
   "entityAudit": {
-    "excluded": [
-      {"label": "Entité citée dans le texte mais sans notice", "reason": "Pourquoi elle n’a pas de notice (couverte par une autre, purement fonctionnelle…)."}
-    ]
+    "excluded": []
   },
   "cover": {
-    "image": "../../couvertures/_template.webp",
-    "catalogImage": "couvertures/_template.webp",
-    "alt": "Description de la couverture pour les lecteurs d’écran."
-  },
-  "map": {
-    "label": "La côte de Kervel",
-    "eyebrow": "Repères progressifs",
-    "intro": "Les lieux rencontrés dans le récit ouvrent leur notice ; les autres restent en pointillé.",
-    "viewBox": "0 0 100 72",
-    "shapes": [
-      {"kind": "eau", "d": "M0,0 H100 V72 H0 Z"},
-      {"kind": "terre", "d": "M0,50 Q20,42 38,47 T70,43 Q88,47 100,58 L100,72 L0,72 Z"},
-      {"kind": "route", "d": "M18,66 C34,60 48,57 63,53"}
-    ],
-    "places": [
-      {"codexId": "phare-de-kervel", "x": 74, "y": 26, "label": "Le phare"},
-      {"codexId": "kervel", "x": 30, "y": 60, "label": "Kervel"}
-    ]
-  },
-  "relations": {
-    "label": "Autour de la gardienne",
-    "eyebrow": "Liens révélés",
-    "intro": "Les entités du codex et leurs liens apparaissent au rythme de leur révélation dans le récit.",
-    "nodes": [
-      {"codexId": "maren", "x": 50, "y": 16},
-      {"codexId": "phare-de-kervel", "x": 22, "y": 46},
-      {"codexId": "kervel", "x": 50, "y": 62},
-      {"codexId": "le-registre-des-passages", "x": 78, "y": 46}
-    ],
-    "links": [
-      {"from": "maren", "to": "phare-de-kervel", "nature": "Gardienne du phare depuis vingt ans, douze ans après son extinction"},
-      {"from": "maren", "to": "kervel", "nature": "Du village sans en être : on lui laisse son feu inutile"},
-      {"from": "maren", "to": "le-registre-des-passages", "nature": "Tient le registre chaque nuit de tempête", "unlockBlock": "c2-b01"},
-      {"from": "phare-de-kervel", "to": "kervel", "nature": "Phare rattaché au village, éteint par décision administrative"}
-    ]
+    "image": "../../couvertures/leau-qui-porte.webp",
+    "catalogImage": "couvertures/leau-qui-porte.webp",
+    "alt": "Un bac à traille amarré sous un câble tendu au-dessus d’une rivière verte, à la lumière rasante d’un soir de fin d’été ; en aval, les piles d’un pont neuf."
   },
   "chapters": [
     {
       "id": "chapitre-1",
       "number": 1,
-      "title": "Le seuil",
-      "image": "images/chapter-01.webp",
-      "alt": "La gardienne du phare regarde la mer d’hiver depuis la coursive, une lampe-tempête à la main.",
-      "visualDescription": "Plan large depuis la coursive d’un phare, fin de journée d’hiver ; une femme d’une cinquantaine d’années, manteau de laine, tient une lampe-tempête ; mer grise agitée, lumière rasante dorée sur les embruns.",
-      "blocks": [
-        {
-          "id": "c1-b01",
-          "text": "Maren monta les cent quarante marches sans compter, comme on récite une prière apprise avant les mots. Le phare de Kervel n’éclairait plus les navires depuis douze ans ; il n’éclairait plus qu’elle.",
-          "mentions": ["maren", "phare-de-kervel"]
-        },
-        {
-          "id": "c1-b02",
-          "text": "En bas, le village avait cessé de poser des questions. On laissait à la gardienne son feu inutile, ses registres, ses silences — et cette pièce fermée au sommet, dont personne n’avait vu la clé.",
-          "mentions": ["kervel"]
-        }
-      ]
+      "title": "Le câble",
+      "blocks": []
     },
     {
       "id": "chapitre-2",
       "number": 2,
-      "title": "Le registre",
-      "blocks": [
-        {
-          "id": "c2-b01",
-          "text": "Le registre des passages ne mentait pas : chaque nuit de tempête depuis douze ans, une ligne de plus, une lumière aperçue au large là où aucune carte ne plaçait de feu. Maren notait, datait, refermait le cahier.",
-          "mentions": ["le-registre-des-passages"],
-          "figure": {
-            "image": "images/figure-c2-b01.webp",
-            "alt": "Double page manuscrite d’un registre maritime : colonnes de dates et d’observations, une ligne soulignée signale une lumière au large.",
-            "caption": "Un registre de veille du XIXᵉ siècle, semblable à celui que tient la gardienne : chaque observation est datée et signée.",
-            "source": {"label": "Archives nationales — fonds des Phares et Balises", "url": "https://exemple.org/archives/registres-de-veille"},
-            "imageWidth": 1200,
-            "imageHeight": 1600,
-            "origin": "Champ libre [éditorial] : licence, page consultée, date de récupération — voir DONNEES.md."
-          }
-        },
-        {
-          "id": "c2-b02",
-          "text": "Elle savait ce que le village ignorait : la pièce fermée n’était pas vide. Elle répondait.",
-          "mentions": []
-        }
-      ]
+      "title": "L’eau qui porte",
+      "blocks": []
+    },
+    {
+      "id": "chapitre-3",
+      "number": 3,
+      "title": "Les Vergnes",
+      "blocks": []
+    },
+    {
+      "id": "chapitre-4",
+      "number": 4,
+      "title": "Étiage",
+      "blocks": []
+    },
+    {
+      "id": "chapitre-5",
+      "number": 5,
+      "title": "La dépose",
+      "blocks": []
+    },
+    {
+      "id": "chapitre-6",
+      "number": 6,
+      "title": "La monographie",
+      "blocks": []
+    },
+    {
+      "id": "chapitre-7",
+      "number": 7,
+      "title": "Février 1985",
+      "blocks": []
+    },
+    {
+      "id": "chapitre-8",
+      "number": 8,
+      "title": "La crue d’août",
+      "blocks": []
+    },
+    {
+      "id": "chapitre-9",
+      "number": 9,
+      "title": "Le dernier passage",
+      "blocks": []
+    },
+    {
+      "id": "chapitre-10",
+      "number": 10,
+      "title": "L’autre rive",
+      "blocks": []
     }
   ],
-  "codex": [
-    {
-      "id": "maren",
-      "title": "Maren Solvay",
-      "category": "personnage",
-      "hook": "La gardienne d’un phare éteint, qui tient un registre que personne ne lui demande.",
-      "text": "Gardienne du phare de Kervel depuis vingt ans, restée en poste douze ans après l’extinction officielle du feu.\n\nLe carnet la décrit méthodique, peu liante, exacte — de cette exactitude qui sert autant à consigner qu’à ne pas dire.",
-      "links": ["phare-de-kervel"],
-      "firstMentionChapter": 1,
-      "firstMentionBlock": "c1-b01",
-      "earliestSafeChapter": 1,
-      "earliestSafeBlock": "c1-b01",
-      "unlockChapter": 1,
-      "unlockBlock": "c1-b01",
-      "unlockPosition": 1,
-      "spoilerRisk": "aucun",
-      "delayReason": "",
-      "editorialFunction": "Ancrer la protagoniste et le mystère du poste maintenu après l’extinction."
-    },
-    {
-      "id": "phare-de-kervel",
-      "title": "Le phare de Kervel",
-      "category": "lieu",
-      "hook": "Un feu éteint depuis douze ans, toujours gardé.",
-      "text": "Phare de haute mer rattaché au village de Kervel, éteint par décision administrative il y a douze ans, jamais désarmé.\n\nLa pièce du sommet, fermée à clé, n’apparaît sur aucun plan de l’administration des feux.",
-      "links": ["maren", "le-registre-des-passages"],
-      "image": "images/codex-phare-de-kervel.webp",
-      "alt": "Le phare de Kervel dressé sur son îlot, fenêtre du sommet éclairée alors que la lanterne est éteinte.",
-      "visualDescription": "Vue en contre-plongée d’un phare de granit sur un îlot battu par la houle, crépuscule ; la lanterne principale est éteinte mais une petite fenêtre sous la coursive est éclairée d’une lumière chaude.",
-      "firstMentionChapter": 1,
-      "firstMentionBlock": "c1-b01",
-      "earliestSafeChapter": 1,
-      "earliestSafeBlock": "c1-b01",
-      "unlockChapter": 1,
-      "unlockBlock": "c1-b01",
-      "unlockPosition": 1,
-      "spoilerRisk": "aucun",
-      "delayReason": "",
-      "editorialFunction": "Poser le décor unique du récit et sa contradiction fondatrice (éteint mais gardé)."
-    },
-    {
-      "id": "kervel",
-      "title": "Kervel",
-      "category": "lieu",
-      "hook": "Un village qui a cessé de poser des questions.",
-      "text": "Port de quelques centaines d’habitants, relié au phare par une digue submersible à chaque grande marée.\n\nLe carnet note que le village a arrêté de discuter le poste maintenu de la gardienne l’hiver qui a suivi l’extinction du feu — ni hostilité, ni curiosité : un arrangement.",
-      "links": ["maren", "phare-de-kervel"],
-      "firstMentionChapter": 1,
-      "firstMentionBlock": "c1-b02",
-      "earliestSafeChapter": 1,
-      "earliestSafeBlock": "c1-b02",
-      "unlockChapter": 1,
-      "unlockBlock": "c1-b02",
-      "unlockPosition": 2,
-      "spoilerRisk": "aucun",
-      "delayReason": "",
-      "editorialFunction": "Donner un second repère à la carte et poser le silence du village comme décor social du récit."
-    },
-    {
-      "id": "le-registre-des-passages",
-      "title": "Le registre des passages",
-      "category": "objet",
-      "hook": "Douze ans de lignes datées pour une lumière qui n’existe pas.",
-      "text": "Cahier d’administration détourné de son usage : Maren y consigne, nuit de tempête après nuit de tempête, une lumière observée au large hors de toute position cartographiée.\n\nLa régularité des entrées exclut l’erreur d’observation ; reste à choisir entre l’explication et la réponse.",
-      "links": ["maren"],
-      "image": "images/codex-le-registre-des-passages.webp",
-      "alt": "Reproduction d’une page de registre maritime ancien, colonnes datées à l’encre brune.",
-      "source": {"label": "Musée national de la Marine", "url": "https://exemple.org/collections/registre-maritime"},
-      "imageWidth": 1400,
-      "imageHeight": 1050,
-      "firstMentionChapter": 2,
-      "firstMentionBlock": "c2-b01",
-      "earliestSafeChapter": 2,
-      "earliestSafeBlock": "c2-b01",
-      "unlockChapter": 2,
-      "unlockBlock": "c2-b01",
-      "unlockPosition": 1,
-      "spoilerRisk": "modéré",
-      "delayReason": "Révèle que le mystère est documenté et récurrent ; n’a de sens qu’une fois le poste de Maren établi au chapitre 1.",
-      "editorialFunction": "Basculer le récit du portrait vers l’enquête ; récompenser le lecteur qui atteint le chapitre 2."
-    }
-  ]
+  "codex": []
 }
 </script>
 <script>
