@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="fr" data-theme="light"><head>
+<meta charset="utf-8">
+<!-- ============================================================
+     GABARIT — remplacer chaque valeur AVANT le premier commit.
+     Les 11 meta book:* alimentent le catalogue (voir
+     ateliers/roman-atelier/WORKFLOW.md §« Le <head> obligatoire »).
+     Vocabulaires fermés (docs/bibliotheque/CATALOGUE.md) :
+       genre    : science-fiction | fantasy | fantastique | anticipation |
+                  espionnage | policier | aventure | comédie dramatique |
+                  drame | histoire | société | sciences | portrait
+       format   : texte | illustré
+       tonalite : lumineuse | douce-amère | contemplative | ironique |
+                  tendue | sombre
+       exigence : accessible | intermédiaire | exigeante
+       audience : tout public | ados et adultes | adultes
+       capacites: codex | carte | relations | choix | audio (liste séparée par
+                  des virgules — ne déclarer que ce que le livre offre vraiment ;
+                  `carte` et `relations` sont exigées dès que l'îlot porte le
+                  module correspondant, et interdites sinon)
+     tags : 2 à 4 thèmes libres (thème, lieu, motif) qui ne redisent jamais un
+     champ ci-dessus ni la nature.
+     La nature (fiction/reportage) ne se déclare pas : elle est dérivée de
+     book:workflow par scripts/build_catalog.py.
+     ============================================================ -->
+<meta name="book:title" content="Titre complet du livre">
+<meta name="book:author" content="Nom du modèle qui écrit">
+<meta name="book:description" content="Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue.">
+<meta name="book:tags" content="thème, lieu, motif">
+<meta name="book:date" content="AAAA-MM-JJ">
+<meta name="book:genre" content="science-fiction">
+<meta name="book:format" content="illustré">
+<meta name="book:tonalite" content="contemplative">
+<meta name="book:exigence" content="intermédiaire">
+<meta name="book:audience" content="tout public">
+<!-- Cas rare — autre édition d'un livre déjà publié : décommenter et renseigner
+     le slug du livre source (moratoire sur les doublons : voir le WORKFLOW).
+<meta name="book:variant-of" content="slug-du-livre-source">
+-->
+<meta name="book:workflow" content="roman-atelier v7">
+<meta name="book:capacites" content="codex, carte, relations">
+<meta name="reader-engine" content="atelier-liseuse v3">
+<title>Titre complet du livre</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue.">
+<meta name="theme-color" content="#14181a">
+<style>
+:root{--ivory:#eef0ec;--paper:#f9faf7;--ink:#14181a;--muted:#5b6663;--blue:#135e63;--yellow:#d9a13b;--red:#a83c2e;--pink:#8fa9b4;--line:#c3cbc4;--panel:#f4f6f1;--scale:1;color-scheme:light}
+[data-theme="dark"]{--ivory:#131619;--paper:#1b2023;--ink:#e9ece6;--muted:#a9b3ac;--blue:#6fc4c9;--yellow:#e5b34f;--red:#ff8a75;--pink:#9fb8c2;--line:#4a5352;--panel:#21272a;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--ivory)}body{margin:0;color:var(--ink);background:var(--ivory);font:calc(18px * var(--scale))/1.72 Georgia,"Times New Roman",serif}button,input{font:inherit;color:inherit}button{cursor:pointer}img{max-width:100%}[hidden]{display:none!important}
+.skip{position:fixed;z-index:200;left:.75rem;top:.75rem;transform:translateY(-180%);padding:.55rem .8rem;background:var(--yellow);color:#14181a}.skip:focus{transform:none}:focus-visible{outline:3px solid var(--yellow);outline-offset:4px}
+.top{position:sticky;z-index:60;top:0;display:flex;align-items:center;gap:.55rem;min-height:3.2rem;padding:.5rem max(1rem,env(safe-area-inset-left));border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--ivory) 92%,transparent);backdrop-filter:blur(12px)}.brand{margin-right:auto;font:800 .83rem/1.1 system-ui,sans-serif;letter-spacing:.02em}.control,.pill,.toc button,.entry-link{border:1px solid var(--line);background:var(--panel);padding:.38rem .68rem}.control,.pill{border-radius:999px}.control{min-width:2.5rem}
+.progress{position:fixed;z-index:90;inset:0 0 auto;height:4px}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--yellow));transition:width .2s}
+.home{min-height:calc(100vh - 3.2rem);display:grid;grid-template-columns:minmax(19rem,.9fr) minmax(20rem,1.1fr);background:#0d1416}.cover{position:relative;min-height:44rem;overflow:hidden}.cover img{display:block;width:100%;height:100%;object-fit:cover}.cover:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 55%,#0d1416 100%);pointer-events:none}.home-copy{position:relative;display:flex;justify-content:center;flex-direction:column;padding:clamp(2rem,7vw,7rem);color:#eef0e8;background:#0d1416}.home-copy:before{content:"";position:absolute;width:clamp(7rem,17vw,15rem);aspect-ratio:1;border-radius:50%;border:3px solid #d9a13b;right:6%;top:7%;opacity:.85}.home-copy:after{content:"";position:absolute;width:clamp(4rem,9vw,8rem);aspect-ratio:1;border-radius:50%;border:1px solid #d9a13b;right:16%;top:22%;opacity:.5}.eyebrow{position:relative;font:750 .72rem/1.2 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.17em;color:#d9a13b}.home h1{position:relative;max-width:10ch;margin:.5rem 0 1.2rem;font-size:clamp(3.2rem,8vw,7.2rem);font-weight:500;line-height:.82;letter-spacing:-.045em}.deck{position:relative;max-width:36rem;font-size:1.08rem}.primary{position:relative;align-self:flex-start;margin-top:1.2rem;padding:.85rem 1.1rem;border:0;background:#d9a13b;color:#14181a;font:800 .9rem/1 system-ui,sans-serif}
+.reader-shell{display:grid;grid-template-columns:17rem minmax(0,1fr);max-width:96rem;margin:auto}.toc{position:sticky;top:3.2rem;height:calc(100vh - 3.2rem);overflow:auto;padding:2rem 1rem;border-right:1px solid var(--line);font-family:system-ui,sans-serif}.toc h2{margin:.2rem .5rem 1rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.16em;color:var(--muted)}.toc button{display:block;width:100%;margin:.3rem 0;text-align:left;border-width:0 0 0 3px;background:transparent;border-radius:0;padding:.65rem}.toc button[aria-current="page"]{border-left-color:var(--blue);color:var(--blue);font-weight:750}.toc .codex-nav{margin-top:1.2rem;border:1px solid var(--line);background:var(--panel)}
+.reader{min-width:0}.chapter-art{position:relative;margin:0;background:#0d1416;overflow:hidden}.chapter-art button{display:block;width:100%;padding:0;border:0;background:#0d1416}.chapter-art img{display:block;width:100%;height:min(62vh,45rem);object-fit:cover}.chapter-art figcaption{position:absolute;inset:auto 0 0;padding:3rem max(1.25rem,calc((100% - 43rem)/2)) 1rem;color:#fff;background:linear-gradient(transparent,#0d1416ee);font:600 .75rem/1.35 system-ui,sans-serif;pointer-events:none}.chapter{padding:clamp(2.2rem,6vw,6rem) 1.25rem 5rem}.chapter-head,.prose,.chapter-nav{max-width:43rem;margin-inline:auto}.chapter-num{font:800 .7rem/1 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.15em;color:var(--blue)}.chapter h1{margin:.5rem 0 2rem;font-size:clamp(2.7rem,7vw,5.2rem);line-height:.9;font-weight:500;letter-spacing:-.04em}.prose p{margin:0 0 1.3em;text-wrap:pretty}.prose p:first-child:first-letter{float:left;margin:.08em .15em 0 0;font-size:4.5rem;line-height:.72;color:var(--blue)}.references{display:flex;gap:.35rem;flex-wrap:wrap;margin:.35rem 0 1.3rem;padding-left:1rem;border-left:3px solid var(--yellow)}.ref{border:0;border-bottom:1px solid var(--blue);background:transparent;color:var(--blue);padding:.1rem;font:750 .73rem/1.2 system-ui,sans-serif}.locked-ref{color:var(--muted);font:650 .7rem/1.2 system-ui,sans-serif}.chapter-nav{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line)}
+.doc-figure{margin:2rem 0;border:1px solid var(--line);background:var(--panel)}.doc-figure button{display:block;width:100%;padding:0;border:0;background:#0d1416}.doc-figure img{display:block;width:100%;height:auto;max-height:70vh;object-fit:contain}.doc-figure figcaption{padding:.7rem .9rem;font:600 .78rem/1.45 system-ui,sans-serif;color:var(--muted)}.doc-figure .doc-caption{display:block;color:var(--ink)}.doc-figure .doc-source{display:block;margin-top:.25rem}.doc-source a{color:var(--blue)}
+.entry-figure{display:flex;flex-direction:column;margin:0;min-height:100%;background:#0d1416}.entry-figure .entry-image{flex:1;min-height:0}.entry-figure.doc img{object-fit:contain}.entry-figure figcaption{padding:.6rem .9rem;font:600 .73rem/1.4 system-ui,sans-serif;color:#c9d2cc}.entry-figure figcaption a{color:#8fd0d5}
+.codex{max-width:82rem;margin:auto;padding:clamp(2rem,6vw,6rem) 1.25rem 6rem}.codex-head{display:grid;grid-template-columns:1fr minmax(16rem,28rem);align-items:end;gap:2rem;margin-bottom:2rem}.codex h1{margin:.3rem 0;font-size:clamp(3rem,8vw,6rem);line-height:.86;font-weight:500}.codex-intro{max-width:42rem}.search{display:block;width:100%;margin-top:.4rem;padding:.75rem 1rem;border:1px solid var(--line);border-radius:0;background:var(--panel)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.card{display:flex;flex-direction:column;min-height:18rem;padding:1rem;border:1px solid var(--line);background:var(--panel)}.card:nth-child(4n+1){border-top:6px solid var(--blue)}.card:nth-child(4n+2){border-top:6px solid var(--yellow)}.card:nth-child(4n+3){border-top:6px solid var(--red)}.card:nth-child(4n){border-top:6px solid var(--pink)}.card.locked{background:transparent;color:var(--muted);border-top-color:var(--line)}.cat{font:800 .66rem/1.2 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.14em;color:var(--blue)}.card h2{margin:.5rem 0;font-size:1.5rem;line-height:1.1}.card p{margin:.2rem 0 1rem}.card button{align-self:flex-start;margin-top:auto}.empty{grid-column:1/-1;color:var(--muted)}
+dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px solid var(--line);background:var(--panel);color:var(--ink);box-shadow:0 1rem 5rem #0008}dialog::backdrop{background:#080b12d9}.close{position:sticky;z-index:4;top:.65rem;float:right;width:2.7rem;height:2.7rem;margin:.65rem;border:1px solid var(--line);border-radius:50%;background:var(--panel)}.entry{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(18rem,.95fr)}.entry.no-image{grid-template-columns:1fr}.entry-image{padding:0;border:0;background:#0d1416;min-height:100%}.entry-image img{display:block;width:100%;height:100%;max-height:88vh;object-fit:cover}.entry-copy{padding:clamp(1.4rem,5vw,4rem);overflow:auto}.entry-copy h2{margin:.45rem 0 1rem;font-size:clamp(2rem,5vw,4rem);line-height:.9}.entry-copy .body p{margin:0 0 1.1em}.hook{font-style:italic;color:var(--muted)}.voice{font:800 .66rem/1.4 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.13em;color:var(--blue)}.related{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:1.5rem}.image-dialog{width:min(94vw,86rem);background:#0d0f13}.image-dialog img{display:block;max-width:100%;max-height:85vh;margin:auto}.toast{position:fixed;z-index:100;left:50%;bottom:1rem;transform:translateX(-50%);max-width:calc(100% - 2rem);padding:.7rem 1rem;border:1px solid #d9a13b;background:#14181a;color:#fff;border-radius:999px;font:750 .78rem/1.2 system-ui,sans-serif}
+.sr{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home{grid-template-columns:1fr}.cover{min-height:68vh}.cover:after{background:linear-gradient(transparent 55%,#0d1416)}.home-copy{padding:2.4rem 1.25rem 4rem}.reader-shell{display:block}.toc{display:none}}
+@media(max-width:620px){body{line-height:1.65}.brand{display:none}.top{gap:.35rem}.grid,.codex-head,.entry{grid-template-columns:1fr}.chapter-art img{height:42vh}.card{min-height:13rem}.entry-image img{max-height:45vh}.home h1{font-size:clamp(2.9rem,15vw,5rem)}}
+/* Modules optionnels (v3) : carte et graphe de relations */
+.module{max-width:58rem;margin:auto;padding:clamp(2rem,6vw,6rem) 1.25rem 6rem}.module-head{max-width:46rem;margin-bottom:1.6rem}.module h1{margin:.3rem 0;font-size:clamp(2.6rem,7vw,5rem);line-height:.88;font-weight:500}.module-intro{color:var(--muted)}.viz{border:1px solid var(--line);background:var(--panel)}.viz svg{display:block;width:100%;height:auto}.viz text{font-family:system-ui,sans-serif;font-size:1.5px;font-weight:650;fill:var(--ink);paint-order:stroke;stroke:var(--panel);stroke-width:.5;stroke-linejoin:round}.viz-count{margin:.7rem 0 .2rem;font:750 .72rem/1.3 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.viz-list{margin:.4rem 0 0;padding:0;list-style:none;font-family:system-ui,sans-serif;font-size:.92rem}.viz-list li{padding:.55rem 0;border-top:1px solid var(--line)}.viz-list .viz-hook,.viz-list .viz-nature{color:var(--muted)}.shape-eau{fill:color-mix(in srgb,var(--pink) 34%,var(--panel));stroke:none}.shape-terre{fill:color-mix(in srgb,var(--yellow) 18%,var(--panel));stroke:var(--line);stroke-width:.2}.shape-route{fill:none;stroke:var(--yellow);stroke-width:.35;stroke-dasharray:1.4 1}.shape-limite{fill:none;stroke:var(--line);stroke-width:.3;stroke-dasharray:.6 .9}.spot circle,.node circle{fill:var(--blue);stroke:var(--paper);stroke-width:.3}.spot[role="button"],.node[role="button"]{cursor:pointer}.spot.locked circle,.node.locked circle{fill:none;stroke:var(--line);stroke-width:.3;stroke-dasharray:.7 .7}.spot:focus-visible,.node:focus-visible{outline:none}.spot:focus-visible circle,.node:focus-visible circle,.spot[role="button"]:hover circle,.node[role="button"]:hover circle{fill:var(--yellow);stroke:var(--ink);stroke-width:.35}.edge{stroke:var(--muted);stroke-width:.25}
+@media(max-width:900px){.viz text{font-size:2.2px}}
+@media(max-width:620px){.viz text{font-size:3px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+/* Mode impression (v3) : la vue affichée s'imprime sans le mobilier de la liseuse */
+@media print{@page{margin:18mm}html,body{background:#fff;color:#000;font-size:11pt;line-height:1.5}.skip,.progress,.toc,.chapter-nav,.references,.toast,dialog,.primary,.cover,.search,.card.locked,.viz-count,.top button{display:none!important}.top{position:static;min-height:0;padding:0 0 .5rem;border-bottom:1px solid #999;background:none;backdrop-filter:none}.brand{display:block;font:750 10pt/1.3 system-ui,sans-serif}.home{display:block;min-height:0;background:#fff}.home-copy{display:block;padding:0;color:#000;background:#fff}.home-copy:before,.home-copy:after{display:none}.home h1{max-width:none;font-size:28pt;letter-spacing:-.02em}.eyebrow{color:#000}.reader-shell,.grid{display:block}.chapter,.codex,.module{padding:0}.chapter h1,.codex h1,.module h1{font-size:22pt;margin:.2rem 0 1rem}.prose p{orphans:3;widows:3}.prose p:first-child:first-letter{color:#000}.chapter-art,.doc-figure,.card,.viz,.viz-list li{break-inside:avoid}.chapter-art,.doc-figure{border:0;background:none}.chapter-art img{height:auto;max-height:9cm;object-fit:contain}.chapter-art figcaption{position:static;padding:.3rem 0;color:#000;background:none}.card{min-height:0;padding:.5rem 0;border:0;border-top:1px solid #999}.card button{display:none}a{color:#000;text-decoration:underline}.doc-source a:after{content:" (" attr(href) ")";font-size:8pt}}
+</style></head><body>
+<a class="skip" href="#main">Aller au contenu</a>
+<div class="progress" id="progress" role="progressbar" aria-label="Progression de lecture" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="bar"></span></div>
+<header class="top"><button class="control" id="home-btn" aria-label="Accueil">⌂</button><span class="brand" id="brand"></span><button class="pill" id="codex-btn">Codex</button><button class="pill" id="map-btn" hidden>Carte</button><button class="pill" id="relations-btn" hidden>Relations</button><button class="control" id="font-down" aria-label="Réduire la taille du texte">A−</button><button class="control" id="font-up" aria-label="Augmenter la taille du texte">A+</button><button class="control" id="theme" aria-label="Changer de thème" aria-pressed="false">◐</button></header>
+<main id="main">
+<section class="view home" id="home"><div class="cover"><img id="cover-img" alt=""></div><div class="home-copy"><span class="eyebrow" id="home-eyebrow"></span><h1 id="home-title"></h1><p class="deck" id="home-deck"></p><button class="primary" id="start">Commencer ou reprendre</button></div></section>
+<section class="view reader-shell" id="reader" hidden><aside class="toc" aria-label="Sommaire"><h2>Sommaire</h2><nav id="toc-list"></nav><button class="codex-nav" id="codex-nav">Explorer le codex</button><button class="codex-nav" id="map-nav" hidden>Voir la carte</button><button class="codex-nav" id="relations-nav" hidden>Voir les relations</button></aside><article class="reader"><figure class="chapter-art" id="chapter-art" hidden></figure><div class="chapter" id="chapter-body"></div></article></section>
+<section class="view codex" id="codex" hidden><header class="codex-head"><div><span class="eyebrow" id="codex-eyebrow"></span><h1>Codex</h1><p class="codex-intro" id="codex-intro"></p></div><label>Rechercher dans les notices débloquées<input class="search" id="search" type="search" autocomplete="off" placeholder="Nom, lieu, concept…"></label></header><div class="grid" id="codex-grid"></div></section>
+<section class="view module" id="map" hidden><header class="module-head"><span class="eyebrow" id="map-eyebrow"></span><h1 id="map-title">Carte</h1><p class="module-intro" id="map-intro"></p></header><div class="viz"><svg id="map-svg" viewBox="0 0 100 72" role="group" aria-label="Carte des lieux du récit"></svg></div><p class="viz-count" id="map-count"></p><ul class="viz-list" id="map-list"></ul></section>
+<section class="view module" id="relations" hidden><header class="module-head"><span class="eyebrow" id="relations-eyebrow"></span><h1 id="relations-title">Relations</h1><p class="module-intro" id="relations-intro"></p></header><div class="viz"><svg id="relations-svg" viewBox="0 0 100 72" role="group" aria-label="Graphe des relations entre les entités du récit"></svg></div><p class="viz-count" id="relations-count"></p><ul class="viz-list" id="relations-list"></ul></section>
+</main>
+<dialog id="entry-dialog" aria-labelledby="entry-title"><button class="close" id="entry-close" aria-label="Fermer">×</button><div id="entry-content"></div></dialog>
+<dialog class="image-dialog" id="image-dialog" aria-label="Illustration agrandie"><button class="close" id="image-close" aria-label="Fermer l’image">×</button><img id="large-image" alt=""></dialog>
+<div class="toast" id="toast" hidden></div><div class="sr" id="announcer" aria-live="polite" aria-atomic="true"></div>
+<!-- ============================================================
+     ÎLOT DE DONNÉES — tout le récit vit ici.
+     Spécification normative des champs : livres/_template/DONNEES.md
+     L'exemple ci-dessous est minimal (2 chapitres, 4 notices, les deux
+     modules optionnels) et illustre chaque champ ; le remplacer
+     intégralement — un livre sans carte ni graphe supprime les blocs
+     « map » et « relations » (les vues disparaissent d'elles-mêmes).
+     ============================================================ -->
+<script type="application/json" id="book-data">
+{
+  "meta": {
+    "slug": "_template",
+    "title": "Titre complet du livre",
+    "author": "Nom du modèle qui écrit",
+    "description": "Résumé en une ou deux phrases (≤ 600 caractères), destiné à la carte du catalogue.",
+    "tags": ["genre", "thème", "lieu"],
+    "date": "AAAA-MM-JJ",
+    "language": "fr",
+    "edition": "Roman explorable",
+    "codexLabel": "Carnet d’exemple",
+    "codexVoice": "Qui tient le codex, sur quel ton, à partir de quelles sources — cette voix située donne sa couleur à toutes les notices."
+  },
+  "world": {
+    "emotionalPromise": "Ce que le lecteur doit éprouver en refermant le livre (une phrase).",
+    "centralIdea": "L’idée centrale du récit, en une phrase affirmative.",
+    "satellites": [
+      "Une idée secondaire qui orbite autour de l’idée centrale.",
+      "Une autre idée secondaire (2 à 5 satellites)."
+    ],
+    "thematicQuestion": "La question que le récit pose sans y répondre à la place du lecteur ?"
+  },
+  "entityAudit": {
+    "excluded": [
+      {"label": "Entité citée dans le texte mais sans notice", "reason": "Pourquoi elle n’a pas de notice (couverte par une autre, purement fonctionnelle…)."}
+    ]
+  },
+  "cover": {
+    "image": "../../couvertures/_template.webp",
+    "catalogImage": "couvertures/_template.webp",
+    "alt": "Description de la couverture pour les lecteurs d’écran."
+  },
+  "map": {
+    "label": "La côte de Kervel",
+    "eyebrow": "Repères progressifs",
+    "intro": "Les lieux rencontrés dans le récit ouvrent leur notice ; les autres restent en pointillé.",
+    "viewBox": "0 0 100 72",
+    "shapes": [
+      {"kind": "eau", "d": "M0,0 H100 V72 H0 Z"},
+      {"kind": "terre", "d": "M0,50 Q20,42 38,47 T70,43 Q88,47 100,58 L100,72 L0,72 Z"},
+      {"kind": "route", "d": "M18,66 C34,60 48,57 63,53"}
+    ],
+    "places": [
+      {"codexId": "phare-de-kervel", "x": 74, "y": 26, "label": "Le phare"},
+      {"codexId": "kervel", "x": 30, "y": 60, "label": "Kervel"}
+    ]
+  },
+  "relations": {
+    "label": "Autour de la gardienne",
+    "eyebrow": "Liens révélés",
+    "intro": "Les entités du codex et leurs liens apparaissent au rythme de leur révélation dans le récit.",
+    "nodes": [
+      {"codexId": "maren", "x": 50, "y": 16},
+      {"codexId": "phare-de-kervel", "x": 22, "y": 46},
+      {"codexId": "kervel", "x": 50, "y": 62},
+      {"codexId": "le-registre-des-passages", "x": 78, "y": 46}
+    ],
+    "links": [
+      {"from": "maren", "to": "phare-de-kervel", "nature": "Gardienne du phare depuis vingt ans, douze ans après son extinction"},
+      {"from": "maren", "to": "kervel", "nature": "Du village sans en être : on lui laisse son feu inutile"},
+      {"from": "maren", "to": "le-registre-des-passages", "nature": "Tient le registre chaque nuit de tempête", "unlockBlock": "c2-b01"},
+      {"from": "phare-de-kervel", "to": "kervel", "nature": "Phare rattaché au village, éteint par décision administrative"}
+    ]
+  },
+  "chapters": [
+    {
+      "id": "chapitre-1",
+      "number": 1,
+      "title": "Le seuil",
+      "image": "images/chapter-01.webp",
+      "alt": "La gardienne du phare regarde la mer d’hiver depuis la coursive, une lampe-tempête à la main.",
+      "visualDescription": "Plan large depuis la coursive d’un phare, fin de journée d’hiver ; une femme d’une cinquantaine d’années, manteau de laine, tient une lampe-tempête ; mer grise agitée, lumière rasante dorée sur les embruns.",
+      "blocks": [
+        {
+          "id": "c1-b01",
+          "text": "Maren monta les cent quarante marches sans compter, comme on récite une prière apprise avant les mots. Le phare de Kervel n’éclairait plus les navires depuis douze ans ; il n’éclairait plus qu’elle.",
+          "mentions": ["maren", "phare-de-kervel"]
+        },
+        {
+          "id": "c1-b02",
+          "text": "En bas, le village avait cessé de poser des questions. On laissait à la gardienne son feu inutile, ses registres, ses silences — et cette pièce fermée au sommet, dont personne n’avait vu la clé.",
+          "mentions": ["kervel"]
+        }
+      ]
+    },
+    {
+      "id": "chapitre-2",
+      "number": 2,
+      "title": "Le registre",
+      "blocks": [
+        {
+          "id": "c2-b01",
+          "text": "Le registre des passages ne mentait pas : chaque nuit de tempête depuis douze ans, une ligne de plus, une lumière aperçue au large là où aucune carte ne plaçait de feu. Maren notait, datait, refermait le cahier.",
+          "mentions": ["le-registre-des-passages"],
+          "figure": {
+            "image": "images/figure-c2-b01.webp",
+            "alt": "Double page manuscrite d’un registre maritime : colonnes de dates et d’observations, une ligne soulignée signale une lumière au large.",
+            "caption": "Un registre de veille du XIXᵉ siècle, semblable à celui que tient la gardienne : chaque observation est datée et signée.",
+            "source": {"label": "Archives nationales — fonds des Phares et Balises", "url": "https://exemple.org/archives/registres-de-veille"},
+            "imageWidth": 1200,
+            "imageHeight": 1600,
+            "origin": "Champ libre [éditorial] : licence, page consultée, date de récupération — voir DONNEES.md."
+          }
+        },
+        {
+          "id": "c2-b02",
+          "text": "Elle savait ce que le village ignorait : la pièce fermée n’était pas vide. Elle répondait.",
+          "mentions": []
+        }
+      ]
+    }
+  ],
+  "codex": [
+    {
+      "id": "maren",
+      "title": "Maren Solvay",
+      "category": "personnage",
+      "hook": "La gardienne d’un phare éteint, qui tient un registre que personne ne lui demande.",
+      "text": "Gardienne du phare de Kervel depuis vingt ans, restée en poste douze ans après l’extinction officielle du feu.\n\nLe carnet la décrit méthodique, peu liante, exacte — de cette exactitude qui sert autant à consigner qu’à ne pas dire.",
+      "links": ["phare-de-kervel"],
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b01",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b01",
+      "unlockChapter": 1,
+      "unlockBlock": "c1-b01",
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Ancrer la protagoniste et le mystère du poste maintenu après l’extinction."
+    },
+    {
+      "id": "phare-de-kervel",
+      "title": "Le phare de Kervel",
+      "category": "lieu",
+      "hook": "Un feu éteint depuis douze ans, toujours gardé.",
+      "text": "Phare de haute mer rattaché au village de Kervel, éteint par décision administrative il y a douze ans, jamais désarmé.\n\nLa pièce du sommet, fermée à clé, n’apparaît sur aucun plan de l’administration des feux.",
+      "links": ["maren", "le-registre-des-passages"],
+      "image": "images/codex-phare-de-kervel.webp",
+      "alt": "Le phare de Kervel dressé sur son îlot, fenêtre du sommet éclairée alors que la lanterne est éteinte.",
+      "visualDescription": "Vue en contre-plongée d’un phare de granit sur un îlot battu par la houle, crépuscule ; la lanterne principale est éteinte mais une petite fenêtre sous la coursive est éclairée d’une lumière chaude.",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b01",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b01",
+      "unlockChapter": 1,
+      "unlockBlock": "c1-b01",
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Poser le décor unique du récit et sa contradiction fondatrice (éteint mais gardé)."
+    },
+    {
+      "id": "kervel",
+      "title": "Kervel",
+      "category": "lieu",
+      "hook": "Un village qui a cessé de poser des questions.",
+      "text": "Port de quelques centaines d’habitants, relié au phare par une digue submersible à chaque grande marée.\n\nLe carnet note que le village a arrêté de discuter le poste maintenu de la gardienne l’hiver qui a suivi l’extinction du feu — ni hostilité, ni curiosité : un arrangement.",
+      "links": ["maren", "phare-de-kervel"],
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b02",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b02",
+      "unlockChapter": 1,
+      "unlockBlock": "c1-b02",
+      "unlockPosition": 2,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner un second repère à la carte et poser le silence du village comme décor social du récit."
+    },
+    {
+      "id": "le-registre-des-passages",
+      "title": "Le registre des passages",
+      "category": "objet",
+      "hook": "Douze ans de lignes datées pour une lumière qui n’existe pas.",
+      "text": "Cahier d’administration détourné de son usage : Maren y consigne, nuit de tempête après nuit de tempête, une lumière observée au large hors de toute position cartographiée.\n\nLa régularité des entrées exclut l’erreur d’observation ; reste à choisir entre l’explication et la réponse.",
+      "links": ["maren"],
+      "image": "images/codex-le-registre-des-passages.webp",
+      "alt": "Reproduction d’une page de registre maritime ancien, colonnes datées à l’encre brune.",
+      "source": {"label": "Musée national de la Marine", "url": "https://exemple.org/collections/registre-maritime"},
+      "imageWidth": 1400,
+      "imageHeight": 1050,
+      "firstMentionChapter": 2,
+      "firstMentionBlock": "c2-b01",
+      "earliestSafeChapter": 2,
+      "earliestSafeBlock": "c2-b01",
+      "unlockChapter": 2,
+      "unlockBlock": "c2-b01",
+      "unlockPosition": 1,
+      "spoilerRisk": "modéré",
+      "delayReason": "Révèle que le mystère est documenté et récurrent ; n’a de sens qu’une fois le poste de Maren établi au chapitre 1.",
+      "editorialFunction": "Basculer le récit du portrait vers l’enquête ; récompenser le lecteur qui atteint le chapitre 2."
+    }
+  ]
+}
+</script>
+<script>
+const book=JSON.parse(document.getElementById("book-data").textContent);
+const SLUG=book.meta.slug;
+const KEY=SLUG+"-state-v1";
+const saved=(()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch{return {}}})();
+const state={theme:saved.theme||((matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light"),scale:saved.scale||1,chapter:saved.chapter||book.chapters[0].id,seen:saved.seen||{},unlocked:new Set(saved.unlocked||[])};
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>{const d=document.createElement("div");d.textContent=s??"";return d.innerHTML};
+const escA=s=>esc(s).replace(/"/g,"&quot;");
+const safeHttpUrl=u=>{try{const x=new URL(u);return(x.protocol==="http:"||x.protocol==="https:")?x.href:null}catch{return null}};
+const localImagePath=p=>typeof p==="string"&&p&&!p.includes("://")&&!p.startsWith("/")&&!p.includes("..");
+const num=v=>(typeof v==="number"&&isFinite(v))?v:null;
+const svgViewBox=v=>(typeof v==="string"&&/^-?\d+(?:\.\d+)?(?:\s+-?\d+(?:\.\d+)?){3}$/.test(v.trim()))?v.trim():"0 0 100 72";
+const SHAPE_KINDS=["eau","terre","route","limite"];
+const pathD=v=>(typeof v==="string"&&v.length<=4000&&/^[-0-9.,\sMmLlHhVvCcSsQqTtAaZz]+$/.test(v))?v.trim():null;
+const sourceHtml=s=>{if(!s||!s.label)return"";const u=safeHttpUrl(s.url);return "Source : "+(u?'<a href="'+escA(u)+'" target="_blank" rel="noopener noreferrer">'+esc(s.label)+"</a>":esc(s.label))};
+const persist=()=>localStorage.setItem(KEY,JSON.stringify({theme:state.theme,scale:state.scale,chapter:state.chapter,seen:state.seen,unlocked:[...state.unlocked]}));
+const entry=id=>book.codex.find(x=>x.id===id);
+let lastFocus=null,observer=null;
+function blockLocation(id){for(const c of book.chapters){const i=c.blocks.findIndex(b=>b.id===id);if(i>=0)return{chapter:c,position:i+1}}return null}
+function blockReached(id){const loc=blockLocation(id);return !!loc&&((state.seen[loc.chapter.number]||0)>=loc.position)}
+function reached(x){return blockReached(x.unlockBlock)}
+const mapPlaces=()=>((book.map&&book.map.places)||[]).filter(p=>entry(p.codexId)&&num(p.x)!==null&&num(p.y)!==null);
+const relNodes=()=>((book.relations&&book.relations.nodes)||[]).filter(n=>entry(n.codexId));
+const hasMap=()=>mapPlaces().length>0,hasRelations=()=>relNodes().length>0;
+const nodeTitle=(holder,id)=>holder&&holder.label?holder.label:(entry(id)?entry(id).title:id);
+function wireOpeners(root){$$("[data-open-entry]",root).forEach(el=>{const id=el.dataset.openEntry;el.onclick=()=>openEntry(id);el.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openEntry(id)}}})}
+function refreshRefs(){$$("[data-entry]").forEach(b=>{const x=entry(b.dataset.entry);if(!x){b.remove();return}const open=state.unlocked.has(x.id);b.disabled=!open;b.className=open?"ref":"ref locked-ref";b.textContent=open?x.title:"Notice à venir"})}
+function syncUnlocks(announce=false){for(const x of book.codex){if(reached(x)&&!state.unlocked.has(x.id)){state.unlocked.add(x.id);if(announce){$("#announcer").textContent="Nouvelle notice débloquée : "+x.title;const t=$("#toast");t.textContent="Codex débloqué · "+x.title;t.hidden=false;clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.hidden=true,3000)}}}refreshRefs();persist()}
+function applyPrefs(){document.documentElement.dataset.theme=state.theme;document.documentElement.style.setProperty("--scale",state.scale);$("#theme").setAttribute("aria-pressed",state.theme==="dark");$("#theme").textContent=state.theme==="dark"?"☀":"◐"}
+function show(id){$$(".view").forEach(v=>v.hidden=v.id!==id);scrollTo(0,0)}
+function go(hash){if(location.hash===hash)route();else location.hash=hash}
+function route(){const raw=decodeURIComponent(location.hash.slice(1));if(!raw){show("home");return}const [kind,id,block]=raw.split("/");if(kind==="chapter"&&book.chapters.some(c=>c.id===id)){renderChapter(id,block);return}if(kind==="codex"){renderCodex($("#search").value);show("codex");if(id)requestAnimationFrame(()=>openEntry(id));return}if(kind==="map"&&hasMap()){renderMap();show("map");return}if(kind==="relations"&&hasRelations()){renderRelations();show("relations");return}show("home")}
+function renderHome(){$("#brand").textContent=book.meta.title;$("#home-title").textContent=book.meta.title;$("#home-deck").textContent=book.meta.description;$("#home-eyebrow").textContent=(book.meta.edition?book.meta.edition+" · ":"")+book.chapters.length+" chapitres";$("#codex-eyebrow").textContent=book.meta.codexLabel||"Codex";$("#codex-intro").textContent=book.meta.codexVoice||"";const ci=$("#cover-img");if(book.cover?.image){ci.src=book.cover.image;ci.alt=book.cover.alt||"";ci.onerror=()=>{ci.hidden=true}}else{ci.hidden=true}}
+function renderToc(){const n=$("#toc-list");n.innerHTML=book.chapters.map(c=>'<button data-go="'+c.id+'">Chapitre '+c.number+'<br><strong>'+esc(c.title)+'</strong></button>').join("");$$("[data-go]",n).forEach(b=>b.onclick=()=>go("#chapter/"+b.dataset.go))}
+function setSeen(chapter,position){state.seen[chapter.number]=Math.max(state.seen[chapter.number]||0,position);state.chapter=chapter.id;syncUnlocks(true);updateProgress()}
+function updateProgress(){const total=book.chapters.reduce((n,c)=>n+c.blocks.length,0);let done=0;for(const c of book.chapters)done+=Math.min(c.blocks.length,state.seen[c.number]||0);const pct=Math.round(done/total*100);$("#bar").style.width=pct+"%";$("#progress").setAttribute("aria-valuenow",pct)}
+function refs(block){const ids=(block.mentions||[]).filter(id=>entry(id));if(!ids.length)return"";return '<div class="references" aria-label="Références contextuelles">'+ids.map(id=>{const open=state.unlocked.has(id);return '<button class="'+(open?'ref':'ref locked-ref')+'" data-entry="'+id+'"'+(open?'':' disabled')+'>'+(open?esc(entry(id).title):'Notice à venir')+'</button>'}).join("")+'</div>'}
+function figureHtml(block){const f=block.figure;if(!f||!localImagePath(f.image)||!f.alt||!f.caption)return"";const dims=(f.imageWidth&&f.imageHeight)?' width="'+(+f.imageWidth)+'" height="'+(+f.imageHeight)+'"':"";const src=sourceHtml(f.source);return '<figure class="doc-figure"><button data-zoom="'+escA(f.image)+'" aria-label="Agrandir le document"><img src="'+escA(f.image)+'" alt="'+escA(f.alt)+'"'+dims+' loading="lazy"></button><figcaption><span class="doc-caption">'+esc(f.caption)+'</span>'+(src?'<span class="doc-source">'+src+'</span>':'')+'</figcaption></figure>'}
+function renderChapter(id,deep){observer?.disconnect();const c=book.chapters.find(x=>x.id===id),idx=book.chapters.indexOf(c),last=book.chapters.length-1;state.chapter=id;persist();const art=$("#chapter-art");if(c.image){art.hidden=false;art.innerHTML='<button data-zoom="'+c.image+'" aria-label="Agrandir l’illustration"><img src="'+c.image+'" alt="'+esc(c.alt)+'" width="'+(c.imageWidth||1600)+'" height="'+(c.imageHeight||900)+'"'+(idx?' loading="lazy"':'')+'></button><figcaption>'+esc(c.alt)+'</figcaption>';$("img",art).onerror=()=>{art.hidden=true;art.innerHTML=""}}else{art.hidden=true;art.innerHTML=""}$("#chapter-body").innerHTML='<header class="chapter-head"><div class="chapter-num">Chapitre '+c.number+' sur '+book.chapters.length+'</div><h1>'+esc(c.title)+'</h1></header><div class="prose">'+c.blocks.map((b,i)=>'<p id="'+b.id+'" data-pos="'+(i+1)+'">'+esc(b.text)+'</p>'+refs(b)+figureHtml(b)).join("")+'</div><nav class="chapter-nav" aria-label="Navigation des chapitres">'+(idx?'<button class="pill" data-chapter="'+book.chapters[idx-1].id+'">← Précédent</button>':'<span></span>')+(idx<last?'<button class="pill" data-chapter="'+book.chapters[idx+1].id+'">Suivant →</button>':'<button class="pill" data-codex>Explorer le codex →</button>')+'</nav>';show("reader");$$("[data-go]").forEach(b=>b.setAttribute("aria-current",b.dataset.go===id?"page":"false"));$$("[data-entry]").forEach(b=>b.onclick=()=>openEntry(b.dataset.entry));$$("[data-chapter]").forEach(b=>b.onclick=()=>go("#chapter/"+b.dataset.chapter));$("[data-codex]")?.addEventListener("click",()=>go("#codex"));const zb=$("[data-zoom]",art);if(zb)zb.onclick=e=>openImage(e.currentTarget.dataset.zoom,c.alt);$$(".doc-figure",$("#chapter-body")).forEach(fig=>{$("img",fig).onerror=()=>{fig.hidden=true};$("[data-zoom]",fig).onclick=e=>openImage(e.currentTarget.dataset.zoom,$("img",fig).alt)});observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)setSeen(c,+e.target.dataset.pos)}),{threshold:.55});$$(".prose p").forEach(p=>observer.observe(p));setSeen(c,Math.max(1,state.seen[c.number]||0));if(deep)setTimeout(()=>document.getElementById(deep)?.scrollIntoView(),50)}
+function renderMap(){const m=book.map||{},places=mapPlaces();
+$("#map-eyebrow").textContent=m.eyebrow||"Repères progressifs";$("#map-title").textContent=m.label||"Carte";$("#map-intro").textContent=m.intro||"Les lieux rencontrés dans le récit ouvrent leur notice ; les autres restent en pointillé.";
+const svg=$("#map-svg");svg.setAttribute("viewBox",svgViewBox(m.viewBox));
+const shapes=(m.shapes||[]).map(s=>{const d=pathD(s.d);return (d&&SHAPE_KINDS.includes(s.kind))?'<path class="shape-'+s.kind+'" d="'+escA(d)+'"/>':""}).join("");
+const spots=places.map(p=>{const x=+p.x,y=+p.y,open=state.unlocked.has(p.codexId),label=nodeTitle(p,p.codexId),anchor=["start","middle","end"].includes(p.labelAnchor)?p.labelAnchor:(x>50?"end":"start"),dx=anchor==="end"?-2.5:anchor==="middle"?0:2.5,dy=anchor==="middle"?-2.8:.9;
+return '<g class="spot'+(open?"":" locked")+'"'+(open?' data-open-entry="'+escA(p.codexId)+'" role="button" tabindex="0" aria-label="'+escA(label+" — ouvrir la notice")+'"':' role="img" aria-label="Lieu non découvert"')+'><circle cx="'+x+'" cy="'+y+'" r="1.7"/>'+(open?'<text x="'+(x+dx)+'" y="'+(y+dy)+'" text-anchor="'+anchor+'">'+esc(label)+'</text>':"")+'</g>'}).join("");
+svg.innerHTML=shapes+spots;
+const found=places.filter(p=>state.unlocked.has(p.codexId));
+$("#map-count").textContent=found.length+" lieu"+(found.length>1?"x":"")+" découvert"+(found.length>1?"s":"")+" sur "+places.length;
+$("#map-list").innerHTML=found.length?found.map(p=>'<li><button class="entry-link" data-open-entry="'+escA(p.codexId)+'">'+esc(nodeTitle(p,p.codexId))+'</button> <span class="viz-hook">'+esc(entry(p.codexId).hook||"")+'</span></li>').join(""):'<li class="empty">Aucun lieu n\u2019est encore découvert.</li>';
+wireOpeners($("#map"))}
+function renderRelations(){const r=book.relations||{},nodes=relNodes(),pos={};
+$("#relations-eyebrow").textContent=r.eyebrow||"Liens révélés";$("#relations-title").textContent=r.label||"Relations";$("#relations-intro").textContent=r.intro||"Les entités du codex et leurs liens apparaissent au rythme de leur révélation dans le récit.";
+nodes.forEach((n,i)=>{const a=-Math.PI/2+2*Math.PI*i/nodes.length;pos[n.codexId]=[num(n.x)??+(50+34*Math.cos(a)).toFixed(2),num(n.y)??+(36+26*Math.sin(a)).toFixed(2)]});
+const open=id=>!!pos[id]&&state.unlocked.has(id);
+const links=(r.links||[]).filter(l=>open(l.from)&&open(l.to)&&l.from!==l.to&&(!l.unlockBlock||blockReached(l.unlockBlock)));
+const svg=$("#relations-svg");svg.setAttribute("viewBox",svgViewBox(r.viewBox));
+svg.innerHTML=links.map(l=>{const a=pos[l.from],b=pos[l.to];return '<line class="edge" x1="'+a[0]+'" y1="'+a[1]+'" x2="'+b[0]+'" y2="'+b[1]+'"><title>'+esc(l.nature||"")+'</title></line>'}).join("")
++nodes.map(n=>{const p=pos[n.codexId],shown=open(n.codexId),label=nodeTitle(n,n.codexId);
+return '<g class="node'+(shown?"":" locked")+'"'+(shown?' data-open-entry="'+escA(n.codexId)+'" role="button" tabindex="0" aria-label="'+escA(label+" — ouvrir la notice")+'"':' role="img" aria-label="Entité non révélée"')+'><circle cx="'+p[0]+'" cy="'+p[1]+'" r="2.4"/>'+(shown?'<text x="'+p[0]+'" y="'+(p[1]+6)+'" text-anchor="middle">'+esc(label)+'</text>':"")+'</g>'}).join("");
+const revealed=nodes.filter(n=>open(n.codexId)).length;
+$("#relations-count").textContent=revealed+" entité"+(revealed>1?"s":"")+" révélée"+(revealed>1?"s":"")+" sur "+nodes.length+" · "+links.length+" lien"+(links.length>1?"s":"");
+$("#relations-list").innerHTML=links.length?links.map(l=>'<li><strong>'+esc(nodeTitle(nodes.find(n=>n.codexId===l.from),l.from))+' — '+esc(nodeTitle(nodes.find(n=>n.codexId===l.to),l.to))+'</strong><br><span class="viz-nature">'+esc(l.nature||"Lien non qualifié")+'</span></li>').join(""):'<li class="empty">Aucun lien n\u2019est encore révélé.</li>';
+wireOpeners($("#relations"))}
+function renderCodex(q=""){syncUnlocks();q=q.trim().toLowerCase();const list=book.codex.filter(x=>!q||!state.unlocked.has(x.id)||[x.title,x.category,x.hook,x.text].join(" ").toLowerCase().includes(q));$("#codex-grid").innerHTML=list.length?list.map(x=>state.unlocked.has(x.id)?'<article class="card"><span class="cat">'+esc(x.category)+'</span><h2>'+esc(x.title)+'</h2><p>'+esc(x.hook)+'</p><button class="entry-link" data-open="'+x.id+'">Consulter</button></article>':'<article class="card locked" aria-label="Notice verrouillée"><span class="cat">'+esc(x.category)+'</span><h2>Notice verrouillée</h2><p>Se révèle au fil du récit.</p></article>').join(""):'<p class="empty">Aucune notice débloquée ne correspond.</p>';$$("[data-open]").forEach(b=>b.onclick=()=>openEntry(b.dataset.open))}
+function openEntry(id){const x=entry(id);if(!x||!state.unlocked.has(id))return;lastFocus=document.activeElement;const hasImg=localImagePath(x.image);const credit=hasImg?sourceHtml(x.source):"";$("#entry-content").innerHTML='<div class="entry'+(hasImg?'':' no-image')+'">'+(hasImg?'<figure class="entry-figure'+(credit?' doc':'')+'"><button class="entry-image" data-zoom="'+escA(x.image)+'" aria-label="Agrandir l’illustration"><img src="'+escA(x.image)+'" alt="'+escA(x.alt||"")+'" width="'+(x.imageWidth||1600)+'" height="'+(x.imageHeight||900)+'" loading="lazy"></button>'+(credit?'<figcaption class="doc-source">'+credit+'</figcaption>':'')+'</figure>':'')+'<div class="entry-copy"><div class="voice">'+esc(book.meta.codexLabel||"Codex")+' · '+esc(x.category)+'</div><h2 id="entry-title">'+esc(x.title)+'</h2><p class="hook">'+esc(x.hook)+'</p><div class="body">'+x.text.split(/\n\n+/).map(t=>'<p>'+esc(t)+'</p>').join("")+'</div><div class="related">'+x.links.filter(id=>state.unlocked.has(id)&&entry(id)).map(id=>'<button class="entry-link" data-related="'+id+'">'+esc(entry(id).title)+'</button>').join("")+'</div></div></div>';const d=$("#entry-dialog");d.showModal();const zb=$("[data-zoom]",d);if(zb){const im=$("img",zb);im.onerror=()=>{$(".entry-figure",d)?.remove();$(".entry",d)?.classList.add("no-image")};zb.onclick=e=>openImage(e.currentTarget.dataset.zoom,x.alt||"")}$$("[data-related]",d).forEach(b=>b.onclick=()=>{d.close();setTimeout(()=>openEntry(b.dataset.related),0)});if(!$("#codex").hidden)history.replaceState(null,"","#codex/"+id)}
+function openImage(src,alt){lastFocus=document.activeElement;$("#large-image").src=src;$("#large-image").alt=alt;$("#image-dialog").showModal()}
+function closeDialog(d){d.close();lastFocus?.focus()}
+function trap(e,d){if(e.key!=="Tab")return;const f=$$("button,[href],input,[tabindex]:not([tabindex='-1'])",d).filter(x=>!x.disabled);if(!f.length)return;const a=f[0],z=f.at(-1);if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}
+$("#start").onclick=()=>go("#chapter/"+(saved.chapter||book.chapters[0].id));$("#home-btn").onclick=()=>go("");$("#codex-btn").onclick=()=>go("#codex");$("#codex-nav").onclick=()=>go("#codex");$("#map-btn").onclick=$("#map-nav").onclick=()=>go("#map");$("#relations-btn").onclick=$("#relations-nav").onclick=()=>go("#relations");$("#theme").onclick=()=>{state.theme=state.theme==="dark"?"light":"dark";applyPrefs();persist()};$("#font-down").onclick=()=>{state.scale=Math.max(.85,+(state.scale-.1).toFixed(2));applyPrefs();persist()};$("#font-up").onclick=()=>{state.scale=Math.min(1.4,+(state.scale+.1).toFixed(2));applyPrefs();persist()};$("#search").oninput=e=>renderCodex(e.target.value);$("#entry-close").onclick=()=>closeDialog($("#entry-dialog"));$("#image-close").onclick=()=>closeDialog($("#image-dialog"));$$("dialog").forEach(d=>{d.addEventListener("keydown",e=>{if(e.key==="Escape"){e.preventDefault();closeDialog(d)}else trap(e,d)});d.addEventListener("click",e=>{if(e.target===d)closeDialog(d)})});document.addEventListener("keydown",e=>{if($("dialog[open]"))return;const i=book.chapters.findIndex(c=>c.id===state.chapter);if(e.key==="ArrowRight"&&!$("#reader").hidden&&i<book.chapters.length-1)go("#chapter/"+book.chapters[i+1].id);if(e.key==="ArrowLeft"&&!$("#reader").hidden&&i>0)go("#chapter/"+book.chapters[i-1].id)});function showModuleNav(){const m=hasMap(),r=hasRelations();$("#map-btn").hidden=$("#map-nav").hidden=!m;$("#relations-btn").hidden=$("#relations-nav").hidden=!r}
+addEventListener("hashchange",route);applyPrefs();renderHome();renderToc();showModuleNav();syncUnlocks();updateProgress();route();
+</script></body></html>
