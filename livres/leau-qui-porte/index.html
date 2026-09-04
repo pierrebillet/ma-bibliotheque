@@ -12,7 +12,7 @@
 <meta name="book:exigence" content="intermédiaire">
 <meta name="book:audience" content="tout public">
 <meta name="book:workflow" content="roman-atelier v9">
-<meta name="book:capacites" content="codex">
+<meta name="book:capacites" content="codex, carte, relations">
 <meta name="reader-engine" content="atelier-liseuse v3">
 <title>L’Eau qui porte</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -142,6 +142,285 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
     "image": "../../couvertures/leau-qui-porte.webp",
     "catalogImage": "couvertures/leau-qui-porte.webp",
     "alt": "Un bac à traille amarré sous un câble tendu au-dessus d’une rivière verte, à la lumière rasante d’un soir de fin d’été ; en aval, les piles d’un pont neuf."
+  },
+  "map": {
+    "label": "Les deux rives de Ferréol",
+    "eyebrow": "Repères progressifs",
+    "intro": "Schéma de situation : l’Aubrance coule de gauche à droite, le bourg est rive gauche (en haut), les Vergnes rive droite (en bas). Les lieux se révèlent avec leur notice.",
+    "viewBox": "0 0 100 72",
+    "shapes": [
+      {
+        "kind": "eau",
+        "d": "M0,0 H100 V72 H0 Z"
+      },
+      {
+        "kind": "terre",
+        "d": "M0,0 H100 V26 C85,29 70,27 60,30 C50,33 44,31 38,30 C28,29 12,32 0,28 Z"
+      },
+      {
+        "kind": "terre",
+        "d": "M0,72 H100 V46 C88,44 74,47 62,45 C52,43 46,46 40,45 C30,44 14,47 0,44 Z"
+      },
+      {
+        "kind": "eau",
+        "d": "M100,50 C90,56 85,62 81,72 L84,72 C87,62 92,56 100,52.5 Z"
+      },
+      {
+        "kind": "route",
+        "d": "M40,30 L42,45"
+      },
+      {
+        "kind": "route",
+        "d": "M60,29 L62,46"
+      },
+      {
+        "kind": "route",
+        "d": "M38,22 C46,21 55,23 60,29"
+      },
+      {
+        "kind": "route",
+        "d": "M42,45 C46,52 60,57 78,62 S95,68 100,70"
+      },
+      {
+        "kind": "route",
+        "d": "M44,48 C50,52 56,56 60,62"
+      },
+      {
+        "kind": "limite",
+        "d": "M55,60 H67 V68 H55 Z"
+      }
+    ],
+    "places": [
+      {
+        "codexId": "ferreol",
+        "x": 38,
+        "y": 12,
+        "label": "Le bourg"
+      },
+      {
+        "codexId": "lecole",
+        "x": 47,
+        "y": 8,
+        "label": "L'école"
+      },
+      {
+        "codexId": "la-base-vie",
+        "x": 27,
+        "y": 21,
+        "label": "Base vie"
+      },
+      {
+        "codexId": "la-maison-du-passeur",
+        "x": 35,
+        "y": 25,
+        "label": "Maison du passeur",
+        "labelAnchor": "end"
+      },
+      {
+        "codexId": "la-cale",
+        "x": 40,
+        "y": 29,
+        "label": "Les cales"
+      },
+      {
+        "codexId": "la-traille",
+        "x": 41,
+        "y": 37,
+        "label": "La traille"
+      },
+      {
+        "codexId": "laubrance",
+        "x": 18,
+        "y": 37,
+        "label": "L'Aubrance"
+      },
+      {
+        "codexId": "le-pont",
+        "x": 61,
+        "y": 37,
+        "label": "Le pont"
+      },
+      {
+        "codexId": "chez-ferrand",
+        "x": 43,
+        "y": 49,
+        "label": "Chez Ferrand"
+      },
+      {
+        "codexId": "les-vergnes",
+        "x": 50,
+        "y": 55,
+        "label": "Les Vergnes"
+      },
+      {
+        "codexId": "le-cimetiere",
+        "x": 61,
+        "y": 64,
+        "label": "Le vieux cimetière"
+      },
+      {
+        "codexId": "vaubrun",
+        "x": 94,
+        "y": 67,
+        "label": "Vers Vaubrun (12 km)",
+        "labelAnchor": "end"
+      }
+    ]
+  },
+  "relations": {
+    "label": "Autour du passeur",
+    "eyebrow": "Liens révélés",
+    "intro": "Les gens et les choses de la traversée, et ce qui les tient : chaque lien apparaît quand le récit l’a dit.",
+    "viewBox": "0 0 100 72",
+    "nodes": [
+      {
+        "codexId": "aime-roussel",
+        "x": 50,
+        "y": 32,
+        "label": "Aimé"
+      },
+      {
+        "codexId": "fernand-roussel",
+        "x": 50,
+        "y": 8,
+        "label": "Fernand"
+      },
+      {
+        "codexId": "la-patience",
+        "x": 22,
+        "y": 24,
+        "label": "La Patience"
+      },
+      {
+        "codexId": "lucien-astier",
+        "x": 20,
+        "y": 50,
+        "label": "Lucien"
+      },
+      {
+        "codexId": "nadia-ferrand",
+        "x": 38,
+        "y": 60,
+        "label": "Nadia"
+      },
+      {
+        "codexId": "tom-ferrand",
+        "x": 62,
+        "y": 60,
+        "label": "Tom"
+      },
+      {
+        "codexId": "ines-marchal",
+        "x": 80,
+        "y": 26,
+        "label": "Inès"
+      },
+      {
+        "codexId": "le-pont",
+        "x": 82,
+        "y": 50,
+        "label": "Le pont"
+      },
+      {
+        "codexId": "bernard-quere",
+        "x": 78,
+        "y": 8,
+        "label": "Quéré"
+      }
+    ],
+    "links": [
+      {
+        "from": "aime-roussel",
+        "to": "fernand-roussel",
+        "nature": "Son fils : a repris le guindeau en février 1984 et gardé la phrase"
+      },
+      {
+        "from": "fernand-roussel",
+        "to": "la-patience",
+        "nature": "L’a baptisée en 1946 et a peint son nom trop gros"
+      },
+      {
+        "from": "aime-roussel",
+        "to": "la-patience",
+        "nature": "Quarante-deux ans de service ; le nom repeint quatre fois, le e refait le dernier jour"
+      },
+      {
+        "from": "aime-roussel",
+        "to": "lucien-astier",
+        "nature": "Cinquante-cinq ans de jeudis sur le même bac ; une promesse pour le dernier passage"
+      },
+      {
+        "from": "lucien-astier",
+        "to": "nadia-ferrand",
+        "nature": "Lui a donné le cahier IX. Pas prêté : donné",
+        "unlockBlock": "c9-b10"
+      },
+      {
+        "from": "nadia-ferrand",
+        "to": "tom-ferrand",
+        "nature": "Sa mère ; il lui fait le compte des traversées chaque soir",
+        "unlockBlock": "c9-b34"
+      },
+      {
+        "from": "aime-roussel",
+        "to": "tom-ferrand",
+        "nature": "Lui apprend l’angle sur les traversées à vide, sans savoir dire pourquoi cet été"
+      },
+      {
+        "from": "tom-ferrand",
+        "to": "la-patience",
+        "nature": "Un mètre de dérive à l’accostage : un mètre de trop, dit sa mère"
+      },
+      {
+        "from": "aime-roussel",
+        "to": "ines-marchal",
+        "nature": "Deux traversées par jour, un été ; elle se place au guindeau, pas à l’avant"
+      },
+      {
+        "from": "ines-marchal",
+        "to": "le-pont",
+        "nature": "Conductrice de travaux : le livre, le reçoit, le quitte"
+      },
+      {
+        "from": "aime-roussel",
+        "to": "le-pont",
+        "nature": "L’a demandé trente-neuf fois au département, sans jamais donner son nom",
+        "unlockBlock": "c6-b46"
+      },
+      {
+        "from": "aime-roussel",
+        "to": "nadia-ferrand",
+        "nature": "L’enfant de trois ans qu’il a passée dans l’eau haute du 3 février 1985",
+        "unlockBlock": "c7-b22"
+      },
+      {
+        "from": "bernard-quere",
+        "to": "le-pont",
+        "nature": "Maire : l’attend pour le car du 22 septembre, l’inaugure le 20"
+      },
+      {
+        "from": "bernard-quere",
+        "to": "aime-roussel",
+        "nature": "Sait depuis 2023 qui a écrit, et a fait taire le conseil",
+        "unlockBlock": "c6-b25"
+      },
+      {
+        "from": "bernard-quere",
+        "to": "lucien-astier",
+        "nature": "Trois discours écrits par l’un pour l’autre ; le quatrième, non"
+      },
+      {
+        "from": "ines-marchal",
+        "to": "la-patience",
+        "nature": "L’a tirée de la ferraille en six lignes d’observations au procès-verbal",
+        "unlockBlock": "c10-b07"
+      },
+      {
+        "from": "lucien-astier",
+        "to": "ines-marchal",
+        "nature": "Lui a servi la soupe et le village dans l’ordre, sans sauter"
+      }
+    ]
   },
   "chapters": [
     {
