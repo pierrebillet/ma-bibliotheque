@@ -171,7 +171,28 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
     ]
   },
   "entityAudit": {
-    "excluded": []
+    "excluded": [
+      {
+        "label": "Assez loin",
+        "reason": "Nom de la barque de Colas, révélé au chapitre 8 après sa perte ; traité dans le récit, sans notice qui en annoncerait le nom ou le destin."
+      },
+      {
+        "label": "Le père de Bertille",
+        "reason": "Personnage sans nom propre, passé raconté au chapitre 5 ; pas de notice supplémentaire pour éviter une révélation prématurée."
+      },
+      {
+        "label": "Le jardinier des Fosses, le maître meunier, le passeur, la fille sauvée et sa mère, les équipes et les voisins",
+        "reason": "Seconds rôles non nommés ; métiers et lieux couverts par les notices existantes, pas d’identités inventées pour remplir le codex."
+      },
+      {
+        "label": "Le pont des moulins",
+        "reason": "Ouvrage mentionné dans le témoignage de Bertille ; la gorge des moulins possède une notice, ce passé reste porté par le récit."
+      },
+      {
+        "label": "La ville haute et les plateaux",
+        "reason": "Désignations géographiques descriptives sans nom propre distinct ; situées par les moulins, la retenue et la carte."
+      }
+    ]
   },
   "cover": {
     "image": "../../couvertures/la-part-du-vent.webp",
@@ -426,7 +447,9 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
         {
           "id": "c2-b14",
           "text": "— La vanne peut se reprendre. Il faut rapporter son étrier. Il est resté à la Forge des Échos.",
-          "mentions": []
+          "mentions": [
+            "forge"
+          ]
         },
         {
           "id": "c2-b15",
@@ -489,7 +512,9 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
         {
           "id": "c2-b25",
           "text": "— Je vais de toute façon aux Fosses. On m’achète la barque là-bas. Après, je monterai travailler aux greniers.",
-          "mentions": []
+          "mentions": [
+            "fosses"
+          ]
         },
         {
           "id": "c2-b26",
@@ -826,7 +851,8 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
           "id": "c4-b20",
           "text": "Au retour, je la vois attacher cette copie au paquet d’un courrier qui part vers les moulins. Le garçon porte le même petit carré blanc sur la poitrine qu’elle sur sa sacoche. Elle me regarde la regarder.",
           "mentions": [
-            "bertille"
+            "bertille",
+            "moulins"
           ]
         },
         {
@@ -2325,7 +2351,509 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
       ]
     }
   ],
-  "codex": []
+  "codex": [
+    {
+      "id": "aubine",
+      "title": "Aubine",
+      "category": "personnage",
+      "hook": "Mes mesures changent encore ; mon tablier, moins souvent.",
+      "text": "J’ai dix-sept ans. Je prends mes commandes au lavoir parce qu’on y voit les trous avant que les draps soient secs. Pour les reprises, je demande que la cliente apporte le fil ; autrement, nous passons plus de temps à discuter la couleur que le prix.\n\nJe ne suis pas maîtresse de métier. Le droit de mettre une enseigne coûte plus que ma table, et je n’ai pas encore de table à moi. J’écris tout de même mes paiements dans un carnet. Une petite somme reste une somme, surtout lorsqu’elle manque.",
+      "links": [
+        "reprise",
+        "lavoir"
+      ],
+      "unlockBlock": "c1-b13",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b01",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b13",
+      "unlockChapter": 1,
+      "unlockPosition": 13,
+      "spoilerRisk": "modéré",
+      "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
+      "editorialFunction": "Donner une existence de travailleuse à la narratrice, au-delà de la quête."
+    },
+    {
+      "id": "pinces",
+      "title": "Pinces de frêne",
+      "category": "objet",
+      "hook": "Une main de bois, pour les moments où deux ne suffisent pas.",
+      "text": "Les nôtres sont taillées d’une seule pièce : une tête épaisse, deux longues mâchoires séparées par une fente. Pas de ressort de métal. On pousse le tissu avec la corde entre les branches ; le frêne cède un peu et serre. Le bois trop sec fend à la tête, le bois trop tendre garde la marque et finit par ne plus tenir.\n\nJe réserve les plus souples aux mouchoirs. Pour les couvertures, je rapproche les attaches au lieu de demander davantage à une seule pince. Les enfants préfèrent les mâchonner. C’est ainsi qu’on reconnaît longtemps leurs dents, même lorsqu’elles sont tombées.",
+      "links": [
+        "lavoir"
+      ],
+      "unlockBlock": "c1-b08",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b01",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b08",
+      "unlockChapter": 1,
+      "unlockPosition": 8,
+      "spoilerRisk": "modéré",
+      "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
+      "editorialFunction": "Prolonger le geste du sauvetage par le savoir matériel d’un objet quotidien."
+    },
+    {
+      "id": "lavoir",
+      "title": "Le lavoir",
+      "category": "lieu",
+      "hook": "On y apporte du linge ; on en repart avec des nouvelles.",
+      "text": "L’eau entre par une rigole amont, traverse les bassins, puis repart à la rivière. Les premières dalles servent au rinçage propre. Celles du bas reçoivent les grosses lessives ; on ne remonte jamais un baquet sale à contre-sens. Ma mère sait identifier une débutante avant qu’elle ait posé son panier.\n\nLes tours de lavage se partagent à la semaine. Les tours de nouvelles, non. Pour entendre un secret, il faut se mettre près de la perche à couvertures : les gens y parlent plus fort parce que le linge claque.",
+      "links": [
+        "mado",
+        "rivebasse"
+      ],
+      "unlockBlock": "c1-b04",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b02",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b04",
+      "unlockChapter": 1,
+      "unlockPosition": 4,
+      "spoilerRisk": "modéré",
+      "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
+      "editorialFunction": "Offrir le fonctionnement sensible et social du lieu de départ."
+    },
+    {
+      "id": "mado",
+      "title": "Mado",
+      "category": "personnage",
+      "hook": "Ma mère vérifie les fonds de paniers avant les discours.",
+      "text": "Mado dit qu’un panier solide se reconnaît plein. Je soupçonne qu’elle applique cette règle aux personnes. Elle lave, rince, étend, et sait garder une place près du feu sans humilier celle à qui elle la réserve.\n\nSon geste de tressage du pain est resté dans une tenue, autrefois. Ses doigts n’ont rien de particulier lorsqu’on les regarde ; c’est lorsqu’on leur demande ce trajet précis que quelque chose manque. Elle plie désormais la pâte. Ne lui expliquez pas que c’est aussi joli : elle a des yeux. Demandez plutôt une seconde tranche.",
+      "links": [
+        "pain-plie",
+        "don"
+      ],
+      "unlockBlock": "c1-b24",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b03",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b24",
+      "unlockChapter": 1,
+      "unlockPosition": 24,
+      "spoilerRisk": "modéré",
+      "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
+      "editorialFunction": "Rendre la perte ancienne visible sans réduire Mado à cette perte."
+    },
+    {
+      "id": "tenues",
+      "title": "Les tenues",
+      "category": "savoir",
+      "hook": "Ce qui ne bouge plus a pris un mouvement à quelqu’un.",
+      "text": "Une tenue unit deux pièces à l’aide d’un anneau de terre cuite. La céramique doit les toucher, recevoir le geste volontaire du donneur et être fermée par son trait. Le geste choisi doit être précis, appris, assez maîtrisé pour être accompli sans chercher. Agiter vaguement un doigt ne fournit rien.\n\nUne fois fermée, la tenue immobilise. Elle n’ajuste pas, ne tourne pas, ne pousse pas. Si la poterie casse ou si la charge dépasse l’épreuve, elle lâche. Aucune de ces issues ne rend le geste. Je souligne cela parce que les marchands disent volontiers combien de temps un anneau durera et rarement combien de temps sa dépense restera.",
+      "links": [
+        "don",
+        "epreuves"
+      ],
+      "unlockBlock": "c3-b22",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b05",
+      "earliestSafeChapter": 3,
+      "earliestSafeBlock": "c3-b22",
+      "unlockChapter": 3,
+      "unlockPosition": 22,
+      "spoilerRisk": "modéré",
+      "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
+      "editorialFunction": "Fixer les limites opératoires de la magie avant son premier usage par Aubine."
+    },
+    {
+      "id": "colas",
+      "title": "Colas",
+      "category": "personnage",
+      "hook": "Il prétend avoir toujours prévu d’aller exactement où on le trouve.",
+      "text": "Colas transporte les légumes vers les marchés hauts. Pour les marchandises fragiles, il demande qu’on paie le trajet, pas chaque panier : sinon les clients empilent jusqu’à ne plus voir la rive. Il a dix-neuf ans et répare lui-même ses semelles avec du fil de voile.\n\nIl sait compter vite mais feint parfois de se tromper sur la monnaie des gens qui ont faim. Il se rattrape sur ceux qui veulent absolument être servis avant les autres. Je ne sais pas si c’est une règle de batelier. Lui dit que c’est une règle de calcul.",
+      "links": [
+        "rivebasse",
+        "fosses"
+      ],
+      "unlockBlock": "c2-b24",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b14",
+      "earliestSafeChapter": 2,
+      "earliestSafeBlock": "c2-b24",
+      "unlockChapter": 2,
+      "unlockPosition": 24,
+      "spoilerRisk": "modéré",
+      "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
+      "editorialFunction": "Donner à Colas une pratique économique propre sans annoncer ses décisions."
+    },
+    {
+      "id": "rivebasse",
+      "title": "Rivebasse",
+      "category": "lieu",
+      "hook": "Le quartier où le haut de la ville fait porter ses paniers.",
+      "text": "Les maisons suivent la courbe du fleuve, sous les moulins de la ville haute. On descend les marchandises vides ; on remonte rarement les charges sans reprendre son souffle à la troisième volée. Nous avons beaucoup de choses que les gens d’en haut trouvent pittoresques lorsqu’ils viennent les voir sans rien porter.\n\nLes marques rouges sont repeintes à hauteur de risque, pas à hauteur de la dernière eau. La différence paraît petite quand on l’écrit. Elle change ce qu’on comprend en passant sa porte.",
+      "links": [
+        "lavoir",
+        "moulins"
+      ],
+      "unlockBlock": "c1-b21",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b17",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b21",
+      "unlockChapter": 1,
+      "unlockPosition": 21,
+      "spoilerRisk": "modéré",
+      "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
+      "editorialFunction": "Éclairer la géographie sociale et les bornes de crue."
+    },
+    {
+      "id": "bertille",
+      "title": "Bertille",
+      "category": "personnage",
+      "hook": "Sa sacoche reste sèche même lorsque son manteau ne l’est plus.",
+      "text": "Bertille porte des messages, prend des noms et connaît l’emplacement des relais. Elle écrit sur une petite planche posée contre son avant-bras, ce qui lui permet de se tenir debout pendant que les autres cherchent une table. Sa sacoche blanche ne signifie pas que son contenu est heureux, seulement qu’il doit arriver.\n\nElle me demande de répéter lorsqu’elle a mal entendu. J’avais d’abord pris cette insistance pour une manière de commander. Il y a pourtant une différence entre écrire ce qu’une personne dit et lui prêter ce qui arrangerait la ligne.",
+      "links": [
+        "maison-des-mesures"
+      ],
+      "unlockBlock": "c1-b22",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b18",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b22",
+      "unlockChapter": 1,
+      "unlockPosition": 22,
+      "spoilerRisk": "modéré",
+      "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
+      "editorialFunction": "Peindre le travail visible de la messagère sans révéler son mandat confidentiel."
+    },
+    {
+      "id": "orane",
+      "title": "Orane, prévôte",
+      "category": "personnage",
+      "hook": "Elle laisse une place pour un bol entre les cartes.",
+      "text": "La prévôte répond des chemins, des réserves publiques et des ouvrages qui protègent plusieurs quartiers. Elle peut ordonner une évacuation et engager les équipes de la ville. Ses décisions doivent être consignées ; dire qu’une décision était urgente ne dispense pas de dire qui l’a prise.\n\nOrane ne porte pas de couronne. Son manteau gris a une agrafe de cuivre, et ses manches sont souvent roulées. Je note ces détails parce que je m’attendais à reconnaître le pouvoir à quelque chose de plus commode à détester.",
+      "links": [
+        "maison-des-mesures",
+        "retenue"
+      ],
+      "unlockBlock": "c1-b22",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b19",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b22",
+      "unlockChapter": 1,
+      "unlockPosition": 22,
+      "spoilerRisk": "modéré",
+      "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
+      "editorialFunction": "Situer l’autorité, ses obligations et sa matérialité sans dévoiler ses choix futurs."
+    },
+    {
+      "id": "reprise",
+      "title": "Le point de reprise",
+      "category": "métier",
+      "hook": "Une couture réussie est quelquefois celle que personne ne remarque.",
+      "text": "On commence par retrouver les fils encore sains autour du trou. Puis on bâtit une chaîne et on y fait passer la trame, dessus, dessous, en variant juste assez la tension pour que la pièce reste souple. Une réparation raide déchirera bientôt la toile tout autour.\n\nJe travaille à contre-jour, sur un petit cadre. Les clientes me félicitent rarement pour les bonnes reprises : elles ne les trouvent pas. Pour savoir si le travail est juste, je ferme les yeux et je passe le plat de la main. Un trou réparé ne devrait pas ressembler à un bouton.",
+      "links": [
+        "aubine",
+        "pinces"
+      ],
+      "unlockBlock": "c1-b24",
+      "firstMentionChapter": 1,
+      "firstMentionBlock": "c1-b24",
+      "earliestSafeChapter": 1,
+      "earliestSafeBlock": "c1-b24",
+      "unlockChapter": 1,
+      "unlockPosition": 24,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Faire éprouver la valeur du métier avant tout sacrifice à venir."
+    },
+    {
+      "id": "maison-des-mesures",
+      "title": "La Maison des mesures",
+      "category": "institution",
+      "hook": "Les règles y sont de bois ; leurs conséquences, moins faciles à ranger.",
+      "text": "On y conserve les poids de référence, les copies des contrats publics, les niveaux des ouvrages et les plans qu’une équipe peut demander à consulter. Les documents sortent avec un reçu. On ramène le reçu même si le document est détruit, afin qu’une absence ait au moins un nom.\n\nLe rez-de-chaussée sert aussi aux distributions pendant les alertes. Les tasses n’y sont pas toutes de même taille. C’est une contrariété dans une maison vouée aux mesures, et probablement la preuve que quelqu’un y vit.",
+      "links": [
+        "orane",
+        "epreuves"
+      ],
+      "unlockBlock": "c2-b01",
+      "firstMentionChapter": 2,
+      "firstMentionBlock": "c2-b01",
+      "earliestSafeChapter": 2,
+      "earliestSafeBlock": "c2-b01",
+      "unlockChapter": 2,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner une texture administrative et quotidienne aux institutions."
+    },
+    {
+      "id": "sabine",
+      "title": "Sabine",
+      "category": "personnage",
+      "hook": "Elle a deux crayons, parce qu’un crayon cherche toujours à disparaître.",
+      "text": "Sabine fait des portes, des escaliers et des réparations de charpente. Autrefois, elle faisait les grands ouvrages. Elle ne jette jamais une cale sans regarder où elle a porté. Les poches de son manteau sont pleines de fragments qu’elle appelle des explications.\n\nNous échangeons du travail : je recouds ce que ses outils déchirent, elle redresse le métal de mon métier. Elle tient à nous payer l’une l’autre. Une fois, je lui ai offert une réparation ; elle m’a demandé si je souhaitais qu’elle considère désormais mon temps comme gratuit.",
+      "links": [
+        "reprise",
+        "epreuves"
+      ],
+      "unlockBlock": "c2-b06",
+      "firstMentionChapter": 2,
+      "firstMentionBlock": "c2-b02",
+      "earliestSafeChapter": 2,
+      "earliestSafeBlock": "c2-b06",
+      "unlockChapter": 2,
+      "unlockPosition": 6,
+      "spoilerRisk": "modéré",
+      "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
+      "editorialFunction": "Ancrer une relation réciproque sans divulguer la faute de l’ancienne ingénieure."
+    },
+    {
+      "id": "retenue",
+      "title": "La retenue",
+      "category": "lieu",
+      "hook": "Un lac peut avoir l’air immobile tout en travaillant contre vous.",
+      "text": "Le barrage ferme une gorge en amont des moulins. Ses arches, ses poutres et ses prises retiennent un lac alimenté par les plateaux. Les ravines rejoignent aussi la rivière plus bas : fermer le barrage ne suffit donc pas à supprimer une crue dans les maisons.\n\nLes équipes relèvent le niveau et les déplacements des joints. Un trait à la craie sert moins à désigner un endroit qu’à voir s’il a cessé d’être le même. Les gens de garde restent par deux, pour vérifier ce qu’ils lisent et pour pouvoir chercher de l’aide sans abandonner le relevé.",
+      "links": [
+        "epreuves",
+        "tenues"
+      ],
+      "unlockBlock": "c2-b10",
+      "firstMentionChapter": 2,
+      "firstMentionBlock": "c2-b10",
+      "earliestSafeChapter": 2,
+      "earliestSafeBlock": "c2-b10",
+      "unlockChapter": 2,
+      "unlockPosition": 10,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Expliquer les deux origines de l’eau et la surveillance du barrage."
+    },
+    {
+      "id": "chenal",
+      "title": "Le chenal de la carrière",
+      "category": "lieu",
+      "hook": "Une route creusée pour quelque chose qui ne lit pas les panneaux.",
+      "text": "Le chenal relie la vieille vanne du lac aux carrières des Fosses. Il passe par une voûte minérale, rejoint la gorge des moulins, puis descend par des seuils vers les bassins. Les seuils ralentissent l’eau ; aucun ne lui commande de s’arrêter.\n\nLa sécheresse a couvert le plafond de cristaux, formés goutte après goutte. Au fond, le sable paraît plat jusqu’à ce qu’on mesure sa pente. Le dessin d’un passage ne dit pas combien de terre s’y est déposée depuis le dessin. Il faut y mettre les pieds.",
+      "links": [
+        "fosses",
+        "moulins"
+      ],
+      "unlockBlock": "c6-b03",
+      "firstMentionChapter": 2,
+      "firstMentionBlock": "c2-b11",
+      "earliestSafeChapter": 6,
+      "earliestSafeBlock": "c6-b03",
+      "unlockChapter": 6,
+      "unlockPosition": 3,
+      "spoilerRisk": "modéré",
+      "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
+      "editorialFunction": "Compléter la géographie et la beauté du passage après sa visite, sans annoncer la solution."
+    },
+    {
+      "id": "etrier",
+      "title": "L’étrier de vanne",
+      "category": "objet",
+      "hook": "Une pièce qu’on enlève précisément pour pouvoir réparer les autres.",
+      "text": "L’étrier est un fort U de fer aux pieds recourbés, fait pour les logements de la vieille vanne. Il porte temporairement son axe pendant qu’on reprend les appuis. Une fois les travaux finis, les appuis portent de nouveau ; le fer peut être retiré.\n\nLes cales ajustées font partie de l’outil. On peut retrouver l’étrier et manquer encore de ce qui le rend utile. C’est une leçon assez connue des gens qui possèdent une table à trois pieds et un livre assez épais.",
+      "links": [
+        "retenue",
+        "epreuves"
+      ],
+      "unlockBlock": "c2-b15",
+      "firstMentionChapter": 2,
+      "firstMentionBlock": "c2-b15",
+      "earliestSafeChapter": 2,
+      "earliestSafeBlock": "c2-b15",
+      "unlockChapter": 2,
+      "unlockPosition": 15,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Rendre la quête concrète sans faire de son objet un talisman."
+    },
+    {
+      "id": "vergers",
+      "title": "Les vergers suspendus",
+      "category": "lieu",
+      "hook": "La récolte se tient quelquefois de l’autre côté du garde-corps.",
+      "text": "Les poiriers poussent sur des terrasses au-dessus de la rivière, leurs racines serrées dans des murets. Les branches débordent ; on ramasse les fruits tombés dans les filets en les ramenant vers le bord avec une perche. Il faut commencer par les fruits les plus éloignés, sinon le filet se vide dans le mauvais sens.\n\nLe passage se paie aussi en portage. Les habitants ne manquent pas de paniers : ils manquent de gens qui acceptent de les monter avant de les voir pleins. Je me demande pourquoi cette idée ne nous est pas venue au lavoir.",
+      "links": [
+        "veilleuses",
+        "pain-plie"
+      ],
+      "unlockBlock": "c3-b01",
+      "firstMentionChapter": 3,
+      "firstMentionBlock": "c3-b01",
+      "earliestSafeChapter": 3,
+      "earliestSafeBlock": "c3-b01",
+      "unlockChapter": 3,
+      "unlockPosition": 1,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Étendre les gestes agricoles et l’économie du passage."
+    },
+    {
+      "id": "epreuves",
+      "title": "Les épreuves de charge",
+      "category": "savoir",
+      "hook": "Un poids ne rassure que si l’on sait quelle question on lui pose.",
+      "text": "On charge un ouvrage avec des sacs ou des masses avant d’y faire passer des personnes. Les anneaux reçoivent des encoches qui indiquent la classe de charge vérifiée. Une belle glaçure ne remplace pas une épreuve. Un son clair dit que la terre cuite est intacte ; il ne dit pas ce qu’elle portera.\n\nJe copie le conseil de Sabine : regarder où repose le poids, pas seulement combien il pèse. Même une table légère peut casser un carreau si elle porte tout sur un pied.",
+      "links": [
+        "tenues",
+        "sabine"
+      ],
+      "unlockBlock": "c3-b06",
+      "firstMentionChapter": 3,
+      "firstMentionBlock": "c3-b06",
+      "earliestSafeChapter": 3,
+      "earliestSafeBlock": "c3-b06",
+      "unlockChapter": 3,
+      "unlockPosition": 6,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Donner une règle de contrôle utile et compréhensible."
+    },
+    {
+      "id": "veilleuses",
+      "title": "Les veilleuses",
+      "category": "vivant",
+      "hook": "Elles rendent visible l’endroit où le fruit a été ouvert.",
+      "text": "Les veilleuses sont des insectes minuscules, au ventre lumineux. Elles entrent par les trous des poires mûres, attirées par leur jus. La peau du fruit diffuse leur lumière ; quand elles ressortent, le point vert devient une ligne entre les branches. Les gens des vergers laissent quelques fruits abîmés sur chaque arbre plutôt que de tout ramasser.\n\nIl ne faut pas serrer une veilleuse dans le poing pour mieux voir. On gagne une petite lumière pendant une seconde, puis on n’a plus rien à regarder. Ouvrir la main demande moins d’effort.",
+      "links": [
+        "vergers"
+      ],
+      "unlockBlock": "c3-b12",
+      "firstMentionChapter": 3,
+      "firstMentionBlock": "c3-b12",
+      "earliestSafeChapter": 3,
+      "earliestSafeBlock": "c3-b12",
+      "unlockChapter": 3,
+      "unlockPosition": 12,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Offrir un petit bestiaire de la lumière, sans rôle salvateur ni pouvoir ajouté."
+    },
+    {
+      "id": "pain-plie",
+      "title": "Le pain plié",
+      "category": "cuisine",
+      "hook": "La croûte garde le pli, pas la raison pour laquelle on l’a fait.",
+      "text": "On étale la pâte en ovale, on rabat les côtés, puis on pose le paquet fermeture en dessous. Les pains larges cuisent plus vite que les grosses boules et se partagent sans couteau en tirant sur les bords. Au pressoir, on les mange avec une soupe de grains et de poires rôties.\n\nMa mère a sa raison de les plier. D’autres gens en ont d’autres. Je commence à aimer qu’un objet puisse être pareil à celui de chez nous sans raconter la même histoire.",
+      "links": [
+        "mado",
+        "vergers"
+      ],
+      "unlockBlock": "c3-b15",
+      "firstMentionChapter": 3,
+      "firstMentionBlock": "c3-b15",
+      "earliestSafeChapter": 3,
+      "earliestSafeBlock": "c3-b15",
+      "unlockChapter": 3,
+      "unlockPosition": 15,
+      "spoilerRisk": "aucun",
+      "delayReason": "",
+      "editorialFunction": "Faire de la cuisine une coutume partagée, au-delà du symbole familial."
+    },
+    {
+      "id": "bac",
+      "title": "Le bac des vergers",
+      "category": "lieu",
+      "hook": "Le passage le plus court n’est pas toujours celui qui est ouvert.",
+      "text": "La plateforme traverse en s’aidant du courant, retenue et orientée par ses cordes. On y fait passer les paniers et les gens séparément lorsque l’eau pousse trop fort. Une barque peut s’attacher derrière, mais il faut savoir la détacher vite si elle tire sur la plateforme.\n\nLe passeur vérifie les cordes, les ancrages et la poulie. Nous regardons tous la grosse corde. La petite cheville qui tient le verrou a moins de spectateurs. Je comprends mieux pourquoi un outil comporte tant de pièces modestes.",
+      "links": [
+        "vergers",
+        "epreuves"
+      ],
+      "unlockBlock": "c3-b25",
+      "firstMentionChapter": 3,
+      "firstMentionBlock": "c3-b16",
+      "earliestSafeChapter": 3,
+      "earliestSafeBlock": "c3-b25",
+      "unlockChapter": 3,
+      "unlockPosition": 25,
+      "spoilerRisk": "modéré",
+      "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
+      "editorialFunction": "Éclairer le mécanisme après l’accident, sans en annoncer la panne."
+    },
+    {
+      "id": "don",
+      "title": "Le don de geste",
+      "category": "droit et usage",
+      "hook": "Volontaire est un mot qu’il faut parfois examiner deux fois.",
+      "text": "Une tenue ne prend rien à une main inconsciente : le donneur doit accomplir son geste. Cela n’empêche pas un contrat, une dette ou un loyer de guider très fortement sa volonté. Les registres demandent s’il accepte. Je ne suis pas certaine qu’ils demandent toujours ce qui lui arriverait s’il refusait.\n\nLe geste précis ne revient pas, ni par l’exercice, ni en changeant de main. Ce n’est pas tout le bras qui disparaît. Il reste d’autres trajets, d’autres travaux. Il reste aussi le droit de regretter celui-là, même lorsqu’on a choisi.",
+      "links": [
+        "tenues",
+        "reprise"
+      ],
+      "unlockBlock": "c3-b26",
+      "firstMentionChapter": 3,
+      "firstMentionBlock": "c3-b21",
+      "earliestSafeChapter": 3,
+      "earliestSafeBlock": "c3-b26",
+      "unlockChapter": 3,
+      "unlockPosition": 26,
+      "spoilerRisk": "modéré",
+      "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
+      "editorialFunction": "Distinguer le mécanisme volontaire et les contraintes sociales sans révéler le mandat de Bertille."
+    },
+    {
+      "id": "fosses",
+      "title": "Les Fosses",
+      "category": "lieu",
+      "hook": "Des carrières qui ont appris à garder des poissons.",
+      "text": "Les tailleurs ont laissé des marches, des bassins et des parois bien droites. L’eau a pris les creux ; les habitants ont construit sur les gradins assez hauts. Un escalier peut servir à descendre chez quelqu’un ou à mesurer combien il est préférable de rester chez soi.\n\nLes jardins occupent les terrasses de limon. On y attache les épis par poignées contre le vent. Les gens qui passent voient surtout les bateaux ; les gens qui habitent ici surveillent aussi la terre qui part avec l’eau.",
+      "links": [
+        "chenal",
+        "colas"
+      ],
+      "unlockBlock": "c4-b01",
+      "firstMentionChapter": 2,
+      "firstMentionBlock": "c2-b25",
+      "earliestSafeChapter": 4,
+      "earliestSafeBlock": "c4-b01",
+      "unlockChapter": 4,
+      "unlockPosition": 1,
+      "spoilerRisk": "modéré",
+      "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
+      "editorialFunction": "Donner au lieu une activité et une topographie propres."
+    },
+    {
+      "id": "moulins",
+      "title": "La gorge des moulins",
+      "category": "lieu",
+      "hook": "Cinq roues, et beaucoup de gens qui dépendent de leur prochain tour.",
+      "text": "Les roues travaillent dans une entaille de la ville haute. Elles ne broient pas toutes la même chose : grains pour les fours, craie pour les champs. Les poussières se ressemblent davantage que les usages. Je conseille de demander avant de goûter.\n\nLes greniers occupent aussi une partie de l’ancien lit du chenal. Les ouvrages d’une époque deviennent volontiers le sol de l’époque suivante. On se souvient moins bien de ce qui pouvait y circuler, surtout lorsqu’on y pose un beau plancher.",
+      "links": [
+        "chenal",
+        "maison-des-mesures"
+      ],
+      "unlockBlock": "c5-b24",
+      "firstMentionChapter": 4,
+      "firstMentionBlock": "c4-b20",
+      "earliestSafeChapter": 5,
+      "earliestSafeBlock": "c5-b24",
+      "unlockChapter": 5,
+      "unlockPosition": 24,
+      "spoilerRisk": "modéré",
+      "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
+      "editorialFunction": "Montrer l’enjeu économique et l’obstruction après son explication dans le récit."
+    },
+    {
+      "id": "forge",
+      "title": "La Forge des Échos",
+      "category": "lieu",
+      "hook": "Même vide, elle trouve encore quelque chose à faire sonner.",
+      "text": "La forge recevait l’eau par une rigole qui entraînait sa roue. Elle pouvait mouvoir les gros outils pendant que les ouvriers ajustaient au banc les petites pièces. Le four est froid maintenant ; les herbes poussent dans la rigole.\n\nLes outils conservés n’ont pas tous la même chance : la graisse et la toile ont protégé des portées alors que le toit laissait entrer la pluie. On reconnaît parfois la dernière journée de travail aux choses qu’une personne a pris le temps de ranger. Dans un gobelet, une fleur a trouvé d’autres raisons de rester.",
+      "links": [
+        "etrier",
+        "sabine"
+      ],
+      "unlockBlock": "c7-b04",
+      "firstMentionChapter": 2,
+      "firstMentionBlock": "c2-b14",
+      "earliestSafeChapter": 7,
+      "earliestSafeBlock": "c7-b04",
+      "unlockChapter": 7,
+      "unlockPosition": 4,
+      "spoilerRisk": "modéré",
+      "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
+      "editorialFunction": "Récompenser l’arrivée à la forge par une lecture des traces du travail."
+    }
+  ]
 }
 </script>
 <script>
