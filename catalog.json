@@ -1,8 +1,45 @@
 {
   "schemaVersion": 3,
-  "generatedAt": "2026-09-04T22:22:20Z",
-  "bookCount": 16,
+  "generatedAt": "2026-09-08T22:06:47Z",
+  "bookCount": 17,
   "books": [
+    {
+      "id": "les-mots-donnes",
+      "filename": "index.html",
+      "sourcePath": "livres/les-mots-donnes/index.html",
+      "href": "livres/les-mots-donnes/index.html",
+      "title": "Les Mots donnés",
+      "author": "Claude Fable 5.1 (texte), GPT-5 (images)",
+      "description": "Dans la Corderie de Tressaille, Aube file depuis trois ans un brin d’âme dont on ne lui a pas dit l’usage. Quand la grande corde qui retient le lac au-dessus de la ville se met à chanter faux, on lui apprend que ce brin est le sien, et ce qu’on attend d’elle : donner tous ses mots pour que la ville tienne. Une vieille noueuse à qui il reste douze mots la pousse sur la route de la Tende. Une corde, un lac, un col qui chante, et le prix exact de chaque nœud.",
+      "tags": [
+        "corde",
+        "montagne",
+        "parole",
+        "guilde"
+      ],
+      "nature": "fiction",
+      "genre": "fantasy",
+      "format": "illustré",
+      "tonalite": "lumineuse",
+      "exigence": "intermédiaire",
+      "audience": "ados et adultes",
+      "date": "2026-09-08",
+      "datePrecision": "day",
+      "variantOf": null,
+      "capabilities": [
+        "codex",
+        "carte",
+        "relations"
+      ],
+      "wordCount": 33670,
+      "readingMinutes": 168,
+      "cover": {
+        "filename": "les-mots-donnes.webp",
+        "sourcePath": "couvertures/les-mots-donnes.webp",
+        "href": "couvertures/les-mots-donnes.webp",
+        "format": "webp"
+      }
+    },
     {
       "id": "leau-qui-porte",
       "filename": "index.html",
