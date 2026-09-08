@@ -2853,7 +2853,175 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
       "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
       "editorialFunction": "Récompenser l’arrivée à la forge par une lecture des traces du travail."
     }
-  ]
+  ],
+  "map": {
+    "label": "Les chemins de la vallée",
+    "eyebrow": "Carnet des mains · lieux",
+    "intro": "Les huit repères prennent leur nom après leur découverte. La rivière descend du lac vers Rivebasse ; l’ancien chenal rejoint les Fosses par les moulins. Le dessin indique les passages, pas les distances.",
+    "viewBox": "0 0 100 72",
+    "shapes": [
+      {
+        "kind": "terre",
+        "d": "M2 5 L30 2 L47 9 L66 2 L97 7 L95 66 L61 70 L5 66 Z"
+      },
+      {
+        "kind": "eau",
+        "d": "M52 3 Q67 0 71 7 L67 15 L59 16 L53 12 Z"
+      },
+      {
+        "kind": "eau",
+        "d": "M61 15 L64 15 Q59 27 61 35 Q58 46 57 52 Q51 66 33 65 L15 63 L0 69 L0 65 L14 59 L33 61 Q48 61 53 51 Q54 44 57 35 Q55 27 61 15 Z"
+      },
+      {
+        "kind": "limite",
+        "d": "M58 16 Q49 24 58 35 Q41 32 29 42 L20 44"
+      },
+      {
+        "kind": "route",
+        "d": "M54 52 Q49 58 36 60 L16 58 L20 44 Q32 48 44 41 L58 35 L72 29 L84 18 L88 8 L73 12 L66 24 L58 35 L60 17"
+      }
+    ],
+    "places": [
+      {
+        "codexId": "rivebasse",
+        "x": 54,
+        "y": 52,
+        "labelAnchor": "start"
+      },
+      {
+        "codexId": "vergers",
+        "x": 36,
+        "y": 60,
+        "labelAnchor": "middle"
+      },
+      {
+        "codexId": "bac",
+        "x": 16,
+        "y": 58,
+        "labelAnchor": "middle"
+      },
+      {
+        "codexId": "fosses",
+        "x": 20,
+        "y": 44,
+        "labelAnchor": "middle"
+      },
+      {
+        "codexId": "moulins",
+        "x": 58,
+        "y": 35,
+        "labelAnchor": "start"
+      },
+      {
+        "codexId": "chenal",
+        "x": 42,
+        "y": 31,
+        "labelAnchor": "end"
+      },
+      {
+        "codexId": "forge",
+        "x": 84,
+        "y": 18,
+        "labelAnchor": "middle"
+      },
+      {
+        "codexId": "retenue",
+        "x": 60,
+        "y": 17,
+        "labelAnchor": "end"
+      }
+    ]
+  },
+  "relations": {
+    "label": "Qui travaille avec qui",
+    "eyebrow": "Carnet des mains · relations",
+    "intro": "Les personnes apparaissent à la lecture de leurs feuillets. Certains liens attendent que le récit permette de les nommer.",
+    "viewBox": "0 0 100 72",
+    "nodes": [
+      {
+        "codexId": "aubine",
+        "x": 43,
+        "y": 33
+      },
+      {
+        "codexId": "mado",
+        "x": 16,
+        "y": 17
+      },
+      {
+        "codexId": "sabine",
+        "x": 47,
+        "y": 9
+      },
+      {
+        "codexId": "colas",
+        "x": 16,
+        "y": 56
+      },
+      {
+        "codexId": "bertille",
+        "x": 73,
+        "y": 52
+      },
+      {
+        "codexId": "orane",
+        "x": 83,
+        "y": 19
+      },
+      {
+        "codexId": "maison-des-mesures",
+        "x": 47,
+        "y": 63
+      }
+    ],
+    "links": [
+      {
+        "from": "aubine",
+        "to": "mado",
+        "nature": "Ma mère ; nous nous partageons le travail."
+      },
+      {
+        "from": "aubine",
+        "to": "sabine",
+        "nature": "Clientes l’une de l’autre, avant le voyage."
+      },
+      {
+        "from": "aubine",
+        "to": "colas",
+        "nature": "Il nous embarque pour les Fosses.",
+        "unlockBlock": "c2-b24"
+      },
+      {
+        "from": "aubine",
+        "to": "bertille",
+        "nature": "Je lui reprends ma pince après son aveu.",
+        "unlockBlock": "c5-b31"
+      },
+      {
+        "from": "bertille",
+        "to": "orane",
+        "nature": "Chargée en secret de consigner les dons du groupe.",
+        "unlockBlock": "c5-b10"
+      },
+      {
+        "from": "bertille",
+        "to": "sabine",
+        "nature": "Sabine avait accepté le don du père de Bertille.",
+        "unlockBlock": "c5-b20"
+      },
+      {
+        "from": "orane",
+        "to": "maison-des-mesures",
+        "nature": "La prévôte y consigne ses décisions."
+      },
+      {
+        "from": "orane",
+        "to": "sabine",
+        "nature": "Accorde le passage, pas encore l’ouverture de la vanne.",
+        "unlockBlock": "c2-b23"
+      }
+    ]
+  }
 }
 </script>
 <script>
