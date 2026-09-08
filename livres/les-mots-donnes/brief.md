@@ -157,7 +157,9 @@ arrache à un seul. **Promesse émotionnelle** : la gorge serrée et le cœur
 léger — refermer le livre avec l’envie de tenir parole et de repartir sur la
 route de la Tende.
 
-**Chapitres** (rôle → bascule) :
+**Chapitres** (rôle → bascule ; plan resynchronisé après l’écriture — la
+chronologie tient en dix jours : lune de la Fonte neuf jours après le Conseil,
+retour d’Aube la veille) :
 
 1. *À reculons* — Aube file l’âme dans la Salle des Cordes ; un nœud de plaie
    montre la règle et le prix ; la Maîtresse-Corde chante faux ; Aymon : « cette
@@ -166,10 +168,11 @@ route de la Tende.
    Registre tente Aube ; Bastien s’oppose et on rit de lui ; les douze mots de
    Hersende ; le message noué ; « Va. Haut. » ; la porte à l’aube : Garance et
    Bastien attendent. → De désignée à partie.
-3. *La corde qui chante* — La route, Garance, Vergogne, le deuil de Bastien ;
-   les gorges ; la Grande Traversée chante au crépuscule ; Séverin attend de
-   l’autre côté et ne peut rien forcer. → De fugitive à détentrice du seul
-   consentement qui compte.
+3. *La corde qui chante* — Deux jours de route : le rivage du lac, Garance,
+   Vergogne, le deuil de Bastien, une nuit à la tête du lac ; les gorges ; la
+   Grande Traversée chante au crépuscule ; Séverin attend de l’autre côté et ne
+   peut rien forcer. → De fugitive à détentrice du seul consentement qui
+   compte.
 4. *Nœud d’amarre* — Le pont lâche sous un convoi ; premier nœud d’Aube, elle
    donne « faim » ; le chargement de Garance tombe dans la Tende ; Séverin reste
    pour la garder en vie. → Aube a noué et payé, et fait payer une autre.
@@ -190,10 +193,11 @@ route de la Tende.
    veillée sous les yeux d’Aube, Bastien donne « hâte » ; les Veilleurs ne
    peuvent descendre, Aurèle viendra. → Aube a la méthode et comprend le prix
    que paie Hersende.
-9. *Grandes eaux* — Descente sous la Déliée, la Tende en crue, la Traversée
-   emportée ; la Retenue en gabare, la Levée qui gémit ; Aymon a annoncé sa
-   propre Grande Reprise pour la lune. → La course n’est plus contre l’eau mais
-   contre un sacrifice.
+9. *Grandes eaux* — Aurèle descend avec eux ; la Tende en crue mange le
+   chemin, la Fosse est pleine et Pont-Sauvage évacue ; la Retenue en gabare,
+   la nuit, jusqu’à la Levée qui chante faux et à la file des lanternes de
+   l’évacuation ; Aymon a annoncé sa propre Grande Reprise pour la lune. → La
+   course n’est plus contre l’eau mais contre un sacrifice.
 10. *Le registre* — Tressaille évacue la Basse ; Hersende est morte, douze
     lignes au Registre, la dernière : « Aube » ; face-à-face avec Aymon, deux
     raisons ; « mille cordelettes avant la lune ». → De celle qui doit à celle
