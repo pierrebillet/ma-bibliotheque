@@ -24,8 +24,10 @@ relira ni ne corrigera derrière toi.
 - **Recette** : `ateliers/roman-atelier/WORKFLOW.md` (v9), **passe auteur
   uniquement** — étapes 1 à 5b, étape 4 comprise (champs d'images renseignés
   dans l'îlot + manifeste `livres/<slug>/illustrations.md` rédigé depuis
-  `ateliers/roman-atelier/GABARIT-ILLUSTRATIONS.md`). Tu ne produis **aucune
-  image** : le concours s'arrête à la pull request de fin de passe auteur.
+  `ateliers/roman-atelier/GABARIT-ILLUSTRATIONS.md`). Le manifeste fait
+  partie des livrables attendus : il sera exécuté tel quel par un agent
+  illustrateur lancé ensuite. Tu ne produis **aucune image** : le concours
+  s'arrête à la pull request de fin de passe auteur.
 - **À lire avant d'écrire une ligne**, dans cet ordre : `AGENTS.md`,
   `ateliers/roman-atelier/WORKFLOW.md`, `ateliers/TRONC-COMMUN.md`,
   `docs/conception/PREFERENCES.md`, `livres/_template/DONNEES.md`,
@@ -73,8 +75,9 @@ relira ni ne corrigera derrière toi.
    verts, commits d'étapes en français, écarts au plan resynchronisés dans le
    même commit, checklist auteur intégralement cochée.
 
-Éliminatoire : livre inachevé, vérificateur en défaut, `book:author` inexact,
-contenu hors public, plus de douze chapitres ou moins de dix.
+Éliminatoire : livre inachevé, manifeste `illustrations.md` absent ou
+incomplet (une image de l'îlot sans entrée, ou l'inverse), vérificateur en
+défaut, `book:author` inexact, contenu hors public.
 
 ## Brief
 
@@ -105,8 +108,8 @@ contenu hors public, plus de douze chapitres ou moins de dix.
   souffle épique se gagne par la précision des gestes et des lieux, pas par
   les adjectifs. L'humour fin est bienvenu s'il sert la voix. `book:tonalite`
   au choix, sauf `sombre`.
-- **Longueur** : 10 à 12 chapitres de 2 000 à 3 000 mots chacun (borne fixée
-  pour comparer les concurrents à égalité).
+- **Longueur** : libre — l'auteur dimensionne chapitres et notices à la
+  pertinence, sans jamais écrire pour remplir (socle §« Quantités »).
 - **Public** : jeunes adultes — `book:audience` = `ados et adultes` ;
   `book:exigence` = `accessible` ou `intermédiaire`. Violence possible mais
   jamais graphique ; romance possible mais pudique.
