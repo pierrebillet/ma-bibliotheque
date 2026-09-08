@@ -93,7 +93,8 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
       "Une tenue enferme dans un anneau de terre cuite un geste précis, appris et maîtrisé, que le donneur accomplit une dernière fois ; ce geste devient à jamais inexécutable pour lui, même réappris ou avec l’autre main. Les mouvements voisins restent possibles.",
       "Le don exige un geste volontaire du donneur ; on peut socialement le contraindre, jamais prélever le geste d’un inconscient. La valeur d’une tenue ne se mesure pas à la beauté du geste : chaque anneau reçoit une charge maximale éprouvée avec des poids.",
       "Un anneau fermé immobilise deux pièces l’une par rapport à l’autre tant que la charge reste sous sa limite et que la céramique reste entière. Il ne crée ni matière ni mouvement. Il ne s’assouplit pas. Brisé ou surchargé, il lâche ; le geste ne revient jamais.",
-      "Les mécanismes ordinaires et les appuis mobiles peuvent remplacer les tenues. Leurs essais, leur construction et leur entretien coûtent du temps et du travail. Aucune magie de guérison ni restauration du geste."
+      "Les mécanismes ordinaires et les appuis mobiles peuvent remplacer les tenues. Leurs essais, leur construction et leur entretien coûtent du temps et du travail. Aucune magie de guérison ni restauration du geste.",
+      "Lorsqu’une tenue provisoire doit être démontée, une cale matérielle permet de transférer progressivement la charge vers les nouveaux appuis ; casser un anneau encore chargé serait brutal et dangereux."
     ],
     "chapterPlan": [
       {
@@ -136,13 +137,13 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
         "number": 7,
         "title": "Le fer au soleil",
         "role": "Solution",
-        "turn": "L’étrier est retrouvé et un essai ordinaire montre qu’un appui mobile résout le défaut ; ils renoncent au raccourci pour le rapporter."
+        "turn": "L’étrier est retrouvé et un essai montre l’intérêt des appuis mobiles ; le groupe refuse de payer un raccourci avec un nouveau don et rapporte le fer par la crête."
       },
       {
         "number": 8,
         "title": "Une maison en moins",
         "role": "Perte",
-        "turn": "La crue emporte la barque et le lavoir vidé ; la quête doit réussir sans retrouver exactement ce qui fut perdu."
+        "turn": "Au retour aux moulins, la crue des ravines a emporté la barque et le lavoir évacué ; la quête doit réussir sans retrouver exactement ce qui fut perdu."
       },
       {
         "number": 9,
@@ -168,6 +169,14 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
         "role": "Conséquences",
         "turn": "La remise en état paie les conséquences, le droit de refus entre dans les contrats et Aubine entreprend une nouvelle manière de travailler ; histoire close."
       }
+    ],
+    "customs": "Aux repas, on laisse une cuillerée à la fenêtre pour les morts qui accompagnent les voyageurs ; coutume vécue, sans effet magique confirmé.",
+    "chronology": [
+      "Jour 1 : crue au lavoir, audience, départ ; nuit aux vergers.",
+      "Jour 2 : accident du bac, relevés des Fosses, arrivée aux moulins ; le jardinier commencera le déblaiement dès l’autorisation transmise.",
+      "Jour 3 : audience aux moulins, visite de la voûte, forge et essais, retour par la crête ; orage et débordement des ravines pendant la nuit.",
+      "Jour 4 : chantier de la vanne et ouverture du chenal avant dépassement du seuil d’arrêt.",
+      "Six semaines plus tard : conséquences matérielles, premières règles publiques, métiers en transformation, scène finale au lavoir."
     ]
   },
   "entityAudit": {
@@ -209,16 +218,14 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
         {
           "id": "c1-b01",
           "text": "La première chose que je sauve de la rivière est un drap qui ne nous appartient pas. La seconde est une enfant, et ma mère me reprochera longtemps cet ordre. Pour le drap, je n’ai eu qu’à tendre le bras. Pour l’enfant, il faut que je lâche la corde.",
-          "mentions": [
-            "aubine",
-            "pinces"
-          ]
+          "mentions": []
         },
         {
           "id": "c1-b02",
           "text": "Elle pend sous le lavoir, accrochée à une traverse dont le bout s’en va avec l’eau. Je vois ses quatre doigts, puis trois. Le drap claque contre mes jambes. Une pince de frêne me reste dans la bouche ; j’ai le goût du linge propre et du bois mâchonné.",
           "mentions": [
-            "lavoir"
+            "lavoir",
+            "pinces"
           ]
         },
         {
@@ -230,7 +237,7 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
         },
         {
           "id": "c1-b04",
-          "text": "Ma mère a déjà compris. Elle couche sa longue perche à linge sur les dalles, passe son pied dessus. Je noue le drap autour de ma taille. Je ne sais pas faire un beau nœud de batelière, mais je sais tirer sur une couture pour voir où elle lâchera. Je tire. Elle tient.",
+          "text": "Ma mère a déjà compris. Elle couche sa longue perche à linge en travers des montants, y passe une boucle de la corde de séchage et pose son pied dessus. Je noue le drap autour de ma taille. Je ne sais pas faire un beau nœud de batelière, mais je sais tirer sur une couture pour voir où elle lâchera. Je tire. Elle tient.",
           "mentions": []
         },
         {
@@ -270,7 +277,9 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
         {
           "id": "c1-b11",
           "text": "— Je m’appelle Aubine. Si on tombe, tu pourras crier mon nom.",
-          "mentions": []
+          "mentions": [
+            "aubine"
+          ]
         },
         {
           "id": "c1-b12",
@@ -670,71 +679,78 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
         },
         {
           "id": "c3-b16",
+          "text": "Avant de manger, la femme du pressoir a laissé refroidir une cuillerée sur le rebord de la fenêtre. Pour les morts qui suivent les voyageurs, nous a-t-elle expliqué. Chez nous aussi, on leur réserve l’odeur du repas ; ma mère se fâche quand je ferme trop tôt. Je pousse le bol d’un doigt pour qu’il ne tombe pas. Je n’ai pas d’avis certain sur les morts. Les bols, eux, cassent.",
+          "mentions": [
+            "pain-plie"
+          ]
+        },
+        {
+          "id": "c3-b17",
           "text": "Au matin, le bac n’est plus dans l’alignement des deux rives. Sa corde amont s’est allongée pendant la nuit, ou l’un des ancrages a bougé. Colas est là, sa barque attachée derrière la plateforme. Le passeur refuse de faire traverser les paniers tant que les passagers ne sont pas descendus. Sabine l’approuve. Nous montons seuls, avec notre sac de ferraille et les provisions.",
           "mentions": [
             "bac"
           ]
         },
         {
-          "id": "c3-b17",
+          "id": "c3-b18",
           "text": "Le courant prend la plateforme par-dessous. Le passeur crie à Colas de détacher sa barque pour la mener à l’abri. Bertille s’assied d’un coup. Son visage devient aussi blanc que sa sacoche. Je lui donne la main ; elle me la broie avec beaucoup de politesse.",
           "mentions": []
         },
         {
-          "id": "c3-b18",
+          "id": "c3-b19",
           "text": "Puis le verrou de la poulie saute. Pas la corde, pas l’ancrage : une cheville grosse comme mon petit doigt. La plateforme tourne, le bord s’enfonce. Le passeur pousse la barre de sécurité avec son épaule. Sabine ouvre son coffret. Il y a dedans deux anneaux neufs, un poinçon et un petit morceau de craie.",
           "mentions": [
             "tenues"
           ]
         },
         {
-          "id": "c3-b19",
+          "id": "c3-b20",
           "text": "— Il faut fixer le verrou, dit-elle. Je peux tenir la barre. Aubine, prends l’anneau.",
           "mentions": []
         },
         {
-          "id": "c3-b20",
+          "id": "c3-b21",
           "text": "Je ne l’ai jamais fait. Je sais comment on fait : tout le monde le sait. On appuie la céramique entre les deux pièces, on y trace la fermeture avec un geste volontaire, appris, qu’on laissera dedans. C’est la chose qu’on sait avant de savoir écrire son nom.",
           "mentions": []
         },
         {
-          "id": "c3-b21",
+          "id": "c3-b22",
           "text": "— Un geste entier, dit Sabine. Que tu pourrais faire les yeux fermés. Pas un mouvement au hasard. Et personne ici ne choisit pour toi.",
           "mentions": [
             "don"
           ]
         },
         {
-          "id": "c3-b22",
+          "id": "c3-b23",
           "text": "La barre glisse sur son épaule. Elle a donné assez de gestes pour connaître ce qui lui reste, mais pas le temps d’en essayer un dans cette position. Bertille vomit par-dessus le bord. Le passeur a ses deux bras pris dans la corde. Colas, loin déjà, ramène la barque contre le courant.",
           "mentions": []
         },
         {
-          "id": "c3-b23",
+          "id": "c3-b24",
           "text": "Je sais siffler avec deux doigts. Un appel montant, puis deux notes brèves : ma mère me répond ainsi depuis la fenêtre quand je rentre au lavoir. Je pose l’anneau. Je mets deux doigts dans ma bouche et j’envoie le cri contre la terre cuite, en fermant de l’autre main le trait de craie.",
           "mentions": [
             "aubine"
           ]
         },
         {
-          "id": "c3-b24",
+          "id": "c3-b25",
           "text": "Le son s’arrête avant que mon souffle soit épuisé. Le verrou ne bouge plus. Sous mes doigts, la céramique est chaude, et ce n’est pas de ma chaleur.",
           "mentions": []
         },
         {
-          "id": "c3-b25",
+          "id": "c3-b26",
           "text": "Nous finissons la traversée à la perche. Sur l’autre rive, le passeur décharge chaque panier, puis ferme le bac. Il veut me donner ses recettes du matin. Je secoue la tête. Je ne sais pas encore combien vaut le chemin sonore qui me ramenait chez moi.",
           "mentions": [
             "bac"
           ]
         },
         {
-          "id": "c3-b26",
+          "id": "c3-b27",
           "text": "Je mets mes doigts entre mes lèvres. De l’air passe, rien de plus. Je les place autrement. Je pourrais essayer toute ma vie.",
           "mentions": []
         },
         {
-          "id": "c3-b27",
+          "id": "c3-b28",
           "text": "Bertille me tend de l’eau. Je la prends des deux mains pour qu’elle ne voie pas qu’une seule aurait suffi. De l’autre côté du fleuve, le chemin officiel s’arrête au bac fermé. Devant nous, Sabine déplie sa carte, puis la tourne pour suivre une route qui n’y est plus tracée.",
           "mentions": []
         }
@@ -967,7 +983,7 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
       "blocks": [
         {
           "id": "c5-b01",
-          "text": "Nous dormons peu. À la deuxième aube, les roues nous couvrent de leur ombre, puis de leur eau. Le moulin le plus bas broie de la craie pour les champs ; le suivant écrase les grains. Je le sais parce qu’une femme à la figure blanche nous interdit de confondre les deux poudres. Elle nous offre malgré tout des galettes. Celle de Colas disparaît en deux bouchées ; il affirme qu’il en a gardé une pour la route. Personne ne cherche où.",
+          "text": "Nous dormons peu, amarrés au quai des moulins. Colas choisit deux points d’attache, vérifie le jeu des cordes, puis laisse la barque à la garde du batelier de poste. À la deuxième aube, les roues nous couvrent de leur ombre, puis de leur eau. Le moulin le plus bas broie de la craie pour les champs ; le suivant écrase les grains. Je le sais parce qu’une femme à la figure blanche nous interdit de confondre les deux poudres. Elle nous offre malgré tout des galettes. Celle de Colas disparaît en deux bouchées ; il affirme qu’il en a gardé une pour la route. Personne ne cherche où.",
           "mentions": [
             "moulins"
           ]
@@ -1449,7 +1465,7 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
         },
         {
           "id": "c7-b16",
-          "text": "Nous avons deux routes. La crête permet de rejoindre la retenue le lendemain matin, mais le vieux pont raccourcit la descente jusqu’au bateau. Colas va sonder les premières planches ; sous son poids, une traverse se soulève. Au bout, les tenues ont été mangées par le gel. Nous aurions traversé à quatre sans le voir, tout à l’heure, si Sabine ne s’était pas avancée seule.",
+          "text": "Nous avons deux routes. La crête nous ramènera aux moulins dans la nuit ; de là, la route monte à la retenue. Reprendre le vieux pont gagnerait quatre heures de descente jusqu’au bateau. Colas va sonder les premières planches ; sous son poids, une traverse se soulève. Au bout, les tenues ont été mangées par le gel. À l’aller, Sabine nous avait fait passer un à un, sans autre charge que nos sacs. Avec l’étrier, nous pèserons tous ensemble sur les mêmes planches.",
           "mentions": [
             "colas"
           ]
@@ -1886,35 +1902,43 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
         },
         {
           "id": "c10-b05",
+          "text": "Il faut aussi que la tenue puisse être déchargée après la pose. Sabine me montre la cale inclinée entre l’anneau et le bras de fer : une fois les deux semelles en place, on la retirera lentement. Le poids descendra sur le bois neuf. Alors seulement on pourra casser la céramique sans faire tomber l’axe.",
+          "mentions": [
+            "etrier",
+            "tenues"
+          ]
+        },
+        {
+          "id": "c10-b06",
           "text": "Sabine montre l’emplacement. L’anneau du coffret a la capacité nécessaire ; elle l’a éprouvé avant notre départ. Le poids du battant restera réparti entre l’autre pied de l’étrier et cette fixation. Je répète ce qu’elle me dit, parce que les mots risquent de glisser dans le bruit de l’eau. Elle confirme chaque point. Pas un geste rendu à la fin. Pas un simple prêt. Briser la tenue libérera le fer, jamais la main.",
           "mentions": [
             "tenues"
           ]
         },
         {
-          "id": "c10-b06",
+          "id": "c10-b07",
           "text": "— Je peux donner, dit Colas.",
           "mentions": [
             "don"
           ]
         },
         {
-          "id": "c10-b07",
+          "id": "c10-b08",
           "text": "— Tu tiens le levier. Si tu le lâches, on commence par tous sortir, répond Sabine. C’est possible. On le fait si on doit.",
           "mentions": []
         },
         {
-          "id": "c10-b08",
+          "id": "c10-b09",
           "text": "— Moi aussi, dit-elle ensuite. Je peux encore tracer un cercle au compas.",
           "mentions": []
         },
         {
-          "id": "c10-b09",
+          "id": "c10-b10",
           "text": "Il lui sert à régler ses appuis. Il lui sert à beaucoup de choses que j’ignore. Elle ne cache pas le prix derrière un sourire.",
           "mentions": []
         },
         {
-          "id": "c10-b10",
+          "id": "c10-b11",
           "text": "Je regarde l’anneau dans ma main. Mon sifflement est parti si vite que j’en mesure encore l’absence par surprises. Le point de reprise, je sais ce qu’il représente. Des jours à regarder ma mère chercher une couture à la lumière. La première pièce qu’une cliente n’a pas marchandée. Un avenir étroit, mais un avenir dont j’avais appris les dimensions.",
           "mentions": [
             "aubine",
@@ -1922,151 +1946,151 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
           ]
         },
         {
-          "id": "c10-b11",
+          "id": "c10-b12",
           "text": "— Je veux donner mon point.",
           "mentions": []
         },
         {
-          "id": "c10-b12",
+          "id": "c10-b13",
           "text": "Sabine ferme les yeux. Quand elle les rouvre, elle n’a pas l’air heureuse de moi.",
           "mentions": []
         },
         {
-          "id": "c10-b13",
+          "id": "c10-b14",
           "text": "— Tu n’as rien à prouver.",
           "mentions": []
         },
         {
-          "id": "c10-b14",
+          "id": "c10-b15",
           "text": "— Je sais.",
           "mentions": []
         },
         {
-          "id": "c10-b15",
+          "id": "c10-b16",
           "text": "Je ne le sais pas entièrement. Une partie de moi veut être celle qui peut, celle dont on dira le nom. Il vaut mieux que je la voie, cette partie-là, avant de lui confier mes mains.",
           "mentions": []
         },
         {
-          "id": "c10-b16",
+          "id": "c10-b17",
           "text": "Bertille me fait remonter les quatre marches jusqu’au jour. Elle ne me demande pas si je suis courageuse. Elle me demande si je sais quelle solution reste si je refuse. Sabine pourra donner, ou l’équipe évacuera et Orane ouvrira le délestage avant le seuil ; les habitants sont sortis. Je le répète. Elle me demande si je me crois obligée de racheter les erreurs de Sabine.",
           "mentions": [
             "bertille"
           ]
         },
         {
-          "id": "c10-b17",
+          "id": "c10-b18",
           "text": "— Non. Mais c’est aussi mon travail, maintenant.",
           "mentions": []
         },
         {
-          "id": "c10-b18",
+          "id": "c10-b19",
           "text": "— Qu’est-ce que tu ne pourras plus faire ?",
           "mentions": []
         },
         {
-          "id": "c10-b19",
+          "id": "c10-b20",
           "text": "— La reprise serrée qui reconstitue une toile. Même avec l’autre main. Même en recommençant l’apprentissage. Je pourrai encore coudre un ourlet, passer une aiguille. Pas faire cela.",
           "mentions": []
         },
         {
-          "id": "c10-b20",
+          "id": "c10-b21",
           "text": "Elle attend. Le temps qu’elle me laisse n’est pas assez long pour devenir confortable, mais il est réel. Je pourrais le remplir avec un non.",
           "mentions": []
         },
         {
-          "id": "c10-b21",
+          "id": "c10-b22",
           "text": "Ma mère nous voit depuis la marmite. Elle comprend le nécessaire ouvert, l’anneau, Bertille. Elle ne court pas. Elle vient, s’arrête à ma hauteur et prend le carré de toile que j’ai sorti.",
           "mentions": [
             "mado"
           ]
         },
         {
-          "id": "c10-b22",
+          "id": "c10-b23",
           "text": "— Tu choisis lequel ?",
           "mentions": []
         },
         {
-          "id": "c10-b23",
+          "id": "c10-b24",
           "text": "Je le lui dis. Elle plie le carré, le déplie. Une fois.",
           "mentions": []
         },
         {
-          "id": "c10-b24",
+          "id": "c10-b25",
           "text": "— Je n’aimerai pas que tu l’aies perdu.",
           "mentions": []
         },
         {
-          "id": "c10-b25",
+          "id": "c10-b26",
           "text": "— Moi non plus.",
           "mentions": []
         },
         {
-          "id": "c10-b26",
+          "id": "c10-b27",
           "text": "— D’accord.",
           "mentions": []
         },
         {
-          "id": "c10-b27",
+          "id": "c10-b28",
           "text": "Elle me rend la toile. Son accord ne ressemble pas à une permission ; c’est une place qu’elle fait à quelque chose qu’elle n’aurait pas choisi pour moi.",
           "mentions": []
         },
         {
-          "id": "c10-b28",
+          "id": "c10-b29",
           "text": "Je redescends. Dans la toile, j’ouvre avec la pointe de mes ciseaux une déchirure aussi nette que possible. Puis je place l’anneau dans son logement et le maintiens avec la cale de Sabine. La céramique touche les deux pièces à unir. Je passe le fil. Le premier rang tend la chaîne, le deuxième entrelace la trame. Je connais ce mouvement mieux que mon écriture. Au dernier passage, je ferme le trait sur l’anneau et je fais mon dernier point.",
           "mentions": [
             "reprise"
           ]
         },
         {
-          "id": "c10-b29",
+          "id": "c10-b30",
           "text": "Il est beau. J’aurais préféré le rater.",
           "mentions": []
         },
         {
-          "id": "c10-b30",
+          "id": "c10-b31",
           "text": "Le fil devient lâche entre mes doigts. La tenue prend la charge ; le bras de fer cesse de descendre. Il ne se passe rien dans le ciel, rien qui avertirait le monde de ce qui vient de disparaître. Sabine glisse le ciseau contre la pierre et commence à frapper. Chaque coup me revient dans les dents.",
           "mentions": [
             "tenues"
           ]
         },
         {
-          "id": "c10-b31",
+          "id": "c10-b32",
           "text": "Je tiens la lampe. Voilà ce que je fais pendant que le geste dont j’étais fière porte un morceau de vanne : je tiens une lampe pour que quelqu’un travaille. Colas ajuste la semelle au fur et à mesure. Dehors, les porteurs se relaient. La petite pince de frêne maintient le dessin ouvert sur une planche humide, et son ombre a la taille d’un outil immense.",
           "mentions": [
             "pinces"
           ]
         },
         {
-          "id": "c10-b32",
+          "id": "c10-b33",
           "text": "Enfin, la semelle entre. Nous vérifions le jeu, retirons le ciseau et libérons le levier d’un cran. Les appuis prennent progressivement le poids. Sabine marque au charbon la position de l’axe, puis attend. Le bois parle, une plainte basse. Il ne se fend pas.",
           "mentions": []
         },
         {
-          "id": "c10-b33",
+          "id": "c10-b34",
           "text": "— La part du vent, dit-elle.",
           "mentions": [
             "sabine"
           ]
         },
         {
-          "id": "c10-b34",
+          "id": "c10-b35",
           "text": "Je la regarde.",
           "mentions": []
         },
         {
-          "id": "c10-b35",
+          "id": "c10-b36",
           "text": "— C’est comme ça que mon maître appelait le jeu qu’on doit laisser. Il disait : si tu construis pour un jour sans vent, tu construis pour un jour qui n’existe pas.",
           "mentions": []
         },
         {
-          "id": "c10-b36",
+          "id": "c10-b37",
           "text": "Elle brise l’anneau devenu inutile. La tenue se détache du fer ; l’axe ne bouge pas de son appui. Je regarde les fragments au sol. Mes doigts essaient de reprendre le fil. Ils savent le tenir, le tirer, pas retrouver le chemin. Je range la toile avant qu’on me voie essayer une deuxième fois.",
           "mentions": [
             "etrier"
           ]
         },
         {
-          "id": "c10-b37",
+          "id": "c10-b38",
           "text": "Au-dessus, Bertille crie que le chenal est libre. La règle n’a pas encore atteint le rouge. Sabine pose les mains sur le treuil de la vanne. De l’autre côté du battant, il y a un lac entier.",
           "mentions": []
         }
@@ -2188,56 +2212,63 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
         },
         {
           "id": "c11-b17",
+          "text": "Le soleil atteint les embruns qui montent du chenal. Un arc de couleurs se forme au-dessous de nous, si bas que les oiseaux le traversent par le haut. Puis le vent déplace la brume : l’arc se dédouble, une moitié sur la roche, l’autre suspendue devant les roues lointaines. Les gouttes se posent sur mes manches ; elles n’ont plus aucune couleur. Je tends la main une seconde, pour les recevoir, avant de reprendre la lampe.",
+          "mentions": [
+            "chenal"
+          ]
+        },
+        {
+          "id": "c11-b18",
           "text": "Ma mère monte avec des bols. Un ouvrier lui dit que ce n’est pas le moment. Elle lui met le sien sur une pierre à portée de main.",
           "mentions": [
             "mado"
           ]
         },
         {
-          "id": "c11-b18",
+          "id": "c11-b19",
           "text": "— Tu choisiras quand ce sera le moment.",
           "mentions": []
         },
         {
-          "id": "c11-b19",
+          "id": "c11-b20",
           "text": "Il le boit presque aussitôt. Je me mets à rire, seule d’abord, puis Colas aussi. Nous ne rions pas beaucoup, ni très bien. Cela suffit pour que j’aie soudain faim.",
           "mentions": []
         },
         {
-          "id": "c11-b20",
+          "id": "c11-b21",
           "text": "Bertille fait un trait sur la règle. Elle attend trente battements, en fait un deuxième. L’eau n’a pas monté. Encore trente. Le troisième trait est un peu plus bas. Elle vérifie le flotteur, s’assure que rien ne le retient. Puis elle appelle Orane.",
           "mentions": [
             "epreuves"
           ]
         },
         {
-          "id": "c11-b21",
+          "id": "c11-b22",
           "text": "La prévôte vient regarder les traits sans les toucher. Un des gardes se met à crier ; elle l’arrête d’un geste, attend la mesure suivante. L’eau descend encore. Alors elle s’assied sur la première marche, là où tout le monde passe. Personne n’ose lui demander de se déplacer.",
           "mentions": [
             "orane"
           ]
         },
         {
-          "id": "c11-b22",
+          "id": "c11-b23",
           "text": "Le délestage vers Rivebasse restera fermé. Bertille porte la nouvelle jusqu’au poste, où le signal part vers les charrettes. Je vois ma mère poser sa main contre le mur, comme si elle essayait déjà une pièce de notre maison. Une meunière s’assied à côté d’elle. Pendant un moment, aucune ne dit rien.",
           "mentions": [
             "rivebasse"
           ]
         },
         {
-          "id": "c11-b23",
+          "id": "c11-b24",
           "text": "Colas me demande si je veux descendre voir l’eau sortir aux Fosses. Je veux. Je voudrais voir tout le trajet, chaque marche libérée, le champ du jardinier, le courant allant enfin là où nous avons travaillé pour lui. Mais Sabine a besoin d’une relève devant les appuis.",
           "mentions": [
             "colas"
           ]
         },
         {
-          "id": "c11-b24",
+          "id": "c11-b25",
           "text": "— Tout à l’heure, dis-je.",
           "mentions": []
         },
         {
-          "id": "c11-b25",
+          "id": "c11-b26",
           "text": "Il prend un des tabourets, le pose à côté du mien et s’assied. Nous restons garder ce qui tient.",
           "mentions": []
         }
@@ -2401,7 +2432,7 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
       ],
       "unlockBlock": "c1-b13",
       "firstMentionChapter": 1,
-      "firstMentionBlock": "c1-b01",
+      "firstMentionBlock": "c1-b11",
       "earliestSafeChapter": 1,
       "earliestSafeBlock": "c1-b13",
       "unlockChapter": 1,
@@ -2424,7 +2455,7 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
       ],
       "unlockBlock": "c1-b08",
       "firstMentionChapter": 1,
-      "firstMentionBlock": "c1-b01",
+      "firstMentionBlock": "c1-b02",
       "earliestSafeChapter": 1,
       "earliestSafeBlock": "c1-b08",
       "unlockChapter": 1,
@@ -2488,13 +2519,13 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
         "don",
         "epreuves"
       ],
-      "unlockBlock": "c3-b22",
+      "unlockBlock": "c3-b23",
       "firstMentionChapter": 1,
       "firstMentionBlock": "c1-b05",
       "earliestSafeChapter": 3,
-      "earliestSafeBlock": "c3-b22",
+      "earliestSafeBlock": "c3-b23",
       "unlockChapter": 3,
-      "unlockPosition": 22,
+      "unlockPosition": 23,
       "spoilerRisk": "modéré",
       "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
       "editorialFunction": "Fixer les limites opératoires de la magie avant son premier usage par Aubine."
@@ -2577,13 +2608,13 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
         "maison-des-mesures",
         "retenue"
       ],
-      "unlockBlock": "c1-b22",
+      "unlockBlock": "c2-b07",
       "firstMentionChapter": 1,
       "firstMentionBlock": "c1-b19",
-      "earliestSafeChapter": 1,
-      "earliestSafeBlock": "c1-b22",
-      "unlockChapter": 1,
-      "unlockPosition": 22,
+      "earliestSafeChapter": 2,
+      "earliestSafeBlock": "c2-b07",
+      "unlockChapter": 2,
+      "unlockPosition": 7,
       "spoilerRisk": "modéré",
       "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
       "editorialFunction": "Situer l’autorité, ses obligations et sa matérialité sans dévoiler ses choix futurs.",
@@ -2816,13 +2847,13 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
         "vergers",
         "epreuves"
       ],
-      "unlockBlock": "c3-b25",
+      "unlockBlock": "c3-b26",
       "firstMentionChapter": 3,
-      "firstMentionBlock": "c3-b16",
+      "firstMentionBlock": "c3-b17",
       "earliestSafeChapter": 3,
-      "earliestSafeBlock": "c3-b25",
+      "earliestSafeBlock": "c3-b26",
       "unlockChapter": 3,
-      "unlockPosition": 25,
+      "unlockPosition": 26,
       "spoilerRisk": "modéré",
       "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
       "editorialFunction": "Éclairer le mécanisme après l’accident, sans en annoncer la panne."
@@ -2837,13 +2868,13 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
         "tenues",
         "reprise"
       ],
-      "unlockBlock": "c3-b26",
+      "unlockBlock": "c3-b27",
       "firstMentionChapter": 3,
-      "firstMentionBlock": "c3-b21",
+      "firstMentionBlock": "c3-b22",
       "earliestSafeChapter": 3,
-      "earliestSafeBlock": "c3-b26",
+      "earliestSafeBlock": "c3-b27",
       "unlockChapter": 3,
-      "unlockPosition": 26,
+      "unlockPosition": 27,
       "spoilerRisk": "modéré",
       "delayReason": "Attendre le passage qui présente les faits repris dans ce feuillet ; aucun événement ultérieur n’y figure.",
       "editorialFunction": "Distinguer le mécanisme volontaire et les contraintes sociales sans révéler le mandat de Bertille."
@@ -2918,7 +2949,7 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
   "map": {
     "label": "Les chemins de la vallée",
     "eyebrow": "Carnet des mains · lieux",
-    "intro": "Les huit repères prennent leur nom après leur découverte. La rivière descend du lac vers Rivebasse ; l’ancien chenal rejoint les Fosses par les moulins. Le dessin indique les passages, pas les distances.",
+    "intro": "Les huit repères prennent leur nom après la lecture de leurs feuillets. Le bleu figure la rivière et le lac, le pointillé fin l’ancien chenal, le trait ocre les chemins. Ce dessin indique les passages, pas les distances.",
     "viewBox": "0 0 100 72",
     "shapes": [
       {
@@ -3055,7 +3086,7 @@ dialog{width:min(64rem,calc(100% - 1.5rem));max-height:92vh;padding:0;border:1px
       {
         "from": "aubine",
         "to": "bertille",
-        "nature": "Je lui reprends ma pince après son aveu.",
+        "nature": "Son cahier m’a blessée au moulin.",
         "unlockBlock": "c5-b31"
       },
       {
