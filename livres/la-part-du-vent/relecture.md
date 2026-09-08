@@ -49,4 +49,4 @@ Le titre du chapitre a été reporté dans le plan et le manifeste ; les règles
 - [x] Ancrage réel sans objet : monde entièrement inventé, aucune étape 0 nécessaire.
 - [x] Révision structurelle et passe ligne à ligne distinctes ; bascules, chute, point de vue et temps contrôlés.
 - [x] Socle éditorial et brief respectés, quantités justifiées par le récit, exploration sans renvois redondants dans la coda.
-- [ ] Commits d’étapes poussés et PR ouverte avec le protocole Production, concours et relai illustrateur annoncés.
+- [x] Commits d’étapes poussés et [PR nº 34](https://github.com/pierrebillet/ma-bibliotheque/pull/34) ouverte en brouillon avec le protocole Production, concours et relai illustrateur annoncés. Aucune fusion.
