@@ -132,7 +132,7 @@ Chaque prompt ci-dessous contient le socle stylistique et la scène issue de `vi
 
 ### `images/chapter-08.webp`
 
-- **Chapitre** : 8 — Une maison en moins.
+- **Chapitre** : 8 — Les lumières sur la rive.
 - **Dimensions et poids** : 1600×900, ≤ 150 Ko.
 - **Sujet** : Quatre silhouettes portent un étrier de fer sur des perches au-dessus de moulins éclairés dans la nuit.
 - **Prompt** : Gouache narrative lumineuse sur papier légèrement grainé, formes lisibles et coups de pinceau visibles, proportions humaines naturelles, détails choisis des matières ; aucun photoréalisme, aucune esthétique de jeu vidéo. Palette craie chaude, bleu d’eau, vert de poire, rouille et bois blond. Monde secondaire préindustriel de métiers, sans emprunt à une franchise. Lumière naturelle, aucune aura héroïque. Aucun texte, chiffre, logo, signature, filigrane ou pseudo-texte. Plan large depuis le chemin de crête, de nuit bleue, Aubine, Sabine, Bertille et Colas portent ensemble un lourd U de fer à pieds recourbés suspendu à quatre perches par des sangles. En contrebas, moulins encore entiers, lanternes et silhouettes de porteurs de sacs. Eau agitée mais pas de bateau détruit ni de lavoir ruiné visible : image d’arrivée avant la révélation des pertes. Colas porte encore sa veste bleu pétrole.
