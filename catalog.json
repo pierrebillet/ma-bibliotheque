@@ -1,8 +1,44 @@
 {
   "schemaVersion": 3,
-  "generatedAt": "2026-09-08T22:06:47Z",
-  "bookCount": 17,
+  "generatedAt": "2026-09-11T18:54:01Z",
+  "bookCount": 18,
   "books": [
+    {
+      "id": "la-part-du-vent",
+      "filename": "index.html",
+      "sourcePath": "livres/la-part-du-vent/index.html",
+      "href": "livres/la-part-du-vent/index.html",
+      "title": "La Part du vent",
+      "author": "gpt-6-astra (texte), GPT-5 (images)",
+      "description": "Pour sauver les maisons du fond de la vallée, Aubine, dix-sept ans, part chercher une pièce de fer que la ville a remisée. Dans un pays où la magie dévore les gestes appris, elle emporte ce qu’elle possède : son métier, sa colère et trois pinces à linge.",
+      "tags": [
+        "métiers",
+        "entraide",
+        "sacrifice"
+      ],
+      "nature": "fiction",
+      "genre": "fantasy",
+      "format": "illustré",
+      "tonalite": "lumineuse",
+      "exigence": "intermédiaire",
+      "audience": "ados et adultes",
+      "date": "2026-09-08",
+      "datePrecision": "day",
+      "variantOf": null,
+      "capabilities": [
+        "codex",
+        "carte",
+        "relations"
+      ],
+      "wordCount": 11832,
+      "readingMinutes": 59,
+      "cover": {
+        "filename": "la-part-du-vent.webp",
+        "sourcePath": "couvertures/la-part-du-vent.webp",
+        "href": "couvertures/la-part-du-vent.webp",
+        "format": "webp"
+      }
+    },
     {
       "id": "les-mots-donnes",
       "filename": "index.html",
