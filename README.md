@@ -24,7 +24,7 @@ La documentation est organisée par **rôle d'agent**. Point d'entrée unique :
 | [`docs/bibliotheque/`](docs/bibliotheque/README.md) | Rôle Bibliothèque : la plateforme (`index.html`, générateur de catalogue, CI) |
 | [`docs/conception/`](docs/conception/README.md) | Rôle Conception : créer un nouveau format de livrable et son atelier |
 | [`ateliers/`](ateliers/README.md) | Rôle Production : les workflows de production des livrables |
-| [`docs/audits/`](docs/audits) | États des lieux datés (audit d'août 2026) |
+| [`docs/audits/`](docs/audits) | États des lieux datés (audits d'août 2026, revue de septembre 2026) |
 | [`docs/archives/`](docs/archives/README.md) | Documents historiques (`SPEC.md`, `CONVENTIONS.md`, `ROADMAP.md`, `dev-mvp/`) — **ne plus suivre** |
 
 ## Structure du dépôt
@@ -93,4 +93,6 @@ Le projet a été démarré avec ChatGPT (spec + premiers livres), puis ouvert �
 agents. L'audit d'août 2026
 ([`docs/audits/2026-08-rapport-etonnement.md`](docs/audits/2026-08-rapport-etonnement.md))
 documente l'état des lieux complet — workflow, format des livres, bibliothèque — et
-la liste des chantiers à venir.
+la liste des chantiers à venir. La revue de septembre 2026
+([`docs/audits/2026-09-revue-trois-objectifs.md`](docs/audits/2026-09-revue-trois-objectifs.md))
+fait le point sur les trois objectifs du projet et fixe la direction des sessions suivantes.
