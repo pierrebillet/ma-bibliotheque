@@ -426,3 +426,44 @@ naissance au rachat de Keyhole (1967-2004) ; **B.** de Google à Niantic Spatial
   *Meridian 59*, puis pilote de prise de vue aérienne), leur romance et leur
   place dans les entreprises de Hanke ; les dialogues ; les scènes de
   Birmanie ; les pensées prêtées à Hanke ; la scène finale à Cross Plains.
+
+## Vérification factuelle livre ↔ dossier (étape 5a, 2026-09-26)
+
+Relecture intégrale du texte et du codex contre ce dossier. Corrections
+faites à cette occasion : chiffres de trafic et d'effectifs non sourcés
+retirés ou adoucis (Keyhole en 2003, division Geo, équipe de Keyhole chez
+Google) ; chronologie de la mort d'Iwata replacée avant l'annonce d'Alphabet ;
+rupture des digues de Katrina ramenée au 29 août ; aucun montant de rachat,
+aucun nombre de vies sauvées, aucune connaissance de Wi-Spy prêtée à Hanke ;
+détails physiques prêtés à Tatsuo Nomura supprimés ; « bâti » remplacé par
+« bâti ou dirigé » pour Archetype.
+
+Faits de **connaissance générale** de l'agent **[CG]**, non vérifiés en ligne
+pendant la session, utilisés par le roman (aucun ne porte une scène clé) :
+
+- Robert E. Howard (1906-1936) vit à Cross Plains à partir de l'adolescence ;
+  réputation locale d'écrivain qui déclamait ses textes en tapant.
+- Le Nasdaq atteint son record historique le 10 mars 2000, début du krach
+  des valeurs technologiques.
+- Le 11 septembre 2001, l'espace aérien américain est fermé plusieurs jours.
+- Katrina se forme près des Bahamas, traverse le sud de la Floride, touche la
+  Louisiane le 29 août 2005 ; les digues de La Nouvelle-Orléans cèdent le jour
+  même ; des croix peintes par les secouristes et des marques de niveau de
+  l'eau sont conservées sur des façades.
+- L'affaire Wi-Spy part en avril 2010 d'une demande de l'autorité de
+  protection des données de Hambourg.
+- In-Q-Tel a son siège en Virginie ; il a été créé en 1999.
+- *Snow Crash* : héros livreur de pizzas pour la mafia et hacker.
+- Ingress : Enlightened en vert, Résistance en bleu ; le récit d'origine
+  évoque une découverte de chercheurs européens.
+- The Pokémon Company appartient à Nintendo, Game Freak et Creatures ; Satoshi
+  Tajiri a raconté que les Pokémon venaient de ses souvenirs de collectionneur
+  d'insectes ; la bande-annonce de 2015 montre un affrontement collectif
+  devant Times Square ; dans *Pokémon Go*, trois équipes (rouge, jaune, bleu).
+- Environ vingt mille participants au GO Fest de Chicago (2017).
+- Juillet 2021 : le fondateur de Facebook annonce que l'avenir de son groupe
+  est le métavers.
+- Le « point chaud » (*hot spot*) de la photographie aérienne verticale.
+- « Ko », terme birman de respect familier pour un homme.
+- Le *Niantic* : hôtel après l'entrepôt, détruit par un incendie au début des
+  années 1850.
