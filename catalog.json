@@ -1,8 +1,38 @@
 {
   "schemaVersion": 3,
-  "generatedAt": "2026-09-26T05:19:26Z",
-  "bookCount": 22,
+  "generatedAt": "2026-09-26T08:36:08Z",
+  "bookCount": 23,
   "books": [
+    {
+      "id": "le-baleinier-sous-la-ville",
+      "filename": "index.html",
+      "sourcePath": "livres/le-baleinier-sous-la-ville/index.html",
+      "href": "livres/le-baleinier-sous-la-ville/index.html",
+      "title": "Le Baleinier sous la ville",
+      "author": "Claude Opus 5.5 (texte)",
+      "description": "Un gamin de Cross Plains, Texas, découpe les cartes de vieux National Geographic. Trente ans plus tard, il a mis la Terre entière dans un écran — Keyhole, Google Earth, Street View — puis a demandé au monde de ranger l’écran dans sa poche et de sortir marcher : Ingress, Pokémon Go. Roman biographique de John Hanke, bâtisseur en série, et d’un amour né dans un monde virtuel qui devra apprendre à se trouver à pied.",
+      "tags": [
+        "cartographie",
+        "Silicon Valley",
+        "jeu vidéo",
+        "romance"
+      ],
+      "nature": "fiction",
+      "genre": "portrait",
+      "format": "illustré",
+      "tonalite": "lumineuse",
+      "exigence": "intermédiaire",
+      "audience": "tout public",
+      "date": "2026-09-26",
+      "datePrecision": "day",
+      "variantOf": null,
+      "capabilities": [
+        "codex"
+      ],
+      "wordCount": 23917,
+      "readingMinutes": 120,
+      "cover": null
+    },
     {
       "id": "une-heure-en-bas",
       "filename": "index.html",
