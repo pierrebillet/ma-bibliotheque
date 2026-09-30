@@ -1,6 +1,6 @@
 {
   "schemaVersion": 3,
-  "generatedAt": "2026-09-30T09:09:32Z",
+  "generatedAt": "2026-09-30T18:43:50Z",
   "bookCount": 23,
   "books": [
     {
@@ -256,7 +256,7 @@
       "sourcePath": "livres/leau-qui-porte/index.html",
       "href": "livres/leau-qui-porte/index.html",
       "title": "L’Eau qui porte",
-      "author": "Claude Fable",
+      "author": "Claude Fable (texte), GPT 6 / ImageGen (images)",
       "description": "Sur l’Aubrance, le bac à traille de Ferréol relie depuis 1902 le bourg à la rive des Vergnes. Un pont s’achève en aval : il ouvrira le 20 septembre. Inès, venue livrer l’ouvrage et fermer le bac, traverse chaque jour avec Aimé, passeur depuis quarante ans — jusqu’à ce qu’elle ouvre le dossier du pont et y trouve trente-neuf lettres de la même main.",
       "tags": [
         "rivière",
@@ -266,7 +266,7 @@
       ],
       "nature": "fiction",
       "genre": "drame",
-      "format": "texte",
+      "format": "illustré",
       "tonalite": "lumineuse",
       "exigence": "intermédiaire",
       "audience": "tout public",
@@ -280,7 +280,12 @@
       ],
       "wordCount": 17187,
       "readingMinutes": 86,
-      "cover": null
+      "cover": {
+        "filename": "leau-qui-porte.webp",
+        "sourcePath": "couvertures/leau-qui-porte.webp",
+        "href": "couvertures/leau-qui-porte.webp",
+        "format": "webp"
+      }
     },
     {
       "id": "les-moules-de-la-colere",
