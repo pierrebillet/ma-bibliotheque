@@ -1,6 +1,6 @@
 {
   "schemaVersion": 3,
-  "generatedAt": "2026-09-30T18:43:50Z",
+  "generatedAt": "2026-10-02T12:38:59Z",
   "bookCount": 23,
   "books": [
     {
@@ -117,7 +117,7 @@
       "sourcePath": "livres/quatre-jours-par-heure/index.html",
       "href": "livres/quatre-jours-par-heure/index.html",
       "title": "Quatre jours par heure",
-      "author": "Claude Opus 5.5 (texte)",
+      "author": "Claude Opus 5.5 (texte), GPT-5 (images)",
       "description": "Sur le Tardif, le temps ralentit à mesure qu’on monte : à l’Hospice de la Longue Veille, une heure en vaut quatre jours d’en bas. Il y a vingt-sept ans, la mère de Lou y a emporté son petit frère malade pour gagner du temps. Le remède existe enfin, mais il est interdit au-dessus de la douane. Lou, horlogère, monte le passer en contrebande — et chaque heure d’ascension coûte quatre jours à la fille qu’elle a laissée en bas.",
       "tags": [
         "temps",
@@ -141,7 +141,12 @@
       ],
       "wordCount": 32257,
       "readingMinutes": 161,
-      "cover": null
+      "cover": {
+        "filename": "quatre-jours-par-heure.webp",
+        "sourcePath": "couvertures/quatre-jours-par-heure.webp",
+        "href": "couvertures/quatre-jours-par-heure.webp",
+        "format": "webp"
+      }
     },
     {
       "id": "le-fleuve-et-la-citadelle",
